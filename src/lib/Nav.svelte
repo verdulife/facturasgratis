@@ -14,7 +14,7 @@
 </script>
 
 <nav class="row jbetween acenter xfill">
-  <img class="logo" src="logo-s.svg" alt="facturasgratis" />
+  <img class="logo" src="logo.svg" alt="facturasgratis" />
 
   <ul class="row yfill">
     {#each routes as route}

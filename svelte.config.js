@@ -1,3 +1,4 @@
+import vercel from '@sveltejs/adapter-vercel';
 import preprocess from 'svelte-preprocess';
 import autoprefixer from 'autoprefixer'
 
@@ -12,7 +13,8 @@ const config = {
 		}
 	}),
 	kit: {
-		target: '#svelte'
+		target: '#svelte',
+		adapter: vercel()
 	}
 };
 
