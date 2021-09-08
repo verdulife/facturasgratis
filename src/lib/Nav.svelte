@@ -73,11 +73,10 @@
   .icon {
     width: 25px;
     height: 25px;
+    display: none;
   }
 
   .mobile-menu {
-    display: none;
-
     position: fixed;
     top: 65px;
     left: 0;
@@ -96,7 +95,7 @@
       display: none;
     }
 
-    .mobile-menu {
+    .icon {
       display: inherit;
     }
   }
