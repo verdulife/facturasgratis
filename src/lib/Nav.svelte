@@ -76,6 +76,8 @@
   }
 
   .mobile-menu {
+    display: none;
+
     position: fixed;
     top: 65px;
     left: 0;
@@ -92,6 +94,10 @@
   @media (max-width: $mobile) {
     .desktop-menu {
       display: none;
+    }
+
+    .mobile-menu {
+      display: inherit;
     }
   }
 </style>
