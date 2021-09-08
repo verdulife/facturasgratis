@@ -7,16 +7,27 @@
 <main>
   <Nav />
 
-  <div class="scroll">
+  <div class="main scroll">
     <slot />
   </div>
-</main>
 
-<footer>
-  <p>Made with ♥ by verdu on 2021-2022.</p>
-</footer>
+  <footer class="row fcenter xfill">
+    <p>Made with ♥ by verdu on 2021-2022.</p>
+  </footer>
+</main>
 
 <style lang="scss" global>
   @import "./src/_reset.scss";
   @import "../node_modules/verdu/verdu.scss";
+
+  .main {
+    height: calc(100% - 90px);
+  }
+
+  footer {
+    height: 25px;
+    background: $pri;
+    color: $white;
+    font-size: 12px;
+  }
 </style>

@@ -1,25 +1,40 @@
 <script>
   import { page } from "$app/stores";
+
+  const routes = [
+    {
+      slug: "/",
+      title: "Inicio",
+    },
+    {
+      slug: "/about",
+      title: "Sobre",
+    },
+  ];
 </script>
 
-<nav class="row jbetween xfill">
+<nav class="row jbetween acenter xfill">
   <img class="logo" src="logo-s.svg" alt="facturasgratis" />
 
-  <ul class="row">
-    <li class:active={$page.path === "/"}><a sveltekit:prefetch href="/">Home</a></li>
-    <li class:active={$page.path === "/about"}><a sveltekit:prefetch href="/about">About</a></li>
-    <li class:active={$page.path === "/todos"}><a sveltekit:prefetch href="/todos">Todos</a></li>
+  <ul class="row yfill">
+    {#each routes as route}
+      <li class="row acenter yfill" class:active={$page.path === route.slug}><a href={route.slug}>{route.title}</a></li>
+    {/each}
   </ul>
 </nav>
 
 <style lang="scss">
   nav {
-    border-bottom: 1px solid $border;
-    padding: 20px 40px;
+    height: 65px;
+    padding: 0 40px;
   }
 
   .logo {
     width: 200px;
+  }
+
+  li {
+    padding: 0 20px;
   }
 
   .active {
