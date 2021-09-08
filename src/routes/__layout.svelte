@@ -7,7 +7,7 @@
 <main>
   <Nav />
 
-  <div class="main scroll">
+  <div class="view fill">
     <slot />
   </div>
 
@@ -16,11 +16,13 @@
   </footer>
 </main>
 
-<style lang="scss" global>
-  @import "./src/_reset.scss";
-  @import "../node_modules/verdu/verdu.scss";
+<style lang="scss">
+  :global {
+    @import "./src/_reset.scss";
+    @import "../node_modules/verdu/verdu.scss";
+  }
 
-  .main {
+  .view {
     height: calc(100% - 90px);
   }
 
