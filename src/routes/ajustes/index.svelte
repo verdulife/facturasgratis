@@ -1,37 +1,23 @@
 <script>
   import { userData } from "../../stores";
-  import Cropper from "svelte-easy-crop";
-  import { getCroppedImg } from "../../lib/canvas-utils";
 
-  let image, fileinput, pixelCrop, croppedImage;
+  let files;
+  $: logo = $userData.logo;
 
-  function onFileSelected(e) {
-    let imageFile = e.target.files[0];
+  $: if (files) {
+    let imageFile = files[0];
     let reader = new FileReader();
+
     reader.onload = (e) => {
-      image = e.target.result;
+      $userData.logo = e.target.result;
     };
+
     reader.readAsDataURL(imageFile);
   }
 
-  let profilePicture, style;
-
-  function previewCrop(e) {
-    pixelCrop = e.detail.pixels;
-    const { x, y, width } = e.detail.pixels;
-    const scale = 200 / width;
-    profilePicture.style = `margin: ${-y * scale}px 0 0 ${-x * scale}px; width: ${
-      profilePicture.naturalWidth * scale
-    }px;`;
-  }
-
-  async function cropImage() {
-    croppedImage = await getCroppedImg(image, pixelCrop);
-  }
-
-  function reset() {
-    croppedImage = null;
-    image = null;
+  function removeLogo() {
+    delete $userData.logo;
+    $userData = $userData;
   }
 </script>
 
@@ -43,52 +29,32 @@
   <section class="header col fcenter xfill">
     <h1>Tus datos de facturación</h1>
     <p>
-      En <b>facturagratis</b>, no nos gusta guardar ningún dato, y menos unos tan sensibles como pueden ser los
-      requeridos para hacer facturas. Así pues todos los datos introducidos aquí, solo se guardaran en este navegador.
+      En <b>facturagratis</b>, no nos gusta guardar ningún dato, y menos unos tan sensibles como pueden ser los requeridos para hacer facturas. Así pues todos los datos introducidos aquí, solo se guardaran en este navegador.
     </p>
   </section>
 
   {#if $userData}
     <div class="info col acenter xfill">
-      <!-- <div class="box round col xfill">
+      <div class="box round col xfill">
         <h2>Logotipo</h2>
         <p class="notice">Si usas logotipo en tus facturas, presupuestos o albaranes, aqui es el sitio.</p>
 
-        <input type="file" />
-      </div> -->
+        <div class="row xfill">
+          <label for="logo" class="file-btn">SUBIR IMÁGEN</label>
 
-      {#if !image}
-        <h2>Upload a picture for cropping?</h2>
-        <input type="file" accept=".jpg, .jpeg, .png" on:change={(e) => onFileSelected(e)} bind:this={fileinput} />
-        <h2>Or... use this cute dog 🐕</h2>
-        <button
-          type="button"
-          on:click={() => {
-            image = defaultSrc;
-          }}>Click me!</button
-        >
-      {:else}
-        <h2>svelte-easy-crop</h2>
-        <div style="position: relative; width: 100%; height: 50%;">
-          <Cropper {image} aspect={1} zoom="1" crop={{ x: 0, y: 0 }} on:cropcomplete={previewCrop} />
+          {#if logo}
+            <div class="file-btn remove-btn" on:click={removeLogo}>BORRAR IMÁGEN</div>
+          {/if}
         </div>
-        <h2>Preview</h2>
-        <div class="prof-pic-wrapper">
-          <img bind:this={profilePicture} class="prof-pic" src={image} alt="Profile example" {style} />
-        </div>
-        {#if croppedImage}
-          <h2>Cropped Output</h2>
-          <img src={croppedImage} alt="Cropped profile" /><br />
-        {:else}
-          <br /><button
-            type="button"
-            on:click={async () => {
-              croppedImage = await getCroppedImg(image, pixelCrop);
-            }}>Crop!</button
-          >
+
+        <input type="file" id="logo" accept="image/png, image/jpeg" bind:files class="xfill" />
+
+        {#if logo}
+          <div class="logo-wrapper row fcenter xfill">
+            <img src={logo} alt="Logotipo" />
+          </div>
         {/if}
-        <button type="button" on:click={reset}>Start over?</button>
-      {/if}
+      </div>
 
       <div class="box round col xfill">
         <h2>Datos legales</h2>
@@ -96,26 +62,12 @@
 
         <div class="input-wrapper col xfill">
           <label for="legal_name">Nombre fiscal 👈</label>
-          <input
-            type="text"
-            id="legal_name"
-            bind:value={$userData.legal_name}
-            class="xfill"
-            placeholder="Ej. Factura Gratis S.L."
-            required
-          />
+          <input type="text" id="legal_name" bind:value={$userData.legal_name} class="xfill" placeholder="Ej. Factura Gratis S.L." required />
         </div>
 
         <div class="input-wrapper col xfill">
           <label for="legal_id">CIF/NIF 👈</label>
-          <input
-            type="text"
-            id="legal_id"
-            bind:value={$userData.legal_id}
-            class="xfill"
-            placeholder="Ej. B00011100"
-            required
-          />
+          <input type="text" id="legal_id" bind:value={$userData.legal_id} class="xfill" placeholder="Ej. B00011100" required />
         </div>
       </div>
 
@@ -125,38 +77,17 @@
 
         <div class="input-wrapper col xfill">
           <label for="street_kind">Tipo de via 👈</label>
-          <input
-            type="text"
-            id="street_kind"
-            bind:value={$userData.street_kind}
-            class="xfill"
-            placeholder="Ej. Calle"
-            required
-          />
+          <input type="text" id="street_kind" bind:value={$userData.street_kind} class="xfill" placeholder="Ej. Calle" required />
         </div>
 
         <div class="input-wrapper col xfill">
           <label for="street_name">Nombre de la via 👈</label>
-          <input
-            type="text"
-            id="street_name"
-            bind:value={$userData.street_name}
-            class="xfill"
-            placeholder="Ej. Mayor"
-            required
-          />
+          <input type="text" id="street_name" bind:value={$userData.street_name} class="xfill" placeholder="Ej. Mayor" required />
         </div>
 
         <div class="input-wrapper col xfill">
           <label for="street_number">Número 👈</label>
-          <input
-            type="text"
-            id="street_number"
-            bind:value={$userData.street_number}
-            class="xfill"
-            placeholder="Ej. 16"
-            required
-          />
+          <input type="text" id="street_number" bind:value={$userData.street_number} class="xfill" placeholder="Ej. 16" required />
         </div>
 
         <div class="input-wrapper col xfill">
@@ -171,14 +102,7 @@
 
         <div class="input-wrapper col xfill">
           <label for="country">País 👈</label>
-          <input
-            type="text"
-            id="country"
-            bind:value={$userData.country}
-            class="xfill"
-            placeholder="Ej. España"
-            required
-          />
+          <input type="text" id="country" bind:value={$userData.country} class="xfill" placeholder="Ej. España" required />
         </div>
       </div>
 
@@ -188,34 +112,18 @@
 
         <div class="input-wrapper col xfill">
           <label for="phone">Teléfono</label>
-          <input
-            type="text"
-            id="phone"
-            bind:value={$userData.phone}
-            class="xfill"
-            placeholder="Ej. 600 600 600"
-            required
-          />
+          <input type="text" id="phone" bind:value={$userData.phone} class="xfill" placeholder="Ej. 600 600 600" required />
         </div>
 
         <div class="input-wrapper col xfill">
           <label for="email">Correo electrónico</label>
-          <input
-            type="text"
-            id="email"
-            bind:value={$userData.email}
-            class="xfill"
-            placeholder="Ej. hola@facturagratis.com"
-            required
-          />
+          <input type="text" id="email" bind:value={$userData.email} class="xfill" placeholder="Ej. hola@facturagratis.com" required />
         </div>
       </div>
 
       <div class="box round col xfill">
         <h2>Impuestos</h2>
-        <p class="notice">
-          Selecciona el tipo de IVA y retención. Si no rellenas el campo de la retención, no la aplicaremos.
-        </p>
+        <p class="notice">Selecciona el tipo de IVA y retención. Si no rellenas el campo de la retención, no la aplicaremos.</p>
 
         <div class="input-wrapper col xfill">
           <label for="iva">IVA</label>
@@ -313,7 +221,7 @@
     input,
     select {
       font-size: 16px;
-      border-bottom: 2px solid $sec;
+      border-bottom: 1px solid $sec;
 
       &:focus {
         border-color: $pri;
@@ -323,17 +231,45 @@
         font-size: 14px;
       }
     }
-  }
 
-  .prof-pic-wrapper {
-    height: 200px;
-    width: 200px;
-    position: relative;
-    border: solid;
-    overflow: hidden;
-  }
+    input[type="file"] {
+      display: none;
+    }
 
-  .prof-pic {
-    position: absolute;
+    .logo-wrapper {
+      background: $pri;
+      border-radius: 0.5em;
+      margin-top: 20px;
+
+      img {
+        height: 250px;
+      }
+    }
+
+    .file-btn {
+      cursor: pointer;
+      display: block;
+      background-color: $pri;
+      font-size: 12px;
+      font-weight: bold;
+      color: $white;
+      border: 2px solid transparent;
+      border-radius: 0.4em;
+      padding: 0.9em 2em;
+      margin-right: 10px;
+      user-select: none;
+      -webkit-user-drag: none;
+      transition: 200ms;
+
+      &:hover {
+        transform: scale(0.95);
+      }
+    }
+
+    .remove-btn {
+      background: transparent;
+      color: $pri;
+      border-color: $pri;
+    }
   }
 </style>

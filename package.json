@@ -20,7 +20,6 @@
     "@fontsource/fira-mono": "^4.2.2",
     "@lukeed/uuid": "^2.0.0",
     "cookie": "^0.4.1",
-    "svelte-easy-crop": "^1.0.4",
     "verdu": "^1.3.3"
   }
 }
