@@ -1,6 +1,7 @@
 <script>
   import { page } from "$app/stores";
   import { slide } from "svelte/transition";
+  import { userData } from "../stores";
 
   const routes = [
     {
@@ -9,7 +10,7 @@
     },
     {
       slug: "/ajustes",
-      title: "Ajustes",
+      title: $userData.legal_name || "Ajustes",
     },
   ];
 
@@ -25,7 +26,9 @@
 
   <ul class="desktop-menu row yfill">
     {#each routes as route}
-      <li class="row acenter yfill" class:active={$page.path === route.slug}><a href={route.slug}>{route.title}</a></li>
+      <li class="row acenter yfill" class:active={$page.path === route.slug}>
+        <a href={route.slug}>{route.title}</a>
+      </li>
     {/each}
   </ul>
 
@@ -36,7 +39,9 @@
   {#if mobileMenu}
     <ul class="mobile-menu col fill" transition:slide>
       {#each routes as route}
-        <li class="row acenter xfill" class:active={$page.path === route.slug}><a href={route.slug}>{route.title}</a></li>
+        <li class="row acenter xfill" class:active={$page.path === route.slug}>
+          <a class="row fcenter xfill" href={route.slug} on:click={togMenu}>{route.title}</a>
+        </li>
       {/each}
     </ul>
   {/if}
