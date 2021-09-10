@@ -22,29 +22,33 @@
 </script>
 
 <nav class="row jbetween acenter xfill">
-  <img class="logo" src="logo.svg" alt="facturasgratis" />
+  <a href="/">
+    <img class="logo" src="logo.svg" alt="facturasgratis" />
+  </a>
 
   <ul class="desktop-menu row yfill">
     {#each routes as route}
       <li class="row acenter yfill" class:active={$page.path === route.slug}>
-        <a href={route.slug}>{route.title}</a>
+        <a href={route.slug} class="row acenter yfill">
+          {#if route.title === $userData.legal_name && $userData.logo}
+            <img class="user-img" src={$userData.logo} alt={$userData.legal_name || "Logotipo"} />
+          {/if}
+
+          {route.title}
+        </a>
       </li>
     {/each}
   </ul>
 
-  <div class="icon row fcenter" on:click={togMenu}>
-    <img class="fill" src="menu.svg" alt="Menú" />
-  </div>
-
-  {#if mobileMenu}
-    <ul class="mobile-menu col fill" transition:slide>
-      {#each routes as route}
-        <li class="row acenter xfill" class:active={$page.path === route.slug}>
-          <a class="row fcenter xfill" href={route.slug} on:click={togMenu}>{route.title}</a>
-        </li>
-      {/each}
-    </ul>
-  {/if}
+  <a class="mobile-menu row fcenter" href="/ajustes">
+    {#if $userData.logo}
+      <img class="user-img" src={$userData.logo} alt={$userData.legal_name || "Logotipo"} />
+    {:else}
+      <div class="icon row fcenter">
+        <img class="fill" src="options.svg" alt="Menú" />
+      </div>
+    {/if}
+  </a>
 </nav>
 
 <style lang="scss">
@@ -66,8 +70,19 @@
     padding: 0 20px;
   }
 
+  .user-img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    object-position: center;
+    border: 1px solid $border;
+    border-radius: 50%;
+    margin-right: 10px;
+    padding: 3px;
+  }
+
   .active {
-    border-bottom: 2px solid $pri;
+    border-top: 2px solid $pri;
 
     @media (max-width: $mobile) {
       border-bottom: none;
@@ -75,24 +90,13 @@
     }
   }
 
-  .icon {
-    width: 25px;
-    height: 25px;
+  .mobile-menu {
     display: none;
   }
 
-  .mobile-menu {
-    position: fixed;
-    top: 65px;
-    left: 0;
-    background: $white;
-    transition: 500ms;
-    z-index: 999;
-
-    li {
-      padding: 15px 20px;
-      border-bottom: 1px solid $border;
-    }
+  .icon {
+    width: 25px;
+    height: 25px;
   }
 
   @media (max-width: $mobile) {
@@ -100,7 +104,7 @@
       display: none;
     }
 
-    .icon {
+    .mobile-menu {
       display: inherit;
     }
   }
