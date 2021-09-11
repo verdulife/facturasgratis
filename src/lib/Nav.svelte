@@ -82,8 +82,7 @@
     .expand-menu {
       position: absolute;
       top: 100%;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 0;
       background: $white;
       opacity: 0;
       pointer-events: none;

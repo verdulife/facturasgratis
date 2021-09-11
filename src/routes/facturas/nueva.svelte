@@ -64,6 +64,7 @@
 
   function pushBill() {
     if (billData.items.length > 0) {
+      billData._id = Date.now().toString();
       billData.totals = {
         base: base_total(),
         iva: iva_total(),

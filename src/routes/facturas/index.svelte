@@ -58,7 +58,9 @@
 
     <ul class="bill-list col acenter xfill">
       {#each $bills as bill}
-        <li class="box round row jbetween xfill">{bill.client.legal_name} <span>{bill.number}</span></li>
+        <li class="box round row xfill">
+          <a href="/facturas/{bill._id}" class="row jbetween xfill"> {bill.client.legal_name} <span>{bill.number}</span></a>
+        </li>
       {/each}
     </ul>
   {:else}
