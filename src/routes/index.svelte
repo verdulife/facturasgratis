@@ -1,42 +1,5 @@
 <script>
-  const tools = [
-    {
-      slug: "/facturas",
-      title: "Facturas",
-      desc: "Genera y/o modifica facturas. Envíalas por correo electrónico y/o guárdalas en PDF.",
-      icon: "facturas.svg",
-    },
-    {
-      slug: "/presupuestos",
-      title: "Presupuetos",
-      desc: "Genera y/o modifica presupuestos. Envíalos por correo electrónico y/o guárdalos en PDF.",
-      icon: "presupuestos.svg",
-    },
-    {
-      slug: "/albaranes",
-      title: "Albaranes",
-      desc: "Genera y/o modifica albaranes. Envíalos por correo electrónico y/o guárdalos en PDF.",
-      icon: "albaranes.svg",
-    },
-    {
-      slug: "/clientes",
-      title: "Clientes",
-      desc: "Crea una lista de clientes. Después podrás usarlos en tus facturas, presupuestos y/o albaranes.",
-      icon: "clientes.svg",
-    },
-    {
-      slug: "/productos-servicios",
-      title: "Productos/Servicios",
-      desc: "Crea una lista de productos/servicios. Podrás usarlos en tus facturas, presupuestos y/o albaranes.",
-      icon: "productos-servicios.svg",
-    },
-    {
-      slug: "/proveedores",
-      title: "Proveedores",
-      desc: "Crea una lista de proveedores. Así los tendrás su información de contacto siempre a mano.",
-      icon: "proveedores.svg",
-    },
-  ];
+  import { tools } from "../ui/utils";
 </script>
 
 <svelte:head>
@@ -44,7 +7,7 @@
 </svelte:head>
 
 <div class="scroll">
-  <section class="header row fcenter xfill">
+  <section class="header col fcenter xfill">
     <h1>Herramientas online para facturación y presupuestos</h1>
     <p>Herramientas online y completamente gratuitas para generar, enviar, rectificar y enlistar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios. No se necesita instalación.</p>
   </section>
@@ -78,7 +41,7 @@
 
     h1 {
       max-width: 900px;
-      font-size: 5vh;
+      font-size: 6vh;
       line-height: 1;
       margin-bottom: 40px;
 

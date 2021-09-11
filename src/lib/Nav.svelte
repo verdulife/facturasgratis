@@ -23,7 +23,7 @@
 
 <nav class="row jbetween acenter xfill">
   <a href="/">
-    <img class="logo" src="logo.svg" alt="facturasgratis" />
+    <img class="logo" src="/logo.svg" alt="facturasgratis" />
   </a>
 
   <ul class="desktop-menu row yfill">
@@ -45,7 +45,7 @@
       <img class="user-img" src={$userData.logo} alt={$userData.legal_name || "Logotipo"} />
     {:else}
       <div class="icon row fcenter">
-        <img class="fill" src="options.svg" alt="Menú" />
+        <img class="fill" src="/options.svg" alt="Menú" />
       </div>
     {/if}
   </a>

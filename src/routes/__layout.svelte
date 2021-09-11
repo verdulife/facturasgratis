@@ -12,7 +12,7 @@
   </div>
 
   <footer class="row fcenter xfill">
-    <p>Made with ♥ by verdu on 2021-2022.</p>
+    <p>Made with ♥ by verdu on 2021</p>
   </footer>
 </main>
 
