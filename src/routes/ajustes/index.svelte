@@ -1,23 +1,59 @@
 <script>
+  import { goto } from "$app/navigation";
   import { userData } from "../../stores";
 
   let files;
-  $: logo = $userData.logo;
+  $: user = $userData;
 
   $: if (files) {
     let imageFile = files[0];
     let reader = new FileReader();
 
     reader.onload = (e) => {
-      $userData.logo = e.target.result;
+      user.logo = e.target.result;
     };
 
     reader.readAsDataURL(imageFile);
   }
 
   function removeLogo() {
-    delete $userData.logo;
-    $userData = $userData;
+    files = undefined;
+    delete user.logo;
+    user = user;
+  }
+
+  function pushUser() {
+    if (user.phone || user.email) {
+      $userData = user;
+      goto("/");
+    } else alert("⚠ No has añadido un método de contacto ⚠");
+  }
+
+  function exportData() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(user));
+    const link = document.createElement("a");
+
+    link.href = dataStr;
+    link.download = `FG_${user.legal_name}.fg`;
+    link.click();
+  }
+
+  function importData() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".fg";
+    input.click();
+
+    input.onchange = () => {
+      let reader = new FileReader();
+
+      reader.onload = (e) => {
+        const imported = JSON.parse(e.target.result);
+        user = imported;
+      };
+
+      reader.readAsText(input.files[0]);
+    };
   }
 </script>
 
@@ -33,8 +69,13 @@
     </p>
   </section>
 
-  {#if $userData}
-    <div class="info col acenter xfill">
+  {#if user}
+    <div class="io-wrapper row jcenter xfill">
+      <button class="pri semi" on:click={exportData}>EXPORTAR DATOS</button>
+      <button class="pri semi" on:click={importData}>IMPORTAR DATOS</button>
+    </div>
+
+    <form class="info col acenter xfill" on:submit|preventDefault={pushUser}>
       <div class="box round col xfill">
         <h2>Logotipo</h2>
         <p class="notice">Si usas logotipo en tus facturas, presupuestos o albaranes, aqui es el sitio.</p>
@@ -42,96 +83,130 @@
         <div class="row xfill">
           <label for="logo" class="file-btn">SUBIR IMÁGEN</label>
 
-          {#if logo}
+          {#if user.logo}
             <div class="file-btn remove-btn" on:click={removeLogo}>BORRAR IMÁGEN</div>
           {/if}
         </div>
 
         <input type="file" id="logo" accept="image/png, image/jpeg" bind:files class="xfill" />
 
-        {#if logo}
+        {#if user.logo}
           <div class="logo-wrapper row fcenter xfill">
-            <img src={logo} alt={$userData.legal_name || "Logotipo"} />
+            <img src={user.logo} alt={user.legal_name || "Logotipo"} />
           </div>
         {/if}
       </div>
 
       <div class="box round col xfill">
         <h2>Datos legales</h2>
-        <p class="notice">Los campos marcados con un 👈 son obliquos.</p>
+        <p class="notice">Los campos marcados con un 👈 son obligatorios.</p>
 
         <div class="input-wrapper col xfill">
           <label for="legal_name">Nombre fiscal 👈</label>
-          <input type="text" id="legal_name" bind:value={$userData.legal_name} class="xfill" placeholder="Ej. Factura Gratis S.L." />
+          <input type="text" id="legal_name" bind:value={user.legal_name} class="xfill" placeholder="Ej. Factura Gratis S.L." required />
         </div>
 
         <div class="input-wrapper col xfill">
           <label for="legal_id">CIF/NIF 👈</label>
-          <input type="text" id="legal_id" bind:value={$userData.legal_id} class="xfill" placeholder="Ej. B00011100" />
+          <input type="text" id="legal_id" bind:value={user.legal_id} class="xfill" placeholder="Ej. B00011100" required />
         </div>
       </div>
 
       <div class="box round col xfill">
         <h2>Dirección fiscal</h2>
-        <p class="notice">Los campos marcados con un 👈 son obliquos.</p>
+        <p class="notice">Los campos marcados con un 👈 son obligatorios.</p>
 
-        <div class="input-wrapper col xfill">
-          <label for="street">Dirección fiscal 👈</label>
-          <input type="text" id="street" bind:value={$userData.street} class="xfill" placeholder="Ej. Calle Mayor, 18" />
+        <div class="row xfill">
+          <div class="input-wrapper col xhalf">
+            <label for="street">Dirección fiscal 👈</label>
+            <input type="text" id="street" bind:value={user.street} class="xfill" placeholder="Ej. Calle Mayor, 18" required />
+          </div>
+
+          <div class="input-wrapper col xhalf">
+            <label for="cp">Código postal 👈</label>
+            <input type="text" id="cp" bind:value={user.cp} class="xfill" placeholder="Ej. 08818" required />
+          </div>
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="city">Población 👈</label>
-            <input type="text" id="city" bind:value={$userData.city} class="xfill" placeholder="Ej. Barcelona" />
+            <input type="text" id="city" bind:value={user.city} class="xfill" placeholder="Ej. Barcelona" required />
           </div>
 
           <div class="input-wrapper col xhalf">
-            <label for="cp">Código postal 👈</label>
-            <input type="text" id="cp" bind:value={$userData.cp} class="xfill" placeholder="Ej. 08818" />
+            <label for="country">País 👈</label>
+            <input type="text" id="country" bind:value={user.country} class="xfill" placeholder="Ej. España" required />
           </div>
-        </div>
-
-        <div class="input-wrapper col xfill">
-          <label for="country">País 👈</label>
-          <input type="text" id="country" bind:value={$userData.country} class="xfill" placeholder="Ej. España" />
         </div>
       </div>
 
       <div class="box round col xfill">
         <h2>Contacto</h2>
-        <p class="notice">Puedes rellenar ambos campos, pero con uno es suficiente</p>
+        <p class="notice">Puedes rellenar ambos campos, pero con uno es suficiente.</p>
 
         <div class="input-wrapper col xfill">
           <label for="phone">Teléfono</label>
-          <input type="text" id="phone" bind:value={$userData.phone} class="xfill" placeholder="Ej. 600 600 600" />
+          <input type="text" id="phone" bind:value={user.phone} class="xfill" placeholder="Ej. 600 600 600" />
         </div>
 
         <div class="input-wrapper col xfill">
           <label for="email">Correo electrónico</label>
-          <input type="text" id="email" bind:value={$userData.email} class="xfill" placeholder="Ej. hola@facturagratis.com" />
+          <input type="text" id="email" bind:value={user.email} class="xfill" placeholder="Ej. hola@facturagratis.com" />
         </div>
       </div>
 
       <div class="box round col xfill">
-        <h2>Impuestos</h2>
-        <p class="notice">Selecciona el tipo de IVA y retención. Si no rellenas el campo de la retención, no la aplicaremos.</p>
+        <h2>Moneda e impuestos</h2>
+        <p class="notice">Si no rellenas el campo del IRPF, no lo aplicaremos.</p>
 
         <div class="input-wrapper col xfill">
-          <label for="iva">IVA</label>
-          <select id="iva" bind:value={$userData.iva} class="xfill">
-            <option value={21}>21%</option>
-            <option value={10}>10%</option>
-            <option value={4}>4%</option>
+          <label for="currency">Moneda</label>
+          <select id="currency" bind:value={user.currency} class="xfill" required>
+            <option value="€">€</option>
+            <option value="$">$</option>
+            <option value="£">£</option>
+            <option value="¥">¥</option>
+            <option value="₹">₹</option>
           </select>
         </div>
 
         <div class="input-wrapper col xfill">
-          <label for="ret">Retención (%)</label>
-          <input type="number" id="ret" bind:value={$userData.ret} class="xfill" placeholder="Ej. 15" />
+          <label for="iva">IVA %</label>
+          <input type="number" id="iva" bind:value={user.iva} class="xfill" placeholder="Ej. 21" required />
+        </div>
+
+        <div class="input-wrapper col xfill">
+          <label for="ret">IRPF %</label>
+          <input type="number" id="ret" bind:value={user.ret} class="xfill" placeholder="Ej. 15" />
         </div>
       </div>
-    </div>
+
+      <div class="box round col xfill">
+        <h2>Notas</h2>
+        <p class="notice">Añade notas a pie de tus facturas, presupuestos o albaranes.</p>
+
+        <div class="input-wrapper col xfill">
+          <label for="bill_note">Nota para facturas</label>
+          <textarea id="bill_note" bind:value={user.bill_note} class="xfill" placeholder="Ej. Transporte no incluido" />
+        </div>
+
+        <div class="input-wrapper col xfill">
+          <label for="budget_note">Nota para presupuestos</label>
+          <textarea id="budget_note" bind:value={user.budget_note} class="xfill" placeholder="Ej. Transporte no incluido" />
+        </div>
+
+        <div class="input-wrapper col xfill">
+          <label for="delivery_note">Nota para albarenes</label>
+          <textarea id="delivery_note" bind:value={user.delivery_note} class="xfill" placeholder="Ej. Transporte no incluido" />
+        </div>
+      </div>
+
+      <div class="row jcenter xfill">
+        <button class="succ semi">GUARDAR DATOS</button>
+        <a href="/" class="btn out semi">CANCELAR</a>
+      </div>
+    </form>
   {/if}
 </div>
 
@@ -168,8 +243,19 @@
     }
   }
 
+  .io-wrapper {
+    font-size: 12px;
+    padding: 60px;
+    padding-bottom: 20px;
+
+    button {
+      color: $white;
+    }
+  }
+
   .info {
     padding: 60px;
+    padding-top: 0;
 
     @media (max-width: $mobile) {
       padding: 20px 10px;
@@ -211,10 +297,12 @@
     }
 
     input,
-    select {
+    select,
+    textarea {
       font-size: 16px;
       border-bottom: 1px solid $sec;
       border-radius: 0;
+      resize: none;
 
       &:focus {
         border-color: $pri;
@@ -223,6 +311,10 @@
       @media (max-width: $mobile) {
         font-size: 14px;
       }
+    }
+
+    textarea {
+      border: 1px solid $border;
     }
 
     input[type="file"] {
@@ -265,6 +357,25 @@
       background: transparent;
       color: $pri;
       border-color: $pri;
+    }
+  }
+
+  button {
+    margin-right: 10px;
+
+    @media (max-width: $mobile) {
+      width: 70%;
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+
+  a.btn {
+    @media (max-width: $mobile) {
+      width: 70%;
+      text-align: center;
+      margin-right: 0;
+      margin-bottom: 10px;
     }
   }
 </style>

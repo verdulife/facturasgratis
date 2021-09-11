@@ -92,11 +92,11 @@
         <div class="date-row row xhalf">
           <div class="input-wrapper date col">
             <label for="day">Día</label>
-            <input type="number" id="day" class="xfill" bind:value={billData.date.day} required />
+            <input type="number" id="day" min="1" max="31" class="xfill" bind:value={billData.date.day} required />
           </div>
           <div class="input-wrapper date col">
             <label for="month">Mes</label>
-            <input type="number" id="month" class="xfill" bind:value={billData.date.month} required />
+            <input type="number" id="month" min="1" max="12" class="xfill" bind:value={billData.date.month} required />
           </div>
           <div class="input-wrapper date col">
             <label for="year">Año</label>
