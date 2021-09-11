@@ -120,9 +120,9 @@
         <div class="input-wrapper col xfill">
           <label for="iva">IVA</label>
           <select id="iva" bind:value={$userData.iva} class="xfill">
-            <option value="21">21%</option>
-            <option value="10">10%</option>
-            <option value="4">4%</option>
+            <option value={21}>21%</option>
+            <option value={10}>10%</option>
+            <option value={4}>4%</option>
           </select>
         </div>
 

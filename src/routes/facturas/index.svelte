@@ -3,10 +3,10 @@
   import { tools, months } from "../../ui/utils";
 
   let searchTerm, filterMonth, filterYear;
+  const currentYear = new Date().getFullYear();
 
   const years = () => {
-    const currentYear = new Date().getFullYear();
-    const lowestYear = $bills.reduce((acc, curr) => (curr.year < acc ? curr.year : acc), currentYear);
+    const lowestYear = $bills.reduce((acc, curr) => (curr.date.year < acc ? curr.date.year : acc), currentYear);
     let yearsList = [];
 
     for (let y = lowestYear; y <= currentYear; y++) {
@@ -15,6 +15,8 @@
 
     return yearsList;
   };
+
+  filterYear = years().indexOf(currentYear);
 </script>
 
 <svelte:head>
@@ -103,10 +105,7 @@
   }
 
   .new-btn {
-    align-self: flex-start;
-    color: white;
-    font-size: 12px;
-    margin-bottom: 10px;
+    margin-bottom: 40px;
   }
 
   .list-filter,

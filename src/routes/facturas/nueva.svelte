@@ -1,6 +1,6 @@
 <script>
   import { goto } from "$app/navigation";
-  import { bills } from "../../stores";
+  import { bills, userData } from "../../stores";
 
   let billData = {};
   let lineData = {};
@@ -30,8 +30,47 @@
     billData.items = billData.items;
   }
 
+  $: base_total = () => {
+    const result = billData.items.reduce((acc, curr) => {
+      const amount_price = curr.price * curr.amount;
+
+      if (curr.dto > 0) {
+        let dto_price = amount_price - (amount_price * curr.dto) / 100;
+        return acc + dto_price;
+      }
+
+      return acc + amount_price;
+    }, 0);
+
+    return result;
+  };
+
+  $: iva_total = () => {
+    const result = (base_total() * $userData.iva) / 100;
+    return result;
+  };
+
+  $: ret_total = () => {
+    if (!$userData.ret) return 0;
+
+    const result = (base_total() * $userData.ret) / 100;
+    return result;
+  };
+
+  $: bill_total = () => {
+    const result = base_total() + iva_total() - ret_total();
+    return result;
+  };
+
   function pushBill() {
     if (billData.items.length > 0) {
+      billData.totals = {
+        base: base_total(),
+        iva: iva_total(),
+        ret: ret_total(),
+        total: bill_total(),
+      };
+
       $bills = [...$bills, billData];
       goto("/facturas");
     } else alert("⚠ No has añadido ningun concepto ⚠");
@@ -76,20 +115,22 @@
         <input type="text" id="leagal_name" bind:value={billData.client.legal_name} class="xfill" required />
       </div>
 
-      <div class="input-wrapper col xfill">
-        <label for="legal_id">CIF/NIF</label>
-        <input type="text" id="leagal_id" bind:value={billData.client.legal_id} class="xfill" required />
+      <div class="row xfill">
+        <div class="input-wrapper col xhalf">
+          <label for="legal_id">CIF/NIF</label>
+          <input type="text" id="leagal_id" bind:value={billData.client.legal_id} class="xfill" required />
+        </div>
+
+        <div class="input-wrapper col xhalf">
+          <label for="contact">Conacto</label>
+          <input type="text" id="contact" bind:value={billData.client.contact} class="xfill" required />
+        </div>
       </div>
 
-      <div class="input-wrapper col xfill">
-        <label for="address">DIRECCION FISCAL</label>
-        <input type="text" id="address" bind:value={billData.client.address} class="xfill" required />
-      </div>
-
-      <div class="input-wrapper row xfill">
-        <div class="col xhalf">
-          <label for="city">POBLACIÓN</label>
-          <input type="text" id="city" bind:value={billData.client.city} class="xfill" required />
+      <div class="row xfill">
+        <div class="input-wrapper col xhalf">
+          <label for="address">DIRECCION FISCAL</label>
+          <input type="text" id="address" bind:value={billData.client.address} class="xfill" required />
         </div>
 
         <div class="col xhalf">
@@ -98,14 +139,16 @@
         </div>
       </div>
 
-      <div class="input-wrapper col xfill">
-        <label for="country">País</label>
-        <input type="text" id="country" bind:value={billData.client.country} class="xfill" required />
-      </div>
+      <div class="row xfill">
+        <div class="input-wrapper col xhalf">
+          <label for="city">POBLACIÓN</label>
+          <input type="text" id="city" bind:value={billData.client.city} class="xfill" required />
+        </div>
 
-      <div class="input-wrapper col xfill">
-        <label for="contact">Conacto</label>
-        <input type="text" id="contact" bind:value={billData.client.contact} class="xfill" required />
+        <div class="input-wrapper col xhalf">
+          <label for="country">País</label>
+          <input type="text" id="country" bind:value={billData.client.country} class="xfill" required />
+        </div>
       </div>
     </div>
 
@@ -127,6 +170,32 @@
         </ul>
 
         <h-div />
+
+        <ul class="total-wrapper row jaround xfill">
+          <li class="col acenter">
+            <p class="label">Base imponible</p>
+            <h3>{base_total().toFixed(2)}€</h3>
+          </li>
+
+          <li class="col acenter">
+            <p class="label">IVA {$userData.iva}%</p>
+            <h3>{iva_total().toFixed(2)}€</h3>
+          </li>
+
+          {#if $userData.ret}
+            <li class="col acenter">
+              <p class="label">IRPF {$userData.ret}%</p>
+              <h3>-{ret_total().toFixed(2)}€</h3>
+            </li>
+          {/if}
+
+          <li class="col acenter">
+            <p class="label">Total</p>
+            <h3>{bill_total().toFixed(2)}€</h3>
+          </li>
+        </ul>
+
+        <h-div />
       {/if}
 
       <div class="new-line row xfill">
@@ -139,7 +208,10 @@
       <div class="line-btn pri xfill" on:click={pushLine}>AÑADIR PRODUCTO/SERVICIO</div>
     </div>
 
-    <button class="pri semi">GENERAR FACTURA</button>
+    <div class="row jcenter xfill">
+      <button class="succ semi">GENERAR FACTURA</button>
+      <a href="/facturas" class="btn out semi">CANCELAR</a>
+    </div>
   </form>
 </div>
 
@@ -289,7 +361,28 @@
     }
   }
 
-  button.pri {
-    color: $white;
+  .total-wrapper {
+    li {
+      margin: 10px;
+    }
+  }
+
+  button {
+    margin-right: 10px;
+
+    @media (max-width: $mobile) {
+      width: 70%;
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
+  }
+
+  a.btn {
+    @media (max-width: $mobile) {
+      width: 70%;
+      text-align: center;
+      margin-right: 0;
+      margin-bottom: 10px;
+    }
   }
 </style>
