@@ -2,6 +2,7 @@
   import { page } from "$app/stores";
   import { slide } from "svelte/transition";
   import { userData } from "../stores";
+  import { tools } from "../ui/utils";
 
   let mobileMenu = false;
 
@@ -16,29 +17,22 @@
   </a>
 
   <ul class="desktop-menu row yfill">
-    <li class="row acenter yfill" class:active={$page.path === "/"}>
+    <li class="row acenter yfill">
       <a href="/" class="row acenter yfill">Herramientas</a>
-    </li>
 
-    <li class="row acenter yfill" class:active={$page.path === "/facturas" || $page.path === "/presupuestos" || $page.path === "/albaranes"}>
-      <p>Crear</p>
       <ul class="expand-menu col">
-        <li class="xfill"><a href="/facturas" class="row acenter fill">Facturas</a></li>
-        <li class="xfill"><a href="/presupuestos" class="row acenter fill">Presupuestos</a></li>
-        <li class="xfill"><a href="/albaranes" class="row acenter fill">Albaranes</a></li>
+        {#each tools as { slug, title, icon }}
+          <li class="xfill" class:active={$page.path === slug}>
+            <a href={slug} class="row nowrap acenter fill">
+              <img src={icon} alt={title} />
+              <p>{title}</p>
+            </a>
+          </li>
+        {/each}
       </ul>
     </li>
 
-    <li class="row acenter yfill" class:active={$page.path === "/clientes" || $page.path === "/productos-servicios" || $page.path === "/proveedores"}>
-      <p>Listas</p>
-      <ul class="expand-menu col">
-        <li class="xfill"><a href="/clientes" class="row acenter fill">Clientes</a></li>
-        <li class="xfill"><a href="/productos-servicios" class="row acenter fill">Productos/servicios</a></li>
-        <li class="xfill"><a href="/proveedores" class="row acenter fill">Proveedores</a></li>
-      </ul>
-    </li>
-
-    <li class="row acenter yfill" class:active={$page.path === "/ajustes"}>
+    <li class="row acenter yfill">
       <a href="/ajustes" class="row acenter yfill">
         {#if $userData.logo}
           <img class="user-img" src={$userData.logo} alt={$userData.legal_name || "Logotipo"} />
@@ -48,15 +42,36 @@
     </li>
   </ul>
 
-  <a class="mobile-menu row fcenter" href="/ajustes">
-    {#if $userData.logo}
-      <img class="user-img" src={$userData.logo} alt={$userData.legal_name || "Logotipo"} />
-    {:else}
-      <div class="icon row fcenter">
-        <img class="fill" src="/options.svg" alt="Menú" />
-      </div>
+  <div class="mobile-menu row yfill">
+    <div class="icon" on:click={togMenu}>
+      <img class="fill" src="menu.svg" alt="Menú" />
+    </div>
+    {#if mobileMenu}
+      <ul class="scroll" transition:slide>
+        <li class="row acenter xfill">
+          <a href="/" class="row acenter yfill">Herramientas</a>
+        </li>
+
+        {#each tools as { slug, title, icon }}
+          <li class="xfill" class:active={$page.path === slug}>
+            <a href={slug} class="row nowrap acenter fill">
+              <img src={icon} alt={title} />
+              <p>{title}</p>
+            </a>
+          </li>
+        {/each}
+
+        <li class="row acenter xfill">
+          <a href="/ajustes" class="row acenter yfill">
+            {#if $userData.logo}
+              <img class="user-img" src={$userData.logo} alt={$userData.legal_name || "Logotipo"} />
+            {/if}
+            {$userData.legal_name || "Ajustes"}
+          </a>
+        </li>
+      </ul>
     {/if}
-  </a>
+  </div>
 </nav>
 
 <style lang="scss">
@@ -72,6 +87,10 @@
 
   .logo {
     width: 200px;
+
+    @media (max-width: $mobile) {
+      width: 175px;
+    }
   }
 
   li {
@@ -90,7 +109,7 @@
       transition: 200ms;
 
       li {
-        height: 50px;
+        height: 40px;
         border-bottom: 1px solid $border;
         padding: 0.5em 1em;
         transition: 200ms;
@@ -101,6 +120,13 @@
 
         &:last-of-type {
           border-bottom: none;
+        }
+
+        img {
+          width: 20px;
+          height: 20px;
+          object-fit: contain;
+          margin-right: 10px;
         }
       }
     }
@@ -119,7 +145,6 @@
     width: 40px;
     height: 40px;
     object-fit: contain;
-    object-position: center;
     border: 1px solid $border;
     border-radius: 50%;
     margin-right: 10px;
@@ -127,7 +152,7 @@
   }
 
   .active {
-    background: $border;
+    border-left: 4px solid $pri;
 
     @media (max-width: $mobile) {
       font-weight: bold;
@@ -136,11 +161,51 @@
 
   .mobile-menu {
     display: none;
-  }
 
-  .icon {
-    width: 25px;
-    height: 25px;
+    .icon {
+      width: 65px;
+      height: 65px;
+
+      img {
+        object-fit: contain;
+        padding: 20px;
+        padding-right: 0;
+      }
+    }
+
+    ul {
+      position: fixed;
+      top: 65px;
+      right: 0;
+      height: calc(100% - 65px);
+      background: $white;
+      z-index: 999;
+
+      li {
+        border-bottom: 1px solid $border;
+        padding: 20px 20px;
+
+        &:first-of-type {
+          justify-content: center;
+        }
+
+        &:last-of-type {
+          position: sticky;
+          bottom: 0;
+          left: 0;
+          background: $white;
+          border-top: 1px solid $border;
+          justify-content: center;
+        }
+
+        img {
+          width: 30px;
+          height: 30px;
+          object-fit: contain;
+          margin-right: 10px;
+        }
+      }
+    }
   }
 
   @media (max-width: $mobile) {
@@ -149,7 +214,7 @@
     }
 
     .mobile-menu {
-      display: inherit;
+      display: flex;
     }
   }
 </style>

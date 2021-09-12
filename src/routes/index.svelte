@@ -62,6 +62,7 @@
   }
 
   .tools {
+    align-items: stretch;
     padding: 40px;
 
     @media (max-width: $mobile) {
@@ -72,7 +73,6 @@
       cursor: pointer;
       width: 25%;
       min-width: 250px;
-      height: 210px;
       margin: 5px;
       padding: 20px;
       transition: 200ms;

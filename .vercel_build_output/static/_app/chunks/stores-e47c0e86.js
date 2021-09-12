@@ -1,1 +1,0 @@
-import{C as a}from"./vendor-b3872f44.js";const s=a(JSON.parse(localStorage.getItem("userData"))||{}),e=a(JSON.parse(localStorage.getItem("bills"))||[]);s.subscribe((a=>localStorage.userData=JSON.stringify(a))),e.subscribe((a=>localStorage.bills=JSON.stringify(a)));export{e as b,s as u};

@@ -1,9 +1,86 @@
 <script>
   import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
   import { userData } from "../../stores";
 
-  let files;
   $: user = $userData;
+  let storageSpace = {};
+  let files;
+
+  onMount(async () => {
+    const { usage, quota } = await navigator.storage.estimate();
+
+    function roundWithTwoDecimals(num) {
+      return Math.round((num + Number.EPSILON) * 100) / 100;
+    }
+
+    storageSpace.percentage = roundWithTwoDecimals((usage / quota) * 100);
+    storageSpace.total = roundWithTwoDecimals(quota / (1024 * 1024));
+    storageSpace.usage = roundWithTwoDecimals(usage / (1024 * 1024));
+  });
+
+  function exportData() {
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(user));
+    const link = document.createElement("a");
+
+    link.href = dataStr;
+    link.download = `FG_${user.legal_name}.fg`;
+    link.click();
+  }
+
+  function importData() {
+    const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".fg";
+    input.click();
+
+    input.onchange = () => {
+      let reader = new FileReader();
+
+      reader.onload = (e) => {
+        const imported = JSON.parse(e.target.result);
+        $userData = imported;
+
+        alert("Datos cargador correctamente ✔");
+      };
+
+      reader.readAsText(input.files[0]);
+    };
+  }
+
+  function clearData() {
+    localStorage.clear();
+    $userData = {};
+    alert("Datos borrados correctamente ✔");
+  }
+
+  function downloadData() {
+    exportData();
+    const check = confirm("¿Quieres borrar tambien tus datos?");
+
+    if (check) {
+      const check2 = prompt("Se borraran todos tus datos. Introduce tu CIF/NIF para confirmar.");
+
+      if (check2 === $userData.legal_id) clearData();
+    }
+  }
+
+  function uploadData() {
+    if ($userData.legal_id) {
+      const check = confirm("¿Quieres descargar tus datos antes es de cargar unos nuevos?");
+
+      if (check) exportData();
+
+      const check2 = prompt("Se borraran todos tus datos. Introduce tu CIF/NIF para confirmar.");
+
+      if (check2 === $userData.legal_id) {
+        clearData();
+        importData();
+      }
+    } else {
+      importData();
+    }
+  }
 
   $: if (files) {
     let imageFile = files[0];
@@ -28,33 +105,6 @@
       goto("/");
     } else alert("⚠ No has añadido un método de contacto ⚠");
   }
-
-  function exportData() {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(user));
-    const link = document.createElement("a");
-
-    link.href = dataStr;
-    link.download = `FG_${user.legal_name}.fg`;
-    link.click();
-  }
-
-  function importData() {
-    const input = document.createElement("input");
-    input.type = "file";
-    input.accept = ".fg";
-    input.click();
-
-    input.onchange = () => {
-      let reader = new FileReader();
-
-      reader.onload = (e) => {
-        const imported = JSON.parse(e.target.result);
-        user = imported;
-      };
-
-      reader.readAsText(input.files[0]);
-    };
-  }
 </script>
 
 <svelte:head>
@@ -65,16 +115,28 @@
   <section class="header col fcenter xfill">
     <h1>Tus datos de facturación</h1>
     <p>
-      En <b>facturagratis</b>, no nos gusta guardar ningún dato, y menos unos tan sensibles como pueden ser los requeridos para hacer facturas. Así pues todos los datos introducidos aquí, solo se guardaran en este navegador.
+      En <b>facturagratis</b>, usamos tu navegador como disco, asi tu informacion es solo tuya.
+      <br />
+      Por eso mismo, te recomendamos que descargues tus datos anualmente y empieces limpio el año. Siempre podras volver a cargar tus datos para acceder a ellos.
     </p>
+
+    <div class="progress-bar col">
+      <div class="bar" style="width: {storageSpace.percentage}%" />
+    </div>
+
+    <p>
+      <b>{storageSpace.percentage}%</b> del espacio de tu navegador usado
+    </p>
+
+    <div class="io-wrapper row jcenter xfill">
+      {#if user && user.legal_id}
+        <button class="succ semi" on:click={downloadData}>DESCARGAR DATOS</button>
+      {/if}
+      <button class="link semi" on:click={uploadData}>CARGAR DATOS</button>
+    </div>
   </section>
 
   {#if user}
-    <div class="io-wrapper row jcenter xfill">
-      <button class="pri semi" on:click={exportData}>EXPORTAR DATOS</button>
-      <button class="pri semi" on:click={importData}>IMPORTAR DATOS</button>
-    </div>
-
     <form class="info col acenter xfill" on:submit|preventDefault={pushUser}>
       <div class="box round col xfill">
         <h2>Logotipo</h2>
@@ -215,7 +277,7 @@
     background: linear-gradient(45deg, $pri 50%, $sec);
     text-align: center;
     color: $white;
-    padding: 80px;
+    padding: 60px;
 
     @media (max-width: $mobile) {
       padding: 40px;
@@ -236,26 +298,40 @@
       max-width: 900px;
       font-size: 18px;
       color: $sec;
+      margin-bottom: 40px;
 
       @media (max-width: $mobile) {
         font-size: 14px;
       }
     }
-  }
 
-  .io-wrapper {
-    font-size: 12px;
-    padding: 60px;
-    padding-bottom: 20px;
+    .progress-bar {
+      width: 80%;
+      max-width: 300px;
+      height: 10px;
+      background: $sec;
+      border: 1px solid $border;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      overflow: hidden;
 
-    button {
-      color: $white;
+      .bar {
+        height: 100%;
+        background: $success;
+      }
+    }
+
+    .io-wrapper {
+      font-size: 12px;
+
+      button {
+        color: $white;
+      }
     }
   }
 
   .info {
     padding: 60px;
-    padding-top: 0;
 
     @media (max-width: $mobile) {
       padding: 20px 10px;
