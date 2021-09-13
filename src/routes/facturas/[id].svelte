@@ -6,6 +6,26 @@
   let billData = $bills.filter((bill) => bill._id === $page.params.id)[0];
   let lineData = {};
 
+  async function downloadBill() {
+    console.log("Downloading...");
+  }
+
+  function generateDelivery() {
+    console.log("Generating...");
+  }
+
+  function deleteBill() {
+    const check = confirm(
+      "La numeracion de las otras facturas no se modificara. Recuerda usar la numeracion de esta factura en otra.\n\n¿Borrar definitivamente?"
+    );
+
+    if (check) {
+      $bills.splice($bills.indexOf(billData), 1);
+      $bills = $bills;
+      goto("/facturas");
+    }
+  }
+
   function pushLine() {
     if (Object.keys(lineData).length === 4) {
       billData.items = [...billData.items, lineData];
@@ -71,6 +91,17 @@
 
 <div class="scroll">
   {#if billData}
+    <section class="header col fcenter xfill">
+      <h1>Factura nº {billData.number}</h1>
+      <p>Con fecha {billData.date.day}/{billData.date.month}/{billData.date.year}</p>
+
+      <div class="io-wrapper row jcenter xfill">
+        <button class="succ semi" on:click={downloadBill}>DESCARGAR FACTURA</button>
+        <button class="link semi" on:click={generateDelivery}>GENERAR ALBARÁN</button>
+        <button class="err semi" on:click={deleteBill}>ELIMINAR FACTURA</button>
+      </div>
+    </section>
+
     <form class="bill-data col acenter xfill" on:submit|preventDefault={pushBill}>
       <div class="box round col xfill">
         <h2>Datos de la factura</h2>
@@ -89,7 +120,15 @@
             </div>
             <div class="input-wrapper date col">
               <label for="month">Mes</label>
-              <input type="number" id="month" min="1" max="12" class="xfill" bind:value={billData.date.month} required />
+              <input
+                type="number"
+                id="month"
+                min="1"
+                max="12"
+                class="xfill"
+                bind:value={billData.date.month}
+                required
+              />
             </div>
             <div class="input-wrapper date col">
               <label for="year">Año</label>
@@ -156,7 +195,14 @@
                 <input type="number" id="amount" bind:value={item.amount} min="1" class="out" placeholder="CANT" />
                 <input type="text" id="label" bind:value={item.label} class="out grow" placeholder="CONCEPTO" />
                 <input type="number" id="dto" bind:value={item.dto} min="0" max="100" class="out" placeholder="DTO %" />
-                <input type="number" id="price" bind:value={item.price} step="0.01" class="out" placeholder="UNIDAD €" />
+                <input
+                  type="number"
+                  id="price"
+                  bind:value={item.price}
+                  step="0.01"
+                  class="out"
+                  placeholder="UNIDAD €"
+                />
                 <input type="text" value="x" class="out" on:click={() => removeLine(i)} />
               </li>
             {/each}
@@ -210,6 +256,39 @@
 </div>
 
 <style lang="scss">
+  .header {
+    background: linear-gradient(45deg, $pri 50%, $sec);
+    text-align: center;
+    color: $white;
+    padding: 60px;
+
+    @media (max-width: $mobile) {
+      padding: 40px;
+    }
+
+    h1 {
+      max-width: 900px;
+      font-size: 6vh;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    p {
+      max-width: 900px;
+      font-size: 18px;
+      color: $sec;
+      margin-bottom: 40px;
+
+      @media (max-width: $mobile) {
+        font-size: 14px;
+      }
+    }
+
+    .io-wrapper {
+      font-size: 12px;
+    }
+  }
+
   .bill-data {
     padding: 60px;
 

@@ -48,12 +48,12 @@
     </div>
     {#if mobileMenu}
       <ul class="scroll" transition:slide>
-        <li class="row acenter xfill">
+        <li class="row acenter xfill" on:click={togMenu}>
           <a href="/" class="row acenter yfill">Herramientas</a>
         </li>
 
         {#each tools as { slug, title, icon }}
-          <li class="xfill" class:active={$page.path === slug}>
+          <li class="xfill" class:active={$page.path === slug} on:click={togMenu}>
             <a href={slug} class="row nowrap acenter fill">
               <img src={icon} alt={title} />
               <p>{title}</p>
@@ -61,7 +61,7 @@
           </li>
         {/each}
 
-        <li class="row acenter xfill">
+        <li class="row acenter xfill" on:click={togMenu}>
           <a href="/ajustes" class="row acenter yfill">
             {#if $userData.logo}
               <img class="user-img" src={$userData.logo} alt={$userData.legal_name || "Logotipo"} />
@@ -195,7 +195,9 @@
           left: 0;
           background: $white;
           border-top: 1px solid $border;
+          border-bottom: none;
           justify-content: center;
+          margin-top: -1px;
         }
 
         img {

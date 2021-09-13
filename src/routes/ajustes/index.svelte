@@ -48,20 +48,14 @@
       }
 
       storageSpace.total = totalStorage();
-      storageSpace.usage = roundWithTwoDecimals(
-        new Blob(Object.values(localStorage)).size / 1024
-      );
-      storageSpace.percentage = roundWithTwoDecimals(
-        (storageSpace.usage / storageSpace.total) * 100
-      );
+      storageSpace.usage = roundWithTwoDecimals(new Blob(Object.values(localStorage)).size / 1024);
+      storageSpace.percentage = roundWithTwoDecimals((storageSpace.usage / storageSpace.total) * 100);
       console.log(storageSpace);
     });
   });
 
   function exportData() {
-    const dataStr =
-      "data:text/json;charset=utf-8," +
-      encodeURIComponent(JSON.stringify(user));
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(user));
     const link = document.createElement("a");
 
     link.href = dataStr;
@@ -82,7 +76,7 @@
         const imported = JSON.parse(e.target.result);
         $userData = imported;
 
-        alert("Datos cargador correctamente ✔");
+        alert("Datos cargados correctamente ✔");
       };
 
       reader.readAsText(input.files[0]);
@@ -100,9 +94,7 @@
     const check = confirm("¿Quieres borrar tambien tus datos?");
 
     if (check) {
-      const check2 = prompt(
-        "Se borraran todos tus datos. Introduce tu CIF/NIF para confirmar."
-      );
+      const check2 = prompt("Se borraran todos tus datos. Introduce tu CIF/NIF para confirmar.");
 
       if (check2 === $userData.legal_id) clearData();
     }
@@ -110,15 +102,11 @@
 
   function uploadData() {
     if ($userData.legal_id) {
-      const check = confirm(
-        "¿Quieres descargar tus datos antes es de cargar unos nuevos?"
-      );
+      const check = confirm("¿Quieres descargar tus datos antes de cargar unos nuevos?");
 
       if (check) exportData();
 
-      const check2 = prompt(
-        "Se borraran todos tus datos. Introduce tu CIF/NIF para confirmar."
-      );
+      const check2 = prompt("Se borraran todos tus datos. Introduce tu CIF/NIF para confirmar.");
 
       if (check2 === $userData.legal_id) {
         clearData();
@@ -162,11 +150,10 @@
   <section class="header col fcenter xfill">
     <h1>Tus datos de facturación</h1>
     <p>
-      En <b>facturagratis</b>, usamos tu navegador como disco, asi tu
-      informacion es solo tuya.
-      <br />
-      Por eso mismo, te recomendamos que descargues tus datos anualmente y empieces
-      limpio el año. Siempre podras volver a cargar tus datos para acceder a ellos.
+      En <b>facturagratis</b>, usamos tu navegador como disco.
+      <br /><br />
+      Nuestra recomendacion es que descargues tus datos trimestalmente. Siempre podras
+      volver a cargar tus datos y trabajar con ellos.
     </p>
 
     <div class="progress-bar col">
@@ -183,9 +170,7 @@
 
     <div class="io-wrapper row jcenter xfill">
       {#if user && user.legal_id}
-        <button class="succ semi" on:click={downloadData}
-          >DESCARGAR DATOS</button
-        >
+        <button class="succ semi" on:click={downloadData}>DESCARGAR DATOS</button>
       {/if}
       <button class="link semi" on:click={uploadData}>CARGAR DATOS</button>
     </div>
@@ -195,28 +180,17 @@
     <form class="info col acenter xfill" on:submit|preventDefault={pushUser}>
       <div class="box round col xfill">
         <h2>Logotipo</h2>
-        <p class="notice">
-          Si usas logotipo en tus facturas, presupuestos o albaranes, aqui es el
-          sitio.
-        </p>
+        <p class="notice">Si usas logotipo en tus facturas, presupuestos o albaranes, aqui es el sitio.</p>
 
         <div class="row xfill">
           <label for="logo" class="file-btn">SUBIR IMÁGEN</label>
 
           {#if user.logo}
-            <div class="file-btn remove-btn" on:click={removeLogo}>
-              BORRAR IMÁGEN
-            </div>
+            <div class="file-btn remove-btn" on:click={removeLogo}>BORRAR IMÁGEN</div>
           {/if}
         </div>
 
-        <input
-          type="file"
-          id="logo"
-          accept="image/png, image/jpeg"
-          bind:files
-          class="xfill"
-        />
+        <input type="file" id="logo" accept="image/png, image/jpeg" bind:files class="xfill" />
 
         {#if user.logo}
           <div class="logo-wrapper row fcenter xfill">
@@ -273,59 +247,30 @@
 
           <div class="input-wrapper col xhalf">
             <label for="cp">Código postal 👈</label>
-            <input
-              type="text"
-              id="cp"
-              bind:value={user.cp}
-              class="xfill"
-              placeholder="Ej. 08818"
-              required
-            />
+            <input type="text" id="cp" bind:value={user.cp} class="xfill" placeholder="Ej. 08818" required />
           </div>
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="city">Población 👈</label>
-            <input
-              type="text"
-              id="city"
-              bind:value={user.city}
-              class="xfill"
-              placeholder="Ej. Barcelona"
-              required
-            />
+            <input type="text" id="city" bind:value={user.city} class="xfill" placeholder="Ej. Barcelona" required />
           </div>
 
           <div class="input-wrapper col xhalf">
             <label for="country">País 👈</label>
-            <input
-              type="text"
-              id="country"
-              bind:value={user.country}
-              class="xfill"
-              placeholder="Ej. España"
-              required
-            />
+            <input type="text" id="country" bind:value={user.country} class="xfill" placeholder="Ej. España" required />
           </div>
         </div>
       </div>
 
       <div class="box round col xfill">
         <h2>Contacto</h2>
-        <p class="notice">
-          Puedes rellenar ambos campos, pero con uno es suficiente.
-        </p>
+        <p class="notice">Puedes rellenar ambos campos, pero con uno es suficiente.</p>
 
         <div class="input-wrapper col xfill">
           <label for="phone">Teléfono</label>
-          <input
-            type="text"
-            id="phone"
-            bind:value={user.phone}
-            class="xfill"
-            placeholder="Ej. 600 600 600"
-          />
+          <input type="text" id="phone" bind:value={user.phone} class="xfill" placeholder="Ej. 600 600 600" />
         </div>
 
         <div class="input-wrapper col xfill">
@@ -342,18 +287,11 @@
 
       <div class="box round col xfill">
         <h2>Moneda e impuestos</h2>
-        <p class="notice">
-          Si no rellenas el campo del IRPF, no lo aplicaremos.
-        </p>
+        <p class="notice">Si no rellenas el campo del IRPF, no lo aplicaremos.</p>
 
         <div class="input-wrapper col xfill">
           <label for="currency">Moneda</label>
-          <select
-            id="currency"
-            bind:value={user.currency}
-            class="xfill"
-            required
-          >
+          <select id="currency" bind:value={user.currency} class="xfill" required>
             <option value="€">€</option>
             <option value="$">$</option>
             <option value="£">£</option>
@@ -364,42 +302,22 @@
 
         <div class="input-wrapper col xfill">
           <label for="iva">IVA %</label>
-          <input
-            type="number"
-            id="iva"
-            bind:value={user.iva}
-            class="xfill"
-            placeholder="Ej. 21"
-            required
-          />
+          <input type="number" id="iva" bind:value={user.iva} class="xfill" placeholder="Ej. 21" required />
         </div>
 
         <div class="input-wrapper col xfill">
           <label for="ret">IRPF %</label>
-          <input
-            type="number"
-            id="ret"
-            bind:value={user.ret}
-            class="xfill"
-            placeholder="Ej. 15"
-          />
+          <input type="number" id="ret" bind:value={user.ret} class="xfill" placeholder="Ej. 15" />
         </div>
       </div>
 
       <div class="box round col xfill">
         <h2>Notas</h2>
-        <p class="notice">
-          Añade notas a pie de tus facturas, presupuestos o albaranes.
-        </p>
+        <p class="notice">Añade notas a pie de tus facturas, presupuestos o albaranes.</p>
 
         <div class="input-wrapper col xfill">
           <label for="bill_note">Nota para facturas</label>
-          <textarea
-            id="bill_note"
-            bind:value={user.bill_note}
-            class="xfill"
-            placeholder="Ej. Transporte no incluido"
-          />
+          <textarea id="bill_note" bind:value={user.bill_note} class="xfill" placeholder="Ej. Transporte no incluido" />
         </div>
 
         <div class="input-wrapper col xfill">

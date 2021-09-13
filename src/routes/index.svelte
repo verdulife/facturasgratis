@@ -8,8 +8,11 @@
 
 <div class="scroll">
   <section class="header col fcenter xfill">
-    <h1>Herramientas online para facturación y presupuestos</h1>
-    <p>Herramientas online y completamente gratuitas para generar, enviar, rectificar y enlistar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios. No se necesita instalación.</p>
+    <h1>Herramientas online para gestionar tu negocio</h1>
+    <p>
+      Herramientas online y completamente gratuitas para generar, rectificar y listar facturas, presupuestos,
+      albaranes, clientes, proveedores y productos/servicios. No se necesita instalación.
+    </p>
   </section>
 
   <ul class="tools row jcenter xfill">

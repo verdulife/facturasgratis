@@ -2,6 +2,7 @@
   import { userData, bills } from "../../stores";
   import { tools, months } from "../../ui/utils";
 
+  let billsData = [...$bills];
   let searchTerm, filterMonth, filterYear;
   const currentYear = new Date().getFullYear();
 
@@ -17,6 +18,18 @@
   };
 
   filterYear = years().indexOf(currentYear);
+
+  function sortByNumber(a, b) {
+    if (a.number < b.number) {
+      return -1;
+    }
+    if (a.number > b.number) {
+      return 1;
+    }
+    return 0;
+  }
+
+  $bills.sort(sortByNumber);
 </script>
 
 <svelte:head>
@@ -31,7 +44,7 @@
 
   {#if $userData.legal_name !== undefined}
     <div class="list-filter col acenter xfill">
-      {#if $bills.length <= 0}
+      {#if billsData.length <= 0}
         <a class="btn succ semi" href="/facturas/nueva">CREA TU PRIMERA FACTURA</a>
       {:else}
         <a class="new-btn btn succ semi" href="/facturas/nueva">NUEVA FACTURA</a>
@@ -57,9 +70,11 @@
     </div>
 
     <ul class="bill-list col acenter xfill">
-      {#each $bills as bill}
+      {#each billsData as bill}
         <li class="box round row xfill">
-          <a href="/facturas/{bill._id}" class="row jbetween xfill"> {bill.client.legal_name} <span>{bill.number}</span></a>
+          <a href="/facturas/{bill._id}" class="row jbetween xfill">
+            {bill.client.legal_name} <span>{bill.number}</span></a
+          >
         </li>
       {/each}
     </ul>

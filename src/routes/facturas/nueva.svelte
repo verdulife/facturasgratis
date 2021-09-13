@@ -79,6 +79,10 @@
 </script>
 
 <div class="scroll">
+  <section class="header col fcenter xfill">
+    <h1>Nueva factura</h1>
+  </section>
+
   <form class="bill-data col acenter xfill" on:submit|preventDefault={pushBill}>
     <div class="box round col xfill">
       <h2>Datos de la factura</h2>
@@ -217,6 +221,27 @@
 </div>
 
 <style lang="scss">
+  .header {
+    background: linear-gradient(45deg, $pri 50%, $sec);
+    text-align: center;
+    color: $white;
+    padding: 60px;
+
+    @media (max-width: $mobile) {
+      padding: 40px;
+    }
+
+    h1 {
+      max-width: 900px;
+      font-size: 6vh;
+      line-height: 1;
+
+      @media (max-width: $mobile) {
+        margin-bottom: 20px;
+      }
+    }
+  }
+
   .bill-data {
     padding: 60px;
 
