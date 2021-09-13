@@ -147,7 +147,7 @@
 
     {#if user && user.legal_id}
       <p>
-        Peso: <b>{storageSpace.usage}kb</b> | Ultima actualizacion: <b>{new Date($userData._updated).toDateString()}</b>
+        Peso: <b>{storageSpace.usage}kb</b> | Ultima actualizacion: <b>{new Date($userData._updated).toLocaleDateString()}</b>
       </p>
     {/if}
 

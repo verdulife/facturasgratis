@@ -3,21 +3,17 @@
   import { tools, months } from "../../ui/utils";
 
   let billsData = [...$bills];
-  let searchTerm, filterMonth, filterYear;
-  const currentYear = new Date().getFullYear();
+  let searchTerm = "";
+  let filterMonth = "";
+  let filterYear = "";
 
-  const years = () => {
-    const lowestYear = $bills.reduce((acc, curr) => (curr.date.year < acc ? curr.date.year : acc), currentYear);
-    let yearsList = [];
+  $: filteredBills = billsData.filter((bill) => {
+    const term = searchTerm.toLowerCase();
+    const byName = bill.client.legal_name.toLowerCase();
+    const byId = bill.client.legal_id.toLowerCase();
 
-    for (let y = lowestYear; y <= currentYear; y++) {
-      yearsList.push(y);
-    }
-
-    return yearsList;
-  };
-
-  filterYear = years().indexOf(currentYear);
+    return byName.indexOf(term) !== -1 || byId.indexOf(term) !== -1;
+  });
 
   function sortByNumber(a, b) {
     if (a.number < b.number) {
@@ -28,8 +24,20 @@
     }
     return 0;
   }
-
   $bills.sort(sortByNumber);
+
+  const currentYear = new Date().getFullYear();
+  const years = () => {
+    const lowestYear = $bills.reduce((acc, curr) => (curr.date.year < acc ? curr.date.year : acc), currentYear);
+    let yearsList = [];
+
+    for (let y = lowestYear; y <= currentYear; y++) {
+      yearsList.push(y);
+    }
+
+    return yearsList;
+  };
+  filterYear = currentYear;
 </script>
 
 <svelte:head>
@@ -50,7 +58,7 @@
         <a class="new-btn btn succ semi" href="/facturas/nueva">NUEVA FACTURA</a>
 
         <div class="row xfill">
-          <input type="text" class="out grow" bind:value={searchTerm} placeholder="Buscar factura" />
+          <input type="text" class="out grow" bind:value={searchTerm} placeholder="Buscar por nombre o CIF/NIF" />
 
           <select class="out" bind:value={filterMonth}>
             <option value="">Todos los meses</option>
@@ -61,8 +69,8 @@
 
           <select class="out" bind:value={filterYear}>
             <option value="">Todos los años</option>
-            {#each years() as year, i}
-              <option value={i}>{year}</option>
+            {#each years() as year}
+              <option value={year}>{year}</option>
             {/each}
           </select>
         </div>
@@ -70,12 +78,16 @@
     </div>
 
     <ul class="bill-list col acenter xfill">
-      {#each billsData as bill}
-        <li class="box round row xfill">
-          <a href="/facturas/{bill._id}" class="row jbetween xfill">
-            {bill.client.legal_name} <span>{bill.number}</span></a
-          >
-        </li>
+      {#each filteredBills as bill}
+        {#if filterMonth === "" ? true : filterMonth + 1 === bill.date.month}
+          {#if filterYear === "" ? true : filterYear === bill.date.year}
+            <a href="/facturas/{bill._id}" class="row xfill">
+              <li class="box round row jbetween xfill">
+                {bill.client.legal_name} <span>{bill.number}</span>
+              </li>
+            </a>
+          {/if}
+        {/if}
       {/each}
     </ul>
   {:else}
@@ -150,6 +162,12 @@
 
     a.btn.pri {
       color: $white !important;
+    }
+  }
+
+  .bill-list {
+    li {
+      margin-bottom: 5px;
     }
   }
 </style>
