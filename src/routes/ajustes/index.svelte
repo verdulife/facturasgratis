@@ -1,80 +1,49 @@
 <script>
   import { goto } from "$app/navigation";
-  import { onMount } from "svelte";
-  import { userData } from "../../stores";
+  import { storageSpace } from "../../lib/utils";
+  import { userData, bills, budgets, deliveries, clients, products, providers } from "../../stores";
 
   $: user = $userData;
-  let storageSpace = {};
   let files;
 
-  onMount(() => {
-    setTimeout(() => {
-      function roundWithTwoDecimals(num) {
-        return Math.round((num + Number.EPSILON) * 100) / 100;
-      }
-
-      function totalStorage() {
-        var countKey, countValue, itemLength;
-        var occupied = 3;
-        var i = 0;
-        while (!error) {
-          try {
-            localStorage.setItem(
-              "testKey" + i,
-              "11111111112222222222333333333344444444445555555555666661111111111222222222233333333334444444444555555555566666"
-            );
-          } catch (e) {
-            var error = e;
-          }
-          i++;
-        }
-        if (error) {
-          for (var i = 0; i < localStorage.length; i++) {
-            countKey = localStorage.key(i);
-            countValue = localStorage.getItem(localStorage.key(i));
-            itemLength = countKey.length + countValue.length;
-            occupied = occupied + itemLength;
-          }
-          occupied = roundWithTwoDecimals((occupied * 16) / (8 * 1024));
-
-          Object.keys(localStorage).forEach(function (key) {
-            if (key.indexOf("testKey") !== -1) {
-              localStorage.removeItem(key);
-            }
-          });
-        }
-
-        return occupied;
-      }
-
-      storageSpace.total = totalStorage();
-      storageSpace.usage = roundWithTwoDecimals(new Blob(Object.values(localStorage)).size / 1024);
-      storageSpace.percentage = roundWithTwoDecimals((storageSpace.usage / storageSpace.total) * 100);
-      console.log(storageSpace);
-    });
-  });
-
   function exportData() {
-    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(user));
+    const localDb = {
+      db_userData: $userData,
+      db_bills: $bills,
+      db_budgets: $budgets,
+      db_deliveries: $deliveries,
+      db_clients: $clients,
+      db_products: $products,
+      db_providers: $providers,
+    };
+
+    const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(localDb));
     const link = document.createElement("a");
 
     link.href = dataStr;
-    link.download = `FG_${user.legal_name}.fg`;
+    link.download = `${user.legal_name}.facturasgratis`;
     link.click();
   }
 
   function importData() {
     const input = document.createElement("input");
     input.type = "file";
-    input.accept = ".fg";
+    input.accept = ".facturasgratis";
     input.click();
 
     input.onchange = () => {
       let reader = new FileReader();
 
       reader.onload = (e) => {
-        const imported = JSON.parse(e.target.result);
-        $userData = imported;
+        const { db_userData, db_bills, db_budgets, db_deliveries, db_clients, db_products, db_providers } = JSON.parse(e.target.result);
+
+        $userData = db_userData;
+        $bills = db_bills;
+        $budgets = db_budgets;
+        $deliveries = db_deliveries;
+        $clients = db_clients;
+        $products = db_products;
+        $providers = db_providers;
 
         alert("Datos cargados correctamente ✔");
       };
@@ -85,7 +54,15 @@
 
   function clearData() {
     localStorage.clear();
+
     $userData = {};
+    $bills = [];
+    $budgets = [];
+    $deliveries = [];
+    $clients = [];
+    $products = [];
+    $providers = [];
+
     alert("Datos borrados correctamente ✔");
   }
 
@@ -136,6 +113,7 @@
 
   function pushUser() {
     if (user.phone || user.email) {
+      user._updated = new Date();
       $userData = user;
       goto("/");
     } else alert("⚠ No has añadido un método de contacto ⚠");
@@ -152,19 +130,24 @@
     <p>
       En <b>facturagratis</b>, usamos tu navegador como disco.
       <br /><br />
-      Nuestra recomendacion es que descargues tus datos trimestalmente. Siempre podras
-      volver a cargar tus datos y trabajar con ellos.
+      Nuestra recomendacion es que descargues tus datos trimestalmente. Siempre podras volver a cargar tus datos y trabajar con ellos.
     </p>
 
-    <div class="progress-bar col">
+    <!-- <div class="progress-bar col">
       <div class="bar" style="width: {storageSpace.percentage}%" />
-    </div>
+    </div> -->
 
-    {#if !storageSpace.percentage}
+    <!-- {#if !storageSpace.percentage}
       <p>Calculando...</p>
     {:else}
       <p>
         <b>{storageSpace.percentage}%</b> del espacio de tu navegador usado
+      </p>
+      {/if} -->
+
+    {#if user && user.legal_id}
+      <p>
+        Peso: <b>{storageSpace.usage}kb</b> | Ultima actualizacion: <b>{new Date($userData._updated).toDateString()}</b>
       </p>
     {/if}
 
@@ -205,26 +188,12 @@
 
         <div class="input-wrapper col xfill">
           <label for="legal_name">Nombre fiscal 👈</label>
-          <input
-            type="text"
-            id="legal_name"
-            bind:value={user.legal_name}
-            class="xfill"
-            placeholder="Ej. Factura Gratis S.L."
-            required
-          />
+          <input type="text" id="legal_name" bind:value={user.legal_name} class="xfill" placeholder="Ej. Factura Gratis S.L." required />
         </div>
 
         <div class="input-wrapper col xfill">
           <label for="legal_id">CIF/NIF 👈</label>
-          <input
-            type="text"
-            id="legal_id"
-            bind:value={user.legal_id}
-            class="xfill"
-            placeholder="Ej. B00011100"
-            required
-          />
+          <input type="text" id="legal_id" bind:value={user.legal_id} class="xfill" placeholder="Ej. B00011100" required />
         </div>
       </div>
 
@@ -235,14 +204,7 @@
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="street">Dirección fiscal 👈</label>
-            <input
-              type="text"
-              id="street"
-              bind:value={user.street}
-              class="xfill"
-              placeholder="Ej. Calle Mayor, 18"
-              required
-            />
+            <input type="text" id="street" bind:value={user.street} class="xfill" placeholder="Ej. Calle Mayor, 18" required />
           </div>
 
           <div class="input-wrapper col xhalf">
@@ -275,13 +237,7 @@
 
         <div class="input-wrapper col xfill">
           <label for="email">Correo electrónico</label>
-          <input
-            type="text"
-            id="email"
-            bind:value={user.email}
-            class="xfill"
-            placeholder="Ej. hola@facturagratis.com"
-          />
+          <input type="text" id="email" bind:value={user.email} class="xfill" placeholder="Ej. hola@facturagratis.com" />
         </div>
       </div>
 
@@ -322,22 +278,12 @@
 
         <div class="input-wrapper col xfill">
           <label for="budget_note">Nota para presupuestos</label>
-          <textarea
-            id="budget_note"
-            bind:value={user.budget_note}
-            class="xfill"
-            placeholder="Ej. Transporte no incluido"
-          />
+          <textarea id="budget_note" bind:value={user.budget_note} class="xfill" placeholder="Ej. Transporte no incluido" />
         </div>
 
         <div class="input-wrapper col xfill">
           <label for="delivery_note">Nota para albarenes</label>
-          <textarea
-            id="delivery_note"
-            bind:value={user.delivery_note}
-            class="xfill"
-            placeholder="Ej. Transporte no incluido"
-          />
+          <textarea id="delivery_note" bind:value={user.delivery_note} class="xfill" placeholder="Ej. Transporte no incluido" />
         </div>
       </div>
 
