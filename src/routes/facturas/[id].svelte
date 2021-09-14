@@ -97,12 +97,12 @@
   <meta
     name="description"
     content="Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios. No se necesita instalación."
+  clientes, proveedores y productos/servicios."
   />
   <meta
     property="og:description"
     content="Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios. No se necesita instalación."
+  clientes, proveedores y productos/servicios."
   />
 </svelte:head>
 

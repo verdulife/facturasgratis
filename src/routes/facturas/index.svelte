@@ -12,7 +12,15 @@
     const byName = bill.client.legal_name.toLowerCase();
     const byId = bill.client.legal_id.toLowerCase();
 
-    return byName.indexOf(term) !== -1 || byId.indexOf(term) !== -1;
+    if (byName.indexOf(term) !== -1 || byId.indexOf(term) !== -1) {
+      if (filterMonth === "" ? true : filterMonth + 1 === bill.date.month) {
+        if (filterYear === "" ? true : filterYear === bill.date.year) {
+          return true;
+        }
+      }
+    }
+
+    return false;
   });
 
   function sortByNumber(a, b) {
@@ -28,16 +36,21 @@
 
   const currentYear = new Date().getFullYear();
   const years = () => {
-    const lowestYear = $bills.reduce((acc, curr) => (curr.date.year < acc ? curr.date.year : acc), currentYear);
     let yearsList = [];
 
-    for (let y = lowestYear; y <= currentYear; y++) {
-      yearsList.push(y);
+    for (let y = 0; y < billsData.length; y++) {
+      if (!yearsList.includes(billsData[y].date.year)) yearsList.push(billsData[y].date.year);
     }
 
     return yearsList;
   };
   filterYear = currentYear;
+
+  function clearFilters() {
+    searchTerm = "";
+    filterMonth = "";
+    filterYear = currentYear;
+  }
 </script>
 
 <svelte:head>
@@ -48,12 +61,12 @@
   <meta
     name="description"
     content="Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios. No se necesita instalación."
+  clientes, proveedores y productos/servicios."
   />
   <meta
     property="og:description"
     content="Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios. No se necesita instalación."
+  clientes, proveedores y productos/servicios."
   />
 </svelte:head>
 
@@ -70,7 +83,7 @@
       {:else}
         <a class="new-btn btn succ semi" href="/facturas/nueva">NUEVA FACTURA</a>
 
-        <div class="row xfill">
+        <div class="filter-wrapper row xfill">
           <input type="text" class="out grow" bind:value={searchTerm} placeholder="Buscar por nombre o CIF/NIF" />
 
           <select class="out" bind:value={filterMonth}>
@@ -86,22 +99,39 @@
               <option value={year}>{year}</option>
             {/each}
           </select>
+
+          <div class="clear-btn row acenter" on:click={clearFilters}>LIMPIAR FILTROS</div>
         </div>
       {/if}
     </div>
 
     <ul class="bill-list col acenter xfill">
+      {#if filteredBills.length <= 0}
+        <p>No hay coincidencias</p>
+      {/if}
+
       {#each filteredBills as bill}
-        {#if filterMonth === "" ? true : filterMonth + 1 === bill.date.month}
-          {#if filterYear === "" ? true : filterYear === bill.date.year}
-            <a href="/facturas/{bill._id}" class="row xfill">
-              <li class="box round row jbetween xfill">
-                {bill.client.legal_name} <span>{bill.number}</span>
-              </li>
-            </a>
-          {/if}
-        {/if}
+        <li class="box round col xfill">
+          <a href="/facturas/{bill._id}" class="col xfill">
+            <div class="title row xfill">
+              <div class="col grow">
+                <h4>{bill.client.legal_name}</h4>
+                <p>{bill.client.legal_id}</p>
+              </div>
+
+              <h3>{bill.totals.total.toFixed(2)}€</h3>
+            </div>
+
+            <div class="info row jbetween xfill">
+              <p>
+                Nº de factura: <b>{bill.number}</b> | Fecha: <b>{bill.date.day}/{bill.date.month}/{bill.date.year}</b>
+              </p>
+              <p><b>{bill.items.length}</b> conceptos</p>
+            </div>
+          </a>
+        </li>
       {/each}
+      <div class="fix-bottom row xfill" />
     </ul>
   {:else}
     <div class="first col acenter xfill">
@@ -163,10 +193,26 @@
   }
 
   .list-filter {
-    select {
-      @media (max-width: $mobile) {
-        width: 50%;
+    .filter-wrapper {
+      align-items: stretch;
+
+      select {
+        @media (max-width: $mobile) {
+          width: 50%;
+        }
       }
+    }
+
+    .clear-btn {
+      cursor: pointer;
+      background: $border;
+      font-size: 12px;
+      font-weight: bold;
+      color: $base;
+      border: 1px solid $border;
+      padding: 1em 2em;
+      user-select: none;
+      -webkit-user-drag: none;
     }
   }
 
@@ -180,7 +226,36 @@
 
   .bill-list {
     li {
+      padding: 0;
       margin-bottom: 5px;
+      transition: 200ms;
+
+      &:nth-of-type(even) {
+        background: lighten($border, 5%);
+      }
+
+      &:hover {
+        background: $border;
+      }
+
+      a {
+        padding: 1em;
+
+        .title {
+          margin-bottom: 20px;
+        }
+
+        .info {
+          border-top: 1px solid $border;
+          padding-top: 10px;
+        }
+      }
+    }
+
+    .fix-bottom {
+      height: 40px;
+      pointer-events: none;
+      user-select: none;
     }
   }
 </style>
