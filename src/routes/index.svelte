@@ -3,14 +3,27 @@
 </script>
 
 <svelte:head>
-  <title>Facturas gratis | Inicio</title>
+  <title>Herramientas online | Facturas gratis</title>
+  <meta property="og:title" content="Herramientas online | Facturas gratis" />
+  <meta property="og:site_name" content="Facturas gratis" />
+
+  <meta
+    name="description"
+    content="Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
+  clientes, proveedores y productos/servicios. No se necesita instalación."
+  />
+  <meta
+    property="og:description"
+    content="Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
+  clientes, proveedores y productos/servicios. No se necesita instalación."
+  />
 </svelte:head>
 
 <div class="scroll">
   <section class="header col fcenter xfill">
     <h1>Herramientas online para gestionar tu negocio</h1>
     <p>
-      Herramientas online y completamente gratuitas para generar, rectificar y listar facturas, presupuestos,
+      Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos,
       albaranes, clientes, proveedores y productos/servicios. No se necesita instalación.
     </p>
   </section>

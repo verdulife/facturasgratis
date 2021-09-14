@@ -78,6 +78,23 @@
   }
 </script>
 
+<svelte:head>
+  <title>Crear nueva factura | Facturas gratis</title>
+  <meta property="og:title" content="Crear nueva factura | Facturas gratis" />
+  <meta property="og:site_name" content="Facturas gratis" />
+
+  <meta
+    name="description"
+    content="Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
+  clientes, proveedores y productos/servicios. No se necesita instalación."
+  />
+  <meta
+    property="og:description"
+    content="Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
+  clientes, proveedores y productos/servicios. No se necesita instalación."
+  />
+</svelte:head>
+
 <div class="scroll">
   <section class="header col fcenter xfill">
     <h1>Nueva factura</h1>
