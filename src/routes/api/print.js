@@ -1,15 +1,15 @@
-import PDFDocument from "pdfkit";
-import SVGtoPDF from "svg-to-pdfkit";
+/* import PDFDocument from "pdfkit";
+import SVGtoPDF from "svg-to-pdfkit"; */
 /* import { createWriteStream } from 'fs'
 import { bill } from "$lib/bill.svg"; */
 
-const mm = (size) => size * 2.83465;
+/* const mm = (size) => size * 2.83465;
 
 PDFDocument.prototype.svg = function (svg, x, y, options) {
   return SVGtoPDF(this, svg, x, y, options), this;
 };
-
-export function post(req, res) {
+ */
+export function post(req) {
   const data = req.body;
 
   /* const doc = new PDFDocument({
@@ -61,7 +61,6 @@ export function post(req, res) {
     status: 200,
     headers: {
       "Content-Type": "application/json",
-      "Content-disposition": "attachment; filename=file.pdf"
     },
     body: data,
   }
