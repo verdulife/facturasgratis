@@ -1,5 +1,6 @@
-/* import PDFDocument from "pdfkit";
+import PDFDocument from "pdfkit";
 import SVGtoPDF from "svg-to-pdfkit";
+import { createWriteStream } from 'fs'
 import { bill } from "$lib/bill.svg";
 
 const mm = (size) => size * 2.83465;
@@ -8,17 +9,10 @@ PDFDocument.prototype.svg = function (svg, x, y, options) {
   return SVGtoPDF(this, svg, x, y, options), this;
 };
 
-export function post(req) {
-  return {
-    body: req.body
-  };
+export function post(req, res) {
   const data = req.body;
-  
-  res.statusCode = 200;
-  res.setHeader("Content-type", "application/pdf");
-  res.setHeader("Content-disposition", "attachment; filename=file.pdf");
 
-  const doc = new PDFDocument({
+  /* const doc = new PDFDocument({
     size: [mm(210), mm(297)],
     margin: 0,
     info: {
@@ -27,7 +21,6 @@ export function post(req) {
   });
 
   doc.registerFont('Operator', '../../fonts/OperatorMonoLig-Medium.woff2', 'OperatorMonoLig-Medium');
-  doc.pipe(res);
 
   doc.svg(bill, 0, 0, {
     width: mm(210),
@@ -44,9 +37,8 @@ export function post(req) {
   doc.text(data.client.address, mm(42), mm(74));
   doc.text(data.client.contact, mm(163.5), mm(74));
 
-  let base = 0;
-  for (let l = 0; l < data.products_list.length; l++) {
-    const line = data.products_list[l];
+  for (let l = 0; l < data.items.length; l++) {
+    const line = data.items[l];
     const jump = mm(5.5) * l;
     const with_dto = (line.price * (line.dto > 0 ? line.dto : 100)) / 100;
     const line_total = (line.price - (line.dto > 0 ? with_dto : 0)) * line.amount;
@@ -56,21 +48,21 @@ export function post(req) {
     doc.text(`${line.dto}%`, mm(139), mm(97) + jump);
     doc.text(`${line.price.toFixed(2)}€`, mm(150), mm(97) + jump);
     doc.text(`${line_total.toFixed(2)}€`, mm(168), mm(97) + jump);
-
-    base += line_total;
   }
 
-  const ret = 15;
-  const iva = 21;
+  doc.text(`${data.totals.base.toFixed(2)}€`, mm(63.5), mm(238));
+  if (data.totals.ret > 0) doc.text(`-${data.totals.ret.toFixed(2)}€`, mm(96), mm(238));
+  doc.text(`${data.totals.iva.toFixed(2)}€`, mm(128), mm(238));
+  doc.fillColor("#fff").text(`${data.totals.total.toFixed(2)}€`, mm(154), mm(238));
 
-  const with_ret = base * ret / 100;
-  const with_iva = base * iva / 100;
-  const total = base - with_ret + with_iva;
+  doc.end(); */
 
-  doc.text(`${base.toFixed(2)}€`, mm(63.5), mm(238));
-  doc.text(`-${with_ret.toFixed(2)}€`, mm(96), mm(238));
-  doc.text(`${with_iva.toFixed(2)}€`, mm(128), mm(238));
-  doc.fillColor("#fff").text(`${total.toFixed(2)}€`, mm(154), mm(238));
-
-  doc.end();
-} */
+  return {
+    status: 200,
+    headers: {
+      "Content-Type": "application/json",
+      "Content-disposition": "attachment; filename=file.pdf"
+    },
+    body: data,
+  }
+}

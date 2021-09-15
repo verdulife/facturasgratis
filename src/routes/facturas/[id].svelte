@@ -7,7 +7,20 @@
   let lineData = {};
 
   async function downloadBill() {
-    console.log("Downloading bill...");
+    try {
+      const req = await fetch("../api/print", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(billData),
+      });
+
+      console.log(await req.json());
+    } catch (error) {
+      console.log(error);
+    }
+
     /* try {
       const req = await fetch("../api/print", {
         method: "POST",
