@@ -17,12 +17,13 @@
       });
 
       if (!req.ok) throw await req.text();
-      const res = await req.blob();
+      console.log(await req.json());
+      /* const res = await req.blob();
       const file = window.URL.createObjectURL(res);
       const link = document.createElement("a");
       link.href = file;
       link.download = `Factura_${billData.number}_${billData.client.legal_id}.pdf`;
-      link.click();
+      link.click(); */
     } catch (error) {
       console.log(error);
     }
@@ -133,51 +134,27 @@
       </p>
 
       <div class="io-wrapper row jcenter xfill">
-        <button class="succ semi" on:click={downloadBill}
-          >DESCARGAR FACTURA</button
-        >
-        <button class="link semi" on:click={generateDelivery}
-          >GENERAR ALBARÁN</button
-        >
+        <button class="succ semi" on:click={downloadBill}>DESCARGAR FACTURA</button>
+        <button class="link semi" on:click={generateDelivery}>GENERAR ALBARÁN</button>
         <button class="err semi" on:click={deleteBill}>ELIMINAR FACTURA</button>
       </div>
     </section>
 
-    <form
-      class="bill-data col acenter xfill"
-      on:submit|preventDefault={pushBill}
-    >
+    <form class="bill-data col acenter xfill" on:submit|preventDefault={pushBill}>
       <div class="box round col xfill">
         <h2>Datos de la factura</h2>
-        <p class="notice">
-          La numeración y fecha de la factura se rellenan automatiamente, pero
-          puedes modificarlas.
-        </p>
+        <p class="notice">La numeración y fecha de la factura se rellenan automatiamente, pero puedes modificarlas.</p>
 
         <div class="row xfill">
           <div class="input-wrapper col grow">
             <label for="legal_name">Número</label>
-            <input
-              type="number"
-              id="legal_name"
-              class="xfill"
-              bind:value={billData.number}
-              required
-            />
+            <input type="number" id="legal_name" class="xfill" bind:value={billData.number} required />
           </div>
 
           <div class="date-row row xhalf">
             <div class="input-wrapper date col">
               <label for="day">Día</label>
-              <input
-                type="number"
-                id="day"
-                min="1"
-                max="31"
-                class="xfill"
-                bind:value={billData.date.day}
-                required
-              />
+              <input type="number" id="day" min="1" max="31" class="xfill" bind:value={billData.date.day} required />
             </div>
             <div class="input-wrapper date col">
               <label for="month">Mes</label>
@@ -193,13 +170,7 @@
             </div>
             <div class="input-wrapper date col">
               <label for="year">Año</label>
-              <input
-                type="number"
-                id="year"
-                class="xfill"
-                bind:value={billData.date.year}
-                required
-              />
+              <input type="number" id="year" class="xfill" bind:value={billData.date.year} required />
             </div>
           </div>
         </div>
@@ -207,129 +178,61 @@
 
       <div class="box round col xfill">
         <h2>Datos del cliente</h2>
-        <p class="notice">
-          Cada vez que añadas un cliente nuevo, este se guardara automatiamente.
-        </p>
+        <p class="notice">Cada vez que añadas un cliente nuevo, este se guardara automatiamente.</p>
 
         <div class="input-wrapper col xfill">
           <label for="legal_name">NOMBRE FISCAL</label>
-          <input
-            type="text"
-            id="leagal_name"
-            bind:value={billData.client.legal_name}
-            class="xfill"
-            required
-          />
+          <input type="text" id="leagal_name" bind:value={billData.client.legal_name} class="xfill" required />
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="legal_id">CIF/NIF</label>
-            <input
-              type="text"
-              id="leagal_id"
-              bind:value={billData.client.legal_id}
-              class="xfill"
-              required
-            />
+            <input type="text" id="leagal_id" bind:value={billData.client.legal_id} class="xfill" required />
           </div>
 
           <div class="input-wrapper col xhalf">
             <label for="contact">Conacto</label>
-            <input
-              type="text"
-              id="contact"
-              bind:value={billData.client.contact}
-              class="xfill"
-              required
-            />
+            <input type="text" id="contact" bind:value={billData.client.contact} class="xfill" required />
           </div>
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="address">DIRECCION FISCAL</label>
-            <input
-              type="text"
-              id="address"
-              bind:value={billData.client.address}
-              class="xfill"
-              required
-            />
+            <input type="text" id="address" bind:value={billData.client.address} class="xfill" required />
           </div>
 
           <div class="col xhalf">
             <label for="cp">Código postal</label>
-            <input
-              type="text"
-              id="cp"
-              bind:value={billData.client.cp}
-              class="xfill"
-              required
-            />
+            <input type="text" id="cp" bind:value={billData.client.cp} class="xfill" required />
           </div>
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="city">POBLACIÓN</label>
-            <input
-              type="text"
-              id="city"
-              bind:value={billData.client.city}
-              class="xfill"
-              required
-            />
+            <input type="text" id="city" bind:value={billData.client.city} class="xfill" required />
           </div>
 
           <div class="input-wrapper col xhalf">
             <label for="country">País</label>
-            <input
-              type="text"
-              id="country"
-              bind:value={billData.client.country}
-              class="xfill"
-              required
-            />
+            <input type="text" id="country" bind:value={billData.client.country} class="xfill" required />
           </div>
         </div>
       </div>
 
       <div class="box round col xfill">
         <h2>Conceptos</h2>
-        <p class="notice">
-          Cada vez que añadas un producto/servicio nuevo, este se guardara
-          automatiamente.
-        </p>
+        <p class="notice">Cada vez que añadas un producto/servicio nuevo, este se guardara automatiamente.</p>
 
         {#if billData.items.length > 0}
           <ul class="bill-items col acenter xfill">
             {#each billData.items as item, i}
               <li class="line row xfill">
-                <input
-                  type="number"
-                  id="amount"
-                  bind:value={item.amount}
-                  min="1"
-                  class="out"
-                  placeholder="CANT"
-                />
-                <input
-                  type="text"
-                  id="label"
-                  bind:value={item.label}
-                  class="out grow"
-                  placeholder="CONCEPTO"
-                />
-                <input
-                  type="number"
-                  id="dto"
-                  bind:value={item.dto}
-                  min="0"
-                  max="100"
-                  class="out"
-                  placeholder="DTO %"
-                />
+                <input type="number" id="amount" bind:value={item.amount} min="1" class="out" placeholder="CANT" />
+                <input type="text" id="label" bind:value={item.label} class="out grow" placeholder="CONCEPTO" />
+                <input type="number" id="dto" bind:value={item.dto} min="0" max="100" class="out" placeholder="DTO %" />
                 <input
                   type="number"
                   id="price"
@@ -338,12 +241,7 @@
                   class="out"
                   placeholder="UNIDAD €"
                 />
-                <input
-                  type="text"
-                  value="x"
-                  class="out"
-                  on:click={() => removeLine(i)}
-                />
+                <input type="text" value="x" class="out" on:click={() => removeLine(i)} />
               </li>
             {/each}
           </ul>
@@ -378,43 +276,13 @@
         {/if}
 
         <div class="new-line row xfill">
-          <input
-            type="number"
-            id="amount"
-            bind:value={lineData.amount}
-            min="1"
-            class="out"
-            placeholder="CANT"
-          />
-          <input
-            type="text"
-            id="label"
-            bind:value={lineData.label}
-            class="out grow"
-            placeholder="CONCEPTO"
-          />
-          <input
-            type="number"
-            id="dto"
-            bind:value={lineData.dto}
-            min="0"
-            max="100"
-            class="out"
-            placeholder="DTO %"
-          />
-          <input
-            type="number"
-            id="price"
-            bind:value={lineData.price}
-            step="0.01"
-            class="out"
-            placeholder="UNIDAD €"
-          />
+          <input type="number" id="amount" bind:value={lineData.amount} min="1" class="out" placeholder="CANT" />
+          <input type="text" id="label" bind:value={lineData.label} class="out grow" placeholder="CONCEPTO" />
+          <input type="number" id="dto" bind:value={lineData.dto} min="0" max="100" class="out" placeholder="DTO %" />
+          <input type="number" id="price" bind:value={lineData.price} step="0.01" class="out" placeholder="UNIDAD €" />
         </div>
 
-        <div class="line-btn pri xfill" on:click={pushLine}>
-          AÑADIR PRODUCTO/SERVICIO
-        </div>
+        <div class="line-btn pri xfill" on:click={pushLine}>AÑADIR PRODUCTO/SERVICIO</div>
       </div>
 
       <div class="row jcenter xfill">

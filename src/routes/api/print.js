@@ -8,8 +8,11 @@ PDFDocument.prototype.svg = function (svg, x, y, options) {
   return SVGtoPDF(this, svg, x, y, options), this;
 };
 
-export function post(req, res, next) {
-  const data = req.body;
+export function post(req) {
+  return {
+    body: req.body
+  };
+  /* const data = req.body;
   
   res.statusCode = 200;
   res.setHeader("Content-type", "application/pdf");
@@ -69,5 +72,5 @@ export function post(req, res, next) {
   doc.text(`${with_iva.toFixed(2)}€`, mm(128), mm(238));
   doc.fillColor("#fff").text(`${total.toFixed(2)}€`, mm(154), mm(238));
 
-  doc.end();
+  doc.end(); */
 }
