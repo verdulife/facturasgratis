@@ -1,7 +1,7 @@
 import PDFDocument from "pdfkit";
 import SVGtoPDF from "svg-to-pdfkit";
-import { createWriteStream } from 'fs'
-import { bill } from "$lib/bill.svg";
+/* import { createWriteStream } from 'fs'
+import { bill } from "$lib/bill.svg"; */
 
 const mm = (size) => size * 2.83465;
 
