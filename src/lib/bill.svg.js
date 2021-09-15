@@ -1,4 +1,4 @@
-export const bill = html`
+export const bill = /* html */`
   <svg
     id="Capa_1"
     data-name="Capa 1"
