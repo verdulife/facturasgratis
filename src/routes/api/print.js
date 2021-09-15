@@ -1,4 +1,4 @@
-import PDFDocument from "pdfkit";
+/* import PDFDocument from "pdfkit";
 import SVGtoPDF from "svg-to-pdfkit";
 import { bill } from "$lib/bill.svg";
 
@@ -12,7 +12,7 @@ export function post(req) {
   return {
     body: req.body
   };
-  /* const data = req.body;
+  const data = req.body;
   
   res.statusCode = 200;
   res.setHeader("Content-type", "application/pdf");
@@ -72,5 +72,5 @@ export function post(req) {
   doc.text(`${with_iva.toFixed(2)}€`, mm(128), mm(238));
   doc.fillColor("#fff").text(`${total.toFixed(2)}€`, mm(154), mm(238));
 
-  doc.end(); */
-}
+  doc.end();
+} */

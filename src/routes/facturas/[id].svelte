@@ -7,7 +7,8 @@
   let lineData = {};
 
   async function downloadBill() {
-    try {
+    console.log("Downloading bill...");
+    /* try {
       const req = await fetch("../api/print", {
         method: "POST",
         headers: {
@@ -18,15 +19,15 @@
 
       if (!req.ok) throw await req.text();
       console.log(await req.json());
-      /* const res = await req.blob();
+      const res = await req.blob();
       const file = window.URL.createObjectURL(res);
       const link = document.createElement("a");
       link.href = file;
       link.download = `Factura_${billData.number}_${billData.client.legal_id}.pdf`;
-      link.click(); */
+      link.click();
     } catch (error) {
       console.log(error);
-    }
+    } */
   }
 
   function generateDelivery() {
