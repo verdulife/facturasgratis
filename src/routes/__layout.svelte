@@ -1,7 +1,7 @@
 <script>
   import Nav from "$lib/Nav.svelte";
-  import "../fonts/circular.css";
-  import "../fonts/operator.css";
+  import "../../static/fonts/circular.css";
+  import "../../static/fonts/operator.css";
 </script>
 
 <main>

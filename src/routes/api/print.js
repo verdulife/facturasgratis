@@ -1,41 +1,36 @@
-/* import PDFDocument from "pdfkit";
+import PDFDocument from "pdfkit";
 import SVGtoPDF from "svg-to-pdfkit";
-import blobStream from "blob-stream";
-import { bill } from "$lib/bill.svg";
+import { readFileSync } from "fs";
+import { resolve } from "path";
 
 const mm = (size) => size * 2.83465;
+const type = resolve(process.cwd(), "static", "fonts", "OperatorMonoLig-Medium.ttf");
+const bill = readFileSync(resolve(process.cwd(), "static", "bill_blank.svg"), { encoding: "utf-8" });
 
 PDFDocument.prototype.svg = function (svg, x, y, options) {
   return SVGtoPDF(this, svg, x, y, options), this;
 };
 
-
-
-export function pdf(data) {
-  let pdf;
+export function post(req) {
+  const data = JSON.parse(req.body);
 
   const doc = new PDFDocument({
     size: [mm(210), mm(297)],
     margin: 0,
     info: {
-      Title: `Factura_${numerationFormat(data.number)}_${data.client.legal_id}`,
+      Title: `Factura_${data.number}_${data.client.legal_id}`,
     },
   });
-
-  const stream = doc.pipe(blobStream());
-
-  const typeReq = await fetch("../fonts/OperatorMonoLig-Medium.woff2")
-  doc.registerFont('Operator', '../fonts/OperatorMonoLig-Medium.woff2');
 
   doc.svg(bill, 0, 0, {
     width: mm(210),
     height: mm(297),
   });
 
-  doc.font("Operator").fontSize(8);
+  doc.font(type).fontSize(8);
 
   doc.text(data.number, mm(168), mm(31));
-  doc.text(date, mm(168), mm(36));
+  doc.text(`${data.date.day}/${data.date.month}/${data.date.year}`, mm(168), mm(36));
 
   doc.text(data.client.legal_name, mm(34.5), mm(66.7));
   doc.text(data.client.legal_id, mm(163.5), mm(66.7));
@@ -62,9 +57,20 @@ export function pdf(data) {
 
   doc.end();
 
-  stream.on('finish', function () {
-    pdf = stream.toBlobURL('application/pdf');
+  let buffers = [];
+  doc.on("data", buffers.push.bind(buffers));
+
+  let pdfdata = [];
+  const pdf = doc.on("end", function () {
+    datapdf = Buffer.concat(buffers);
   });
 
-  return pdf;
-} */
+  return {
+    status: "200",
+    headers: {
+      "Content-Type": "application/json",
+      "Content-disposition": "attachment; filename=output.pdf",
+    },
+    body: datapdf,
+  };
+}

@@ -1,15 +1,29 @@
 <script>
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
-  /* import { pdf } from "$lib/print"; */
   import { bills, userData } from "../../stores";
 
   let billData = $bills.filter((bill) => bill._id === $page.params.id)[0];
   let lineData = {};
 
   async function downloadBill() {
-    /* const blob = pdf(billData);
-    console.log(blob); */
+    try {
+      const req = await fetch("/api/print", {
+        method: "POST",
+        "Content-Type": "application/json",
+        body: JSON.stringify(billData),
+      });
+
+      const res = await req.blob();
+      const file = window.URL.createObjectURL(res);
+      const link = document.createElement("a");
+
+      link.href = file;
+      link.download = `Factura_${billData.number}_${billData.client.legal_id}.pdf`;
+      link.click();
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   function generateDelivery() {
@@ -17,9 +31,7 @@
   }
 
   function deleteBill() {
-    const check = confirm(
-      "La numeracion de las otras facturas no se modificara. Recuerda usar la numeracion de esta factura en otra.\n\n¿Borrar definitivamente?"
-    );
+    const check = confirm("La numeracion de las otras facturas no se modificara. Recuerda usar la numeracion de esta factura en otra.\n\n¿Borrar definitivamente?");
 
     if (check) {
       $bills.splice($bills.indexOf(billData), 1);
@@ -141,15 +153,7 @@
             </div>
             <div class="input-wrapper date col">
               <label for="month">Mes</label>
-              <input
-                type="number"
-                id="month"
-                min="1"
-                max="12"
-                class="xfill"
-                bind:value={billData.date.month}
-                required
-              />
+              <input type="number" id="month" min="1" max="12" class="xfill" bind:value={billData.date.month} required />
             </div>
             <div class="input-wrapper date col">
               <label for="year">Año</label>
@@ -216,14 +220,7 @@
                 <input type="number" id="amount" bind:value={item.amount} min="1" class="out" placeholder="CANT" />
                 <input type="text" id="label" bind:value={item.label} class="out grow" placeholder="CONCEPTO" />
                 <input type="number" id="dto" bind:value={item.dto} min="0" max="100" class="out" placeholder="DTO %" />
-                <input
-                  type="number"
-                  id="price"
-                  bind:value={item.price}
-                  step="0.01"
-                  class="out"
-                  placeholder="UNIDAD €"
-                />
+                <input type="number" id="price" bind:value={item.price} step="0.01" class="out" placeholder="UNIDAD €" />
                 <input type="text" value="x" class="out" on:click={() => removeLine(i)} />
               </li>
             {/each}
