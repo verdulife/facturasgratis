@@ -41,8 +41,8 @@ function dataUriToBuffer(uri) {
   const meta = uri.substring(5, firstComma).split(";");
   let charset = "";
   let base64 = false;
-  const type2 = meta[0] || "text/plain";
-  let typeFull = type2;
+  const type = meta[0] || "text/plain";
+  let typeFull = type;
   for (let i = 1; i < meta.length; i++) {
     if (meta[i] === "base64") {
       base64 = true;
@@ -60,7 +60,7 @@ function dataUriToBuffer(uri) {
   const encoding = base64 ? "base64" : "ascii";
   const data = unescape(uri.substring(firstComma + 1));
   const buffer = Buffer.from(data, encoding);
-  buffer.type = type2;
+  buffer.type = type;
   buffer.typeFull = typeFull;
   buffer.charset = charset;
   return buffer;
@@ -392,9 +392,9 @@ var init_install_fetch = __esm({
           size += buffer.length || buffer.size || 0;
           return buffer;
         });
-        const type2 = options2.type === void 0 ? "" : String(options2.type).toLowerCase();
+        const type = options2.type === void 0 ? "" : String(options2.type).toLowerCase();
         wm.set(this, {
-          type: /[^\u0020-\u007E]/.test(type2) ? "" : type2,
+          type: /[^\u0020-\u007E]/.test(type) ? "" : type,
           size,
           parts
         });
@@ -420,7 +420,7 @@ var init_install_fetch = __esm({
       stream() {
         return Readable.from(read(wm.get(this).parts));
       }
-      slice(start = 0, end = this.size, type2 = "") {
+      slice(start = 0, end = this.size, type = "") {
         const { size } = this;
         let relativeStart = start < 0 ? Math.max(size + start, 0) : Math.min(start, size);
         let relativeEnd = end < 0 ? Math.max(size + end, 0) : Math.min(end, size);
@@ -443,7 +443,7 @@ var init_install_fetch = __esm({
             }
           }
         }
-        const blob = new Blob([], { type: String(type2).toLowerCase() });
+        const blob = new Blob([], { type: String(type).toLowerCase() });
         Object.assign(wm.get(blob), { size: span, parts: blobParts });
         return blob;
       }
@@ -462,10 +462,10 @@ var init_install_fetch = __esm({
     fetchBlob = Blob;
     Blob$1 = fetchBlob;
     FetchBaseError = class extends Error {
-      constructor(message, type2) {
+      constructor(message, type) {
         super(message);
         Error.captureStackTrace(this, this.constructor);
-        this.type = type2;
+        this.type = type;
       }
       get name() {
         return this.constructor.name;
@@ -475,8 +475,8 @@ var init_install_fetch = __esm({
       }
     };
     FetchError = class extends FetchBaseError {
-      constructor(message, type2, systemError) {
-        super(message, type2);
+      constructor(message, type, systemError) {
+        super(message, type);
         if (systemError) {
           this.code = this.errno = systemError.code;
           this.erroredSysCall = systemError.syscall;
@@ -1008,8 +1008,8 @@ var init_install_fetch = __esm({
       return requestOptions;
     };
     AbortError = class extends FetchBaseError {
-      constructor(message, type2 = "aborted") {
-        super(message, type2);
+      constructor(message, type = "aborted") {
+        super(message, type);
       }
     };
     supportedSchemas = new Set(["data:", "http:", "https:"]);
@@ -5677,8 +5677,8 @@ var require_Number = __commonJS({
       };
       DecodeStream = require_DecodeStream();
       NumberT = function() {
-        function NumberT2(type2, endian) {
-          this.type = type2;
+        function NumberT2(type, endian) {
+          this.type = type;
           this.endian = endian != null ? endian : "BE";
           this.fn = this.type;
           if (this.type[this.type.length - 1] !== "8") {
@@ -5793,8 +5793,8 @@ var require_Array = __commonJS({
       NumberT = require_Number().Number;
       utils = require_utils();
       ArrayT = function() {
-        function ArrayT2(type2, length, lengthType) {
-          this.type = type2;
+        function ArrayT2(type, length, lengthType) {
+          this.type = type;
           this.length = length;
           this.lengthType = lengthType != null ? lengthType : "count";
         }
@@ -5943,8 +5943,8 @@ var require_LazyArray = __commonJS({
         return LazyArrayT2;
       }(ArrayT);
       LazyArray = function() {
-        function LazyArray2(type2, length, stream, ctx) {
-          this.type = type2;
+        function LazyArray2(type, length, stream, ctx) {
+          this.type = type;
           this.length = length;
           this.stream = stream;
           this.ctx = ctx;
@@ -5989,8 +5989,8 @@ var require_Bitfield = __commonJS({
     (function() {
       var Bitfield;
       Bitfield = function() {
-        function Bitfield2(type2, flags) {
-          this.type = type2;
+        function Bitfield2(type, flags) {
+          this.type = type;
           this.flags = flags != null ? flags : [];
         }
         Bitfield2.prototype.decode = function(stream) {
@@ -6037,8 +6037,8 @@ var require_Boolean = __commonJS({
     (function() {
       var BooleanT;
       BooleanT = function() {
-        function BooleanT2(type2) {
-          this.type = type2;
+        function BooleanT2(type) {
+          this.type = type;
         }
         BooleanT2.prototype.decode = function(stream, parent) {
           return !!this.type.decode(stream, parent);
@@ -6099,8 +6099,8 @@ var require_Enum = __commonJS({
     (function() {
       var Enum;
       Enum = function() {
-        function Enum2(type2, options2) {
-          this.type = type2;
+        function Enum2(type, options2) {
+          this.type = type;
           this.options = options2 != null ? options2 : [];
         }
         Enum2.prototype.decode = function(stream) {
@@ -6133,8 +6133,8 @@ var require_Optional = __commonJS({
     (function() {
       var Optional;
       Optional = function() {
-        function Optional2(type2, condition) {
-          this.type = type2;
+        function Optional2(type, condition) {
+          this.type = type;
           this.condition = condition != null ? condition : true;
         }
         Optional2.prototype.decode = function(stream, parent) {
@@ -6184,8 +6184,8 @@ var require_Reserved = __commonJS({
       var Reserved, utils;
       utils = require_utils();
       Reserved = function() {
-        function Reserved2(type2, count) {
-          this.type = type2;
+        function Reserved2(type, count) {
+          this.type = type;
           this.count = count != null ? count : 1;
         }
         Reserved2.prototype.decode = function(stream, parent) {
@@ -6329,13 +6329,13 @@ var require_Struct = __commonJS({
           return res;
         };
         Struct2.prototype._parseFields = function(stream, res, fields) {
-          var key, type2, val;
+          var key, type, val;
           for (key in fields) {
-            type2 = fields[key];
-            if (typeof type2 === "function") {
-              val = type2.call(res, res);
+            type = fields[key];
+            if (typeof type === "function") {
+              val = type.call(res, res);
             } else {
-              val = type2.decode(stream, res);
+              val = type.decode(stream, res);
             }
             if (val !== void 0) {
               if (val instanceof utils.PropertyDescriptor) {
@@ -6348,7 +6348,7 @@ var require_Struct = __commonJS({
           }
         };
         Struct2.prototype.size = function(val, parent, includePointers) {
-          var ctx, key, size, type2, _ref;
+          var ctx, key, size, type, _ref;
           if (val == null) {
             val = {};
           }
@@ -6363,9 +6363,9 @@ var require_Struct = __commonJS({
           size = 0;
           _ref = this.fields;
           for (key in _ref) {
-            type2 = _ref[key];
-            if (type2.size != null) {
-              size += type2.size(val[key], ctx);
+            type = _ref[key];
+            if (type.size != null) {
+              size += type.size(val[key], ctx);
             }
           }
           if (includePointers) {
@@ -6374,7 +6374,7 @@ var require_Struct = __commonJS({
           return size;
         };
         Struct2.prototype.encode = function(stream, val, parent) {
-          var ctx, i, key, ptr, type2, _ref, _ref1;
+          var ctx, i, key, ptr, type, _ref, _ref1;
           if ((_ref = this.preEncode) != null) {
             _ref.call(val, stream);
           }
@@ -6388,9 +6388,9 @@ var require_Struct = __commonJS({
           ctx.pointerOffset = stream.pos + this.size(val, ctx, false);
           _ref1 = this.fields;
           for (key in _ref1) {
-            type2 = _ref1[key];
-            if (type2.encode != null) {
-              type2.encode(stream, val[key], ctx);
+            type = _ref1[key];
+            if (type.encode != null) {
+              type.encode(stream, val[key], ctx);
             }
           }
           i = 0;
@@ -6427,8 +6427,8 @@ var require_VersionedStruct = __commonJS({
       Struct = require_Struct();
       VersionedStruct = function(_super) {
         __extends(VersionedStruct2, _super);
-        function VersionedStruct2(type2, versions) {
-          this.type = type2;
+        function VersionedStruct2(type, versions) {
+          this.type = type;
           this.versions = versions != null ? versions : {};
           if (typeof this.type === "string") {
             this.versionGetter = new Function("parent", "return parent." + this.type);
@@ -6463,7 +6463,7 @@ var require_VersionedStruct = __commonJS({
           return res;
         };
         VersionedStruct2.prototype.size = function(val, parent, includePointers) {
-          var ctx, fields, key, size, type2, _ref;
+          var ctx, fields, key, size, type, _ref;
           if (includePointers == null) {
             includePointers = true;
           }
@@ -6482,9 +6482,9 @@ var require_VersionedStruct = __commonJS({
           if (this.versions.header) {
             _ref = this.versions.header;
             for (key in _ref) {
-              type2 = _ref[key];
-              if (type2.size != null) {
-                size += type2.size(val[key], ctx);
+              type = _ref[key];
+              if (type.size != null) {
+                size += type.size(val[key], ctx);
               }
             }
           }
@@ -6493,9 +6493,9 @@ var require_VersionedStruct = __commonJS({
             throw new Error("Unknown version " + val.version);
           }
           for (key in fields) {
-            type2 = fields[key];
-            if (type2.size != null) {
-              size += type2.size(val[key], ctx);
+            type = fields[key];
+            if (type.size != null) {
+              size += type.size(val[key], ctx);
             }
           }
           if (includePointers) {
@@ -6504,7 +6504,7 @@ var require_VersionedStruct = __commonJS({
           return size;
         };
         VersionedStruct2.prototype.encode = function(stream, val, parent) {
-          var ctx, fields, i, key, ptr, type2, _ref, _ref1;
+          var ctx, fields, i, key, ptr, type, _ref, _ref1;
           if ((_ref = this.preEncode) != null) {
             _ref.call(val, stream);
           }
@@ -6522,17 +6522,17 @@ var require_VersionedStruct = __commonJS({
           if (this.versions.header) {
             _ref1 = this.versions.header;
             for (key in _ref1) {
-              type2 = _ref1[key];
-              if (type2.encode != null) {
-                type2.encode(stream, val[key], ctx);
+              type = _ref1[key];
+              if (type.encode != null) {
+                type.encode(stream, val[key], ctx);
               }
             }
           }
           fields = this.versions[val.version];
           for (key in fields) {
-            type2 = fields[key];
-            if (type2.encode != null) {
-              type2.encode(stream, val[key], ctx);
+            type = fields[key];
+            if (type.encode != null) {
+              type.encode(stream, val[key], ctx);
             }
           }
           i = 0;
@@ -6556,10 +6556,10 @@ var require_Pointer = __commonJS({
       var Pointer, VoidPointer, utils;
       utils = require_utils();
       Pointer = function() {
-        function Pointer2(offsetType, type2, options2) {
+        function Pointer2(offsetType, type, options2) {
           var _base, _base1, _base2, _base3;
           this.offsetType = offsetType;
-          this.type = type2;
+          this.type = type;
           this.options = options2 != null ? options2 : {};
           if (this.type === "void") {
             this.type = null;
@@ -6632,7 +6632,7 @@ var require_Pointer = __commonJS({
           }
         };
         Pointer2.prototype.size = function(val, ctx) {
-          var parent, type2;
+          var parent, type;
           parent = ctx;
           switch (this.options.type) {
             case "local":
@@ -6646,21 +6646,21 @@ var require_Pointer = __commonJS({
                 ctx = ctx.parent;
               }
           }
-          type2 = this.type;
-          if (type2 == null) {
+          type = this.type;
+          if (type == null) {
             if (!(val instanceof VoidPointer)) {
               throw new Error("Must be a VoidPointer");
             }
-            type2 = val.type;
+            type = val.type;
             val = val.value;
           }
           if (val && ctx) {
-            ctx.pointerSize += type2.size(val, parent);
+            ctx.pointerSize += type.size(val, parent);
           }
           return this.offsetType.size();
         };
         Pointer2.prototype.encode = function(stream, val, ctx) {
-          var parent, relative, type2;
+          var parent, relative, type;
           parent = ctx;
           if (val == null) {
             this.offsetType.encode(stream, this.options.nullValue);
@@ -6687,26 +6687,26 @@ var require_Pointer = __commonJS({
             relative += this.relativeToGetter(parent.val);
           }
           this.offsetType.encode(stream, ctx.pointerOffset - relative);
-          type2 = this.type;
-          if (type2 == null) {
+          type = this.type;
+          if (type == null) {
             if (!(val instanceof VoidPointer)) {
               throw new Error("Must be a VoidPointer");
             }
-            type2 = val.type;
+            type = val.type;
             val = val.value;
           }
           ctx.pointers.push({
-            type: type2,
+            type,
             val,
             parent
           });
-          return ctx.pointerOffset += type2.size(val, parent);
+          return ctx.pointerOffset += type.size(val, parent);
         };
         return Pointer2;
       }();
       VoidPointer = function() {
-        function VoidPointer2(type2, value) {
-          this.type = type2;
+        function VoidPointer2(type, value) {
+          this.type = type;
           this.value = value;
         }
         return VoidPointer2;
@@ -7062,13 +7062,13 @@ var require_export = __commonJS({
     var hide = require_hide();
     var has = require_has();
     var PROTOTYPE = "prototype";
-    var $export = function(type2, name, source) {
-      var IS_FORCED = type2 & $export.F;
-      var IS_GLOBAL = type2 & $export.G;
-      var IS_STATIC = type2 & $export.S;
-      var IS_PROTO = type2 & $export.P;
-      var IS_BIND = type2 & $export.B;
-      var IS_WRAP = type2 & $export.W;
+    var $export = function(type, name, source) {
+      var IS_FORCED = type & $export.F;
+      var IS_GLOBAL = type & $export.G;
+      var IS_STATIC = type & $export.S;
+      var IS_PROTO = type & $export.P;
+      var IS_BIND = type & $export.B;
+      var IS_WRAP = type & $export.W;
       var exports2 = IS_GLOBAL ? core : core[name] || (core[name] = {});
       var expProto = exports2[PROTOTYPE];
       var target = IS_GLOBAL ? global2 : IS_STATIC ? global2[name] : (global2[name] || {})[PROTOTYPE];
@@ -7100,7 +7100,7 @@ var require_export = __commonJS({
         }(out) : IS_PROTO && typeof out == "function" ? ctx(Function.call, out) : out;
         if (IS_PROTO) {
           (exports2.virtual || (exports2.virtual = {}))[key] = out;
-          if (type2 & $export.R && expProto && !expProto[key])
+          if (type & $export.R && expProto && !expProto[key])
             hide(expProto, key, out);
         }
       }
@@ -138989,9 +138989,9 @@ var require_fontkit = __commonJS({
     });
     var glyf = new r.Array(new r.Buffer());
     var CFFIndex = function() {
-      function CFFIndex2(type2) {
+      function CFFIndex2(type) {
         _classCallCheck(this, CFFIndex2);
-        this.type = type2;
+        this.type = type;
       }
       CFFIndex2.prototype.getCFFVersion = function getCFFVersion(ctx) {
         while (ctx && !ctx.hdrSize) {
@@ -139045,11 +139045,11 @@ var require_fontkit = __commonJS({
         if (arr.length === 0) {
           return size2;
         }
-        var type2 = this.type || new r.Buffer();
+        var type = this.type || new r.Buffer();
         var offset = 1;
         for (var i2 = 0; i2 < arr.length; i2++) {
           var item = arr[i2];
-          offset += type2.size(item, parent);
+          offset += type.size(item, parent);
         }
         var offsetType = void 0;
         if (offset <= 255) {
@@ -139072,7 +139072,7 @@ var require_fontkit = __commonJS({
         if (arr.length === 0) {
           return;
         }
-        var type2 = this.type || new r.Buffer();
+        var type = this.type || new r.Buffer();
         var sizes = [];
         var offset = 1;
         for (var _iterator2 = arr, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
@@ -139088,7 +139088,7 @@ var require_fontkit = __commonJS({
             _ref2 = _i2.value;
           }
           var item = _ref2;
-          var s2 = type2.size(item, parent);
+          var s2 = type.size(item, parent);
           sizes.push(s2);
           offset += s2;
         }
@@ -139136,7 +139136,7 @@ var require_fontkit = __commonJS({
             _ref3 = _i3.value;
           }
           var _item = _ref3;
-          type2.encode(stream, _item, parent);
+          type.encode(stream, _item, parent);
         }
         return;
       };
@@ -139271,16 +139271,16 @@ var require_fontkit = __commonJS({
           this.fields[key] = field;
         }
       }
-      CFFDict2.prototype.decodeOperands = function decodeOperands(type2, stream, ret, operands) {
+      CFFDict2.prototype.decodeOperands = function decodeOperands(type, stream, ret, operands) {
         var _this = this;
-        if (Array.isArray(type2)) {
+        if (Array.isArray(type)) {
           return operands.map(function(op, i2) {
-            return _this.decodeOperands(type2[i2], stream, ret, [op]);
+            return _this.decodeOperands(type[i2], stream, ret, [op]);
           });
-        } else if (type2.decode != null) {
-          return type2.decode(stream, ret, operands);
+        } else if (type.decode != null) {
+          return type.decode(stream, ret, operands);
         } else {
-          switch (type2) {
+          switch (type) {
             case "number":
             case "offset":
             case "sid":
@@ -139292,14 +139292,14 @@ var require_fontkit = __commonJS({
           }
         }
       };
-      CFFDict2.prototype.encodeOperands = function encodeOperands(type2, stream, ctx, operands) {
+      CFFDict2.prototype.encodeOperands = function encodeOperands(type, stream, ctx, operands) {
         var _this2 = this;
-        if (Array.isArray(type2)) {
+        if (Array.isArray(type)) {
           return operands.map(function(op, i2) {
-            return _this2.encodeOperands(type2[i2], stream, ctx, op)[0];
+            return _this2.encodeOperands(type[i2], stream, ctx, op)[0];
           });
-        } else if (type2.encode != null) {
-          return type2.encode(stream, operands, ctx);
+        } else if (type.encode != null) {
+          return type.encode(stream, operands, ctx);
         } else if (typeof operands === "number") {
           return [operands];
         } else if (typeof operands === "boolean") {
@@ -139456,13 +139456,13 @@ var require_fontkit = __commonJS({
     }();
     var CFFPointer = function(_r$Pointer) {
       _inherits(CFFPointer2, _r$Pointer);
-      function CFFPointer2(type2) {
+      function CFFPointer2(type) {
         var options2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
         _classCallCheck(this, CFFPointer2);
         if (options2.type == null) {
           options2.type = "global";
         }
-        return _possibleConstructorReturn(this, _r$Pointer.call(this, null, type2, options2));
+        return _possibleConstructorReturn(this, _r$Pointer.call(this, null, type, options2));
       }
       CFFPointer2.prototype.decode = function decode(stream, parent, operands) {
         this.offsetType = {
@@ -139770,10 +139770,10 @@ var require_fontkit = __commonJS({
       featureVariationRecords: new r.Array(FeatureVariationRecord, "featureVariationRecordCount")
     });
     var PredefinedOp = function() {
-      function PredefinedOp2(predefinedOps, type2) {
+      function PredefinedOp2(predefinedOps, type) {
         _classCallCheck(this, PredefinedOp2);
         this.predefinedOps = predefinedOps;
-        this.type = type2;
+        this.type = type;
       }
       PredefinedOp2.prototype.decode = function decode(stream, parent, operands) {
         if (this.predefinedOps[operands[0]]) {
@@ -140961,9 +140961,9 @@ var require_fontkit = __commonJS({
       segment: new r.Array(Segment, "axisCount")
     });
     var UnboundedArrayAccessor = function() {
-      function UnboundedArrayAccessor2(type2, stream, parent) {
+      function UnboundedArrayAccessor2(type, stream, parent) {
         _classCallCheck(this, UnboundedArrayAccessor2);
-        this.type = type2;
+        this.type = type;
         this.stream = stream;
         this.parent = parent;
         this.base = this.stream.pos;
@@ -140985,9 +140985,9 @@ var require_fontkit = __commonJS({
     }();
     var UnboundedArray = function(_r$Array) {
       _inherits(UnboundedArray2, _r$Array);
-      function UnboundedArray2(type2) {
+      function UnboundedArray2(type) {
         _classCallCheck(this, UnboundedArray2);
-        return _possibleConstructorReturn(this, _r$Array.call(this, type2, 0));
+        return _possibleConstructorReturn(this, _r$Array.call(this, type, 0));
       }
       UnboundedArray2.prototype.decode = function decode(stream, parent) {
         return new UnboundedArrayAccessor(this.type, stream, parent);
@@ -140997,9 +140997,9 @@ var require_fontkit = __commonJS({
     var LookupTable = function LookupTable2() {
       var ValueType = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : r.uint16;
       var Shadow = function() {
-        function Shadow2(type2) {
+        function Shadow2(type) {
           _classCallCheck(this, Shadow2);
-          this.type = type2;
+          this.type = type;
         }
         Shadow2.prototype.decode = function decode(stream, ctx) {
           ctx = ctx.parent.parent;
@@ -142892,14 +142892,14 @@ var require_fontkit = __commonJS({
       return res;
     }
     function mapFeatureStrings(f) {
-      var type2 = f[0], setting = f[1];
-      if (isNaN(type2)) {
-        var typeCode = features[type2] && features[type2].code;
+      var type = f[0], setting = f[1];
+      if (isNaN(type)) {
+        var typeCode = features[type] && features[type].code;
       } else {
-        var typeCode = type2;
+        var typeCode = type;
       }
       if (isNaN(setting)) {
-        var settingCode = features[type2] && features[type2][setting];
+        var settingCode = features[type] && features[type][setting];
       } else {
         var settingCode = setting;
       }
@@ -142916,11 +142916,11 @@ var require_fontkit = __commonJS({
           }
         }
       } else if ((typeof features2 === "undefined" ? "undefined" : _typeof(features2)) === "object") {
-        for (var type2 in features2) {
-          var _feature = features2[type2];
+        for (var type in features2) {
+          var _feature = features2[type];
           for (var setting in _feature) {
             var _r = void 0;
-            var _f = mapFeatureStrings([type2, setting]);
+            var _f = mapFeatureStrings([type, setting]);
             if (_feature[setting] && (_r = AATMapping[_f[0]] && AATMapping[_f[0]][_f[1]])) {
               res[_r] = true;
             }
@@ -143896,12 +143896,12 @@ var require_fontkit = __commonJS({
         for (var i2 = 0; i2 < glyphs.length; i2++) {
           var curAction = void 0, prevAction = void 0;
           var glyph2 = glyphs[i2];
-          var type2 = getShapingClass(glyph2.codePoints[0]);
-          if (type2 === ShapingClasses.Transparent) {
+          var type = getShapingClass(glyph2.codePoints[0]);
+          if (type === ShapingClasses.Transparent) {
             actions[i2] = NONE;
             continue;
           }
-          var _STATE_TABLE$state$ty = STATE_TABLE[state][type2];
+          var _STATE_TABLE$state$ty = STATE_TABLE[state][type];
           prevAction = _STATE_TABLE$state$ty[0];
           curAction = _STATE_TABLE$state$ty[1];
           state = _STATE_TABLE$state$ty[2];
@@ -144616,8 +144616,8 @@ var require_fontkit = __commonJS({
           var action = void 0;
           var glyph2 = glyphs[i2];
           var code = glyph2.codePoints[0];
-          var type2 = getType2(code);
-          var _STATE_TABLE$state$ty = STATE_TABLE$1[state][type2];
+          var type = getType2(code);
+          var _STATE_TABLE$state$ty = STATE_TABLE$1[state][type];
           action = _STATE_TABLE$state$ty[0];
           state = _STATE_TABLE$state$ty[1];
           switch (action) {
@@ -144750,15 +144750,15 @@ var require_fontkit = __commonJS({
     function compose(glyphs, i2, font) {
       var glyph2 = glyphs[i2];
       var code = glyphs[i2].codePoints[0];
-      var type2 = getType2(code);
+      var type = getType2(code);
       var prev = glyphs[i2 - 1].codePoints[0];
       var prevType = getType2(prev);
       var lv = void 0, ljmo = void 0, vjmo = void 0, tjmo = void 0;
-      if (prevType === LV && type2 === T) {
+      if (prevType === LV && type === T) {
         lv = prev;
         tjmo = glyph2;
       } else {
-        if (type2 === V) {
+        if (type === V) {
           ljmo = glyphs[i2 - 1];
           vjmo = glyph2;
         } else {
@@ -145679,11 +145679,11 @@ var require_fontkit = __commonJS({
       for (var start = 0, end = nextSyllable$1(glyphs, 0); start < glyphs.length; start = end, end = nextSyllable$1(glyphs, start)) {
         var i2 = void 0, j = void 0;
         var info = glyphs[start].shaperInfo;
-        var type2 = info.syllableType;
-        if (type2 !== "virama_terminated_cluster" && type2 !== "standard_cluster" && type2 !== "broken_cluster") {
+        var type = info.syllableType;
+        if (type !== "virama_terminated_cluster" && type !== "standard_cluster" && type !== "broken_cluster") {
           continue;
         }
-        if (type2 === "broken_cluster" && dottedCircle) {
+        if (type === "broken_cluster" && dottedCircle) {
           var g = new GlyphInfo(font, dottedCircle, [9676]);
           g.shaperInfo = info;
           for (i2 = start; i2 < end && glyphs[i2].shaperInfo.category === "R"; i2++) {
@@ -149466,8 +149466,8 @@ var require_fontkit = __commonJS({
               break;
             _ref2 = _i2.value;
           }
-          var type2 = _ref2;
-          if (type2.name === "sfnt") {
+          var type = _ref2;
+          if (type.name === "sfnt") {
             return true;
           }
         }
@@ -149489,8 +149489,8 @@ var require_fontkit = __commonJS({
               break;
             _ref2 = _i2.value;
           }
-          var type2 = _ref2;
-          for (var _iterator3 = type2.refList, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
+          var type = _ref2;
+          for (var _iterator3 = type.refList, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
             var _ref3;
             if (_isArray3) {
               if (_i3 >= _iterator3.length)
@@ -149510,8 +149510,8 @@ var require_fontkit = __commonJS({
               ref.name = null;
             }
           }
-          if (type2.name === "sfnt") {
-            this.sfnt = type2;
+          if (type.name === "sfnt") {
+            this.sfnt = type;
           }
         }
       }
@@ -154135,13 +154135,13 @@ end`);
       }
     };
     var PDFStructureElement = class {
-      constructor(document2, type2, options2 = {}, children = null) {
+      constructor(document2, type, options2 = {}, children = null) {
         this.document = document2;
         this._attached = false;
         this._ended = false;
         this._flushed = false;
         this.dictionary = document2.ref({
-          S: type2
+          S: type
         });
         const data = this.dictionary.data;
         if (Array.isArray(options2) || this._isValidChild(options2)) {
@@ -154383,8 +154383,8 @@ end`);
         this.addContent("EMC");
         return this;
       },
-      struct(type2, options2 = {}, children = null) {
-        return new PDFStructureElement(this, type2, options2, children);
+      struct(type, options2 = {}, children = null) {
+        return new PDFStructureElement(this, type, options2, children);
       },
       addStructure(structElem) {
         const structTreeRoot = this.getStructTreeRoot();
@@ -154550,8 +154550,8 @@ end`);
         this._addToParent(fieldRef);
         return fieldRef;
       },
-      formAnnotation(name, type2, x, y, w, h, options2 = {}) {
-        let fieldDict = this._fieldDict(name, type2, options2);
+      formAnnotation(name, type, x, y, w, h, options2 = {}) {
+        let fieldDict = this._fieldDict(name, type, options2);
         fieldDict.Subtype = "Widget";
         if (fieldDict.F === void 0) {
           fieldDict.F = 4;
@@ -154590,13 +154590,13 @@ end`);
         }
         return this;
       },
-      _fieldDict(name, type2, options2 = {}) {
+      _fieldDict(name, type, options2 = {}) {
         if (!this._acroform) {
           throw new Error("Call document.initForms() method before adding form elements to document");
         }
         let opts = Object.assign({}, options2);
-        if (type2 !== null) {
-          opts = this._resolveType(type2, options2);
+        if (type !== null) {
+          opts = this._resolveType(type, options2);
         }
         opts = this._resolveFlags(opts);
         opts = this._resolveJustify(opts);
@@ -154611,24 +154611,24 @@ end`);
         }
         return opts;
       },
-      _resolveType(type2, opts) {
-        if (type2 === "text") {
+      _resolveType(type, opts) {
+        if (type === "text") {
           opts.FT = "Tx";
-        } else if (type2 === "pushButton") {
+        } else if (type === "pushButton") {
           opts.FT = "Btn";
           opts.pushButton = true;
-        } else if (type2 === "radioButton") {
+        } else if (type === "radioButton") {
           opts.FT = "Btn";
           opts.radioButton = true;
-        } else if (type2 === "checkbox") {
+        } else if (type === "checkbox") {
           opts.FT = "Btn";
-        } else if (type2 === "combo") {
+        } else if (type === "combo") {
           opts.FT = "Ch";
           opts.combo = true;
-        } else if (type2 === "list") {
+        } else if (type === "list") {
           opts.FT = "Ch";
         } else {
-          throw new Error(`Invalid form annotation type '${type2}'`);
+          throw new Error(`Invalid form annotation type '${type}'`);
         }
         return opts;
       },
@@ -155738,11 +155738,11 @@ var require_source = __commonJS({
         links.push(ref);
       }
       function parseXml(xml) {
-        let SvgNode = function(tag, type2, value, error3) {
+        let SvgNode = function(tag, type, value, error3) {
           this.error = error3;
           this.nodeName = tag;
           this.nodeValue = value;
-          this.nodeType = type2;
+          this.nodeType = type;
           this.attributes = Object.create(null);
           this.childNodes = [];
           this.parentNode = null;
@@ -158283,7 +158283,6 @@ function v4() {
 var import_pdfkit = __toModule(require_pdfkit());
 var import_svg_to_pdfkit = __toModule(require_source());
 var import_fs = __toModule(require("fs"));
-var import_path = __toModule(require("path"));
 var __accessCheck = (obj, member, msg) => {
   if (!member.has(obj))
     throw TypeError("Cannot " + msg);
@@ -158336,8 +158335,8 @@ function is_string(s2) {
 function is_content_type_textual(content_type) {
   if (!content_type)
     return true;
-  const [type2] = content_type.split(";");
-  return type2 === "text/plain" || type2 === "application/json" || type2 === "application/x-www-form-urlencoded" || type2 === "multipart/form-data";
+  const [type] = content_type.split(";");
+  return type === "text/plain" || type === "application/json" || type === "application/x-www-form-urlencoded" || type === "multipart/form-data";
 }
 async function render_endpoint(request, route, match) {
   const mod = await route.load();
@@ -158356,13 +158355,13 @@ async function render_endpoint(request, route, match) {
   }
   let { status = 200, body, headers = {} } = response;
   headers = lowercase_keys(headers);
-  const type2 = get_single_valued_header(headers, "content-type");
-  const is_type_textual = is_content_type_textual(type2);
+  const type = get_single_valued_header(headers, "content-type");
+  const is_type_textual = is_content_type_textual(type);
   if (!is_type_textual && !(body instanceof Uint8Array || is_string(body))) {
     return error$1(`${preface}: body must be an instance of string or Uint8Array if content-type is not a supported textual content-type`);
   }
   let normalized_body;
-  if ((typeof body === "object" || typeof body === "undefined") && !(body instanceof Uint8Array) && (!type2 || type2.startsWith("application/json"))) {
+  if ((typeof body === "object" || typeof body === "undefined") && !(body instanceof Uint8Array) && (!type || type.startsWith("application/json"))) {
     headers = { ...headers, "content-type": "application/json; charset=utf-8" };
     normalized_body = JSON.stringify(typeof body === "undefined" ? {} : body);
   } else {
@@ -158400,8 +158399,8 @@ function devalue(value) {
     }
     counts.set(thing, 1);
     if (!isPrimitive(thing)) {
-      var type2 = getType(thing);
-      switch (type2) {
+      var type = getType(thing);
+      switch (type) {
         case "Number":
         case "String":
         case "Boolean":
@@ -158445,8 +158444,8 @@ function devalue(value) {
     if (isPrimitive(thing)) {
       return stringifyPrimitive(thing);
     }
-    var type2 = getType(thing);
-    switch (type2) {
+    var type = getType(thing);
+    switch (type) {
       case "Number":
       case "String":
       case "Boolean":
@@ -158463,7 +158462,7 @@ function devalue(value) {
         return "[" + members.join(",") + tail + "]";
       case "Set":
       case "Map":
-        return "new " + type2 + "([" + Array.from(thing).map(stringify).join(",") + "])";
+        return "new " + type + "([" + Array.from(thing).map(stringify).join(",") + "])";
       default:
         var obj = "{" + Object.keys(thing).map(function(key) {
           return safeKey(key) + ":" + stringify(thing[key]);
@@ -158486,8 +158485,8 @@ function devalue(value) {
         values_1.push(stringifyPrimitive(thing));
         return;
       }
-      var type2 = getType(thing);
-      switch (type2) {
+      var type = getType(thing);
+      switch (type) {
         case "Number":
         case "String":
         case "Boolean":
@@ -159395,9 +159394,9 @@ function parse_body(raw, headers) {
   if (!raw)
     return raw;
   const content_type = headers["content-type"];
-  const [type2, ...directives] = content_type ? content_type.split(/;\s*/) : [];
+  const [type, ...directives] = content_type ? content_type.split(/;\s*/) : [];
   const text = () => new TextDecoder(headers["content-encoding"] || "utf-8").decode(raw);
-  switch (type2) {
+  switch (type) {
     case "text/plain":
       return text();
     case "application/json":
@@ -159715,7 +159714,7 @@ var user_hooks = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   handle
 });
-var template = ({ head, body }) => '<!DOCTYPE html>\r\n<html lang="es">\r\n  <head>\r\n    <meta charset="utf-8" />\r\n    <meta\r\n      name="viewport"\r\n      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"\r\n    />\r\n    <!-- PWA -->\r\n    <meta name="mobile-web-app-capable" content="yes" />\r\n    <meta name="apple-mobile-web-app-capable" content="yes" />\r\n    <meta name="apple-mobile-web-app-status-bar-style" content="black" />\r\n    <meta name="theme-color" content="#000" />\r\n\r\n    <!-- Web assets -->\r\n    <!-- <link rel="manifest" href="/manifest.json" crossorigin="use-credentials" /> -->\r\n    <meta name="apple-mobile-web-app-title" content="verdu" />\r\n    <link rel="apple-touch-icon" type="image/png" href="/mobile.png" />\r\n    <link rel="icon" type="image/png" href="/mobile.png" />\r\n    <link rel="icon" type="image/png" href="/favicon.png" />\r\n\r\n    <!-- SEO -->\r\n    <meta name="author" content="verdu | verdu@live.com" />\r\n\r\n    ' + head + '\r\n  </head>\r\n  <body>\r\n    <div id="svelte">' + body + "</div>\r\n  </body>\r\n</html>\r\n";
+var template = ({ head, body }) => '<!DOCTYPE html>\n<html lang="es">\n  <head>\n    <meta charset="utf-8" />\n    <meta\n      name="viewport"\n      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"\n    />\n    <!-- PWA -->\n    <meta name="mobile-web-app-capable" content="yes" />\n    <meta name="apple-mobile-web-app-capable" content="yes" />\n    <meta name="apple-mobile-web-app-status-bar-style" content="black" />\n    <meta name="theme-color" content="#000" />\n\n    <!-- Web assets -->\n    <!-- <link rel="manifest" href="/manifest.json" crossorigin="use-credentials" /> -->\n    <meta name="apple-mobile-web-app-title" content="verdu" />\n    <link rel="apple-touch-icon" type="image/png" href="/mobile.png" />\n    <link rel="icon" type="image/png" href="/mobile.png" />\n    <link rel="icon" type="image/png" href="/favicon.png" />\n\n    <!-- SEO -->\n    <meta name="author" content="verdu | verdu@live.com" />\n\n    ' + head + '\n  </head>\n  <body>\n    <div id="svelte">' + body + "</div>\n  </body>\n</html>\n";
 var options = null;
 var default_settings = { paths: { "base": "", "assets": "" } };
 function init(settings = default_settings) {
@@ -159726,9 +159725,9 @@ function init(settings = default_settings) {
     amp: false,
     dev: false,
     entry: {
-      file: assets + "/_app/start-36740612.js",
+      file: assets + "/_app/start-00f217b3.js",
       css: [assets + "/_app/assets/start-c446e5f0.css"],
-      js: [assets + "/_app/start-36740612.js", assets + "/_app/chunks/vendor-1bb6e2c0.js", assets + "/_app/chunks/singletons-12a22614.js"]
+      js: [assets + "/_app/start-00f217b3.js", assets + "/_app/chunks/vendor-1bb6e2c0.js", assets + "/_app/chunks/singletons-12a22614.js"]
     },
     fetched: void 0,
     floc: false,
@@ -159758,7 +159757,7 @@ function init(settings = default_settings) {
 var d = decodeURIComponent;
 var empty = () => ({});
 var manifest = {
-  assets: [{ "file": "albaranes.svg", "size": 4526, "type": "image/svg+xml" }, { "file": "bill_blank.svg", "size": 78087, "type": "image/svg+xml" }, { "file": "clientes.svg", "size": 7671, "type": "image/svg+xml" }, { "file": "delete.svg", "size": 718, "type": "image/svg+xml" }, { "file": "facturas.svg", "size": 5706, "type": "image/svg+xml" }, { "file": "favicon.png", "size": 1171, "type": "image/png" }, { "file": "fonts/circular.css", "size": 522, "type": "text/css" }, { "file": "fonts/CircularStd-Bold.ttf", "size": 45284, "type": "font/ttf" }, { "file": "fonts/CircularStd-Bold.woff", "size": 22228, "type": "font/woff" }, { "file": "fonts/CircularStd-Bold.woff2", "size": 16744, "type": "font/woff2" }, { "file": "fonts/CircularStd-Book.ttf", "size": 43148, "type": "font/ttf" }, { "file": "fonts/CircularStd-Book.woff", "size": 19624, "type": "font/woff" }, { "file": "fonts/CircularStd-Book.woff2", "size": 14728, "type": "font/woff2" }, { "file": "fonts/operator.css", "size": 590, "type": "text/css" }, { "file": "fonts/OperatorMonoLig-Medium.ttf", "size": 53104, "type": "font/ttf" }, { "file": "fonts/OperatorMonoLig-Medium.woff", "size": 27112, "type": "font/woff" }, { "file": "fonts/OperatorMonoLig-Medium.woff2", "size": 19128, "type": "font/woff2" }, { "file": "fonts/OperatorMonoLig-MediumItalic.ttf", "size": 57552, "type": "font/ttf" }, { "file": "fonts/OperatorMonoLig-MediumItalic.woff", "size": 29716, "type": "font/woff" }, { "file": "fonts/OperatorMonoLig-MediumItalic.woff2", "size": 20668, "type": "font/woff2" }, { "file": "imago.svg", "size": 1117, "type": "image/svg+xml" }, { "file": "logo-192.png", "size": 4558, "type": "image/png" }, { "file": "logo-512.png", "size": 13841, "type": "image/png" }, { "file": "logo-h.svg", "size": 8404, "type": "image/svg+xml" }, { "file": "logo-s.svg", "size": 7315, "type": "image/svg+xml" }, { "file": "logo-v.svg", "size": 8367, "type": "image/svg+xml" }, { "file": "logo.svg", "size": 8028, "type": "image/svg+xml" }, { "file": "menu.svg", "size": 600, "type": "image/svg+xml" }, { "file": "mobile.png", "size": 5044, "type": "image/png" }, { "file": "options.svg", "size": 2121, "type": "image/svg+xml" }, { "file": "presupuestos.svg", "size": 24645, "type": "image/svg+xml" }, { "file": "productos-servicios.svg", "size": 18588, "type": "image/svg+xml" }, { "file": "proveedores.svg", "size": 13603, "type": "image/svg+xml" }, { "file": "robots.txt", "size": 70, "type": "text/plain" }],
+  assets: [{ "file": "albaranes.svg", "size": 4526, "type": "image/svg+xml" }, { "file": "bill_blank.svg", "size": 78087, "type": "image/svg+xml" }, { "file": "clientes.svg", "size": 7671, "type": "image/svg+xml" }, { "file": "delete.svg", "size": 718, "type": "image/svg+xml" }, { "file": "facturas.svg", "size": 5706, "type": "image/svg+xml" }, { "file": "favicon.png", "size": 1171, "type": "image/png" }, { "file": "fira.ttf", "size": 164712, "type": "font/ttf" }, { "file": "imago.svg", "size": 1117, "type": "image/svg+xml" }, { "file": "logo-192.png", "size": 4558, "type": "image/png" }, { "file": "logo-512.png", "size": 13841, "type": "image/png" }, { "file": "logo-h.svg", "size": 8404, "type": "image/svg+xml" }, { "file": "logo-s.svg", "size": 7315, "type": "image/svg+xml" }, { "file": "logo-v.svg", "size": 8367, "type": "image/svg+xml" }, { "file": "logo.svg", "size": 8028, "type": "image/svg+xml" }, { "file": "menu.svg", "size": 600, "type": "image/svg+xml" }, { "file": "mobile.png", "size": 5044, "type": "image/png" }, { "file": "options.svg", "size": 2121, "type": "image/svg+xml" }, { "file": "presupuestos.svg", "size": 24645, "type": "image/svg+xml" }, { "file": "productos-servicios.svg", "size": 18588, "type": "image/svg+xml" }, { "file": "proveedores.svg", "size": 13603, "type": "image/svg+xml" }, { "file": "robots.txt", "size": 67, "type": "text/plain" }],
   layout: "src/routes/__layout.svelte",
   error: ".svelte-kit/build/components/error.svelte",
   routes: [
@@ -159886,7 +159885,7 @@ var module_lookup = {
     return index;
   })
 };
-var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-038ea989.js", "css": ["assets/pages/__layout.svelte-31d00bb1.css"], "js": ["pages/__layout.svelte-038ea989.js", "chunks/vendor-1bb6e2c0.js", "chunks/stores-a06af009.js", "chunks/stores-dc0795db.js", "chunks/utils-004f515d.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-167e92dc.js", "css": [], "js": ["error.svelte-167e92dc.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-8cdad0cd.js", "css": ["assets/pages/index.svelte-e9dc129a.css"], "js": ["pages/index.svelte-8cdad0cd.js", "chunks/vendor-1bb6e2c0.js", "chunks/utils-004f515d.js"], "styles": [] }, "src/routes/productos-servicios/index.svelte": { "entry": "pages/productos-servicios/index.svelte-093de710.js", "css": ["assets/pages/proveedores/index.svelte-919025b0.css"], "js": ["pages/productos-servicios/index.svelte-093de710.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/presupuestos/index.svelte": { "entry": "pages/presupuestos/index.svelte-6c014205.js", "css": ["assets/pages/proveedores/index.svelte-919025b0.css"], "js": ["pages/presupuestos/index.svelte-6c014205.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/proveedores/index.svelte": { "entry": "pages/proveedores/index.svelte-02acc2b5.js", "css": ["assets/pages/proveedores/index.svelte-919025b0.css"], "js": ["pages/proveedores/index.svelte-02acc2b5.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/albaranes/index.svelte": { "entry": "pages/albaranes/index.svelte-2d2e6d3a.js", "css": ["assets/pages/proveedores/index.svelte-919025b0.css"], "js": ["pages/albaranes/index.svelte-2d2e6d3a.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/clientes/index.svelte": { "entry": "pages/clientes/index.svelte-dfdd26fd.js", "css": ["assets/pages/proveedores/index.svelte-919025b0.css"], "js": ["pages/clientes/index.svelte-dfdd26fd.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/facturas/index.svelte": { "entry": "pages/facturas/index.svelte-acb07c0b.js", "css": ["assets/pages/facturas/index.svelte-2f2c6601.css"], "js": ["pages/facturas/index.svelte-acb07c0b.js", "chunks/vendor-1bb6e2c0.js", "chunks/stores-dc0795db.js", "chunks/utils-004f515d.js"], "styles": [] }, "src/routes/facturas/nueva.svelte": { "entry": "pages/facturas/nueva.svelte-f90edce0.js", "css": ["assets/pages/facturas/nueva.svelte-c6afd4d2.css"], "js": ["pages/facturas/nueva.svelte-f90edce0.js", "chunks/vendor-1bb6e2c0.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-dc0795db.js"], "styles": [] }, "src/routes/facturas/[id].svelte": { "entry": "pages/facturas/[id].svelte-a866ef5d.js", "css": ["assets/pages/facturas/[id].svelte-b8f50f51.css"], "js": ["pages/facturas/[id].svelte-a866ef5d.js", "chunks/vendor-1bb6e2c0.js", "chunks/stores-a06af009.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-dc0795db.js"], "styles": [] }, "src/routes/ajustes/index.svelte": { "entry": "pages/ajustes/index.svelte-021303a4.js", "css": ["assets/pages/ajustes/index.svelte-4d04a9e9.css"], "js": ["pages/ajustes/index.svelte-021303a4.js", "chunks/vendor-1bb6e2c0.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-dc0795db.js"], "styles": [] } };
+var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-f3f11d9c.js", "css": ["assets/pages/__layout.svelte-31d00bb1.css"], "js": ["pages/__layout.svelte-f3f11d9c.js", "chunks/vendor-1bb6e2c0.js", "chunks/stores-a06af009.js", "chunks/stores-dc0795db.js", "chunks/utils-004f515d.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-3839aa3e.js", "css": [], "js": ["error.svelte-3839aa3e.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-3a945268.js", "css": ["assets/pages/index.svelte-e9dc129a.css"], "js": ["pages/index.svelte-3a945268.js", "chunks/vendor-1bb6e2c0.js", "chunks/utils-004f515d.js"], "styles": [] }, "src/routes/productos-servicios/index.svelte": { "entry": "pages/productos-servicios/index.svelte-abaa8228.js", "css": ["assets/pages/productos-servicios/index.svelte-9b49092b.css"], "js": ["pages/productos-servicios/index.svelte-abaa8228.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/presupuestos/index.svelte": { "entry": "pages/presupuestos/index.svelte-60a3a70f.js", "css": ["assets/pages/productos-servicios/index.svelte-9b49092b.css"], "js": ["pages/presupuestos/index.svelte-60a3a70f.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/proveedores/index.svelte": { "entry": "pages/proveedores/index.svelte-1e66839d.js", "css": ["assets/pages/productos-servicios/index.svelte-9b49092b.css"], "js": ["pages/proveedores/index.svelte-1e66839d.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/albaranes/index.svelte": { "entry": "pages/albaranes/index.svelte-33bd92f3.js", "css": ["assets/pages/productos-servicios/index.svelte-9b49092b.css"], "js": ["pages/albaranes/index.svelte-33bd92f3.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/clientes/index.svelte": { "entry": "pages/clientes/index.svelte-c9179cc6.js", "css": ["assets/pages/productos-servicios/index.svelte-9b49092b.css"], "js": ["pages/clientes/index.svelte-c9179cc6.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/facturas/index.svelte": { "entry": "pages/facturas/index.svelte-7419d2b4.js", "css": ["assets/pages/facturas/index.svelte-2f2c6601.css"], "js": ["pages/facturas/index.svelte-7419d2b4.js", "chunks/vendor-1bb6e2c0.js", "chunks/stores-dc0795db.js", "chunks/utils-004f515d.js"], "styles": [] }, "src/routes/facturas/nueva.svelte": { "entry": "pages/facturas/nueva.svelte-1b685ecb.js", "css": ["assets/pages/facturas/nueva.svelte-c6afd4d2.css"], "js": ["pages/facturas/nueva.svelte-1b685ecb.js", "chunks/vendor-1bb6e2c0.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-dc0795db.js"], "styles": [] }, "src/routes/facturas/[id].svelte": { "entry": "pages/facturas/[id].svelte-4690f550.js", "css": ["assets/pages/facturas/[id].svelte-b8f50f51.css"], "js": ["pages/facturas/[id].svelte-4690f550.js", "chunks/vendor-1bb6e2c0.js", "chunks/stores-a06af009.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-dc0795db.js"], "styles": [] }, "src/routes/ajustes/index.svelte": { "entry": "pages/ajustes/index.svelte-2cb5261a.js", "css": ["assets/pages/ajustes/index.svelte-4d04a9e9.css"], "js": ["pages/ajustes/index.svelte-2cb5261a.js", "chunks/vendor-1bb6e2c0.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-dc0795db.js"], "styles": [] } };
 async function load_component(file) {
   const { entry, css: css2, js, styles } = metadata_lookup[file];
   return {
@@ -159903,13 +159902,12 @@ function render(request, {
   const host = request.headers["host"];
   return respond({ ...request, host }, options, { prerender });
 }
-var mm = (size) => size * 2.83465;
-var type = (0, import_path.resolve)(process.cwd(), "static", "fonts", "OperatorMonoLig-Medium.ttf");
-var bill = (0, import_fs.readFileSync)((0, import_path.resolve)(process.cwd(), "static", "bill_blank.svg"), { encoding: "utf-8" });
 import_pdfkit.default.prototype.svg = function(svg, x, y, options2) {
   return (0, import_svg_to_pdfkit.default)(this, svg, x, y, options2), this;
 };
-function post(req) {
+var mm = (size) => size * 2.83465;
+var bill = (0, import_fs.readFileSync)("static/bill_blank.svg", { encoding: "utf-8" });
+async function post(req) {
   const data = JSON.parse(req.body);
   const doc = new import_pdfkit.default({
     size: [mm(210), mm(297)],
@@ -159922,7 +159920,7 @@ function post(req) {
     width: mm(210),
     height: mm(297)
   });
-  doc.font(type).fontSize(8);
+  doc.font("static/fira.ttf").fontSize(8);
   doc.text(data.number, mm(168), mm(31));
   doc.text(`${data.date.day}/${data.date.month}/${data.date.year}`, mm(168), mm(36));
   doc.text(data.client.legal_name, mm(34.5), mm(66.7));
@@ -160114,7 +160112,7 @@ var Nav = create_ssr_component(($$result, $$props, $$bindings, slots) => {
 });
 var css$a = {
   code: '*,*:before,*:after{box-sizing:border-box;margin:0;padding:0;border:none;outline:none;box-shadow:none;line-height:1.4;-webkit-appearance:none;-moz-appearance:none;appearance:none;image-rendering:crisp-edges;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;text-rendering:optimizeLegibility;-webkit-tap-highlight-color:transparent}*:active,*:before:active,*:after:active{-webkit-tap-highlight-color:transparent}@media(max-width: 900px){*,*:before,*:after{cursor:default}}html,body{position:relative;width:100%;height:100%;overflow:hidden}body{background:#000;color:#000}main{position:absolute;top:0;left:0;width:100%;height:100%;background:#fafafa;border-radius:0.5em}body,input,textarea,select,option{font-family:"Circular Std", "Segoe UI Emoji", sans-serif}input,textarea,select,option,p{font-weight:lighter}a{text-decoration:none;color:#383838}ul{list-style:none}pre,code{font-family:"Operator Mono Lig", monospace;font-size:0.9em}@-webkit-keyframes svelte-ripxix-fadeIn{from{opacity:0}to{opacity:1}}@keyframes svelte-ripxix-fadeIn{from{opacity:0}to{opacity:1}}@-webkit-keyframes svelte-ripxix-fadeOut{from{opacity:1}to{opacity:0}}@keyframes svelte-ripxix-fadeOut{from{opacity:1}to{opacity:0}}@-webkit-keyframes svelte-ripxix-scaleIn{from{transform:scale(0, 0);opacity:0}to{transform:scale(1, 1);opacity:1}}@keyframes svelte-ripxix-scaleIn{from{transform:scale(0, 0);opacity:0}to{transform:scale(1, 1);opacity:1}}@-webkit-keyframes svelte-ripxix-scaleOut{from{transform:scale(1, 1);opacity:1}to{transform:scale(0, 0);opacity:0}}@keyframes svelte-ripxix-scaleOut{from{transform:scale(1, 1);opacity:1}to{transform:scale(0, 0);opacity:0}}@-webkit-keyframes svelte-ripxix-fromTop{from{transform:translate3d(0, -100vh, 0)}to{transform:translate3d(0, 0, 0)}}@keyframes svelte-ripxix-fromTop{from{transform:translate3d(0, -100vh, 0)}to{transform:translate3d(0, 0, 0)}}@-webkit-keyframes svelte-ripxix-fromLeft{from{transform:translateX(-100vw)}to{transform:translateX(0)}}@keyframes svelte-ripxix-fromLeft{from{transform:translateX(-100vw)}to{transform:translateX(0)}}@-webkit-keyframes svelte-ripxix-fromRight{from{transform:translateX(100vw);opacity:0}to{transform:translateX(0);opacity:1}}@keyframes svelte-ripxix-fromRight{from{transform:translateX(100vw);opacity:0}to{transform:translateX(0);opacity:1}}@-webkit-keyframes svelte-ripxix-fromBot{from{transform:translate3d(0, 100vh, 0)}to{transform:translate3d(0, 0, 0)}}@keyframes svelte-ripxix-fromBot{from{transform:translate3d(0, 100vh, 0)}to{transform:translate3d(0, 0, 0)}}@-webkit-keyframes svelte-ripxix-toTop{from{transform:translateY(0)}to{transform:translateY(-100vh)}}@keyframes svelte-ripxix-toTop{from{transform:translateY(0)}to{transform:translateY(-100vh)}}@-webkit-keyframes svelte-ripxix-toLeft{from{transform:translateX(0)}to{transform:translateX(-100vw)}}@keyframes svelte-ripxix-toLeft{from{transform:translateX(0)}to{transform:translateX(-100vw)}}@-webkit-keyframes svelte-ripxix-toRight{from{transform:translateX(0)}to{transform:translateX(100vw)}}@keyframes svelte-ripxix-toRight{from{transform:translateX(0)}to{transform:translateX(100vw)}}@-webkit-keyframes svelte-ripxix-toBot{from{transform:translateY(0)}to{transform:translateY(100vh)}}@keyframes svelte-ripxix-toBot{from{transform:translateY(0)}to{transform:translateY(100vh)}}@-webkit-keyframes svelte-ripxix-fromFlipX{from{transform:rotateX(90deg);position:absolute}to{transform:rotateX(0)}}@keyframes svelte-ripxix-fromFlipX{from{transform:rotateX(90deg);position:absolute}to{transform:rotateX(0)}}@-webkit-keyframes svelte-ripxix-toFlipX{from{transform:rotateX(0);position:absolute}to{transform:rotateX(90deg)}}@keyframes svelte-ripxix-toFlipX{from{transform:rotateX(0);position:absolute}to{transform:rotateX(90deg)}}@-webkit-keyframes svelte-ripxix-fromFlipY{from{transform:rotateY(90deg);position:absolute}to{transform:rotateY(0)}}@keyframes svelte-ripxix-fromFlipY{from{transform:rotateY(90deg);position:absolute}to{transform:rotateY(0)}}@-webkit-keyframes svelte-ripxix-toFlipY{from{transform:rotateY(0);position:absolute}to{transform:rotateY(90deg)}}@keyframes svelte-ripxix-toFlipY{from{transform:rotateY(0);position:absolute}to{transform:rotateY(90deg)}}@-webkit-keyframes svelte-ripxix-shake{0%{transform:translateX(1px)}10%{transform:translateX(-1px)}20%{transform:translateX(-3px)}30%{transform:translateX(3px)}40%{transform:translateX(1px)}50%{transform:translateX(-1px)}60%{transform:translateX(-3px)}70%{transform:translateX(3px)}80%{transform:translateX(-1px)}90%{transform:translateX(1px)}100%{transform:translateX(1px)}}@keyframes svelte-ripxix-shake{0%{transform:translateX(1px)}10%{transform:translateX(-1px)}20%{transform:translateX(-3px)}30%{transform:translateX(3px)}40%{transform:translateX(1px)}50%{transform:translateX(-1px)}60%{transform:translateX(-3px)}70%{transform:translateX(3px)}80%{transform:translateX(-1px)}90%{transform:translateX(1px)}100%{transform:translateX(1px)}}@-webkit-keyframes svelte-ripxix-bounce{0%,20%,50%,80%,100%{transform:translateY(0)}40%{transform:translateY(-30px)}60%{transform:translateY(-20px)}}@keyframes svelte-ripxix-bounce{0%,20%,50%,80%,100%{transform:translateY(0)}40%{transform:translateY(-30px)}60%{transform:translateY(-20px)}}@-webkit-keyframes svelte-ripxix-pulse{0%,20%,50%,80%,100%{transform:scale(1)}40%{transform:scale(1.1)}60%{transform:scale(0.8)}}@keyframes svelte-ripxix-pulse{0%,20%,50%,80%,100%{transform:scale(1)}40%{transform:scale(1.1)}60%{transform:scale(0.8)}}button,a.btn{cursor:pointer;display:block;background-color:transparent;font-size:0.9em;font-weight:bold;color:#000;border:2px solid transparent;padding:0.9em 2em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-user-drag:none;transition:200ms}button:hover,a.btn:hover{transform:scale(0.95)}button.round,a.round{border-radius:4em}button.semi,a.semi{border-radius:0.4em}button.out,a.out{border-color:#000}button.disabled,a.disabeled{cursor:not-allowed;background:#808080;color:#e6e6e6}button.pri,a.pri{background:#383838;border-color:#383838}button.sec,a.sec{background:#ccc;border-color:#ccc}button.black,a.black{background:#000;border-color:#000;color:#fafafa}button.white,a.white{background:#fff;border-color:#fff}button.link,a.link{background:#2d8cf0;border-color:#2d8cf0;color:#fff}button.succ,a.succ{background:#19be6b;border-color:#19be6b;color:#fff}button.warn,a.warn{background:#ff9900;border-color:#ff9900}button.err,a.err{background:#ed3f14;border-color:#ed3f14;color:#fff}button.outpri,a.outpri{color:#383838;border-color:#383838}button.outsec,a.outsec{color:#ccc;border-color:#ccc}button.outblack,a.outblack{color:#000;border-color:#000}button.outwhite,a.outwhite{color:#fff;border-color:#fff}button.outlink,a.outlink{color:#2d8cf0;border-color:#2d8cf0}button.outsucc,a.outsucc{color:#19be6b;border-color:#19be6b}button.outwarn,a.outwarn{color:#ff9900;border-color:#ff9900}button.outerr,a.outerr{color:#ed3f14;border-color:#ed3f14}.view{position:relative;width:100%;height:100%;display:flex;overflow:hidden}.scroll{position:relative;width:100%;height:100%;overflow-x:hidden;overflow-y:auto;-webkit-overflow-scrolling:touch}.scroll::-webkit-scrollbar{width:7px}.scroll::-webkit-scrollbar-track{background-color:#e6e6e6}.scroll::-webkit-scrollbar-thumb{background-color:#383838}.box{border:1px solid #e6e6e6;padding:0.9em 1em}.box.round{border-radius:0.4em}.slider{position:relative;width:100%;display:block;overflow-x:auto;overflow-y:hidden;white-space:nowrap;-webkit-overflow-scrolling:touch;-ms-overflow-style:none;scrollbar-width:none}.slider::-webkit-scrollbar{display:none}.slider *{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.slide{display:inline-flex}.row{width:auto;display:flex;flex-flow:wrap;justify-content:flex-start;align-items:flex-start}.col{width:auto;display:flex;flex-flow:column;justify-content:flex-start;align-items:flex-start}.nowrap{flex-wrap:nowrap;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}h-div{width:100%;height:1px;display:flex;background:#e6e6e6}v-div{width:1px;height:100%;display:flex;background:#e6e6e6}.jstart{justify-content:flex-start}.jcenter{justify-content:center}.jend{justify-content:flex-end}.jbetween{justify-content:space-between}.jaround{justify-content:space-around}.jevenly{justify-content:space-evenly}.astart{align-items:flex-start}.acenter{align-items:center}.astretch{align-items:stretch}.abase{align-items:baseline}.aend{align-items:flex-end}.fstart{justify-content:flex-start;align-items:flex-start}.fcenter{justify-content:center;align-items:center}.fend{justify-content:flex-end;align-items:flex-end}.xfill{width:100%}.xhalf{width:50%}.yfill{height:100%}.yhalf{height:50%}.fill{width:100%;height:100%}.grow{flex-grow:1}input,select,textarea{background:transparent;color:#000;font-size:0.9em;padding:0.9em 1em;transition:200ms}input.round,select.round,textarea.round{border-radius:4em;padding:0.9em 1.2em}input.semi,select.semi,textarea.semi{border-radius:0.4em}input.out,select.out,textarea.out{border:1px solid #e6e6e6}input.disabled,select.dissabled,textarea.disabled{cursor:not-allowed;background:#e6e6e6;color:#808080}input.white,select.white,textarea.white{background:#fff}input.black,select.black,textarea.black{background:#000}b.pri{color:#2d8cf0}b.sec{color:#2d8cf0}b.link{color:#2d8cf0}b.succ{color:#19be6b}b.warn{color:#ff9900}b.err{color:#ed3f14}.view.svelte-ripxix{height:calc(100% - 90px)}footer.svelte-ripxix{height:25px;background:#383838;color:#fff;font-size:12px}',
-  map: '{"version":3,"file":"__layout.svelte","sources":["__layout.svelte"],"sourcesContent":["<script>\\r\\n  import Nav from \\"$lib/Nav.svelte\\";\\r\\n  import \\"../../static/fonts/circular.css\\";\\r\\n  import \\"../../static/fonts/operator.css\\";\\r\\n<\/script>\\r\\n\\r\\n<main>\\r\\n  <Nav />\\r\\n\\r\\n  <div class=\\"view fill\\">\\r\\n    <slot />\\r\\n  </div>\\r\\n\\r\\n  <footer class=\\"row fcenter xfill\\">\\r\\n    <p>Made with \u2665 by verdu on 2021</p>\\r\\n  </footer>\\r\\n</main>\\r\\n\\r\\n<style lang=\\"scss\\">:global(*),\\n:global(*:before),\\n:global(*:after) {\\n  box-sizing: border-box;\\n  margin: 0;\\n  padding: 0;\\n  border: none;\\n  outline: none;\\n  box-shadow: none;\\n  line-height: 1.4;\\n  -webkit-appearance: none;\\n     -moz-appearance: none;\\n          appearance: none;\\n  image-rendering: crisp-edges;\\n  -webkit-font-smoothing: antialiased;\\n  -moz-osx-font-smoothing: grayscale;\\n  text-rendering: optimizeLegibility;\\n  -webkit-tap-highlight-color: transparent;\\n}\\n:global(*:active),\\n:global(*:before:active),\\n:global(*:after:active) {\\n  -webkit-tap-highlight-color: transparent;\\n}\\n@media (max-width: 900px) {\\n  :global(*),\\n:global(*:before),\\n:global(*:after) {\\n    cursor: default;\\n  }\\n}\\n:global(html),\\n:global(body) {\\n  position: relative;\\n  width: 100%;\\n  height: 100%;\\n  overflow: hidden;\\n}\\n:global(body) {\\n  background: #000;\\n  color: #000;\\n}\\n:global(main) {\\n  position: absolute;\\n  top: 0;\\n  left: 0;\\n  width: 100%;\\n  height: 100%;\\n  background: #fafafa;\\n  border-radius: 0.5em;\\n}\\n:global(body),\\n:global(input),\\n:global(textarea),\\n:global(select),\\n:global(option) {\\n  font-family: \\"Circular Std\\", \\"Segoe UI Emoji\\", sans-serif;\\n}\\n:global(input),\\n:global(textarea),\\n:global(select),\\n:global(option),\\n:global(p) {\\n  font-weight: lighter;\\n}\\n:global(a) {\\n  text-decoration: none;\\n  color: #383838;\\n}\\n:global(ul) {\\n  list-style: none;\\n}\\n:global(pre),\\n:global(code) {\\n  font-family: \\"Operator Mono Lig\\", monospace;\\n  font-size: 0.9em;\\n}\\n@-webkit-keyframes fadeIn {\\n  from {\\n    opacity: 0;\\n  }\\n  to {\\n    opacity: 1;\\n  }\\n}\\n@keyframes fadeIn {\\n  from {\\n    opacity: 0;\\n  }\\n  to {\\n    opacity: 1;\\n  }\\n}\\n@-webkit-keyframes fadeOut {\\n  from {\\n    opacity: 1;\\n  }\\n  to {\\n    opacity: 0;\\n  }\\n}\\n@keyframes fadeOut {\\n  from {\\n    opacity: 1;\\n  }\\n  to {\\n    opacity: 0;\\n  }\\n}\\n@-webkit-keyframes scaleIn {\\n  from {\\n    transform: scale(0, 0);\\n    opacity: 0;\\n  }\\n  to {\\n    transform: scale(1, 1);\\n    opacity: 1;\\n  }\\n}\\n@keyframes scaleIn {\\n  from {\\n    transform: scale(0, 0);\\n    opacity: 0;\\n  }\\n  to {\\n    transform: scale(1, 1);\\n    opacity: 1;\\n  }\\n}\\n@-webkit-keyframes scaleOut {\\n  from {\\n    transform: scale(1, 1);\\n    opacity: 1;\\n  }\\n  to {\\n    transform: scale(0, 0);\\n    opacity: 0;\\n  }\\n}\\n@keyframes scaleOut {\\n  from {\\n    transform: scale(1, 1);\\n    opacity: 1;\\n  }\\n  to {\\n    transform: scale(0, 0);\\n    opacity: 0;\\n  }\\n}\\n@-webkit-keyframes fromTop {\\n  from {\\n    transform: translate3d(0, -100vh, 0);\\n  }\\n  to {\\n    transform: translate3d(0, 0, 0);\\n  }\\n}\\n@keyframes fromTop {\\n  from {\\n    transform: translate3d(0, -100vh, 0);\\n  }\\n  to {\\n    transform: translate3d(0, 0, 0);\\n  }\\n}\\n@-webkit-keyframes fromLeft {\\n  from {\\n    transform: translateX(-100vw);\\n  }\\n  to {\\n    transform: translateX(0);\\n  }\\n}\\n@keyframes fromLeft {\\n  from {\\n    transform: translateX(-100vw);\\n  }\\n  to {\\n    transform: translateX(0);\\n  }\\n}\\n@-webkit-keyframes fromRight {\\n  from {\\n    transform: translateX(100vw);\\n    opacity: 0;\\n  }\\n  to {\\n    transform: translateX(0);\\n    opacity: 1;\\n  }\\n}\\n@keyframes fromRight {\\n  from {\\n    transform: translateX(100vw);\\n    opacity: 0;\\n  }\\n  to {\\n    transform: translateX(0);\\n    opacity: 1;\\n  }\\n}\\n@-webkit-keyframes fromBot {\\n  from {\\n    transform: translate3d(0, 100vh, 0);\\n  }\\n  to {\\n    transform: translate3d(0, 0, 0);\\n  }\\n}\\n@keyframes fromBot {\\n  from {\\n    transform: translate3d(0, 100vh, 0);\\n  }\\n  to {\\n    transform: translate3d(0, 0, 0);\\n  }\\n}\\n@-webkit-keyframes toTop {\\n  from {\\n    transform: translateY(0);\\n  }\\n  to {\\n    transform: translateY(-100vh);\\n  }\\n}\\n@keyframes toTop {\\n  from {\\n    transform: translateY(0);\\n  }\\n  to {\\n    transform: translateY(-100vh);\\n  }\\n}\\n@-webkit-keyframes toLeft {\\n  from {\\n    transform: translateX(0);\\n  }\\n  to {\\n    transform: translateX(-100vw);\\n  }\\n}\\n@keyframes toLeft {\\n  from {\\n    transform: translateX(0);\\n  }\\n  to {\\n    transform: translateX(-100vw);\\n  }\\n}\\n@-webkit-keyframes toRight {\\n  from {\\n    transform: translateX(0);\\n  }\\n  to {\\n    transform: translateX(100vw);\\n  }\\n}\\n@keyframes toRight {\\n  from {\\n    transform: translateX(0);\\n  }\\n  to {\\n    transform: translateX(100vw);\\n  }\\n}\\n@-webkit-keyframes toBot {\\n  from {\\n    transform: translateY(0);\\n  }\\n  to {\\n    transform: translateY(100vh);\\n  }\\n}\\n@keyframes toBot {\\n  from {\\n    transform: translateY(0);\\n  }\\n  to {\\n    transform: translateY(100vh);\\n  }\\n}\\n@-webkit-keyframes fromFlipX {\\n  from {\\n    transform: rotateX(90deg);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateX(0);\\n  }\\n}\\n@keyframes fromFlipX {\\n  from {\\n    transform: rotateX(90deg);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateX(0);\\n  }\\n}\\n@-webkit-keyframes toFlipX {\\n  from {\\n    transform: rotateX(0);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateX(90deg);\\n  }\\n}\\n@keyframes toFlipX {\\n  from {\\n    transform: rotateX(0);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateX(90deg);\\n  }\\n}\\n@-webkit-keyframes fromFlipY {\\n  from {\\n    transform: rotateY(90deg);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateY(0);\\n  }\\n}\\n@keyframes fromFlipY {\\n  from {\\n    transform: rotateY(90deg);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateY(0);\\n  }\\n}\\n@-webkit-keyframes toFlipY {\\n  from {\\n    transform: rotateY(0);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateY(90deg);\\n  }\\n}\\n@keyframes toFlipY {\\n  from {\\n    transform: rotateY(0);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateY(90deg);\\n  }\\n}\\n@-webkit-keyframes shake {\\n  0% {\\n    transform: translateX(1px);\\n  }\\n  10% {\\n    transform: translateX(-1px);\\n  }\\n  20% {\\n    transform: translateX(-3px);\\n  }\\n  30% {\\n    transform: translateX(3px);\\n  }\\n  40% {\\n    transform: translateX(1px);\\n  }\\n  50% {\\n    transform: translateX(-1px);\\n  }\\n  60% {\\n    transform: translateX(-3px);\\n  }\\n  70% {\\n    transform: translateX(3px);\\n  }\\n  80% {\\n    transform: translateX(-1px);\\n  }\\n  90% {\\n    transform: translateX(1px);\\n  }\\n  100% {\\n    transform: translateX(1px);\\n  }\\n}\\n@keyframes shake {\\n  0% {\\n    transform: translateX(1px);\\n  }\\n  10% {\\n    transform: translateX(-1px);\\n  }\\n  20% {\\n    transform: translateX(-3px);\\n  }\\n  30% {\\n    transform: translateX(3px);\\n  }\\n  40% {\\n    transform: translateX(1px);\\n  }\\n  50% {\\n    transform: translateX(-1px);\\n  }\\n  60% {\\n    transform: translateX(-3px);\\n  }\\n  70% {\\n    transform: translateX(3px);\\n  }\\n  80% {\\n    transform: translateX(-1px);\\n  }\\n  90% {\\n    transform: translateX(1px);\\n  }\\n  100% {\\n    transform: translateX(1px);\\n  }\\n}\\n@-webkit-keyframes bounce {\\n  0%, 20%, 50%, 80%, 100% {\\n    transform: translateY(0);\\n  }\\n  40% {\\n    transform: translateY(-30px);\\n  }\\n  60% {\\n    transform: translateY(-20px);\\n  }\\n}\\n@keyframes bounce {\\n  0%, 20%, 50%, 80%, 100% {\\n    transform: translateY(0);\\n  }\\n  40% {\\n    transform: translateY(-30px);\\n  }\\n  60% {\\n    transform: translateY(-20px);\\n  }\\n}\\n@-webkit-keyframes pulse {\\n  0%, 20%, 50%, 80%, 100% {\\n    transform: scale(1);\\n  }\\n  40% {\\n    transform: scale(1.1);\\n  }\\n  60% {\\n    transform: scale(0.8);\\n  }\\n}\\n@keyframes pulse {\\n  0%, 20%, 50%, 80%, 100% {\\n    transform: scale(1);\\n  }\\n  40% {\\n    transform: scale(1.1);\\n  }\\n  60% {\\n    transform: scale(0.8);\\n  }\\n}\\n:global(button),\\n:global(a.btn) {\\n  cursor: pointer;\\n  display: block;\\n  background-color: transparent;\\n  font-size: 0.9em;\\n  font-weight: bold;\\n  color: #000;\\n  border: 2px solid transparent;\\n  padding: 0.9em 2em;\\n  -webkit-user-select: none;\\n     -moz-user-select: none;\\n      -ms-user-select: none;\\n          user-select: none;\\n  -webkit-user-drag: none;\\n  transition: 200ms;\\n}\\n:global(button:hover),\\n:global(a.btn:hover) {\\n  transform: scale(0.95);\\n}\\n:global(button.round),\\n:global(a.round) {\\n  border-radius: 4em;\\n}\\n:global(button.semi),\\n:global(a.semi) {\\n  border-radius: 0.4em;\\n}\\n:global(button.out),\\n:global(a.out) {\\n  border-color: #000;\\n}\\n:global(button.disabled),\\n:global(a.disabeled) {\\n  cursor: not-allowed;\\n  background: #808080;\\n  color: #e6e6e6;\\n}\\n:global(button.pri),\\n:global(a.pri) {\\n  background: #383838;\\n  border-color: #383838;\\n}\\n:global(button.sec),\\n:global(a.sec) {\\n  background: #ccc;\\n  border-color: #ccc;\\n}\\n:global(button.black),\\n:global(a.black) {\\n  background: #000;\\n  border-color: #000;\\n  color: #fafafa;\\n}\\n:global(button.white),\\n:global(a.white) {\\n  background: #fff;\\n  border-color: #fff;\\n}\\n:global(button.link),\\n:global(a.link) {\\n  background: #2d8cf0;\\n  border-color: #2d8cf0;\\n  color: #fff;\\n}\\n:global(button.succ),\\n:global(a.succ) {\\n  background: #19be6b;\\n  border-color: #19be6b;\\n  color: #fff;\\n}\\n:global(button.warn),\\n:global(a.warn) {\\n  background: #ff9900;\\n  border-color: #ff9900;\\n}\\n:global(button.err),\\n:global(a.err) {\\n  background: #ed3f14;\\n  border-color: #ed3f14;\\n  color: #fff;\\n}\\n:global(button.outpri),\\n:global(a.outpri) {\\n  color: #383838;\\n  border-color: #383838;\\n}\\n:global(button.outsec),\\n:global(a.outsec) {\\n  color: #ccc;\\n  border-color: #ccc;\\n}\\n:global(button.outblack),\\n:global(a.outblack) {\\n  color: #000;\\n  border-color: #000;\\n}\\n:global(button.outwhite),\\n:global(a.outwhite) {\\n  color: #fff;\\n  border-color: #fff;\\n}\\n:global(button.outlink),\\n:global(a.outlink) {\\n  color: #2d8cf0;\\n  border-color: #2d8cf0;\\n}\\n:global(button.outsucc),\\n:global(a.outsucc) {\\n  color: #19be6b;\\n  border-color: #19be6b;\\n}\\n:global(button.outwarn),\\n:global(a.outwarn) {\\n  color: #ff9900;\\n  border-color: #ff9900;\\n}\\n:global(button.outerr),\\n:global(a.outerr) {\\n  color: #ed3f14;\\n  border-color: #ed3f14;\\n}\\n:global(.view) {\\n  position: relative;\\n  width: 100%;\\n  height: 100%;\\n  display: flex;\\n  overflow: hidden;\\n}\\n:global(.scroll) {\\n  position: relative;\\n  width: 100%;\\n  height: 100%;\\n  overflow-x: hidden;\\n  overflow-y: auto;\\n  -webkit-overflow-scrolling: touch;\\n}\\n:global(.scroll::-webkit-scrollbar) {\\n  width: 7px;\\n}\\n:global(.scroll::-webkit-scrollbar-track) {\\n  background-color: #e6e6e6;\\n}\\n:global(.scroll::-webkit-scrollbar-thumb) {\\n  background-color: #383838;\\n}\\n:global(.box) {\\n  border: 1px solid #e6e6e6;\\n  padding: 0.9em 1em;\\n}\\n:global(.box.round) {\\n  border-radius: 0.4em;\\n}\\n:global(.slider) {\\n  position: relative;\\n  width: 100%;\\n  display: block;\\n  overflow-x: auto;\\n  overflow-y: hidden;\\n  white-space: nowrap;\\n  -webkit-overflow-scrolling: touch;\\n  -ms-overflow-style: none;\\n  scrollbar-width: none;\\n}\\n:global(.slider::-webkit-scrollbar) {\\n  display: none;\\n}\\n:global(.slider) :global(*) {\\n  -webkit-user-select: none;\\n     -moz-user-select: none;\\n      -ms-user-select: none;\\n          user-select: none;\\n}\\n:global(.slide) {\\n  display: inline-flex;\\n}\\n:global(.row) {\\n  width: auto;\\n  display: flex;\\n  flex-flow: wrap;\\n  justify-content: flex-start;\\n  align-items: flex-start;\\n}\\n:global(.col) {\\n  width: auto;\\n  display: flex;\\n  flex-flow: column;\\n  justify-content: flex-start;\\n  align-items: flex-start;\\n}\\n:global(.nowrap) {\\n  flex-wrap: nowrap;\\n  overflow: hidden;\\n  text-overflow: ellipsis;\\n  white-space: nowrap;\\n}\\n:global(h-div) {\\n  width: 100%;\\n  height: 1px;\\n  display: flex;\\n  background: #e6e6e6;\\n}\\n:global(v-div) {\\n  width: 1px;\\n  height: 100%;\\n  display: flex;\\n  background: #e6e6e6;\\n}\\n:global(.jstart) {\\n  justify-content: flex-start;\\n}\\n:global(.jcenter) {\\n  justify-content: center;\\n}\\n:global(.jend) {\\n  justify-content: flex-end;\\n}\\n:global(.jbetween) {\\n  justify-content: space-between;\\n}\\n:global(.jaround) {\\n  justify-content: space-around;\\n}\\n:global(.jevenly) {\\n  justify-content: space-evenly;\\n}\\n:global(.astart) {\\n  align-items: flex-start;\\n}\\n:global(.acenter) {\\n  align-items: center;\\n}\\n:global(.astretch) {\\n  align-items: stretch;\\n}\\n:global(.abase) {\\n  align-items: baseline;\\n}\\n:global(.aend) {\\n  align-items: flex-end;\\n}\\n:global(.fstart) {\\n  justify-content: flex-start;\\n  align-items: flex-start;\\n}\\n:global(.fcenter) {\\n  justify-content: center;\\n  align-items: center;\\n}\\n:global(.fend) {\\n  justify-content: flex-end;\\n  align-items: flex-end;\\n}\\n:global(.xfill) {\\n  width: 100%;\\n}\\n:global(.xhalf) {\\n  width: 50%;\\n}\\n:global(.yfill) {\\n  height: 100%;\\n}\\n:global(.yhalf) {\\n  height: 50%;\\n}\\n:global(.fill) {\\n  width: 100%;\\n  height: 100%;\\n}\\n:global(.grow) {\\n  flex-grow: 1;\\n}\\n:global(input),\\n:global(select),\\n:global(textarea) {\\n  background: transparent;\\n  color: #000;\\n  font-size: 0.9em;\\n  padding: 0.9em 1em;\\n  transition: 200ms;\\n}\\n:global(input.round),\\n:global(select.round),\\n:global(textarea.round) {\\n  border-radius: 4em;\\n  padding: 0.9em 1.2em;\\n}\\n:global(input.semi),\\n:global(select.semi),\\n:global(textarea.semi) {\\n  border-radius: 0.4em;\\n}\\n:global(input.out),\\n:global(select.out),\\n:global(textarea.out) {\\n  border: 1px solid #e6e6e6;\\n}\\n:global(input.disabled),\\n:global(select.dissabled),\\n:global(textarea.disabled) {\\n  cursor: not-allowed;\\n  background: #e6e6e6;\\n  color: #808080;\\n}\\n:global(input.white),\\n:global(select.white),\\n:global(textarea.white) {\\n  background: #fff;\\n}\\n:global(input.black),\\n:global(select.black),\\n:global(textarea.black) {\\n  background: #000;\\n}\\n:global(b.pri) {\\n  color: #2d8cf0;\\n}\\n:global(b.sec) {\\n  color: #2d8cf0;\\n}\\n:global(b.link) {\\n  color: #2d8cf0;\\n}\\n:global(b.succ) {\\n  color: #19be6b;\\n}\\n:global(b.warn) {\\n  color: #ff9900;\\n}\\n:global(b.err) {\\n  color: #ed3f14;\\n}\\n\\n.view {\\n  height: calc(100% - 90px);\\n}\\n\\nfooter {\\n  height: 25px;\\n  background: #383838;\\n  color: #fff;\\n  font-size: 12px;\\n}</style>\\r\\n"],"names":[],"mappings":"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"}'
+  map: '{"version":3,"file":"__layout.svelte","sources":["__layout.svelte"],"sourcesContent":["<script>\\r\\n  import Nav from \\"$lib/Nav.svelte\\";\\r\\n  import \\"../fonts/circular.css\\";\\r\\n  import \\"../fonts/operator.css\\";\\r\\n<\/script>\\r\\n\\r\\n<main>\\r\\n  <Nav />\\r\\n\\r\\n  <div class=\\"view fill\\">\\r\\n    <slot />\\r\\n  </div>\\r\\n\\r\\n  <footer class=\\"row fcenter xfill\\">\\r\\n    <p>Made with \u2665 by verdu on 2021</p>\\r\\n  </footer>\\r\\n</main>\\r\\n\\r\\n<style lang=\\"scss\\">:global(*),\\n:global(*:before),\\n:global(*:after) {\\n  box-sizing: border-box;\\n  margin: 0;\\n  padding: 0;\\n  border: none;\\n  outline: none;\\n  box-shadow: none;\\n  line-height: 1.4;\\n  -webkit-appearance: none;\\n     -moz-appearance: none;\\n          appearance: none;\\n  image-rendering: crisp-edges;\\n  -webkit-font-smoothing: antialiased;\\n  -moz-osx-font-smoothing: grayscale;\\n  text-rendering: optimizeLegibility;\\n  -webkit-tap-highlight-color: transparent;\\n}\\n:global(*:active),\\n:global(*:before:active),\\n:global(*:after:active) {\\n  -webkit-tap-highlight-color: transparent;\\n}\\n@media (max-width: 900px) {\\n  :global(*),\\n:global(*:before),\\n:global(*:after) {\\n    cursor: default;\\n  }\\n}\\n:global(html),\\n:global(body) {\\n  position: relative;\\n  width: 100%;\\n  height: 100%;\\n  overflow: hidden;\\n}\\n:global(body) {\\n  background: #000;\\n  color: #000;\\n}\\n:global(main) {\\n  position: absolute;\\n  top: 0;\\n  left: 0;\\n  width: 100%;\\n  height: 100%;\\n  background: #fafafa;\\n  border-radius: 0.5em;\\n}\\n:global(body),\\n:global(input),\\n:global(textarea),\\n:global(select),\\n:global(option) {\\n  font-family: \\"Circular Std\\", \\"Segoe UI Emoji\\", sans-serif;\\n}\\n:global(input),\\n:global(textarea),\\n:global(select),\\n:global(option),\\n:global(p) {\\n  font-weight: lighter;\\n}\\n:global(a) {\\n  text-decoration: none;\\n  color: #383838;\\n}\\n:global(ul) {\\n  list-style: none;\\n}\\n:global(pre),\\n:global(code) {\\n  font-family: \\"Operator Mono Lig\\", monospace;\\n  font-size: 0.9em;\\n}\\n@-webkit-keyframes fadeIn {\\n  from {\\n    opacity: 0;\\n  }\\n  to {\\n    opacity: 1;\\n  }\\n}\\n@keyframes fadeIn {\\n  from {\\n    opacity: 0;\\n  }\\n  to {\\n    opacity: 1;\\n  }\\n}\\n@-webkit-keyframes fadeOut {\\n  from {\\n    opacity: 1;\\n  }\\n  to {\\n    opacity: 0;\\n  }\\n}\\n@keyframes fadeOut {\\n  from {\\n    opacity: 1;\\n  }\\n  to {\\n    opacity: 0;\\n  }\\n}\\n@-webkit-keyframes scaleIn {\\n  from {\\n    transform: scale(0, 0);\\n    opacity: 0;\\n  }\\n  to {\\n    transform: scale(1, 1);\\n    opacity: 1;\\n  }\\n}\\n@keyframes scaleIn {\\n  from {\\n    transform: scale(0, 0);\\n    opacity: 0;\\n  }\\n  to {\\n    transform: scale(1, 1);\\n    opacity: 1;\\n  }\\n}\\n@-webkit-keyframes scaleOut {\\n  from {\\n    transform: scale(1, 1);\\n    opacity: 1;\\n  }\\n  to {\\n    transform: scale(0, 0);\\n    opacity: 0;\\n  }\\n}\\n@keyframes scaleOut {\\n  from {\\n    transform: scale(1, 1);\\n    opacity: 1;\\n  }\\n  to {\\n    transform: scale(0, 0);\\n    opacity: 0;\\n  }\\n}\\n@-webkit-keyframes fromTop {\\n  from {\\n    transform: translate3d(0, -100vh, 0);\\n  }\\n  to {\\n    transform: translate3d(0, 0, 0);\\n  }\\n}\\n@keyframes fromTop {\\n  from {\\n    transform: translate3d(0, -100vh, 0);\\n  }\\n  to {\\n    transform: translate3d(0, 0, 0);\\n  }\\n}\\n@-webkit-keyframes fromLeft {\\n  from {\\n    transform: translateX(-100vw);\\n  }\\n  to {\\n    transform: translateX(0);\\n  }\\n}\\n@keyframes fromLeft {\\n  from {\\n    transform: translateX(-100vw);\\n  }\\n  to {\\n    transform: translateX(0);\\n  }\\n}\\n@-webkit-keyframes fromRight {\\n  from {\\n    transform: translateX(100vw);\\n    opacity: 0;\\n  }\\n  to {\\n    transform: translateX(0);\\n    opacity: 1;\\n  }\\n}\\n@keyframes fromRight {\\n  from {\\n    transform: translateX(100vw);\\n    opacity: 0;\\n  }\\n  to {\\n    transform: translateX(0);\\n    opacity: 1;\\n  }\\n}\\n@-webkit-keyframes fromBot {\\n  from {\\n    transform: translate3d(0, 100vh, 0);\\n  }\\n  to {\\n    transform: translate3d(0, 0, 0);\\n  }\\n}\\n@keyframes fromBot {\\n  from {\\n    transform: translate3d(0, 100vh, 0);\\n  }\\n  to {\\n    transform: translate3d(0, 0, 0);\\n  }\\n}\\n@-webkit-keyframes toTop {\\n  from {\\n    transform: translateY(0);\\n  }\\n  to {\\n    transform: translateY(-100vh);\\n  }\\n}\\n@keyframes toTop {\\n  from {\\n    transform: translateY(0);\\n  }\\n  to {\\n    transform: translateY(-100vh);\\n  }\\n}\\n@-webkit-keyframes toLeft {\\n  from {\\n    transform: translateX(0);\\n  }\\n  to {\\n    transform: translateX(-100vw);\\n  }\\n}\\n@keyframes toLeft {\\n  from {\\n    transform: translateX(0);\\n  }\\n  to {\\n    transform: translateX(-100vw);\\n  }\\n}\\n@-webkit-keyframes toRight {\\n  from {\\n    transform: translateX(0);\\n  }\\n  to {\\n    transform: translateX(100vw);\\n  }\\n}\\n@keyframes toRight {\\n  from {\\n    transform: translateX(0);\\n  }\\n  to {\\n    transform: translateX(100vw);\\n  }\\n}\\n@-webkit-keyframes toBot {\\n  from {\\n    transform: translateY(0);\\n  }\\n  to {\\n    transform: translateY(100vh);\\n  }\\n}\\n@keyframes toBot {\\n  from {\\n    transform: translateY(0);\\n  }\\n  to {\\n    transform: translateY(100vh);\\n  }\\n}\\n@-webkit-keyframes fromFlipX {\\n  from {\\n    transform: rotateX(90deg);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateX(0);\\n  }\\n}\\n@keyframes fromFlipX {\\n  from {\\n    transform: rotateX(90deg);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateX(0);\\n  }\\n}\\n@-webkit-keyframes toFlipX {\\n  from {\\n    transform: rotateX(0);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateX(90deg);\\n  }\\n}\\n@keyframes toFlipX {\\n  from {\\n    transform: rotateX(0);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateX(90deg);\\n  }\\n}\\n@-webkit-keyframes fromFlipY {\\n  from {\\n    transform: rotateY(90deg);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateY(0);\\n  }\\n}\\n@keyframes fromFlipY {\\n  from {\\n    transform: rotateY(90deg);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateY(0);\\n  }\\n}\\n@-webkit-keyframes toFlipY {\\n  from {\\n    transform: rotateY(0);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateY(90deg);\\n  }\\n}\\n@keyframes toFlipY {\\n  from {\\n    transform: rotateY(0);\\n    position: absolute;\\n  }\\n  to {\\n    transform: rotateY(90deg);\\n  }\\n}\\n@-webkit-keyframes shake {\\n  0% {\\n    transform: translateX(1px);\\n  }\\n  10% {\\n    transform: translateX(-1px);\\n  }\\n  20% {\\n    transform: translateX(-3px);\\n  }\\n  30% {\\n    transform: translateX(3px);\\n  }\\n  40% {\\n    transform: translateX(1px);\\n  }\\n  50% {\\n    transform: translateX(-1px);\\n  }\\n  60% {\\n    transform: translateX(-3px);\\n  }\\n  70% {\\n    transform: translateX(3px);\\n  }\\n  80% {\\n    transform: translateX(-1px);\\n  }\\n  90% {\\n    transform: translateX(1px);\\n  }\\n  100% {\\n    transform: translateX(1px);\\n  }\\n}\\n@keyframes shake {\\n  0% {\\n    transform: translateX(1px);\\n  }\\n  10% {\\n    transform: translateX(-1px);\\n  }\\n  20% {\\n    transform: translateX(-3px);\\n  }\\n  30% {\\n    transform: translateX(3px);\\n  }\\n  40% {\\n    transform: translateX(1px);\\n  }\\n  50% {\\n    transform: translateX(-1px);\\n  }\\n  60% {\\n    transform: translateX(-3px);\\n  }\\n  70% {\\n    transform: translateX(3px);\\n  }\\n  80% {\\n    transform: translateX(-1px);\\n  }\\n  90% {\\n    transform: translateX(1px);\\n  }\\n  100% {\\n    transform: translateX(1px);\\n  }\\n}\\n@-webkit-keyframes bounce {\\n  0%, 20%, 50%, 80%, 100% {\\n    transform: translateY(0);\\n  }\\n  40% {\\n    transform: translateY(-30px);\\n  }\\n  60% {\\n    transform: translateY(-20px);\\n  }\\n}\\n@keyframes bounce {\\n  0%, 20%, 50%, 80%, 100% {\\n    transform: translateY(0);\\n  }\\n  40% {\\n    transform: translateY(-30px);\\n  }\\n  60% {\\n    transform: translateY(-20px);\\n  }\\n}\\n@-webkit-keyframes pulse {\\n  0%, 20%, 50%, 80%, 100% {\\n    transform: scale(1);\\n  }\\n  40% {\\n    transform: scale(1.1);\\n  }\\n  60% {\\n    transform: scale(0.8);\\n  }\\n}\\n@keyframes pulse {\\n  0%, 20%, 50%, 80%, 100% {\\n    transform: scale(1);\\n  }\\n  40% {\\n    transform: scale(1.1);\\n  }\\n  60% {\\n    transform: scale(0.8);\\n  }\\n}\\n:global(button),\\n:global(a.btn) {\\n  cursor: pointer;\\n  display: block;\\n  background-color: transparent;\\n  font-size: 0.9em;\\n  font-weight: bold;\\n  color: #000;\\n  border: 2px solid transparent;\\n  padding: 0.9em 2em;\\n  -webkit-user-select: none;\\n     -moz-user-select: none;\\n      -ms-user-select: none;\\n          user-select: none;\\n  -webkit-user-drag: none;\\n  transition: 200ms;\\n}\\n:global(button:hover),\\n:global(a.btn:hover) {\\n  transform: scale(0.95);\\n}\\n:global(button.round),\\n:global(a.round) {\\n  border-radius: 4em;\\n}\\n:global(button.semi),\\n:global(a.semi) {\\n  border-radius: 0.4em;\\n}\\n:global(button.out),\\n:global(a.out) {\\n  border-color: #000;\\n}\\n:global(button.disabled),\\n:global(a.disabeled) {\\n  cursor: not-allowed;\\n  background: #808080;\\n  color: #e6e6e6;\\n}\\n:global(button.pri),\\n:global(a.pri) {\\n  background: #383838;\\n  border-color: #383838;\\n}\\n:global(button.sec),\\n:global(a.sec) {\\n  background: #ccc;\\n  border-color: #ccc;\\n}\\n:global(button.black),\\n:global(a.black) {\\n  background: #000;\\n  border-color: #000;\\n  color: #fafafa;\\n}\\n:global(button.white),\\n:global(a.white) {\\n  background: #fff;\\n  border-color: #fff;\\n}\\n:global(button.link),\\n:global(a.link) {\\n  background: #2d8cf0;\\n  border-color: #2d8cf0;\\n  color: #fff;\\n}\\n:global(button.succ),\\n:global(a.succ) {\\n  background: #19be6b;\\n  border-color: #19be6b;\\n  color: #fff;\\n}\\n:global(button.warn),\\n:global(a.warn) {\\n  background: #ff9900;\\n  border-color: #ff9900;\\n}\\n:global(button.err),\\n:global(a.err) {\\n  background: #ed3f14;\\n  border-color: #ed3f14;\\n  color: #fff;\\n}\\n:global(button.outpri),\\n:global(a.outpri) {\\n  color: #383838;\\n  border-color: #383838;\\n}\\n:global(button.outsec),\\n:global(a.outsec) {\\n  color: #ccc;\\n  border-color: #ccc;\\n}\\n:global(button.outblack),\\n:global(a.outblack) {\\n  color: #000;\\n  border-color: #000;\\n}\\n:global(button.outwhite),\\n:global(a.outwhite) {\\n  color: #fff;\\n  border-color: #fff;\\n}\\n:global(button.outlink),\\n:global(a.outlink) {\\n  color: #2d8cf0;\\n  border-color: #2d8cf0;\\n}\\n:global(button.outsucc),\\n:global(a.outsucc) {\\n  color: #19be6b;\\n  border-color: #19be6b;\\n}\\n:global(button.outwarn),\\n:global(a.outwarn) {\\n  color: #ff9900;\\n  border-color: #ff9900;\\n}\\n:global(button.outerr),\\n:global(a.outerr) {\\n  color: #ed3f14;\\n  border-color: #ed3f14;\\n}\\n:global(.view) {\\n  position: relative;\\n  width: 100%;\\n  height: 100%;\\n  display: flex;\\n  overflow: hidden;\\n}\\n:global(.scroll) {\\n  position: relative;\\n  width: 100%;\\n  height: 100%;\\n  overflow-x: hidden;\\n  overflow-y: auto;\\n  -webkit-overflow-scrolling: touch;\\n}\\n:global(.scroll::-webkit-scrollbar) {\\n  width: 7px;\\n}\\n:global(.scroll::-webkit-scrollbar-track) {\\n  background-color: #e6e6e6;\\n}\\n:global(.scroll::-webkit-scrollbar-thumb) {\\n  background-color: #383838;\\n}\\n:global(.box) {\\n  border: 1px solid #e6e6e6;\\n  padding: 0.9em 1em;\\n}\\n:global(.box.round) {\\n  border-radius: 0.4em;\\n}\\n:global(.slider) {\\n  position: relative;\\n  width: 100%;\\n  display: block;\\n  overflow-x: auto;\\n  overflow-y: hidden;\\n  white-space: nowrap;\\n  -webkit-overflow-scrolling: touch;\\n  -ms-overflow-style: none;\\n  scrollbar-width: none;\\n}\\n:global(.slider::-webkit-scrollbar) {\\n  display: none;\\n}\\n:global(.slider) :global(*) {\\n  -webkit-user-select: none;\\n     -moz-user-select: none;\\n      -ms-user-select: none;\\n          user-select: none;\\n}\\n:global(.slide) {\\n  display: inline-flex;\\n}\\n:global(.row) {\\n  width: auto;\\n  display: flex;\\n  flex-flow: wrap;\\n  justify-content: flex-start;\\n  align-items: flex-start;\\n}\\n:global(.col) {\\n  width: auto;\\n  display: flex;\\n  flex-flow: column;\\n  justify-content: flex-start;\\n  align-items: flex-start;\\n}\\n:global(.nowrap) {\\n  flex-wrap: nowrap;\\n  overflow: hidden;\\n  text-overflow: ellipsis;\\n  white-space: nowrap;\\n}\\n:global(h-div) {\\n  width: 100%;\\n  height: 1px;\\n  display: flex;\\n  background: #e6e6e6;\\n}\\n:global(v-div) {\\n  width: 1px;\\n  height: 100%;\\n  display: flex;\\n  background: #e6e6e6;\\n}\\n:global(.jstart) {\\n  justify-content: flex-start;\\n}\\n:global(.jcenter) {\\n  justify-content: center;\\n}\\n:global(.jend) {\\n  justify-content: flex-end;\\n}\\n:global(.jbetween) {\\n  justify-content: space-between;\\n}\\n:global(.jaround) {\\n  justify-content: space-around;\\n}\\n:global(.jevenly) {\\n  justify-content: space-evenly;\\n}\\n:global(.astart) {\\n  align-items: flex-start;\\n}\\n:global(.acenter) {\\n  align-items: center;\\n}\\n:global(.astretch) {\\n  align-items: stretch;\\n}\\n:global(.abase) {\\n  align-items: baseline;\\n}\\n:global(.aend) {\\n  align-items: flex-end;\\n}\\n:global(.fstart) {\\n  justify-content: flex-start;\\n  align-items: flex-start;\\n}\\n:global(.fcenter) {\\n  justify-content: center;\\n  align-items: center;\\n}\\n:global(.fend) {\\n  justify-content: flex-end;\\n  align-items: flex-end;\\n}\\n:global(.xfill) {\\n  width: 100%;\\n}\\n:global(.xhalf) {\\n  width: 50%;\\n}\\n:global(.yfill) {\\n  height: 100%;\\n}\\n:global(.yhalf) {\\n  height: 50%;\\n}\\n:global(.fill) {\\n  width: 100%;\\n  height: 100%;\\n}\\n:global(.grow) {\\n  flex-grow: 1;\\n}\\n:global(input),\\n:global(select),\\n:global(textarea) {\\n  background: transparent;\\n  color: #000;\\n  font-size: 0.9em;\\n  padding: 0.9em 1em;\\n  transition: 200ms;\\n}\\n:global(input.round),\\n:global(select.round),\\n:global(textarea.round) {\\n  border-radius: 4em;\\n  padding: 0.9em 1.2em;\\n}\\n:global(input.semi),\\n:global(select.semi),\\n:global(textarea.semi) {\\n  border-radius: 0.4em;\\n}\\n:global(input.out),\\n:global(select.out),\\n:global(textarea.out) {\\n  border: 1px solid #e6e6e6;\\n}\\n:global(input.disabled),\\n:global(select.dissabled),\\n:global(textarea.disabled) {\\n  cursor: not-allowed;\\n  background: #e6e6e6;\\n  color: #808080;\\n}\\n:global(input.white),\\n:global(select.white),\\n:global(textarea.white) {\\n  background: #fff;\\n}\\n:global(input.black),\\n:global(select.black),\\n:global(textarea.black) {\\n  background: #000;\\n}\\n:global(b.pri) {\\n  color: #2d8cf0;\\n}\\n:global(b.sec) {\\n  color: #2d8cf0;\\n}\\n:global(b.link) {\\n  color: #2d8cf0;\\n}\\n:global(b.succ) {\\n  color: #19be6b;\\n}\\n:global(b.warn) {\\n  color: #ff9900;\\n}\\n:global(b.err) {\\n  color: #ed3f14;\\n}\\n\\n.view {\\n  height: calc(100% - 90px);\\n}\\n\\nfooter {\\n  height: 25px;\\n  background: #383838;\\n  color: #fff;\\n  font-size: 12px;\\n}</style>\\r\\n"],"names":[],"mappings":"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"}'
 };
 var _layout = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   $$result.css.add(css$a);
@@ -160490,7 +160488,7 @@ var nueva = /* @__PURE__ */ Object.freeze({
 });
 var css$1 = {
   code: ".header.svelte-onqdit.svelte-onqdit{background:linear-gradient(45deg, #383838 50%, #ccc);text-align:center;color:#fff;padding:60px}@media(max-width: 600px){.header.svelte-onqdit.svelte-onqdit{padding:40px}}.header.svelte-onqdit h1.svelte-onqdit{max-width:900px;font-size:6vh;line-height:1;margin-bottom:10px}.header.svelte-onqdit p.svelte-onqdit{max-width:900px;font-size:18px;color:#ccc;margin-bottom:40px}@media(max-width: 600px){.header.svelte-onqdit p.svelte-onqdit{font-size:14px}}.header.svelte-onqdit .io-wrapper.svelte-onqdit{font-size:12px}.bill-data.svelte-onqdit.svelte-onqdit{padding:60px}@media(max-width: 600px){.bill-data.svelte-onqdit.svelte-onqdit{padding:20px 10px}}.box.svelte-onqdit.svelte-onqdit{max-width:900px;margin-bottom:40px;padding:20px}@media(max-width: 600px){.box.svelte-onqdit.svelte-onqdit{margin-bottom:10px}}.box.svelte-onqdit .notice.svelte-onqdit{font-size:14px;margin-bottom:40px}@media(max-width: 600px){.box.svelte-onqdit .notice.svelte-onqdit{font-size:12px;margin-bottom:30px}}.box.svelte-onqdit .input-wrapper.svelte-onqdit{margin-bottom:30px}@media(max-width: 600px){.box.svelte-onqdit .input-wrapper.svelte-onqdit{margin-bottom:20px}}.box.svelte-onqdit label.svelte-onqdit{text-transform:uppercase;color:#383838;font-size:12px;padding:0 15px}.box.svelte-onqdit input.svelte-onqdit{font-size:16px;border-bottom:1px solid #ccc;border-radius:0}.box.svelte-onqdit input.svelte-onqdit:focus{border-color:#383838}@media(max-width: 600px){.box.svelte-onqdit input.svelte-onqdit{font-size:14px}}.box.svelte-onqdit .date.svelte-onqdit{width:calc(100% / 3)}@media(max-width: 600px){.box.svelte-onqdit .date-row.svelte-onqdit{width:100%}}.box.svelte-onqdit .line.svelte-onqdit:nth-of-type(even){background:#f3f3f3;border-top:5px solid #fff;border-bottom:5px solid #fff}.box.svelte-onqdit .line input.svelte-onqdit:nth-of-type(1),.box.svelte-onqdit .line input.svelte-onqdit:nth-of-type(3),.box.svelte-onqdit .line input.svelte-onqdit:nth-of-type(4){width:15%}@media(max-width: 600px){.box.svelte-onqdit .line input.svelte-onqdit:nth-of-type(1),.box.svelte-onqdit .line input.svelte-onqdit:nth-of-type(3),.box.svelte-onqdit .line input.svelte-onqdit:nth-of-type(4){width:25%}}.box.svelte-onqdit .line input.svelte-onqdit:nth-of-type(5){cursor:pointer;width:50px;background:#ccc;text-align:center;color:#383838;font-weight:bold}.box.svelte-onqdit .line input.svelte-onqdit:nth-of-type(5):hover{background:#383838;color:#ccc}@media(max-width: 600px){.box.svelte-onqdit .line input.svelte-onqdit:nth-of-type(3),.box.svelte-onqdit .line input.svelte-onqdit:nth-of-type(4),.box.svelte-onqdit .line input.svelte-onqdit:nth-of-type(5){width:calc(100% / 3)}}.box.svelte-onqdit h-div.svelte-onqdit{margin:40px 0}.box.svelte-onqdit .new-line input.svelte-onqdit:nth-of-type(1),.box.svelte-onqdit .new-line input.svelte-onqdit:nth-of-type(3),.box.svelte-onqdit .new-line input.svelte-onqdit:nth-of-type(4){width:15%}@media(max-width: 600px){.box.svelte-onqdit .new-line input.svelte-onqdit:nth-of-type(1),.box.svelte-onqdit .new-line input.svelte-onqdit:nth-of-type(3),.box.svelte-onqdit .new-line input.svelte-onqdit:nth-of-type(4){width:25%}}@media(max-width: 600px){.box.svelte-onqdit .new-line input.svelte-onqdit:nth-of-type(3),.box.svelte-onqdit .new-line input.svelte-onqdit:nth-of-type(4){width:calc(100% / 2)}}.box.svelte-onqdit .line-btn.svelte-onqdit{cursor:pointer;background:#ccc;text-align:center;font-size:12px;padding:1.3em;transition:200ms}.box.svelte-onqdit .line-btn.svelte-onqdit:hover{background:#383838;color:#fff}.total-wrapper.svelte-onqdit li.svelte-onqdit{margin:10px}button.svelte-onqdit.svelte-onqdit{margin-right:10px}@media(max-width: 600px){button.svelte-onqdit.svelte-onqdit{width:70%;margin-right:0;margin-bottom:10px}}@media(max-width: 600px){a.btn.svelte-onqdit.svelte-onqdit{width:70%;text-align:center;margin-right:0;margin-bottom:10px}}",
-  map: '{"version":3,"file":"[id].svelte","sources":["[id].svelte"],"sourcesContent":["<script>\\r\\n  import { page } from \\"$app/stores\\";\\r\\n  import { goto } from \\"$app/navigation\\";\\r\\n  import { bills, userData } from \\"../../stores\\";\\r\\n\\r\\n  let billData = $bills.filter((bill) => bill._id === $page.params.id)[0];\\r\\n  let lineData = {};\\r\\n\\r\\n  async function downloadBill() {\\r\\n    try {\\r\\n      const req = await fetch(\\"/api/print\\", {\\r\\n        method: \\"POST\\",\\r\\n        \\"Content-Type\\": \\"application/json\\",\\r\\n        body: JSON.stringify(billData),\\r\\n      });\\r\\n\\r\\n      const res = await req.blob();\\r\\n      const file = window.URL.createObjectURL(res);\\r\\n      const link = document.createElement(\\"a\\");\\r\\n\\r\\n      link.href = file;\\r\\n      link.download = `Factura_${billData.number}_${billData.client.legal_id}.pdf`;\\r\\n      link.click();\\r\\n    } catch (error) {\\r\\n      console.log(error);\\r\\n    }\\r\\n  }\\r\\n\\r\\n  function generateDelivery() {\\r\\n    console.log(\\"Generating...\\");\\r\\n  }\\r\\n\\r\\n  function deleteBill() {\\r\\n    const check = confirm(\\"La numeracion de las otras facturas no se modificara. Recuerda usar la numeracion de esta factura en otra.\\\\n\\\\n\xBFBorrar definitivamente?\\");\\r\\n\\r\\n    if (check) {\\r\\n      $bills.splice($bills.indexOf(billData), 1);\\r\\n      $bills = $bills;\\r\\n      goto(\\"/facturas\\");\\r\\n    }\\r\\n  }\\r\\n\\r\\n  function pushLine() {\\r\\n    if (Object.keys(lineData).length === 4) {\\r\\n      billData.items = [...billData.items, lineData];\\r\\n      lineData = {};\\r\\n    }\\r\\n  }\\r\\n\\r\\n  function removeLine(i) {\\r\\n    billData.items.splice(i, 1);\\r\\n    billData.items = billData.items;\\r\\n  }\\r\\n\\r\\n  $: base_total = () => {\\r\\n    const result = billData.items.reduce((acc, curr) => {\\r\\n      const amount_price = curr.price * curr.amount;\\r\\n\\r\\n      if (curr.dto > 0) {\\r\\n        let dto_price = amount_price - (amount_price * curr.dto) / 100;\\r\\n        return acc + dto_price;\\r\\n      }\\r\\n\\r\\n      return acc + amount_price;\\r\\n    }, 0);\\r\\n\\r\\n    return result;\\r\\n  };\\r\\n\\r\\n  $: iva_total = () => {\\r\\n    const result = (base_total() * $userData.iva) / 100;\\r\\n    return result;\\r\\n  };\\r\\n\\r\\n  $: ret_total = () => {\\r\\n    if (!$userData.ret) return 0;\\r\\n\\r\\n    const result = (base_total() * $userData.ret) / 100;\\r\\n    return result;\\r\\n  };\\r\\n\\r\\n  $: bill_total = () => {\\r\\n    const result = base_total() + iva_total() - ret_total();\\r\\n    return result;\\r\\n  };\\r\\n\\r\\n  function pushBill() {\\r\\n    if (billData.items.length > 0) {\\r\\n      billData.totals = {\\r\\n        base: base_total(),\\r\\n        iva: iva_total(),\\r\\n        ret: ret_total(),\\r\\n        total: bill_total(),\\r\\n      };\\r\\n\\r\\n      $bills = $bills.map((bill) => {\\r\\n        if (bill._id === billData._id) return (bill = billData);\\r\\n        else return bill;\\r\\n      });\\r\\n\\r\\n      goto(\\"/facturas\\");\\r\\n    } else alert(\\"\u26A0 No has a\xF1adido ningun concepto \u26A0\\");\\r\\n  }\\r\\n<\/script>\\r\\n\\r\\n<svelte:head>\\r\\n  <title>Editar factura | Facturas gratis</title>\\r\\n  <meta property=\\"og:title\\" content=\\"Editar factura | Facturas gratis\\" />\\r\\n  <meta property=\\"og:site_name\\" content=\\"Facturas gratis\\" />\\r\\n\\r\\n  <meta\\r\\n    name=\\"description\\"\\r\\n    content=\\"Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,\\r\\n  clientes, proveedores y productos/servicios.\\"\\r\\n  />\\r\\n  <meta\\r\\n    property=\\"og:description\\"\\r\\n    content=\\"Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,\\r\\n  clientes, proveedores y productos/servicios.\\"\\r\\n  />\\r\\n</svelte:head>\\r\\n\\r\\n<div class=\\"scroll\\">\\r\\n  {#if billData}\\r\\n    <section class=\\"header col fcenter xfill\\">\\r\\n      <h1>Factura n\xBA {billData.number}</h1>\\r\\n      <p>\\r\\n        Con fecha {billData.date.day}/{billData.date.month}/{billData.date.year}\\r\\n      </p>\\r\\n\\r\\n      <div class=\\"io-wrapper row jcenter xfill\\">\\r\\n        <button class=\\"succ semi\\" on:click={downloadBill}>DESCARGAR FACTURA</button>\\r\\n        <button class=\\"link semi\\" on:click={generateDelivery}>GENERAR ALBAR\xC1N</button>\\r\\n        <button class=\\"err semi\\" on:click={deleteBill}>ELIMINAR FACTURA</button>\\r\\n      </div>\\r\\n    </section>\\r\\n\\r\\n    <form class=\\"bill-data col acenter xfill\\" on:submit|preventDefault={pushBill}>\\r\\n      <div class=\\"box round col xfill\\">\\r\\n        <h2>Datos de la factura</h2>\\r\\n        <p class=\\"notice\\">La numeraci\xF3n y fecha de la factura se rellenan automatiamente, pero puedes modificarlas.</p>\\r\\n\\r\\n        <div class=\\"row xfill\\">\\r\\n          <div class=\\"input-wrapper col grow\\">\\r\\n            <label for=\\"legal_name\\">N\xFAmero</label>\\r\\n            <input type=\\"number\\" id=\\"legal_name\\" class=\\"xfill\\" bind:value={billData.number} required />\\r\\n          </div>\\r\\n\\r\\n          <div class=\\"date-row row xhalf\\">\\r\\n            <div class=\\"input-wrapper date col\\">\\r\\n              <label for=\\"day\\">D\xEDa</label>\\r\\n              <input type=\\"number\\" id=\\"day\\" min=\\"1\\" max=\\"31\\" class=\\"xfill\\" bind:value={billData.date.day} required />\\r\\n            </div>\\r\\n            <div class=\\"input-wrapper date col\\">\\r\\n              <label for=\\"month\\">Mes</label>\\r\\n              <input type=\\"number\\" id=\\"month\\" min=\\"1\\" max=\\"12\\" class=\\"xfill\\" bind:value={billData.date.month} required />\\r\\n            </div>\\r\\n            <div class=\\"input-wrapper date col\\">\\r\\n              <label for=\\"year\\">A\xF1o</label>\\r\\n              <input type=\\"number\\" id=\\"year\\" class=\\"xfill\\" bind:value={billData.date.year} required />\\r\\n            </div>\\r\\n          </div>\\r\\n        </div>\\r\\n      </div>\\r\\n\\r\\n      <div class=\\"box round col xfill\\">\\r\\n        <h2>Datos del cliente</h2>\\r\\n        <p class=\\"notice\\">Cada vez que a\xF1adas un cliente nuevo, este se guardara automatiamente.</p>\\r\\n\\r\\n        <div class=\\"input-wrapper col xfill\\">\\r\\n          <label for=\\"legal_name\\">NOMBRE FISCAL</label>\\r\\n          <input type=\\"text\\" id=\\"leagal_name\\" bind:value={billData.client.legal_name} class=\\"xfill\\" required />\\r\\n        </div>\\r\\n\\r\\n        <div class=\\"row xfill\\">\\r\\n          <div class=\\"input-wrapper col xhalf\\">\\r\\n            <label for=\\"legal_id\\">CIF/NIF</label>\\r\\n            <input type=\\"text\\" id=\\"leagal_id\\" bind:value={billData.client.legal_id} class=\\"xfill\\" required />\\r\\n          </div>\\r\\n\\r\\n          <div class=\\"input-wrapper col xhalf\\">\\r\\n            <label for=\\"contact\\">Conacto</label>\\r\\n            <input type=\\"text\\" id=\\"contact\\" bind:value={billData.client.contact} class=\\"xfill\\" required />\\r\\n          </div>\\r\\n        </div>\\r\\n\\r\\n        <div class=\\"row xfill\\">\\r\\n          <div class=\\"input-wrapper col xhalf\\">\\r\\n            <label for=\\"address\\">DIRECCION FISCAL</label>\\r\\n            <input type=\\"text\\" id=\\"address\\" bind:value={billData.client.address} class=\\"xfill\\" required />\\r\\n          </div>\\r\\n\\r\\n          <div class=\\"col xhalf\\">\\r\\n            <label for=\\"cp\\">C\xF3digo postal</label>\\r\\n            <input type=\\"text\\" id=\\"cp\\" bind:value={billData.client.cp} class=\\"xfill\\" required />\\r\\n          </div>\\r\\n        </div>\\r\\n\\r\\n        <div class=\\"row xfill\\">\\r\\n          <div class=\\"input-wrapper col xhalf\\">\\r\\n            <label for=\\"city\\">POBLACI\xD3N</label>\\r\\n            <input type=\\"text\\" id=\\"city\\" bind:value={billData.client.city} class=\\"xfill\\" required />\\r\\n          </div>\\r\\n\\r\\n          <div class=\\"input-wrapper col xhalf\\">\\r\\n            <label for=\\"country\\">Pa\xEDs</label>\\r\\n            <input type=\\"text\\" id=\\"country\\" bind:value={billData.client.country} class=\\"xfill\\" required />\\r\\n          </div>\\r\\n        </div>\\r\\n      </div>\\r\\n\\r\\n      <div class=\\"box round col xfill\\">\\r\\n        <h2>Conceptos</h2>\\r\\n        <p class=\\"notice\\">Cada vez que a\xF1adas un producto/servicio nuevo, este se guardara automatiamente.</p>\\r\\n\\r\\n        {#if billData.items.length > 0}\\r\\n          <ul class=\\"bill-items col acenter xfill\\">\\r\\n            {#each billData.items as item, i}\\r\\n              <li class=\\"line row xfill\\">\\r\\n                <input type=\\"number\\" id=\\"amount\\" bind:value={item.amount} min=\\"1\\" class=\\"out\\" placeholder=\\"CANT\\" />\\r\\n                <input type=\\"text\\" id=\\"label\\" bind:value={item.label} class=\\"out grow\\" placeholder=\\"CONCEPTO\\" />\\r\\n                <input type=\\"number\\" id=\\"dto\\" bind:value={item.dto} min=\\"0\\" max=\\"100\\" class=\\"out\\" placeholder=\\"DTO %\\" />\\r\\n                <input type=\\"number\\" id=\\"price\\" bind:value={item.price} step=\\"0.01\\" class=\\"out\\" placeholder=\\"UNIDAD \u20AC\\" />\\r\\n                <input type=\\"text\\" value=\\"x\\" class=\\"out\\" on:click={() => removeLine(i)} />\\r\\n              </li>\\r\\n            {/each}\\r\\n          </ul>\\r\\n\\r\\n          <h-div />\\r\\n\\r\\n          <ul class=\\"total-wrapper row jaround xfill\\">\\r\\n            <li class=\\"col acenter\\">\\r\\n              <p class=\\"label\\">Base imponible</p>\\r\\n              <h3>{base_total().toFixed(2)}\u20AC</h3>\\r\\n            </li>\\r\\n\\r\\n            <li class=\\"col acenter\\">\\r\\n              <p class=\\"label\\">IVA {$userData.iva}%</p>\\r\\n              <h3>{iva_total().toFixed(2)}\u20AC</h3>\\r\\n            </li>\\r\\n\\r\\n            {#if $userData.ret}\\r\\n              <li class=\\"col acenter\\">\\r\\n                <p class=\\"label\\">IRPF {$userData.ret}%</p>\\r\\n                <h3>-{ret_total().toFixed(2)}\u20AC</h3>\\r\\n              </li>\\r\\n            {/if}\\r\\n\\r\\n            <li class=\\"col acenter\\">\\r\\n              <p class=\\"label\\">Total</p>\\r\\n              <h3>{bill_total().toFixed(2)}\u20AC</h3>\\r\\n            </li>\\r\\n          </ul>\\r\\n\\r\\n          <h-div />\\r\\n        {/if}\\r\\n\\r\\n        <div class=\\"new-line row xfill\\">\\r\\n          <input type=\\"number\\" id=\\"amount\\" bind:value={lineData.amount} min=\\"1\\" class=\\"out\\" placeholder=\\"CANT\\" />\\r\\n          <input type=\\"text\\" id=\\"label\\" bind:value={lineData.label} class=\\"out grow\\" placeholder=\\"CONCEPTO\\" />\\r\\n          <input type=\\"number\\" id=\\"dto\\" bind:value={lineData.dto} min=\\"0\\" max=\\"100\\" class=\\"out\\" placeholder=\\"DTO %\\" />\\r\\n          <input type=\\"number\\" id=\\"price\\" bind:value={lineData.price} step=\\"0.01\\" class=\\"out\\" placeholder=\\"UNIDAD \u20AC\\" />\\r\\n        </div>\\r\\n\\r\\n        <div class=\\"line-btn pri xfill\\" on:click={pushLine}>A\xD1ADIR PRODUCTO/SERVICIO</div>\\r\\n      </div>\\r\\n\\r\\n      <div class=\\"row jcenter xfill\\">\\r\\n        <button class=\\"succ semi\\">GUARDAR CAMBIOS</button>\\r\\n        <a href=\\"/facturas\\" class=\\"btn out semi\\">CANCELAR</a>\\r\\n      </div>\\r\\n    </form>\\r\\n  {/if}\\r\\n</div>\\r\\n\\r\\n<style lang=\\"scss\\">.header {\\n  background: linear-gradient(45deg, #383838 50%, #ccc);\\n  text-align: center;\\n  color: #fff;\\n  padding: 60px;\\n}\\n@media (max-width: 600px) {\\n  .header {\\n    padding: 40px;\\n  }\\n}\\n.header h1 {\\n  max-width: 900px;\\n  font-size: 6vh;\\n  line-height: 1;\\n  margin-bottom: 10px;\\n}\\n.header p {\\n  max-width: 900px;\\n  font-size: 18px;\\n  color: #ccc;\\n  margin-bottom: 40px;\\n}\\n@media (max-width: 600px) {\\n  .header p {\\n    font-size: 14px;\\n  }\\n}\\n.header .io-wrapper {\\n  font-size: 12px;\\n}\\n\\n.bill-data {\\n  padding: 60px;\\n}\\n@media (max-width: 600px) {\\n  .bill-data {\\n    padding: 20px 10px;\\n  }\\n}\\n\\n.box {\\n  max-width: 900px;\\n  margin-bottom: 40px;\\n  padding: 20px;\\n}\\n@media (max-width: 600px) {\\n  .box {\\n    margin-bottom: 10px;\\n  }\\n}\\n.box .notice {\\n  font-size: 14px;\\n  margin-bottom: 40px;\\n}\\n@media (max-width: 600px) {\\n  .box .notice {\\n    font-size: 12px;\\n    margin-bottom: 30px;\\n  }\\n}\\n.box .input-wrapper {\\n  margin-bottom: 30px;\\n}\\n@media (max-width: 600px) {\\n  .box .input-wrapper {\\n    margin-bottom: 20px;\\n  }\\n}\\n.box label {\\n  text-transform: uppercase;\\n  color: #383838;\\n  font-size: 12px;\\n  padding: 0 15px;\\n}\\n.box input,\\n.box select {\\n  font-size: 16px;\\n  border-bottom: 1px solid #ccc;\\n  border-radius: 0;\\n}\\n.box input:focus,\\n.box select:focus {\\n  border-color: #383838;\\n}\\n@media (max-width: 600px) {\\n  .box input,\\n.box select {\\n    font-size: 14px;\\n  }\\n}\\n.box .date {\\n  width: calc(100% / 3);\\n}\\n@media (max-width: 600px) {\\n  .box .date-row {\\n    width: 100%;\\n  }\\n}\\n.box .line:nth-of-type(even) {\\n  background: #f3f3f3;\\n  border-top: 5px solid #fff;\\n  border-bottom: 5px solid #fff;\\n}\\n.box .line input:nth-of-type(1),\\n.box .line input:nth-of-type(3),\\n.box .line input:nth-of-type(4) {\\n  width: 15%;\\n}\\n@media (max-width: 600px) {\\n  .box .line input:nth-of-type(1),\\n.box .line input:nth-of-type(3),\\n.box .line input:nth-of-type(4) {\\n    width: 25%;\\n  }\\n}\\n.box .line input:nth-of-type(5) {\\n  cursor: pointer;\\n  width: 50px;\\n  background: #ccc;\\n  text-align: center;\\n  color: #383838;\\n  font-weight: bold;\\n}\\n.box .line input:nth-of-type(5):hover {\\n  background: #383838;\\n  color: #ccc;\\n}\\n@media (max-width: 600px) {\\n  .box .line input:nth-of-type(3),\\n.box .line input:nth-of-type(4),\\n.box .line input:nth-of-type(5) {\\n    width: calc(100% / 3);\\n  }\\n}\\n.box h-div {\\n  margin: 40px 0;\\n}\\n.box .new-line input:nth-of-type(1),\\n.box .new-line input:nth-of-type(3),\\n.box .new-line input:nth-of-type(4) {\\n  width: 15%;\\n}\\n@media (max-width: 600px) {\\n  .box .new-line input:nth-of-type(1),\\n.box .new-line input:nth-of-type(3),\\n.box .new-line input:nth-of-type(4) {\\n    width: 25%;\\n  }\\n}\\n@media (max-width: 600px) {\\n  .box .new-line input:nth-of-type(3),\\n.box .new-line input:nth-of-type(4) {\\n    width: calc(100% / 2);\\n  }\\n}\\n.box .line-btn {\\n  cursor: pointer;\\n  background: #ccc;\\n  text-align: center;\\n  font-size: 12px;\\n  padding: 1.3em;\\n  transition: 200ms;\\n}\\n.box .line-btn:hover {\\n  background: #383838;\\n  color: #fff;\\n}\\n\\n.total-wrapper li {\\n  margin: 10px;\\n}\\n\\nbutton {\\n  margin-right: 10px;\\n}\\n@media (max-width: 600px) {\\n  button {\\n    width: 70%;\\n    margin-right: 0;\\n    margin-bottom: 10px;\\n  }\\n}\\n\\n@media (max-width: 600px) {\\n  a.btn {\\n    width: 70%;\\n    text-align: center;\\n    margin-right: 0;\\n    margin-bottom: 10px;\\n  }\\n}</style>\\r\\n"],"names":[],"mappings":"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"}'
+  map: '{"version":3,"file":"[id].svelte","sources":["[id].svelte"],"sourcesContent":["<script>\\r\\n  import { page } from \\"$app/stores\\";\\r\\n  import { goto } from \\"$app/navigation\\";\\r\\n  import { bills, userData } from \\"../../stores\\";\\r\\n\\r\\n  let billData = $bills.filter((bill) => bill._id === $page.params.id)[0];\\r\\n  let lineData = {};\\r\\n\\r\\n  async function downloadBill() {\\r\\n    try {\\r\\n      const req = await fetch(\\"/api/print\\", {\\r\\n        method: \\"POST\\",\\r\\n        \\"Content-Type\\": \\"application/json\\",\\r\\n        body: JSON.stringify(billData),\\r\\n      });\\r\\n\\r\\n      if (!req.ok) throw await req.text();\\r\\n\\r\\n      const res = await req.blob();\\r\\n      const file = window.URL.createObjectURL(res);\\r\\n      const link = document.createElement(\\"a\\");\\r\\n\\r\\n      link.href = file;\\r\\n      link.download = `Factura_${billData.number}_${billData.client.legal_id}.pdf`;\\r\\n      link.click();\\r\\n    } catch (error) {\\r\\n      console.log(error);\\r\\n      alert(\\"Algo ha salido mal. Vuelve a intentarlo\\");\\r\\n    }\\r\\n  }\\r\\n\\r\\n  function generateDelivery() {\\r\\n    console.log(\\"Generating...\\");\\r\\n  }\\r\\n\\r\\n  function deleteBill() {\\r\\n    const check = confirm(\\r\\n      \\"La numeracion de las otras facturas no se modificara. Recuerda usar la numeracion de esta factura en otra.\\\\n\\\\n\xBFBorrar definitivamente?\\"\\r\\n    );\\r\\n\\r\\n    if (check) {\\r\\n      $bills.splice($bills.indexOf(billData), 1);\\r\\n      $bills = $bills;\\r\\n      goto(\\"/facturas\\");\\r\\n    }\\r\\n  }\\r\\n\\r\\n  function pushLine() {\\r\\n    if (Object.keys(lineData).length === 4) {\\r\\n      billData.items = [...billData.items, lineData];\\r\\n      lineData = {};\\r\\n    }\\r\\n  }\\r\\n\\r\\n  function removeLine(i) {\\r\\n    billData.items.splice(i, 1);\\r\\n    billData.items = billData.items;\\r\\n  }\\r\\n\\r\\n  $: base_total = () => {\\r\\n    const result = billData.items.reduce((acc, curr) => {\\r\\n      const amount_price = curr.price * curr.amount;\\r\\n\\r\\n      if (curr.dto > 0) {\\r\\n        let dto_price = amount_price - (amount_price * curr.dto) / 100;\\r\\n        return acc + dto_price;\\r\\n      }\\r\\n\\r\\n      return acc + amount_price;\\r\\n    }, 0);\\r\\n\\r\\n    return result;\\r\\n  };\\r\\n\\r\\n  $: iva_total = () => {\\r\\n    const result = (base_total() * $userData.iva) / 100;\\r\\n    return result;\\r\\n  };\\r\\n\\r\\n  $: ret_total = () => {\\r\\n    if (!$userData.ret) return 0;\\r\\n\\r\\n    const result = (base_total() * $userData.ret) / 100;\\r\\n    return result;\\r\\n  };\\r\\n\\r\\n  $: bill_total = () => {\\r\\n    const result = base_total() + iva_total() - ret_total();\\r\\n    return result;\\r\\n  };\\r\\n\\r\\n  function pushBill() {\\r\\n    if (billData.items.length > 0) {\\r\\n      billData.totals = {\\r\\n        base: base_total(),\\r\\n        iva: iva_total(),\\r\\n        ret: ret_total(),\\r\\n        total: bill_total(),\\r\\n      };\\r\\n\\r\\n      $bills = $bills.map((bill) => {\\r\\n        if (bill._id === billData._id) return (bill = billData);\\r\\n        else return bill;\\r\\n      });\\r\\n\\r\\n      goto(\\"/facturas\\");\\r\\n    } else alert(\\"\u26A0 No has a\xF1adido ningun concepto \u26A0\\");\\r\\n  }\\r\\n<\/script>\\r\\n\\r\\n<svelte:head>\\r\\n  <title>Editar factura | Facturas gratis</title>\\r\\n  <meta property=\\"og:title\\" content=\\"Editar factura | Facturas gratis\\" />\\r\\n  <meta property=\\"og:site_name\\" content=\\"Facturas gratis\\" />\\r\\n\\r\\n  <meta\\r\\n    name=\\"description\\"\\r\\n    content=\\"Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,\\r\\n  clientes, proveedores y productos/servicios.\\"\\r\\n  />\\r\\n  <meta\\r\\n    property=\\"og:description\\"\\r\\n    content=\\"Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,\\r\\n  clientes, proveedores y productos/servicios.\\"\\r\\n  />\\r\\n</svelte:head>\\r\\n\\r\\n<div class=\\"scroll\\">\\r\\n  {#if billData}\\r\\n    <section class=\\"header col fcenter xfill\\">\\r\\n      <h1>Factura n\xBA {billData.number}</h1>\\r\\n      <p>\\r\\n        Con fecha {billData.date.day}/{billData.date.month}/{billData.date.year}\\r\\n      </p>\\r\\n\\r\\n      <div class=\\"io-wrapper row jcenter xfill\\">\\r\\n        <button class=\\"succ semi\\" on:click={downloadBill}>DESCARGAR FACTURA</button>\\r\\n        <button class=\\"link semi\\" on:click={generateDelivery}>GENERAR ALBAR\xC1N</button>\\r\\n        <button class=\\"err semi\\" on:click={deleteBill}>ELIMINAR FACTURA</button>\\r\\n      </div>\\r\\n    </section>\\r\\n\\r\\n    <form class=\\"bill-data col acenter xfill\\" on:submit|preventDefault={pushBill}>\\r\\n      <div class=\\"box round col xfill\\">\\r\\n        <h2>Datos de la factura</h2>\\r\\n        <p class=\\"notice\\">La numeraci\xF3n y fecha de la factura se rellenan automatiamente, pero puedes modificarlas.</p>\\r\\n\\r\\n        <div class=\\"row xfill\\">\\r\\n          <div class=\\"input-wrapper col grow\\">\\r\\n            <label for=\\"legal_name\\">N\xFAmero</label>\\r\\n            <input type=\\"number\\" id=\\"legal_name\\" class=\\"xfill\\" bind:value={billData.number} required />\\r\\n          </div>\\r\\n\\r\\n          <div class=\\"date-row row xhalf\\">\\r\\n            <div class=\\"input-wrapper date col\\">\\r\\n              <label for=\\"day\\">D\xEDa</label>\\r\\n              <input type=\\"number\\" id=\\"day\\" min=\\"1\\" max=\\"31\\" class=\\"xfill\\" bind:value={billData.date.day} required />\\r\\n            </div>\\r\\n            <div class=\\"input-wrapper date col\\">\\r\\n              <label for=\\"month\\">Mes</label>\\r\\n              <input\\r\\n                type=\\"number\\"\\r\\n                id=\\"month\\"\\r\\n                min=\\"1\\"\\r\\n                max=\\"12\\"\\r\\n                class=\\"xfill\\"\\r\\n                bind:value={billData.date.month}\\r\\n                required\\r\\n              />\\r\\n            </div>\\r\\n            <div class=\\"input-wrapper date col\\">\\r\\n              <label for=\\"year\\">A\xF1o</label>\\r\\n              <input type=\\"number\\" id=\\"year\\" class=\\"xfill\\" bind:value={billData.date.year} required />\\r\\n            </div>\\r\\n          </div>\\r\\n        </div>\\r\\n      </div>\\r\\n\\r\\n      <div class=\\"box round col xfill\\">\\r\\n        <h2>Datos del cliente</h2>\\r\\n        <p class=\\"notice\\">Cada vez que a\xF1adas un cliente nuevo, este se guardara automatiamente.</p>\\r\\n\\r\\n        <div class=\\"input-wrapper col xfill\\">\\r\\n          <label for=\\"legal_name\\">NOMBRE FISCAL</label>\\r\\n          <input type=\\"text\\" id=\\"leagal_name\\" bind:value={billData.client.legal_name} class=\\"xfill\\" required />\\r\\n        </div>\\r\\n\\r\\n        <div class=\\"row xfill\\">\\r\\n          <div class=\\"input-wrapper col xhalf\\">\\r\\n            <label for=\\"legal_id\\">CIF/NIF</label>\\r\\n            <input type=\\"text\\" id=\\"leagal_id\\" bind:value={billData.client.legal_id} class=\\"xfill\\" required />\\r\\n          </div>\\r\\n\\r\\n          <div class=\\"input-wrapper col xhalf\\">\\r\\n            <label for=\\"contact\\">Conacto</label>\\r\\n            <input type=\\"text\\" id=\\"contact\\" bind:value={billData.client.contact} class=\\"xfill\\" required />\\r\\n          </div>\\r\\n        </div>\\r\\n\\r\\n        <div class=\\"row xfill\\">\\r\\n          <div class=\\"input-wrapper col xhalf\\">\\r\\n            <label for=\\"address\\">DIRECCION FISCAL</label>\\r\\n            <input type=\\"text\\" id=\\"address\\" bind:value={billData.client.address} class=\\"xfill\\" required />\\r\\n          </div>\\r\\n\\r\\n          <div class=\\"col xhalf\\">\\r\\n            <label for=\\"cp\\">C\xF3digo postal</label>\\r\\n            <input type=\\"text\\" id=\\"cp\\" bind:value={billData.client.cp} class=\\"xfill\\" required />\\r\\n          </div>\\r\\n        </div>\\r\\n\\r\\n        <div class=\\"row xfill\\">\\r\\n          <div class=\\"input-wrapper col xhalf\\">\\r\\n            <label for=\\"city\\">POBLACI\xD3N</label>\\r\\n            <input type=\\"text\\" id=\\"city\\" bind:value={billData.client.city} class=\\"xfill\\" required />\\r\\n          </div>\\r\\n\\r\\n          <div class=\\"input-wrapper col xhalf\\">\\r\\n            <label for=\\"country\\">Pa\xEDs</label>\\r\\n            <input type=\\"text\\" id=\\"country\\" bind:value={billData.client.country} class=\\"xfill\\" required />\\r\\n          </div>\\r\\n        </div>\\r\\n      </div>\\r\\n\\r\\n      <div class=\\"box round col xfill\\">\\r\\n        <h2>Conceptos</h2>\\r\\n        <p class=\\"notice\\">Cada vez que a\xF1adas un producto/servicio nuevo, este se guardara automatiamente.</p>\\r\\n\\r\\n        {#if billData.items.length > 0}\\r\\n          <ul class=\\"bill-items col acenter xfill\\">\\r\\n            {#each billData.items as item, i}\\r\\n              <li class=\\"line row xfill\\">\\r\\n                <input type=\\"number\\" id=\\"amount\\" bind:value={item.amount} min=\\"1\\" class=\\"out\\" placeholder=\\"CANT\\" />\\r\\n                <input type=\\"text\\" id=\\"label\\" bind:value={item.label} class=\\"out grow\\" placeholder=\\"CONCEPTO\\" />\\r\\n                <input type=\\"number\\" id=\\"dto\\" bind:value={item.dto} min=\\"0\\" max=\\"100\\" class=\\"out\\" placeholder=\\"DTO %\\" />\\r\\n                <input\\r\\n                  type=\\"number\\"\\r\\n                  id=\\"price\\"\\r\\n                  bind:value={item.price}\\r\\n                  step=\\"0.01\\"\\r\\n                  class=\\"out\\"\\r\\n                  placeholder=\\"UNIDAD \u20AC\\"\\r\\n                />\\r\\n                <input type=\\"text\\" value=\\"x\\" class=\\"out\\" on:click={() => removeLine(i)} />\\r\\n              </li>\\r\\n            {/each}\\r\\n          </ul>\\r\\n\\r\\n          <h-div />\\r\\n\\r\\n          <ul class=\\"total-wrapper row jaround xfill\\">\\r\\n            <li class=\\"col acenter\\">\\r\\n              <p class=\\"label\\">Base imponible</p>\\r\\n              <h3>{base_total().toFixed(2)}\u20AC</h3>\\r\\n            </li>\\r\\n\\r\\n            <li class=\\"col acenter\\">\\r\\n              <p class=\\"label\\">IVA {$userData.iva}%</p>\\r\\n              <h3>{iva_total().toFixed(2)}\u20AC</h3>\\r\\n            </li>\\r\\n\\r\\n            {#if $userData.ret}\\r\\n              <li class=\\"col acenter\\">\\r\\n                <p class=\\"label\\">IRPF {$userData.ret}%</p>\\r\\n                <h3>-{ret_total().toFixed(2)}\u20AC</h3>\\r\\n              </li>\\r\\n            {/if}\\r\\n\\r\\n            <li class=\\"col acenter\\">\\r\\n              <p class=\\"label\\">Total</p>\\r\\n              <h3>{bill_total().toFixed(2)}\u20AC</h3>\\r\\n            </li>\\r\\n          </ul>\\r\\n\\r\\n          <h-div />\\r\\n        {/if}\\r\\n\\r\\n        <div class=\\"new-line row xfill\\">\\r\\n          <input type=\\"number\\" id=\\"amount\\" bind:value={lineData.amount} min=\\"1\\" class=\\"out\\" placeholder=\\"CANT\\" />\\r\\n          <input type=\\"text\\" id=\\"label\\" bind:value={lineData.label} class=\\"out grow\\" placeholder=\\"CONCEPTO\\" />\\r\\n          <input type=\\"number\\" id=\\"dto\\" bind:value={lineData.dto} min=\\"0\\" max=\\"100\\" class=\\"out\\" placeholder=\\"DTO %\\" />\\r\\n          <input type=\\"number\\" id=\\"price\\" bind:value={lineData.price} step=\\"0.01\\" class=\\"out\\" placeholder=\\"UNIDAD \u20AC\\" />\\r\\n        </div>\\r\\n\\r\\n        <div class=\\"line-btn pri xfill\\" on:click={pushLine}>A\xD1ADIR PRODUCTO/SERVICIO</div>\\r\\n      </div>\\r\\n\\r\\n      <div class=\\"row jcenter xfill\\">\\r\\n        <button class=\\"succ semi\\">GUARDAR CAMBIOS</button>\\r\\n        <a href=\\"/facturas\\" class=\\"btn out semi\\">CANCELAR</a>\\r\\n      </div>\\r\\n    </form>\\r\\n  {/if}\\r\\n</div>\\r\\n\\r\\n<style lang=\\"scss\\">.header {\\n  background: linear-gradient(45deg, #383838 50%, #ccc);\\n  text-align: center;\\n  color: #fff;\\n  padding: 60px;\\n}\\n@media (max-width: 600px) {\\n  .header {\\n    padding: 40px;\\n  }\\n}\\n.header h1 {\\n  max-width: 900px;\\n  font-size: 6vh;\\n  line-height: 1;\\n  margin-bottom: 10px;\\n}\\n.header p {\\n  max-width: 900px;\\n  font-size: 18px;\\n  color: #ccc;\\n  margin-bottom: 40px;\\n}\\n@media (max-width: 600px) {\\n  .header p {\\n    font-size: 14px;\\n  }\\n}\\n.header .io-wrapper {\\n  font-size: 12px;\\n}\\n\\n.bill-data {\\n  padding: 60px;\\n}\\n@media (max-width: 600px) {\\n  .bill-data {\\n    padding: 20px 10px;\\n  }\\n}\\n\\n.box {\\n  max-width: 900px;\\n  margin-bottom: 40px;\\n  padding: 20px;\\n}\\n@media (max-width: 600px) {\\n  .box {\\n    margin-bottom: 10px;\\n  }\\n}\\n.box .notice {\\n  font-size: 14px;\\n  margin-bottom: 40px;\\n}\\n@media (max-width: 600px) {\\n  .box .notice {\\n    font-size: 12px;\\n    margin-bottom: 30px;\\n  }\\n}\\n.box .input-wrapper {\\n  margin-bottom: 30px;\\n}\\n@media (max-width: 600px) {\\n  .box .input-wrapper {\\n    margin-bottom: 20px;\\n  }\\n}\\n.box label {\\n  text-transform: uppercase;\\n  color: #383838;\\n  font-size: 12px;\\n  padding: 0 15px;\\n}\\n.box input,\\n.box select {\\n  font-size: 16px;\\n  border-bottom: 1px solid #ccc;\\n  border-radius: 0;\\n}\\n.box input:focus,\\n.box select:focus {\\n  border-color: #383838;\\n}\\n@media (max-width: 600px) {\\n  .box input,\\n.box select {\\n    font-size: 14px;\\n  }\\n}\\n.box .date {\\n  width: calc(100% / 3);\\n}\\n@media (max-width: 600px) {\\n  .box .date-row {\\n    width: 100%;\\n  }\\n}\\n.box .line:nth-of-type(even) {\\n  background: #f3f3f3;\\n  border-top: 5px solid #fff;\\n  border-bottom: 5px solid #fff;\\n}\\n.box .line input:nth-of-type(1),\\n.box .line input:nth-of-type(3),\\n.box .line input:nth-of-type(4) {\\n  width: 15%;\\n}\\n@media (max-width: 600px) {\\n  .box .line input:nth-of-type(1),\\n.box .line input:nth-of-type(3),\\n.box .line input:nth-of-type(4) {\\n    width: 25%;\\n  }\\n}\\n.box .line input:nth-of-type(5) {\\n  cursor: pointer;\\n  width: 50px;\\n  background: #ccc;\\n  text-align: center;\\n  color: #383838;\\n  font-weight: bold;\\n}\\n.box .line input:nth-of-type(5):hover {\\n  background: #383838;\\n  color: #ccc;\\n}\\n@media (max-width: 600px) {\\n  .box .line input:nth-of-type(3),\\n.box .line input:nth-of-type(4),\\n.box .line input:nth-of-type(5) {\\n    width: calc(100% / 3);\\n  }\\n}\\n.box h-div {\\n  margin: 40px 0;\\n}\\n.box .new-line input:nth-of-type(1),\\n.box .new-line input:nth-of-type(3),\\n.box .new-line input:nth-of-type(4) {\\n  width: 15%;\\n}\\n@media (max-width: 600px) {\\n  .box .new-line input:nth-of-type(1),\\n.box .new-line input:nth-of-type(3),\\n.box .new-line input:nth-of-type(4) {\\n    width: 25%;\\n  }\\n}\\n@media (max-width: 600px) {\\n  .box .new-line input:nth-of-type(3),\\n.box .new-line input:nth-of-type(4) {\\n    width: calc(100% / 2);\\n  }\\n}\\n.box .line-btn {\\n  cursor: pointer;\\n  background: #ccc;\\n  text-align: center;\\n  font-size: 12px;\\n  padding: 1.3em;\\n  transition: 200ms;\\n}\\n.box .line-btn:hover {\\n  background: #383838;\\n  color: #fff;\\n}\\n\\n.total-wrapper li {\\n  margin: 10px;\\n}\\n\\nbutton {\\n  margin-right: 10px;\\n}\\n@media (max-width: 600px) {\\n  button {\\n    width: 70%;\\n    margin-right: 0;\\n    margin-bottom: 10px;\\n  }\\n}\\n\\n@media (max-width: 600px) {\\n  a.btn {\\n    width: 70%;\\n    text-align: center;\\n    margin-right: 0;\\n    margin-bottom: 10px;\\n  }\\n}</style>\\r\\n"],"names":[],"mappings":"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"}'
 };
 var U5Bidu5D = create_ssr_component(($$result, $$props, $$bindings, slots) => {
   let base_total;

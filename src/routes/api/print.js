@@ -1,17 +1,15 @@
 import PDFDocument from "pdfkit";
 import SVGtoPDF from "svg-to-pdfkit";
 import { readFileSync } from "fs";
-import { resolve } from "path";
-
-const mm = (size) => size * 2.83465;
-const type = resolve(process.cwd(), "static", "fonts", "OperatorMonoLig-Medium.ttf");
-const bill = readFileSync(resolve(process.cwd(), "static", "bill_blank.svg"), { encoding: "utf-8" });
 
 PDFDocument.prototype.svg = function (svg, x, y, options) {
   return SVGtoPDF(this, svg, x, y, options), this;
 };
 
-export function post(req) {
+const mm = (size) => size * 2.83465;
+const bill = readFileSync("static/bill_blank.svg", { encoding: "utf-8" });
+
+export async function post(req) {
   const data = JSON.parse(req.body);
 
   const doc = new PDFDocument({
@@ -27,7 +25,7 @@ export function post(req) {
     height: mm(297),
   });
 
-  doc.font(type).fontSize(8);
+  doc.font("static/fira.ttf").fontSize(8);
 
   doc.text(data.number, mm(168), mm(31));
   doc.text(`${data.date.day}/${data.date.month}/${data.date.year}`, mm(168), mm(36));
@@ -61,7 +59,7 @@ export function post(req) {
   doc.on("data", buffers.push.bind(buffers));
 
   let pdfdata = [];
-  const pdf = doc.on("end", function () {
+  doc.on("end", function () {
     datapdf = Buffer.concat(buffers);
   });
 
