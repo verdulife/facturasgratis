@@ -1,46 +1,15 @@
 <script>
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
+  /* import { pdf } from "$lib/print"; */
   import { bills, userData } from "../../stores";
 
   let billData = $bills.filter((bill) => bill._id === $page.params.id)[0];
   let lineData = {};
 
   async function downloadBill() {
-    try {
-      const req = await fetch("../api/print", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(billData),
-      });
-
-      console.log(await req.json());
-    } catch (error) {
-      console.log(error);
-    }
-
-    /* try {
-      const req = await fetch("../api/print", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(billData),
-      });
-
-      if (!req.ok) throw await req.text();
-      console.log(await req.json());
-      const res = await req.blob();
-      const file = window.URL.createObjectURL(res);
-      const link = document.createElement("a");
-      link.href = file;
-      link.download = `Factura_${billData.number}_${billData.client.legal_id}.pdf`;
-      link.click();
-    } catch (error) {
-      console.log(error);
-    } */
+    /* const blob = pdf(billData);
+    console.log(blob); */
   }
 
   function generateDelivery() {

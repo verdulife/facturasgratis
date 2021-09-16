@@ -1,18 +1,20 @@
 /* import PDFDocument from "pdfkit";
-import SVGtoPDF from "svg-to-pdfkit"; */
-/* import { createWriteStream } from 'fs'
-import { bill } from "$lib/bill.svg"; */
+import SVGtoPDF from "svg-to-pdfkit";
+import blobStream from "blob-stream";
+import { bill } from "$lib/bill.svg";
 
-/* const mm = (size) => size * 2.83465;
+const mm = (size) => size * 2.83465;
 
 PDFDocument.prototype.svg = function (svg, x, y, options) {
   return SVGtoPDF(this, svg, x, y, options), this;
 };
- */
-export function post(req) {
-  const data = req.body;
 
-  /* const doc = new PDFDocument({
+
+
+export function pdf(data) {
+  let pdf;
+
+  const doc = new PDFDocument({
     size: [mm(210), mm(297)],
     margin: 0,
     info: {
@@ -20,7 +22,10 @@ export function post(req) {
     },
   });
 
-  doc.registerFont('Operator', '../../fonts/OperatorMonoLig-Medium.woff2', 'OperatorMonoLig-Medium');
+  const stream = doc.pipe(blobStream());
+
+  const typeReq = await fetch("../fonts/OperatorMonoLig-Medium.woff2")
+  doc.registerFont('Operator', '../fonts/OperatorMonoLig-Medium.woff2');
 
   doc.svg(bill, 0, 0, {
     width: mm(210),
@@ -55,13 +60,11 @@ export function post(req) {
   doc.text(`${data.totals.iva.toFixed(2)}€`, mm(128), mm(238));
   doc.fillColor("#fff").text(`${data.totals.total.toFixed(2)}€`, mm(154), mm(238));
 
-  doc.end(); */
+  doc.end();
 
-  return {
-    status: 200,
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: data,
-  }
-}
+  stream.on('finish', function () {
+    pdf = stream.toBlobURL('application/pdf');
+  });
+
+  return pdf;
+} */
