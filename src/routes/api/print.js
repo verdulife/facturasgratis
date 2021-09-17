@@ -19,7 +19,7 @@ export async function post(req) {
     },
   });
 
-  const font_req = await fetch(req.headers.origin + "/static/fira.ttf");
+  const font_req = (await fetch(req.headers.origin + "/fira.ttf")) || (await fetch(req.headers.origin + "/static/fira.ttf"));
   const font = await font_req.arrayBuffer();
   doc.font(font).fontSize(8);
 
