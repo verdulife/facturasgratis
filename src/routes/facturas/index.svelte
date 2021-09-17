@@ -34,7 +34,6 @@
   }
   $bills.sort(sortByNumber);
 
-  const currentYear = new Date().getFullYear();
   const years = () => {
     let yearsList = [];
 
@@ -44,12 +43,12 @@
 
     return yearsList;
   };
-  filterYear = currentYear;
-
+  filterYear = Math.max(years());
+  
   function clearFilters() {
     searchTerm = "";
     filterMonth = "";
-    filterYear = currentYear;
+    filterYear = Math.max(years());
   }
 </script>
 

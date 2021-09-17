@@ -1,13 +1,12 @@
 import PDFDocument from "pdfkit";
 import SVGtoPDF from "svg-to-pdfkit";
-import { readFileSync } from "fs";
+import { bill } from "./assets/bill.svg";
 
 PDFDocument.prototype.svg = function (svg, x, y, options) {
   return SVGtoPDF(this, svg, x, y, options), this;
 };
 
 const mm = (size) => size * 2.83465;
-const bill = readFileSync("static/bill_blank.svg", { encoding: "utf-8" });
 
 export async function post(req) {
   const data = JSON.parse(req.body);
@@ -55,12 +54,12 @@ export async function post(req) {
 
   doc.end();
 
-  let buffers = [];
-  doc.on("data", buffers.push.bind(buffers));
-
-  let pdfdata = [];
-  doc.on("end", function () {
-    datapdf = Buffer.concat(buffers);
+  const pdfBuffer = new Promise((resolve) => {
+    let buffers = [];
+    doc.on("data", buffers.push.bind(buffers));
+    doc.on("end", function () {
+      resolve(Buffer.concat(buffers));
+    });
   });
 
   return {
@@ -69,6 +68,6 @@ export async function post(req) {
       "Content-Type": "application/json",
       "Content-disposition": "attachment; filename=output.pdf",
     },
-    body: datapdf,
+    body: await pdfBuffer,
   };
 }
