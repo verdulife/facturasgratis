@@ -19,12 +19,14 @@ export async function post(req) {
     },
   });
 
+  const font_req = await fetch(req.headers.origin + "/static/fira.ttf");
+  const font = await font_req.arrayBuffer();
+  doc.font(font).fontSize(8);
+
   doc.svg(bill, 0, 0, {
     width: mm(210),
     height: mm(297),
   });
-
-  doc.font("static/fira.ttf").fontSize(8);
 
   doc.text(data.number, mm(168), mm(31));
   doc.text(`${data.date.day}/${data.date.month}/${data.date.year}`, mm(168), mm(36));
