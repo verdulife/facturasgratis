@@ -34,9 +34,7 @@
   }
 
   function deleteBill() {
-    const check = confirm(
-      "La numeracion de las otras facturas no se modificara. Recuerda usar la numeracion de esta factura en otra.\n\n¿Borrar definitivamente?"
-    );
+    const check = confirm("La numeracion de las otras facturas no se modificara. Recuerda usar la numeracion de esta factura en otra.\n\n¿Borrar definitivamente?");
 
     if (check) {
       $bills.splice($bills.indexOf(billData), 1);
@@ -158,15 +156,7 @@
             </div>
             <div class="input-wrapper date col">
               <label for="month">Mes</label>
-              <input
-                type="number"
-                id="month"
-                min="1"
-                max="12"
-                class="xfill"
-                bind:value={billData.date.month}
-                required
-              />
+              <input type="number" id="month" min="1" max="12" class="xfill" bind:value={billData.date.month} required />
             </div>
             <div class="input-wrapper date col">
               <label for="year">Año</label>
@@ -233,14 +223,7 @@
                 <input type="number" id="amount" bind:value={item.amount} min="1" class="out" placeholder="CANT" />
                 <input type="text" id="label" bind:value={item.label} class="out grow" placeholder="CONCEPTO" />
                 <input type="number" id="dto" bind:value={item.dto} min="0" max="100" class="out" placeholder="DTO %" />
-                <input
-                  type="number"
-                  id="price"
-                  bind:value={item.price}
-                  step="0.01"
-                  class="out"
-                  placeholder="UNIDAD €"
-                />
+                <input type="number" id="price" bind:value={item.price} step="0.01" class="out" placeholder="UNIDAD €" />
                 <input type="text" value="x" class="out" on:click={() => removeLine(i)} />
               </li>
             {/each}
