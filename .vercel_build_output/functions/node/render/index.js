@@ -10971,7 +10971,7 @@ var require_unicode_trie = __commonJS({
 });
 
 // node_modules/unicode-properties/unicode-properties.cjs.js
-var require_unicode_properties_cjs = __commonJS({
+/* var require_unicode_properties_cjs = __commonJS({
   "node_modules/unicode-properties/unicode-properties.cjs.js"(exports, module2) {
     init_shims();
     "use strict";
@@ -11091,7 +11091,7 @@ var require_unicode_properties_cjs = __commonJS({
     var unicodeProperties = buildUnicodeProperties(data, trie);
     module2.exports = unicodeProperties;
   }
-});
+}); */
 
 // node_modules/unicode-trie/index.js
 var require_unicode_trie2 = __commonJS({
