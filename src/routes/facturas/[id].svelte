@@ -8,7 +8,7 @@
 
   async function downloadBill() {
     try {
-      const req = await fetch("/api/print", {
+      const req = await fetch("/print", {
         method: "POST",
         "Content-Type": "application/json",
         body: JSON.stringify(billData),
