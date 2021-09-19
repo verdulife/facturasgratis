@@ -1,33 +1,75 @@
 <script>
+  import { onMount } from "svelte";
   import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import { bills, userData } from "../../stores";
+  import PDFDocument from "pdfkit/js/pdfkit.standalone";
+  import SVGtoPDF from "svg-to-pdfkit";
+  import "$lib/blobstream";
 
+  import { bill } from "../print/assets/bill.svg";
+
+  PDFDocument.prototype.svg = function (svg, x, y, options) {
+    return SVGtoPDF(this, svg, x, y, options), this;
+  };
+
+  let downloadBill;
+  const mm = (size) => size * 2.83465;
   let billData = $bills.filter((bill) => bill._id === $page.params.id)[0];
   let lineData = {};
 
-  async function downloadBill() {
-    try {
-      const req = await fetch("/print", {
-        method: "POST",
-        "Content-Type": "application/json",
-        body: JSON.stringify(billData),
+  onMount(async () => {
+    downloadBill = () => {
+      const data = billData;
+
+      const doc = new PDFDocument({
+        size: [mm(210), mm(297)],
+        margin: 0,
+        info: {
+          Title: `Factura_${data.number}_${data.client.legal_id}`,
+        },
       });
 
-      if (!req.ok) throw await req.text();
+      const stream = doc.pipe(blobStream());
 
-      const res = await req.blob();
-      const file = window.URL.createObjectURL(res);
-      const link = document.createElement("a");
+      doc.svg(bill, 0, 0, {
+        width: mm(210),
+        height: mm(297),
+      });
 
-      link.href = file;
-      link.download = `Factura_${billData.number}_${billData.client.legal_id}.pdf`;
-      link.click();
-    } catch (error) {
-      console.log(error);
-      alert("Algo ha salido mal. Vuelve a intentarlo");
-    }
-  }
+      doc.end();
+
+      stream.on("finish", function () {
+        const url = stream.toBlob("application/pdf");
+        const file = window.URL.createObjectURL(url);
+        const link = document.createElement("a");
+
+        link.href = file;
+        link.download = `Factura_${billData.number}_${billData.client.legal_id}.pdf`;
+        link.click();
+      });
+      /* try {
+        const req = await fetch("/print", {
+          method: "POST",
+          "Content-Type": "application/json",
+          body: JSON.stringify(billData),
+        });
+  
+        if (!req.ok) throw await req.text();
+  
+        const res = await req.blob();
+        const file = window.URL.createObjectURL(res);
+        const link = document.createElement("a");
+  
+        link.href = file;
+        link.download = `Factura_${billData.number}_${billData.client.legal_id}.pdf`;
+        link.click();
+      } catch (error) {
+        console.log(error);
+        alert("Algo ha salido mal. Vuelve a intentarlo");
+      } */
+    };
+  });
 
   function generateDelivery() {
     console.log("Generating...");
