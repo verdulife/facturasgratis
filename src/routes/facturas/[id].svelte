@@ -16,10 +16,11 @@
 
       if (!req.ok) throw await req.text();
 
-      const res = await req.text();
+      const res = await req.blob();
+      const file = window.URL.createObjectURL(res);
       const link = document.createElement("a");
 
-      link.href = res;
+      link.href = file;
       link.download = `Factura_${billData.number}_${billData.client.legal_id}.pdf`;
       link.click();
     } catch (error) {
