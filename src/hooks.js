@@ -1,9 +1,5 @@
 import cookie from "cookie";
 import { v4 as uuid } from "@lukeed/uuid";
-import PDFDocument from "pdfkit";
-
-const doc = new PDFDocument();
-doc.end();
 
 export const handle = async ({ request, resolve }) => {
   const cookies = cookie.parse(request.headers.cookie || "");

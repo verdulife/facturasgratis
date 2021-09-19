@@ -122,7 +122,7 @@ export async function post(req) {
   return {
     status: "200",
     headers: {
-      "Content-Type": "application/pdf",
+      "Content-Type": "application/octet-stream",
     },
     body: await pdfBuffer,
   };

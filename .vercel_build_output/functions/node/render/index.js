@@ -151208,8 +151208,8 @@ var require_pdfkit = __commonJS({
       number
     } = PDFObject;
     var PDFGradient = class {
-      constructor(doc2) {
-        this.doc = doc2;
+      constructor(doc) {
+        this.doc = doc;
         this.stops = [];
         this.embedded = false;
         this.transform = [1, 0, 0, 1, 0, 0];
@@ -151365,8 +151365,8 @@ var require_pdfkit = __commonJS({
       }
     };
     var PDFLinearGradient = class extends PDFGradient {
-      constructor(doc2, x1, y1, x2, y2) {
-        super(doc2);
+      constructor(doc, x1, y1, x2, y2) {
+        super(doc);
         this.x1 = x1;
         this.y1 = y1;
         this.x2 = x2;
@@ -151386,9 +151386,9 @@ var require_pdfkit = __commonJS({
       }
     };
     var PDFRadialGradient = class extends PDFGradient {
-      constructor(doc2, x1, y1, r1, x2, y2, r2) {
-        super(doc2);
-        this.doc = doc2;
+      constructor(doc, x1, y1, r1, x2, y2, r2) {
+        super(doc);
+        this.doc = doc;
         this.x1 = x1;
         this.y1 = y1;
         this.r1 = r1;
@@ -151790,83 +151790,83 @@ var require_pdfkit = __commonJS({
       };
       return ret;
     };
-    var apply = function(commands, doc2) {
+    var apply = function(commands, doc) {
       cx = cy = px = py = sx = sy = 0;
       for (let i = 0; i < commands.length; i++) {
         const c = commands[i];
         if (typeof runners[c.cmd] === "function") {
-          runners[c.cmd](doc2, c.args);
+          runners[c.cmd](doc, c.args);
         }
       }
     };
     var runners = {
-      M(doc2, a) {
+      M(doc, a) {
         cx = a[0];
         cy = a[1];
         px = py = null;
         sx = cx;
         sy = cy;
-        return doc2.moveTo(cx, cy);
+        return doc.moveTo(cx, cy);
       },
-      m(doc2, a) {
+      m(doc, a) {
         cx += a[0];
         cy += a[1];
         px = py = null;
         sx = cx;
         sy = cy;
-        return doc2.moveTo(cx, cy);
+        return doc.moveTo(cx, cy);
       },
-      C(doc2, a) {
+      C(doc, a) {
         cx = a[4];
         cy = a[5];
         px = a[2];
         py = a[3];
-        return doc2.bezierCurveTo(...a);
+        return doc.bezierCurveTo(...a);
       },
-      c(doc2, a) {
-        doc2.bezierCurveTo(a[0] + cx, a[1] + cy, a[2] + cx, a[3] + cy, a[4] + cx, a[5] + cy);
+      c(doc, a) {
+        doc.bezierCurveTo(a[0] + cx, a[1] + cy, a[2] + cx, a[3] + cy, a[4] + cx, a[5] + cy);
         px = cx + a[2];
         py = cy + a[3];
         cx += a[4];
         return cy += a[5];
       },
-      S(doc2, a) {
+      S(doc, a) {
         if (px === null) {
           px = cx;
           py = cy;
         }
-        doc2.bezierCurveTo(cx - (px - cx), cy - (py - cy), a[0], a[1], a[2], a[3]);
+        doc.bezierCurveTo(cx - (px - cx), cy - (py - cy), a[0], a[1], a[2], a[3]);
         px = a[0];
         py = a[1];
         cx = a[2];
         return cy = a[3];
       },
-      s(doc2, a) {
+      s(doc, a) {
         if (px === null) {
           px = cx;
           py = cy;
         }
-        doc2.bezierCurveTo(cx - (px - cx), cy - (py - cy), cx + a[0], cy + a[1], cx + a[2], cy + a[3]);
+        doc.bezierCurveTo(cx - (px - cx), cy - (py - cy), cx + a[0], cy + a[1], cx + a[2], cy + a[3]);
         px = cx + a[0];
         py = cy + a[1];
         cx += a[2];
         return cy += a[3];
       },
-      Q(doc2, a) {
+      Q(doc, a) {
         px = a[0];
         py = a[1];
         cx = a[2];
         cy = a[3];
-        return doc2.quadraticCurveTo(a[0], a[1], cx, cy);
+        return doc.quadraticCurveTo(a[0], a[1], cx, cy);
       },
-      q(doc2, a) {
-        doc2.quadraticCurveTo(a[0] + cx, a[1] + cy, a[2] + cx, a[3] + cy);
+      q(doc, a) {
+        doc.quadraticCurveTo(a[0] + cx, a[1] + cy, a[2] + cx, a[3] + cy);
         px = cx + a[0];
         py = cy + a[1];
         cx += a[2];
         return cy += a[3];
       },
-      T(doc2, a) {
+      T(doc, a) {
         if (px === null) {
           px = cx;
           py = cy;
@@ -151874,13 +151874,13 @@ var require_pdfkit = __commonJS({
           px = cx - (px - cx);
           py = cy - (py - cy);
         }
-        doc2.quadraticCurveTo(px, py, a[0], a[1]);
+        doc.quadraticCurveTo(px, py, a[0], a[1]);
         px = cx - (px - cx);
         py = cy - (py - cy);
         cx = a[0];
         return cy = a[1];
       },
-      t(doc2, a) {
+      t(doc, a) {
         if (px === null) {
           px = cx;
           py = cy;
@@ -151888,71 +151888,71 @@ var require_pdfkit = __commonJS({
           px = cx - (px - cx);
           py = cy - (py - cy);
         }
-        doc2.quadraticCurveTo(px, py, cx + a[0], cy + a[1]);
+        doc.quadraticCurveTo(px, py, cx + a[0], cy + a[1]);
         cx += a[0];
         return cy += a[1];
       },
-      A(doc2, a) {
-        solveArc(doc2, cx, cy, a);
+      A(doc, a) {
+        solveArc(doc, cx, cy, a);
         cx = a[5];
         return cy = a[6];
       },
-      a(doc2, a) {
+      a(doc, a) {
         a[5] += cx;
         a[6] += cy;
-        solveArc(doc2, cx, cy, a);
+        solveArc(doc, cx, cy, a);
         cx = a[5];
         return cy = a[6];
       },
-      L(doc2, a) {
+      L(doc, a) {
         cx = a[0];
         cy = a[1];
         px = py = null;
-        return doc2.lineTo(cx, cy);
+        return doc.lineTo(cx, cy);
       },
-      l(doc2, a) {
+      l(doc, a) {
         cx += a[0];
         cy += a[1];
         px = py = null;
-        return doc2.lineTo(cx, cy);
+        return doc.lineTo(cx, cy);
       },
-      H(doc2, a) {
+      H(doc, a) {
         cx = a[0];
         px = py = null;
-        return doc2.lineTo(cx, cy);
+        return doc.lineTo(cx, cy);
       },
-      h(doc2, a) {
+      h(doc, a) {
         cx += a[0];
         px = py = null;
-        return doc2.lineTo(cx, cy);
+        return doc.lineTo(cx, cy);
       },
-      V(doc2, a) {
+      V(doc, a) {
         cy = a[0];
         px = py = null;
-        return doc2.lineTo(cx, cy);
+        return doc.lineTo(cx, cy);
       },
-      v(doc2, a) {
+      v(doc, a) {
         cy += a[0];
         px = py = null;
-        return doc2.lineTo(cx, cy);
+        return doc.lineTo(cx, cy);
       },
-      Z(doc2) {
-        doc2.closePath();
+      Z(doc) {
+        doc.closePath();
         cx = sx;
         return cy = sy;
       },
-      z(doc2) {
-        doc2.closePath();
+      z(doc) {
+        doc.closePath();
         cx = sx;
         return cy = sy;
       }
     };
-    var solveArc = function(doc2, x, y, coords) {
+    var solveArc = function(doc, x, y, coords) {
       const [rx, ry, rot, large, sweep, ex, ey] = coords;
       const segs = arcToSegments(ex, ey, rx, ry, large, sweep, rot, x, y);
       for (let seg of segs) {
         const bez = segmentToBezier(...seg);
-        doc2.bezierCurveTo(...bez);
+        doc.bezierCurveTo(...bez);
       }
     };
     var arcToSegments = function(x, y, rx, ry, large, sweep, rotateX, ox, oy) {
@@ -152021,9 +152021,9 @@ var require_pdfkit = __commonJS({
       return [a00 * x1 + a01 * y1, a10 * x1 + a11 * y1, a00 * x2 + a01 * y2, a10 * x2 + a11 * y2, a00 * x3 + a01 * y3, a10 * x3 + a11 * y3];
     };
     var SVGPath = class {
-      static apply(doc2, path) {
+      static apply(doc, path) {
         const commands = parse(path);
-        apply(commands, doc2);
+        apply(commands, doc);
       }
     };
     var {
@@ -155130,7 +155130,7 @@ end`);
 var require_source = __commonJS({
   "node_modules/svg-to-pdfkit/source.js"(exports, module2) {
     init_shims();
-    var SVGtoPDF2 = function(doc2, svg, x, y, options2) {
+    var SVGtoPDF2 = function(doc, svg, x, y, options2) {
       "use strict";
       const NamedColors = {
         aliceblue: [240, 248, 255],
@@ -155582,9 +155582,9 @@ var require_source = __commonJS({
       function docBeginGroup(bbox) {
         let group = new function PDFGroup() {
         }();
-        group.name = "G" + (doc2._groupCount = (doc2._groupCount || 0) + 1);
-        group.resources = doc2.ref();
-        group.xobj = doc2.ref({
+        group.name = "G" + (doc._groupCount = (doc._groupCount || 0) + 1);
+        group.resources = doc.ref();
+        group.xobj = doc.ref({
           Type: "XObject",
           Subtype: "Form",
           FormType: 1,
@@ -155593,13 +155593,13 @@ var require_source = __commonJS({
           Resources: group.resources
         });
         group.xobj.write("");
-        group.savedMatrix = doc2._ctm;
-        group.savedPage = doc2.page;
+        group.savedMatrix = doc._ctm;
+        group.savedPage = doc.page;
         groupStack.push(group);
-        doc2._ctm = [1, 0, 0, 1, 0, 0];
-        doc2.page = {
-          width: doc2.page.width,
-          height: doc2.page.height,
+        doc._ctm = [1, 0, 0, 1, 0, 0];
+        doc.page = {
+          width: doc.page.width,
+          height: doc.page.height,
           write: function(data) {
             group.xobj.write(data);
           },
@@ -155614,30 +155614,30 @@ var require_source = __commonJS({
         if (group !== groupStack.pop()) {
           throw "Group not matching";
         }
-        if (Object.keys(doc2.page.fonts).length) {
-          group.resources.data.Font = doc2.page.fonts;
+        if (Object.keys(doc.page.fonts).length) {
+          group.resources.data.Font = doc.page.fonts;
         }
-        if (Object.keys(doc2.page.xobjects).length) {
-          group.resources.data.XObject = doc2.page.xobjects;
+        if (Object.keys(doc.page.xobjects).length) {
+          group.resources.data.XObject = doc.page.xobjects;
         }
-        if (Object.keys(doc2.page.ext_gstates).length) {
-          group.resources.data.ExtGState = doc2.page.ext_gstates;
+        if (Object.keys(doc.page.ext_gstates).length) {
+          group.resources.data.ExtGState = doc.page.ext_gstates;
         }
-        if (Object.keys(doc2.page.patterns).length) {
-          group.resources.data.Pattern = doc2.page.patterns;
+        if (Object.keys(doc.page.patterns).length) {
+          group.resources.data.Pattern = doc.page.patterns;
         }
         group.resources.end();
         group.xobj.end();
-        doc2._ctm = group.savedMatrix;
-        doc2.page = group.savedPage;
+        doc._ctm = group.savedMatrix;
+        doc.page = group.savedPage;
       }
       function docInsertGroup(group) {
-        doc2.page.xobjects[group.name] = group.xobj;
-        doc2.addContent("/" + group.name + " Do");
+        doc.page.xobjects[group.name] = group.xobj;
+        doc.addContent("/" + group.name + " Do");
       }
       function docApplyMask(group, clip) {
-        let name = "M" + (doc2._maskCount = (doc2._maskCount || 0) + 1);
-        let gstate = doc2.ref({
+        let name = "M" + (doc._maskCount = (doc._maskCount || 0) + 1);
+        let gstate = doc.ref({
           Type: "ExtGState",
           CA: 1,
           ca: 1,
@@ -155645,8 +155645,8 @@ var require_source = __commonJS({
           SMask: { S: "Luminosity", G: group.xobj, BC: clip ? [0, 0, 0] : [1, 1, 1] }
         });
         gstate.end();
-        doc2.page.ext_gstates[name] = gstate;
-        doc2.addContent("/" + name + " gs");
+        doc.page.ext_gstates[name] = gstate;
+        doc.addContent("/" + name + " gs");
       }
       function docCreatePattern(group, dx, dy, matrix) {
         let pattern = new function PDFPattern() {
@@ -155658,8 +155658,8 @@ var require_source = __commonJS({
         return pattern;
       }
       function docUsePattern(pattern, stroke) {
-        let name = "P" + (doc2._patternCount = (doc2._patternCount || 0) + 1);
-        let ref = doc2.ref({
+        let name = "P" + (doc._patternCount = (doc._patternCount || 0) + 1);
+        let ref = doc.ref({
           Type: "Pattern",
           PatternType: 1,
           PaintType: 1,
@@ -155667,7 +155667,7 @@ var require_source = __commonJS({
           BBox: [0, 0, pattern.dx, pattern.dy],
           XStep: pattern.dx,
           YStep: pattern.dy,
-          Matrix: multiplyMatrix(doc2._ctm, pattern.matrix),
+          Matrix: multiplyMatrix(doc._ctm, pattern.matrix),
           Resources: {
             ProcSet: ["PDF", "Text", "ImageB", "ImageC", "ImageI"],
             XObject: function() {
@@ -155679,52 +155679,52 @@ var require_source = __commonJS({
         });
         ref.write("/" + pattern.group.name + " Do");
         ref.end();
-        doc2.page.patterns[name] = ref;
+        doc.page.patterns[name] = ref;
         if (stroke) {
-          doc2.addContent("/Pattern CS");
-          doc2.addContent("/" + name + " SCN");
+          doc.addContent("/Pattern CS");
+          doc.addContent("/" + name + " SCN");
         } else {
-          doc2.addContent("/Pattern cs");
-          doc2.addContent("/" + name + " scn");
+          doc.addContent("/Pattern cs");
+          doc.addContent("/" + name + " scn");
         }
       }
       function docBeginText(font, size) {
-        if (!doc2.page.fonts[font.id]) {
-          doc2.page.fonts[font.id] = font.ref();
+        if (!doc.page.fonts[font.id]) {
+          doc.page.fonts[font.id] = font.ref();
         }
-        doc2.addContent("BT").addContent("/" + font.id + " " + size + " Tf");
+        doc.addContent("BT").addContent("/" + font.id + " " + size + " Tf");
       }
       function docSetTextMatrix(a, b, c, d2, e, f) {
-        doc2.addContent(validateNumber(a) + " " + validateNumber(b) + " " + validateNumber(-c) + " " + validateNumber(-d2) + " " + validateNumber(e) + " " + validateNumber(f) + " Tm");
+        doc.addContent(validateNumber(a) + " " + validateNumber(b) + " " + validateNumber(-c) + " " + validateNumber(-d2) + " " + validateNumber(e) + " " + validateNumber(f) + " Tm");
       }
       function docSetTextMode(fill, stroke) {
         let mode = fill && stroke ? 2 : stroke ? 1 : fill ? 0 : 3;
-        doc2.addContent(mode + " Tr");
+        doc.addContent(mode + " Tr");
       }
       function docWriteGlyph(glyph) {
-        doc2.addContent("<" + glyph + "> Tj");
+        doc.addContent("<" + glyph + "> Tj");
       }
       function docEndText() {
-        doc2.addContent("ET");
+        doc.addContent("ET");
       }
       function docFillColor(color) {
         if (color[0].constructor.name === "PDFPattern") {
-          doc2.fillOpacity(color[1]);
+          doc.fillOpacity(color[1]);
           docUsePattern(color[0], false);
         } else {
-          doc2.fillColor(color[0], color[1]);
+          doc.fillColor(color[0], color[1]);
         }
       }
       function docStrokeColor(color) {
         if (color[0].constructor.name === "PDFPattern") {
-          doc2.strokeOpacity(color[1]);
+          doc.strokeOpacity(color[1]);
           docUsePattern(color[0], true);
         } else {
-          doc2.strokeColor(color[0], color[1]);
+          doc.strokeColor(color[0], color[1]);
         }
       }
       function docInsertLink(x2, y2, w, h, url) {
-        let ref = doc2.ref({
+        let ref = doc.ref({
           Type: "Annot",
           Subtype: "Link",
           Rect: [x2, y2, w, h],
@@ -155933,14 +155933,14 @@ var require_source = __commonJS({
         return [m[0] * p[0] + m[2] * p[1] + m[4], m[1] * p[0] + m[3] * p[1] + m[5]];
       }
       function getGlobalMatrix() {
-        let ctm = doc2._ctm;
+        let ctm = doc._ctm;
         for (let i = groupStack.length - 1; i >= 0; i--) {
           ctm = multiplyMatrix(groupStack[i].savedMatrix, ctm);
         }
         return ctm;
       }
       function getPageBBox() {
-        return new SvgShape().M(0, 0).L(doc2.page.width, 0).L(doc2.page.width, doc2.page.height).L(0, doc2.page.height).transform(inverseMatrix(getGlobalMatrix())).getBoundingBox();
+        return new SvgShape().M(0, 0).L(doc.page.width, 0).L(doc.page.width, doc.page.height).L(0, doc.page.height).transform(inverseMatrix(getGlobalMatrix())).getBoundingBox();
       }
       function inverseMatrix(m) {
         let dt = m[0] * m[3] - m[1] * m[2];
@@ -156663,16 +156663,16 @@ var require_source = __commonJS({
             let command = this.pathCommands[i][0], values = this.pathCommands[i].slice(3);
             switch (command) {
               case "move":
-                doc2.moveTo(values[0], values[1]);
+                doc.moveTo(values[0], values[1]);
                 break;
               case "line":
-                doc2.lineTo(values[0], values[1]);
+                doc.lineTo(values[0], values[1]);
                 break;
               case "curve":
-                doc2.bezierCurveTo(values[0], values[1], values[2], values[3], values[4], values[5]);
+                doc.bezierCurveTo(values[0], values[1], values[2], values[3], values[4], values[5]);
                 break;
               case "close":
-                doc2.closePath();
+                doc.closePath();
                 break;
             }
           }
@@ -157044,7 +157044,7 @@ var require_source = __commonJS({
       var SvgElemStylable = function(obj, inherits) {
         SvgElem.call(this, obj, inherits);
         this.transform = function() {
-          doc2.transform.apply(doc2, this.getTransformation());
+          doc.transform.apply(doc, this.getTransformation());
         };
         this.clip = function() {
           if (this.get("clip-path") !== "none") {
@@ -157125,7 +157125,7 @@ var require_source = __commonJS({
           this.drawChildren(isClip, isMask);
           if (group) {
             docEndGroup(group);
-            doc2.fillOpacity(this.get("opacity"));
+            doc.fillOpacity(this.get("opacity"));
             docInsertGroup(group);
           }
         };
@@ -157140,9 +157140,9 @@ var require_source = __commonJS({
           return child ? [child] : [];
         };
         this.drawInDocument = function(isClip, isMask) {
-          doc2.save();
+          doc.save();
           this.drawContent(isClip, isMask);
-          doc2.restore();
+          doc.restore();
         };
         this.getTransformation = function() {
           return multiplyMatrix(this.get("transform"), [1, 0, 0, 1, x2, y2]);
@@ -157163,9 +157163,9 @@ var require_source = __commonJS({
           return viewBox[3];
         };
         this.drawInDocument = function(isClip, isMask) {
-          doc2.save();
+          doc.save();
           this.drawContent(isClip, isMask);
-          doc2.restore();
+          doc.restore();
         };
         this.getTransformation = function() {
           return multiplyMatrix(parseAspectRatio(aspectRatio, width, height, viewBox[2], viewBox[3]), [1, 0, 0, 1, -viewBox[0], -viewBox[1]]);
@@ -157174,12 +157174,12 @@ var require_source = __commonJS({
       var SvgElemGroup = function(obj, inherits) {
         SvgElemContainer.call(this, obj, inherits);
         this.drawInDocument = function(isClip, isMask) {
-          doc2.save();
+          doc.save();
           if (this.link && !isClip && !isMask) {
             this.addLink();
           }
           this.drawContent(isClip, isMask);
-          doc2.restore();
+          doc.restore();
         };
         this.getTransformation = function() {
           return this.get("transform");
@@ -157221,13 +157221,13 @@ var require_source = __commonJS({
           return viewBox[3];
         };
         this.drawInDocument = function(isClip, isMask) {
-          doc2.save();
+          doc.save();
           if (this.get("overflow") === "hidden") {
             new SvgShape().M(x2, y2).L(x2 + width, y2).L(x2 + width, y2 + height).L(x2, y2 + height).Z().transform(this.get("transform")).insertInDocument();
-            doc2.clip();
+            doc.clip();
           }
           this.drawContent(isClip, isMask);
-          doc2.restore();
+          doc.restore();
         };
         this.getTransformation = function() {
           return multiplyMatrix(this.get("transform"), [1, 0, 0, 1, x2, y2], parseAspectRatio(aspectRatio, width, height, viewBox[2], viewBox[3]), [1, 0, 0, 1, -viewBox[0], -viewBox[1]]);
@@ -157237,7 +157237,7 @@ var require_source = __commonJS({
         SvgElemStylable.call(this, obj, inherits);
         let link = imageCallback(this.attr("href") || this.attr("xlink:href") || ""), x2 = this.getLength("x", this.getVWidth(), 0), y2 = this.getLength("y", this.getVHeight(), 0), width = this.getLength("width", this.getVWidth(), "auto"), height = this.getLength("height", this.getVHeight(), "auto"), image;
         try {
-          image = doc2.openImage(link);
+          image = doc.openImage(link);
         } catch (e) {
           warningCallback('SVGElemImage: failed to open image "' + link + '" in PDFKit');
         }
@@ -157267,23 +157267,23 @@ var require_source = __commonJS({
           if (this.get("visibility") === "hidden" || !image) {
             return;
           }
-          doc2.save();
+          doc.save();
           this.transform();
           if (this.get("overflow") === "hidden") {
-            doc2.rect(x2, y2, width, height).clip();
+            doc.rect(x2, y2, width, height).clip();
           }
           this.clip();
           this.mask();
-          doc2.translate(x2, y2);
-          doc2.transform.apply(doc2, parseAspectRatio(this.attr("preserveAspectRatio"), width, height, image ? image.width : width, image ? image.height : height));
+          doc.translate(x2, y2);
+          doc.transform.apply(doc, parseAspectRatio(this.attr("preserveAspectRatio"), width, height, image ? image.width : width, image ? image.height : height));
           if (!isClip) {
-            doc2.fillOpacity(this.get("opacity"));
-            doc2.image(image, 0, 0);
+            doc.fillOpacity(this.get("opacity"));
+            doc.image(image, 0, 0);
           } else {
-            doc2.rect(0, 0, image.width, image.height);
+            doc.rect(0, 0, image.width, image.height);
             docFillColor(DefaultColors.white).fill();
           }
-          doc2.restore();
+          doc.restore();
         };
       };
       var SvgElemPattern = function(obj, inherits, fallback) {
@@ -157330,7 +157330,7 @@ var require_source = __commonJS({
           matrix = multiplyMatrix(matrix, [1, 0, 0, 1, x2, y2]);
           if ((matrix = validateMatrix(matrix)) && (aspectRatioMatrix = validateMatrix(aspectRatioMatrix)) && (width = validateNumber(width)) && (height = validateNumber(height))) {
             let group = docBeginGroup([0, 0, width, height]);
-            doc2.transform.apply(doc2, aspectRatioMatrix);
+            doc.transform.apply(doc, aspectRatioMatrix);
             this.drawChildren(isClip, isMask);
             docEndGroup(group);
             return [docCreatePattern(group, width, height, matrix), gOpacity];
@@ -157424,9 +157424,9 @@ var require_source = __commonJS({
               nTotal = nBefore + 1 + nAfter;
             }
             if (this.name === "linearGradient") {
-              grad = doc2.linearGradient(x1 - nBefore * (x2 - x1), y1 - nBefore * (y2 - y1), x2 + nAfter * (x2 - x1), y2 + nAfter * (y2 - y1));
+              grad = doc.linearGradient(x1 - nBefore * (x2 - x1), y1 - nBefore * (y2 - y1), x2 + nAfter * (x2 - x1), y2 + nAfter * (y2 - y1));
             } else {
-              grad = doc2.radialGradient(x1, y1, 0, x2, y2, r2 + nAfter * r2);
+              grad = doc.radialGradient(x1, y1, 0, x2, y2, r2 + nAfter * r2);
             }
             for (let n = 0; n < nTotal; n++) {
               let offset = 0, inOrder = spread !== "reflect" || (n - nBefore) % 2 === 0;
@@ -157469,7 +157469,7 @@ var require_source = __commonJS({
           if (this.get("visibility") === "hidden" || !this.shape) {
             return;
           }
-          doc2.save();
+          doc.save();
           this.transform();
           this.clip();
           if (!isClip) {
@@ -157490,11 +157490,11 @@ var require_source = __commonJS({
                         let x2 = subPaths[j].startPoint[0], y2 = subPaths[j].startPoint[1];
                         docFillColor(stroke);
                         if (lineCap === "square") {
-                          doc2.rect(x2 - 0.5 * lineWidth, y2 - 0.5 * lineWidth, lineWidth, lineWidth);
+                          doc.rect(x2 - 0.5 * lineWidth, y2 - 0.5 * lineWidth, lineWidth, lineWidth);
                         } else if (lineCap === "round") {
-                          doc2.circle(x2, y2, 0.5 * lineWidth);
+                          doc.circle(x2, y2, 0.5 * lineWidth);
                         }
-                        doc2.fill();
+                        doc.fill();
                       }
                     }
                   }
@@ -157507,7 +157507,7 @@ var require_source = __commonJS({
                   dashOffset *= this.dashScale;
                 }
                 docStrokeColor(stroke);
-                doc2.lineWidth(lineWidth).miterLimit(this.get("stroke-miterlimit")).lineJoin(this.get("stroke-linejoin")).lineCap(lineCap).dash(dashArray, { phase: dashOffset });
+                doc.lineWidth(lineWidth).miterLimit(this.get("stroke-miterlimit")).lineJoin(this.get("stroke-linejoin")).lineCap(lineCap).dash(dashArray, { phase: dashOffset });
               }
               for (let j = 0; j < subPaths.length; j++) {
                 if (subPaths[j].totalLength > 0) {
@@ -157515,11 +157515,11 @@ var require_source = __commonJS({
                 }
               }
               if (fill && stroke) {
-                doc2.fillAndStroke(this.get("fill-rule"));
+                doc.fillAndStroke(this.get("fill-rule"));
               } else if (fill) {
-                doc2.fill(this.get("fill-rule"));
+                doc.fill(this.get("fill-rule"));
               } else if (stroke) {
-                doc2.stroke();
+                doc.stroke();
               }
             }
             let markerStart = this.get("marker-start"), markerMid = this.get("marker-mid"), markerEnd = this.get("marker-end");
@@ -157547,9 +157547,9 @@ var require_source = __commonJS({
           } else {
             this.shape.insertInDocument();
             docFillColor(DefaultColors.white);
-            doc2.fill(this.get("clip-rule"));
+            doc.fill(this.get("clip-rule"));
           }
-          doc2.restore();
+          doc.restore();
         };
       };
       var SvgElemRect = function(obj, inherits) {
@@ -157651,15 +157651,15 @@ var require_source = __commonJS({
           return viewBox[3];
         };
         this.drawMarker = function(isClip, isMask, posArray, strokeWidth) {
-          doc2.save();
+          doc.save();
           let orient = this.attr("orient"), units = this.attr("markerUnits"), rotate = orient === "auto" ? posArray[2] : (parseFloat(orient) || 0) * Math.PI / 180, scale = units === "userSpaceOnUse" ? 1 : strokeWidth;
-          doc2.transform(Math.cos(rotate) * scale, Math.sin(rotate) * scale, -Math.sin(rotate) * scale, Math.cos(rotate) * scale, posArray[0], posArray[1]);
+          doc.transform(Math.cos(rotate) * scale, Math.sin(rotate) * scale, -Math.sin(rotate) * scale, Math.cos(rotate) * scale, posArray[0], posArray[1]);
           let refX = this.getLength("refX", this.getVWidth(), 0), refY = this.getLength("refY", this.getVHeight(), 0), aspectRatioMatrix = parseAspectRatio(this.attr("preserveAspectRatio"), width, height, viewBox[2], viewBox[3], 0.5);
           if (this.get("overflow") === "hidden") {
-            doc2.rect(aspectRatioMatrix[0] * (viewBox[0] + viewBox[2] / 2 - refX) - width / 2, aspectRatioMatrix[3] * (viewBox[1] + viewBox[3] / 2 - refY) - height / 2, width, height).clip();
+            doc.rect(aspectRatioMatrix[0] * (viewBox[0] + viewBox[2] / 2 - refX) - width / 2, aspectRatioMatrix[3] * (viewBox[1] + viewBox[3] / 2 - refY) - height / 2, width, height).clip();
           }
-          doc2.transform.apply(doc2, aspectRatioMatrix);
-          doc2.translate(-refX, -refY);
+          doc.transform.apply(doc, aspectRatioMatrix);
+          doc.translate(-refX, -refY);
           let group;
           if (this.get("opacity") < 1 && !isClip) {
             group = docBeginGroup(getPageBBox());
@@ -157667,23 +157667,23 @@ var require_source = __commonJS({
           this.drawChildren(isClip, isMask);
           if (group) {
             docEndGroup(group);
-            doc2.fillOpacity(this.get("opacity"));
+            doc.fillOpacity(this.get("opacity"));
             docInsertGroup(group);
           }
-          doc2.restore();
+          doc.restore();
         };
       };
       var SvgElemClipPath = function(obj, inherits) {
         SvgElemHasChildren.call(this, obj, inherits);
         this.useMask = function(bBox) {
           let group = docBeginGroup(getPageBBox());
-          doc2.save();
+          doc.save();
           if (this.attr("clipPathUnits") === "objectBoundingBox") {
-            doc2.transform(bBox[2] - bBox[0], 0, 0, bBox[3] - bBox[1], bBox[0], bBox[1]);
+            doc.transform(bBox[2] - bBox[0], 0, 0, bBox[3] - bBox[1], bBox[0], bBox[1]);
           }
           this.clip();
           this.drawChildren(true, false);
-          doc2.restore();
+          doc.restore();
           docEndGroup(group);
           docApplyMask(group, true);
         };
@@ -157692,7 +157692,7 @@ var require_source = __commonJS({
         SvgElemHasChildren.call(this, obj, inherits);
         this.useMask = function(bBox) {
           let group = docBeginGroup(getPageBBox());
-          doc2.save();
+          doc.save();
           let x2, y2, w, h;
           if (this.attr("maskUnits") === "userSpaceOnUse") {
             x2 = this.getLength("x", this.getVWidth(), -0.1 * (bBox[2] - bBox[0]) + bBox[0]);
@@ -157705,13 +157705,13 @@ var require_source = __commonJS({
             w = this.getLength("width", this.getVWidth(), 1.2) * (bBox[2] - bBox[0]);
             h = this.getLength("height", this.getVHeight(), 1.2) * (bBox[3] - bBox[1]);
           }
-          doc2.rect(x2, y2, w, h).clip();
+          doc.rect(x2, y2, w, h).clip();
           if (this.attr("maskContentUnits") === "objectBoundingBox") {
-            doc2.transform(bBox[2] - bBox[0], 0, 0, bBox[3] - bBox[1], bBox[0], bBox[1]);
+            doc.transform(bBox[2] - bBox[0], 0, 0, bBox[3] - bBox[1], bBox[0], bBox[1]);
           }
           this.clip();
           this.drawChildren(false, true);
-          doc2.restore();
+          doc.restore();
           docEndGroup(group);
           docApplyMask(group, true);
         };
@@ -157772,7 +157772,7 @@ var require_source = __commonJS({
                   }
                   if (stroke && strokeWidth) {
                     docStrokeColor(stroke);
-                    doc2.lineWidth(strokeWidth).miterLimit(this.get("stroke-miterlimit")).lineJoin(this.get("stroke-linejoin")).lineCap(this.get("stroke-linecap")).dash(this.get("stroke-dasharray"), { phase: this.get("stroke-dashoffset") });
+                    doc.lineWidth(strokeWidth).miterLimit(this.get("stroke-miterlimit")).lineJoin(this.get("stroke-linejoin")).lineCap(this.get("stroke-linecap")).dash(this.get("stroke-dasharray"), { phase: this.get("stroke-dashoffset") });
                   }
                   docBeginText(this._font.font, this._font.size);
                   docSetTextMode(!!fill, !!stroke);
@@ -157799,18 +157799,18 @@ var require_source = __commonJS({
           }
           if (stroke) {
             docStrokeColor(stroke);
-            doc2.lineWidth(this.get("stroke-width")).miterLimit(this.get("stroke-miterlimit")).lineJoin(this.get("stroke-linejoin")).lineCap(this.get("stroke-linecap")).dash(this.get("stroke-dasharray"), { phase: this.get("stroke-dashoffset") });
+            doc.lineWidth(this.get("stroke-width")).miterLimit(this.get("stroke-miterlimit")).lineJoin(this.get("stroke-linejoin")).lineCap(this.get("stroke-linecap")).dash(this.get("stroke-dasharray"), { phase: this.get("stroke-dashoffset") });
           }
           for (let j = 0, pos = this._pos; j < pos.length; j++) {
             if (!pos[j].hidden && isNotEqual(pos[j].width, 0)) {
               let dx0 = (linePosition + lineWidth / 2) * Math.sin(pos[j].rotate), dy0 = -(linePosition + lineWidth / 2) * Math.cos(pos[j].rotate), dx1 = (linePosition - lineWidth / 2) * Math.sin(pos[j].rotate), dy1 = -(linePosition - lineWidth / 2) * Math.cos(pos[j].rotate), dx2 = pos[j].width * Math.cos(pos[j].rotate), dy2 = pos[j].width * Math.sin(pos[j].rotate);
               new SvgShape().M(pos[j].x + dx0, pos[j].y + dy0).L(pos[j].x + dx0 + dx2, pos[j].y + dy0 + dy2).L(pos[j].x + dx1 + dx2, pos[j].y + dy1 + dy2).L(pos[j].x + dx1, pos[j].y + dy1).Z().insertInDocument();
               if (fill && stroke) {
-                doc2.fillAndStroke();
+                doc.fillAndStroke();
               } else if (fill) {
-                doc2.fill();
+                doc.fill();
               } else if (stroke) {
-                doc2.stroke();
+                doc.stroke();
               }
             }
           }
@@ -157888,13 +157888,13 @@ var require_source = __commonJS({
             }
             let fontOptions = { fauxItalic: false, fauxBold: false }, fontNameorLink = fontCallback(currentElem.get("font-family"), currentElem.get("font-weight") === "bold", currentElem.get("font-style") === "italic", fontOptions);
             try {
-              doc2.font(fontNameorLink);
+              doc.font(fontNameorLink);
             } catch (e) {
               warningCallback('SVGElemText: failed to open font "' + fontNameorLink + '" in PDFKit');
             }
             currentElem._pos = [];
             currentElem._index = 0;
-            currentElem._font = { font: doc2._font, size: currentElem.get("font-size"), fauxItalic: fontOptions.fauxItalic, fauxBold: fontOptions.fauxBold };
+            currentElem._font = { font: doc._font, size: currentElem.get("font-size"), fauxItalic: fontOptions.fauxItalic, fauxBold: fontOptions.fauxBold };
             let textLength = currentElem.getLength("textLength", currentElem.getVWidth(), void 0), spacingAndGlyphs = currentElem.attr("lengthAdjust") === "spacingAndGlyphs", wordSpacing = currentElem.get("word-spacing"), letterSpacing = currentElem.get("letter-spacing"), textAnchor = currentElem.get("text-anchor"), textDirection = currentElem.get("direction"), baseline = getBaseline(currentElem._font.font, currentElem._font.size, currentElem.get("alignment-baseline") || currentElem.get("dominant-baseline"), currentElem.get("baseline-shift"));
             if (currentElem.name === "textPath") {
               doAnchoring();
@@ -158043,7 +158043,7 @@ var require_source = __commonJS({
           return this.get("transform");
         };
         this.drawInDocument = function(isClip, isMask) {
-          doc2.save();
+          doc.save();
           this.transform();
           this.clip();
           let masked = this.mask(), group;
@@ -158055,11 +158055,11 @@ var require_source = __commonJS({
             docEndGroup(group);
             docInsertGroup(group);
           }
-          doc2.restore();
+          doc.restore();
         };
       };
       options2 = options2 || {};
-      var pxToPt = options2.assumePt ? 1 : 72 / 96, viewportWidth = (options2.width || doc2.page.width) / pxToPt, viewportHeight = (options2.height || doc2.page.height) / pxToPt, preserveAspectRatio = options2.preserveAspectRatio || null, useCSS = options2.useCSS && typeof SVGElement !== "undefined" && svg instanceof SVGElement && typeof getComputedStyle === "function", warningCallback = options2.warningCallback, fontCallback = options2.fontCallback, imageCallback = options2.imageCallback, colorCallback = options2.colorCallback, documentCallback = options2.documentCallback, precision = Math.ceil(Math.max(1, options2.precision)) || 3, groupStack = [], documentCache = {}, links = [], styleRules = [];
+      var pxToPt = options2.assumePt ? 1 : 72 / 96, viewportWidth = (options2.width || doc.page.width) / pxToPt, viewportHeight = (options2.height || doc.page.height) / pxToPt, preserveAspectRatio = options2.preserveAspectRatio || null, useCSS = options2.useCSS && typeof SVGElement !== "undefined" && svg instanceof SVGElement && typeof getComputedStyle === "function", warningCallback = options2.warningCallback, fontCallback = options2.fontCallback, imageCallback = options2.imageCallback, colorCallback = options2.colorCallback, documentCallback = options2.documentCallback, precision = Math.ceil(Math.max(1, options2.precision)) || 3, groupStack = [], documentCache = {}, links = [], styleRules = [];
       if (typeof warningCallback !== "function") {
         warningCallback = function(str) {
           if (typeof console !== void 0 && typeof console.warn === "function") {
@@ -158070,38 +158070,38 @@ var require_source = __commonJS({
       if (typeof fontCallback !== "function") {
         fontCallback = function(family, bold, italic, fontOptions) {
           if (bold && italic) {
-            if (doc2._registeredFonts.hasOwnProperty(family + "-BoldItalic")) {
+            if (doc._registeredFonts.hasOwnProperty(family + "-BoldItalic")) {
               return family + "-BoldItalic";
-            } else if (doc2._registeredFonts.hasOwnProperty(family + "-Italic")) {
+            } else if (doc._registeredFonts.hasOwnProperty(family + "-Italic")) {
               fontOptions.fauxBold = true;
               return family + "-Italic";
-            } else if (doc2._registeredFonts.hasOwnProperty(family + "-Bold")) {
+            } else if (doc._registeredFonts.hasOwnProperty(family + "-Bold")) {
               fontOptions.fauxItalic = true;
               return family + "-Bold";
-            } else if (doc2._registeredFonts.hasOwnProperty(family)) {
+            } else if (doc._registeredFonts.hasOwnProperty(family)) {
               fontOptions.fauxBold = true;
               fontOptions.fauxItalic = true;
               return family;
             }
           }
           if (bold && !italic) {
-            if (doc2._registeredFonts.hasOwnProperty(family + "-Bold")) {
+            if (doc._registeredFonts.hasOwnProperty(family + "-Bold")) {
               return family + "-Bold";
-            } else if (doc2._registeredFonts.hasOwnProperty(family)) {
+            } else if (doc._registeredFonts.hasOwnProperty(family)) {
               fontOptions.fauxBold = true;
               return family;
             }
           }
           if (!bold && italic) {
-            if (doc2._registeredFonts.hasOwnProperty(family + "-Italic")) {
+            if (doc._registeredFonts.hasOwnProperty(family + "-Italic")) {
               return family + "-Italic";
-            } else if (doc2._registeredFonts.hasOwnProperty(family)) {
+            } else if (doc._registeredFonts.hasOwnProperty(family)) {
               fontOptions.fauxItalic = true;
               return family;
             }
           }
           if (!bold && !italic) {
-            if (doc2._registeredFonts.hasOwnProperty(family)) {
+            if (doc._registeredFonts.hasOwnProperty(family)) {
               return family;
             }
           }
@@ -158177,14 +158177,14 @@ var require_source = __commonJS({
           if (options2.useCSS && !useCSS) {
             warningCallback("SVGtoPDF: useCSS option can only be used for SVG *elements* in compatible browsers");
           }
-          let savedFillColor = doc2._fillColor;
-          doc2.save().translate(x || 0, y || 0).scale(pxToPt);
+          let savedFillColor = doc._fillColor;
+          doc.save().translate(x || 0, y || 0).scale(pxToPt);
           elem.drawInDocument();
           for (let i = 0; i < links.length; i++) {
-            doc2.page.annotations.push(links[i]);
+            doc.page.annotations.push(links[i]);
           }
-          doc2.restore();
-          doc2._fillColor = savedFillColor;
+          doc.restore();
+          doc._fillColor = savedFillColor;
         } else {
           warningCallback("SVGtoPDF: this element can't be rendered directly: " + svg.nodeName);
         }
@@ -159696,8 +159696,6 @@ function set_paths(paths) {
 }
 function set_prerendering(value) {
 }
-var doc = new import_pdfkit.default();
-doc.end();
 var handle = async ({ request, resolve: resolve2 }) => {
   const cookies = import_cookie.default.parse(request.headers.cookie || "");
   request.locals.userid = cookies.userid || v4();
@@ -159923,29 +159921,29 @@ import_pdfkit.default.prototype.svg = function(svg, x, y, options2) {
 var mm = (size) => size * 2.83465;
 async function post(req) {
   const data = JSON.parse(req.body);
-  const doc2 = new import_pdfkit.default({
+  const doc = new import_pdfkit.default({
     size: [mm(210), mm(297)],
     margin: 0,
     info: {
       Title: `Factura_${data.number}_${data.client.legal_id}`
     }
   });
-  doc2.svg(bill, 0, 0, {
+  doc.svg(bill, 0, 0, {
     width: mm(210),
     height: mm(297)
   });
-  doc2.end();
+  doc.end();
   const pdfBuffer = new Promise((resolve2) => {
     let buffers = [];
-    doc2.on("data", buffers.push.bind(buffers));
-    doc2.on("end", function() {
+    doc.on("data", buffers.push.bind(buffers));
+    doc.on("end", function() {
       resolve2(Buffer.concat(buffers));
     });
   });
   return {
     status: "200",
     headers: {
-      "Content-Type": "application/pdf"
+      "Content-Type": "application/octet-stream"
     },
     body: await pdfBuffer
   };
