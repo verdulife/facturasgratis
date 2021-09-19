@@ -57,7 +57,7 @@ export async function post(req) {
   };
 } */
 
-import PDFDocument from "pdfkit";
+import PDFDocument from "pdfkit-next";
 import SVGtoPDF from "svg-to-pdfkit";
 import { bill } from "./assets/bill.svg";
 

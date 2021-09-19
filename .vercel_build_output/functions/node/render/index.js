@@ -1135,9 +1135,9 @@ var require_cookie = __commonJS({
   }
 });
 
-// node_modules/crypto-js/core.js
+// node_modules/pdfkit-next/node_modules/crypto-js/core.js
 var require_core = __commonJS({
-  "node_modules/crypto-js/core.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/core.js"(exports, module2) {
     init_shims();
     (function(root, factory) {
       if (typeof exports === "object") {
@@ -1149,48 +1149,10 @@ var require_core = __commonJS({
       }
     })(exports, function() {
       var CryptoJS = CryptoJS || function(Math2, undefined2) {
-        var crypto;
-        if (typeof window !== "undefined" && window.crypto) {
-          crypto = window.crypto;
-        }
-        if (typeof self !== "undefined" && self.crypto) {
-          crypto = self.crypto;
-        }
-        if (typeof globalThis !== "undefined" && globalThis.crypto) {
-          crypto = globalThis.crypto;
-        }
-        if (!crypto && typeof window !== "undefined" && window.msCrypto) {
-          crypto = window.msCrypto;
-        }
-        if (!crypto && typeof global !== "undefined" && global.crypto) {
-          crypto = global.crypto;
-        }
-        if (!crypto && typeof require === "function") {
-          try {
-            crypto = require("crypto");
-          } catch (err) {
-          }
-        }
-        var cryptoSecureRandomInt = function() {
-          if (crypto) {
-            if (typeof crypto.getRandomValues === "function") {
-              try {
-                return crypto.getRandomValues(new Uint32Array(1))[0];
-              } catch (err) {
-              }
-            }
-            if (typeof crypto.randomBytes === "function") {
-              try {
-                return crypto.randomBytes(4).readInt32LE();
-              } catch (err) {
-              }
-            }
-          }
-          throw new Error("Native crypto module could not be used to get secure random number.");
-        };
         var create = Object.create || function() {
           function F() {
           }
+          ;
           return function(obj) {
             var subtype;
             F.prototype = obj;
@@ -1263,8 +1225,8 @@ var require_core = __commonJS({
                 thisWords[thisSigBytes + i >>> 2] |= thatByte << 24 - (thisSigBytes + i) % 4 * 8;
               }
             } else {
-              for (var j = 0; j < thatSigBytes; j += 4) {
-                thisWords[thisSigBytes + j >>> 2] = thatWords[j >>> 2];
+              for (var i = 0; i < thatSigBytes; i += 4) {
+                thisWords[thisSigBytes + i >>> 2] = thatWords[i >>> 2];
               }
             }
             this.sigBytes += thatSigBytes;
@@ -1283,8 +1245,23 @@ var require_core = __commonJS({
           },
           random: function(nBytes) {
             var words = [];
-            for (var i = 0; i < nBytes; i += 4) {
-              words.push(cryptoSecureRandomInt());
+            var r = function(m_w) {
+              var m_w = m_w;
+              var m_z = 987654321;
+              var mask = 4294967295;
+              return function() {
+                m_z = 36969 * (m_z & 65535) + (m_z >> 16) & mask;
+                m_w = 18e3 * (m_w & 65535) + (m_w >> 16) & mask;
+                var result = (m_z << 16) + m_w & mask;
+                result /= 4294967296;
+                result += 0.5;
+                return result * (Math2.random() > 0.5 ? 1 : -1);
+              };
+            };
+            for (var i = 0, rcache; i < nBytes; i += 4) {
+              var _r = r((rcache || Math2.random()) * 4294967296);
+              rcache = _r() * 987654071;
+              words.push(_r() * 4294967296 | 0);
             }
             return new WordArray.init(words, nBytes);
           }
@@ -1356,7 +1333,6 @@ var require_core = __commonJS({
             this._nDataBytes += data.sigBytes;
           },
           _process: function(doFlush) {
-            var processedWords;
             var data = this._data;
             var dataWords = data.words;
             var dataSigBytes = data.sigBytes;
@@ -1374,7 +1350,7 @@ var require_core = __commonJS({
               for (var offset = 0; offset < nWordsReady; offset += blockSize) {
                 this._doProcessBlock(dataWords, offset);
               }
-              processedWords = dataWords.splice(0, nWordsReady);
+              var processedWords = dataWords.splice(0, nWordsReady);
               data.sigBytes -= nBytesReady;
             }
             return new WordArray.init(processedWords, nBytesReady);
@@ -1428,9 +1404,9 @@ var require_core = __commonJS({
   }
 });
 
-// node_modules/crypto-js/x64-core.js
+// node_modules/pdfkit-next/node_modules/crypto-js/x64-core.js
 var require_x64_core = __commonJS({
-  "node_modules/crypto-js/x64-core.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/x64-core.js"(exports, module2) {
     init_shims();
     (function(root, factory) {
       if (typeof exports === "object") {
@@ -1489,9 +1465,9 @@ var require_x64_core = __commonJS({
   }
 });
 
-// node_modules/crypto-js/lib-typedarrays.js
+// node_modules/pdfkit-next/node_modules/crypto-js/lib-typedarrays.js
 var require_lib_typedarrays = __commonJS({
-  "node_modules/crypto-js/lib-typedarrays.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/lib-typedarrays.js"(exports, module2) {
     init_shims();
     (function(root, factory) {
       if (typeof exports === "object") {
@@ -1535,9 +1511,9 @@ var require_lib_typedarrays = __commonJS({
   }
 });
 
-// node_modules/crypto-js/enc-utf16.js
+// node_modules/pdfkit-next/node_modules/crypto-js/enc-utf16.js
 var require_enc_utf16 = __commonJS({
-  "node_modules/crypto-js/enc-utf16.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/enc-utf16.js"(exports, module2) {
     init_shims();
     (function(root, factory) {
       if (typeof exports === "object") {
@@ -1602,9 +1578,9 @@ var require_enc_utf16 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/enc-base64.js
+// node_modules/pdfkit-next/node_modules/crypto-js/enc-base64.js
 var require_enc_base64 = __commonJS({
-  "node_modules/crypto-js/enc-base64.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/enc-base64.js"(exports, module2) {
     init_shims();
     (function(root, factory) {
       if (typeof exports === "object") {
@@ -1672,8 +1648,7 @@ var require_enc_base64 = __commonJS({
             if (i % 4) {
               var bits1 = reverseMap[base64Str.charCodeAt(i - 1)] << i % 4 * 2;
               var bits2 = reverseMap[base64Str.charCodeAt(i)] >>> 6 - i % 4 * 2;
-              var bitsCombined = bits1 | bits2;
-              words[nBytes >>> 2] |= bitsCombined << 24 - nBytes % 4 * 8;
+              words[nBytes >>> 2] |= (bits1 | bits2) << 24 - nBytes % 4 * 8;
               nBytes++;
             }
           }
@@ -1685,93 +1660,9 @@ var require_enc_base64 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/enc-base64url.js
-var require_enc_base64url = __commonJS({
-  "node_modules/crypto-js/enc-base64url.js"(exports, module2) {
-    init_shims();
-    (function(root, factory) {
-      if (typeof exports === "object") {
-        module2.exports = exports = factory(require_core());
-      } else if (typeof define === "function" && define.amd) {
-        define(["./core"], factory);
-      } else {
-        factory(root.CryptoJS);
-      }
-    })(exports, function(CryptoJS) {
-      (function() {
-        var C = CryptoJS;
-        var C_lib = C.lib;
-        var WordArray = C_lib.WordArray;
-        var C_enc = C.enc;
-        var Base64url = C_enc.Base64url = {
-          stringify: function(wordArray, urlSafe = true) {
-            var words = wordArray.words;
-            var sigBytes = wordArray.sigBytes;
-            var map = urlSafe ? this._safe_map : this._map;
-            wordArray.clamp();
-            var base64Chars = [];
-            for (var i = 0; i < sigBytes; i += 3) {
-              var byte1 = words[i >>> 2] >>> 24 - i % 4 * 8 & 255;
-              var byte2 = words[i + 1 >>> 2] >>> 24 - (i + 1) % 4 * 8 & 255;
-              var byte3 = words[i + 2 >>> 2] >>> 24 - (i + 2) % 4 * 8 & 255;
-              var triplet = byte1 << 16 | byte2 << 8 | byte3;
-              for (var j = 0; j < 4 && i + j * 0.75 < sigBytes; j++) {
-                base64Chars.push(map.charAt(triplet >>> 6 * (3 - j) & 63));
-              }
-            }
-            var paddingChar = map.charAt(64);
-            if (paddingChar) {
-              while (base64Chars.length % 4) {
-                base64Chars.push(paddingChar);
-              }
-            }
-            return base64Chars.join("");
-          },
-          parse: function(base64Str, urlSafe = true) {
-            var base64StrLength = base64Str.length;
-            var map = urlSafe ? this._safe_map : this._map;
-            var reverseMap = this._reverseMap;
-            if (!reverseMap) {
-              reverseMap = this._reverseMap = [];
-              for (var j = 0; j < map.length; j++) {
-                reverseMap[map.charCodeAt(j)] = j;
-              }
-            }
-            var paddingChar = map.charAt(64);
-            if (paddingChar) {
-              var paddingIndex = base64Str.indexOf(paddingChar);
-              if (paddingIndex !== -1) {
-                base64StrLength = paddingIndex;
-              }
-            }
-            return parseLoop(base64Str, base64StrLength, reverseMap);
-          },
-          _map: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-          _safe_map: "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_"
-        };
-        function parseLoop(base64Str, base64StrLength, reverseMap) {
-          var words = [];
-          var nBytes = 0;
-          for (var i = 0; i < base64StrLength; i++) {
-            if (i % 4) {
-              var bits1 = reverseMap[base64Str.charCodeAt(i - 1)] << i % 4 * 2;
-              var bits2 = reverseMap[base64Str.charCodeAt(i)] >>> 6 - i % 4 * 2;
-              var bitsCombined = bits1 | bits2;
-              words[nBytes >>> 2] |= bitsCombined << 24 - nBytes % 4 * 8;
-              nBytes++;
-            }
-          }
-          return WordArray.create(words, nBytes);
-        }
-      })();
-      return CryptoJS.enc.Base64url;
-    });
-  }
-});
-
-// node_modules/crypto-js/md5.js
+// node_modules/pdfkit-next/node_modules/crypto-js/md5.js
 var require_md5 = __commonJS({
-  "node_modules/crypto-js/md5.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/md5.js"(exports, module2) {
     init_shims();
     (function(root, factory) {
       if (typeof exports === "object") {
@@ -1949,9 +1840,9 @@ var require_md5 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/sha1.js
+// node_modules/pdfkit-next/node_modules/crypto-js/sha1.js
 var require_sha1 = __commonJS({
-  "node_modules/crypto-js/sha1.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/sha1.js"(exports, module2) {
     init_shims();
     (function(root, factory) {
       if (typeof exports === "object") {
@@ -2041,9 +1932,9 @@ var require_sha1 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/sha256.js
+// node_modules/pdfkit-next/node_modules/crypto-js/sha256.js
 var require_sha256 = __commonJS({
-  "node_modules/crypto-js/sha256.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/sha256.js"(exports, module2) {
     init_shims();
     (function(root, factory) {
       if (typeof exports === "object") {
@@ -2163,9 +2054,9 @@ var require_sha256 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/sha224.js
+// node_modules/pdfkit-next/node_modules/crypto-js/sha224.js
 var require_sha224 = __commonJS({
-  "node_modules/crypto-js/sha224.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/sha224.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -2209,9 +2100,9 @@ var require_sha224 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/sha512.js
+// node_modules/pdfkit-next/node_modules/crypto-js/sha512.js
 var require_sha512 = __commonJS({
-  "node_modules/crypto-js/sha512.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/sha512.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -2377,12 +2268,10 @@ var require_sha512 = __commonJS({
             var hh = H7h;
             var hl = H7l;
             for (var i = 0; i < 80; i++) {
-              var Wil;
-              var Wih;
               var Wi = W[i];
               if (i < 16) {
-                Wih = Wi.high = M[offset + i * 2] | 0;
-                Wil = Wi.low = M[offset + i * 2 + 1] | 0;
+                var Wih = Wi.high = M[offset + i * 2] | 0;
+                var Wil = Wi.low = M[offset + i * 2 + 1] | 0;
               } else {
                 var gamma0x = W[i - 15];
                 var gamma0xh = gamma0x.high;
@@ -2400,12 +2289,12 @@ var require_sha512 = __commonJS({
                 var Wi16 = W[i - 16];
                 var Wi16h = Wi16.high;
                 var Wi16l = Wi16.low;
-                Wil = gamma0l + Wi7l;
-                Wih = gamma0h + Wi7h + (Wil >>> 0 < gamma0l >>> 0 ? 1 : 0);
-                Wil = Wil + gamma1l;
-                Wih = Wih + gamma1h + (Wil >>> 0 < gamma1l >>> 0 ? 1 : 0);
-                Wil = Wil + Wi16l;
-                Wih = Wih + Wi16h + (Wil >>> 0 < Wi16l >>> 0 ? 1 : 0);
+                var Wil = gamma0l + Wi7l;
+                var Wih = gamma0h + Wi7h + (Wil >>> 0 < gamma0l >>> 0 ? 1 : 0);
+                var Wil = Wil + gamma1l;
+                var Wih = Wih + gamma1h + (Wil >>> 0 < gamma1l >>> 0 ? 1 : 0);
+                var Wil = Wil + Wi16l;
+                var Wih = Wih + Wi16h + (Wil >>> 0 < Wi16l >>> 0 ? 1 : 0);
                 Wi.high = Wih;
                 Wi.low = Wil;
               }
@@ -2492,9 +2381,9 @@ var require_sha512 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/sha384.js
+// node_modules/pdfkit-next/node_modules/crypto-js/sha384.js
 var require_sha384 = __commonJS({
-  "node_modules/crypto-js/sha384.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/sha384.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -2539,9 +2428,9 @@ var require_sha384 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/sha3.js
+// node_modules/pdfkit-next/node_modules/crypto-js/sha3.js
 var require_sha3 = __commonJS({
-  "node_modules/crypto-js/sha3.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/sha3.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -2654,18 +2543,16 @@ var require_sha3 = __commonJS({
                 }
               }
               for (var laneIndex = 1; laneIndex < 25; laneIndex++) {
-                var tMsw;
-                var tLsw;
                 var lane = state[laneIndex];
                 var laneMsw = lane.high;
                 var laneLsw = lane.low;
                 var rhoOffset = RHO_OFFSETS[laneIndex];
                 if (rhoOffset < 32) {
-                  tMsw = laneMsw << rhoOffset | laneLsw >>> 32 - rhoOffset;
-                  tLsw = laneLsw << rhoOffset | laneMsw >>> 32 - rhoOffset;
+                  var tMsw = laneMsw << rhoOffset | laneLsw >>> 32 - rhoOffset;
+                  var tLsw = laneLsw << rhoOffset | laneMsw >>> 32 - rhoOffset;
                 } else {
-                  tMsw = laneLsw << rhoOffset - 32 | laneMsw >>> 64 - rhoOffset;
-                  tLsw = laneMsw << rhoOffset - 32 | laneLsw >>> 64 - rhoOffset;
+                  var tMsw = laneLsw << rhoOffset - 32 | laneMsw >>> 64 - rhoOffset;
+                  var tLsw = laneMsw << rhoOffset - 32 | laneLsw >>> 64 - rhoOffset;
                 }
                 var TPiLane = T[PI_INDEXES[laneIndex]];
                 TPiLane.high = tMsw;
@@ -2690,6 +2577,7 @@ var require_sha3 = __commonJS({
               var roundConstant = ROUND_CONSTANTS[round];
               lane.high ^= roundConstant.high;
               lane.low ^= roundConstant.low;
+              ;
             }
           },
           _doFinalize: function() {
@@ -2734,9 +2622,9 @@ var require_sha3 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/ripemd160.js
+// node_modules/pdfkit-next/node_modules/crypto-js/ripemd160.js
 var require_ripemd160 = __commonJS({
-  "node_modules/crypto-js/ripemd160.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/ripemd160.js"(exports, module2) {
     init_shims();
     (function(root, factory) {
       if (typeof exports === "object") {
@@ -3206,9 +3094,9 @@ var require_ripemd160 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/hmac.js
+// node_modules/pdfkit-next/node_modules/crypto-js/hmac.js
 var require_hmac = __commonJS({
-  "node_modules/crypto-js/hmac.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/hmac.js"(exports, module2) {
     init_shims();
     (function(root, factory) {
       if (typeof exports === "object") {
@@ -3271,9 +3159,9 @@ var require_hmac = __commonJS({
   }
 });
 
-// node_modules/crypto-js/pbkdf2.js
+// node_modules/pdfkit-next/node_modules/crypto-js/pbkdf2.js
 var require_pbkdf2 = __commonJS({
-  "node_modules/crypto-js/pbkdf2.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/pbkdf2.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -3340,9 +3228,9 @@ var require_pbkdf2 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/evpkdf.js
+// node_modules/pdfkit-next/node_modules/crypto-js/evpkdf.js
 var require_evpkdf = __commonJS({
-  "node_modules/crypto-js/evpkdf.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/evpkdf.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -3370,7 +3258,6 @@ var require_evpkdf = __commonJS({
             this.cfg = this.cfg.extend(cfg);
           },
           compute: function(password, salt) {
-            var block;
             var cfg = this.cfg;
             var hasher = cfg.hasher.create();
             var derivedKey = WordArray.create();
@@ -3381,7 +3268,7 @@ var require_evpkdf = __commonJS({
               if (block) {
                 hasher.update(block);
               }
-              block = hasher.update(password).finalize(salt);
+              var block = hasher.update(password).finalize(salt);
               hasher.reset();
               for (var i = 1; i < iterations; i++) {
                 block = hasher.finalize(block);
@@ -3402,9 +3289,9 @@ var require_evpkdf = __commonJS({
   }
 });
 
-// node_modules/crypto-js/cipher-core.js
+// node_modules/pdfkit-next/node_modules/crypto-js/cipher-core.js
 var require_cipher_core = __commonJS({
-  "node_modules/crypto-js/cipher-core.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/cipher-core.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -3521,13 +3408,12 @@ var require_cipher_core = __commonJS({
             }
           });
           function xorBlock(words, offset, blockSize) {
-            var block;
             var iv = this._iv;
             if (iv) {
-              block = iv;
+              var block = iv;
               this._iv = undefined2;
             } else {
-              block = this._prevBlock;
+              var block = this._prevBlock;
             }
             for (var i = 0; i < blockSize; i++) {
               words[offset + i] ^= block[i];
@@ -3559,15 +3445,14 @@ var require_cipher_core = __commonJS({
             padding: Pkcs7
           }),
           reset: function() {
-            var modeCreator;
             Cipher.reset.call(this);
             var cfg = this.cfg;
             var iv = cfg.iv;
             var mode = cfg.mode;
             if (this._xformMode == this._ENC_XFORM_MODE) {
-              modeCreator = mode.createEncryptor;
+              var modeCreator = mode.createEncryptor;
             } else {
-              modeCreator = mode.createDecryptor;
+              var modeCreator = mode.createDecryptor;
               this._minBufferSize = 1;
             }
             if (this._mode && this._mode.__creator == modeCreator) {
@@ -3581,13 +3466,12 @@ var require_cipher_core = __commonJS({
             this._mode.processBlock(words, offset);
           },
           _doFinalize: function() {
-            var finalProcessedBlocks;
             var padding = this.cfg.padding;
             if (this._xformMode == this._ENC_XFORM_MODE) {
               padding.pad(this._data, this.blockSize);
-              finalProcessedBlocks = this._process(true);
+              var finalProcessedBlocks = this._process(true);
             } else {
-              finalProcessedBlocks = this._process(true);
+              var finalProcessedBlocks = this._process(true);
               padding.unpad(finalProcessedBlocks);
             }
             return finalProcessedBlocks;
@@ -3605,22 +3489,20 @@ var require_cipher_core = __commonJS({
         var C_format = C.format = {};
         var OpenSSLFormatter = C_format.OpenSSL = {
           stringify: function(cipherParams) {
-            var wordArray;
             var ciphertext = cipherParams.ciphertext;
             var salt = cipherParams.salt;
             if (salt) {
-              wordArray = WordArray.create([1398893684, 1701076831]).concat(salt).concat(ciphertext);
+              var wordArray = WordArray.create([1398893684, 1701076831]).concat(salt).concat(ciphertext);
             } else {
-              wordArray = ciphertext;
+              var wordArray = ciphertext;
             }
             return wordArray.toString(Base64);
           },
           parse: function(openSSLStr) {
-            var salt;
             var ciphertext = Base64.parse(openSSLStr);
             var ciphertextWords = ciphertext.words;
             if (ciphertextWords[0] == 1398893684 && ciphertextWords[1] == 1701076831) {
-              salt = WordArray.create(ciphertextWords.slice(2, 4));
+              var salt = WordArray.create(ciphertextWords.slice(2, 4));
               ciphertextWords.splice(0, 4);
               ciphertext.sigBytes -= 16;
             }
@@ -3699,9 +3581,9 @@ var require_cipher_core = __commonJS({
   }
 });
 
-// node_modules/crypto-js/mode-cfb.js
+// node_modules/pdfkit-next/node_modules/crypto-js/mode-cfb.js
 var require_mode_cfb = __commonJS({
-  "node_modules/crypto-js/mode-cfb.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/mode-cfb.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -3732,13 +3614,12 @@ var require_mode_cfb = __commonJS({
           }
         });
         function generateKeystreamAndEncrypt(words, offset, blockSize, cipher) {
-          var keystream;
           var iv = this._iv;
           if (iv) {
-            keystream = iv.slice(0);
+            var keystream = iv.slice(0);
             this._iv = void 0;
           } else {
-            keystream = this._prevBlock;
+            var keystream = this._prevBlock;
           }
           cipher.encryptBlock(keystream, 0);
           for (var i = 0; i < blockSize; i++) {
@@ -3752,9 +3633,9 @@ var require_mode_cfb = __commonJS({
   }
 });
 
-// node_modules/crypto-js/mode-ctr.js
+// node_modules/pdfkit-next/node_modules/crypto-js/mode-ctr.js
 var require_mode_ctr = __commonJS({
-  "node_modules/crypto-js/mode-ctr.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/mode-ctr.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -3793,9 +3674,9 @@ var require_mode_ctr = __commonJS({
   }
 });
 
-// node_modules/crypto-js/mode-ctr-gladman.js
+// node_modules/pdfkit-next/node_modules/crypto-js/mode-ctr-gladman.js
 var require_mode_ctr_gladman = __commonJS({
-  "node_modules/crypto-js/mode-ctr-gladman.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/mode-ctr-gladman.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -3869,9 +3750,9 @@ var require_mode_ctr_gladman = __commonJS({
   }
 });
 
-// node_modules/crypto-js/mode-ofb.js
+// node_modules/pdfkit-next/node_modules/crypto-js/mode-ofb.js
 var require_mode_ofb = __commonJS({
-  "node_modules/crypto-js/mode-ofb.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/mode-ofb.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -3908,9 +3789,9 @@ var require_mode_ofb = __commonJS({
   }
 });
 
-// node_modules/crypto-js/mode-ecb.js
+// node_modules/pdfkit-next/node_modules/crypto-js/mode-ecb.js
 var require_mode_ecb = __commonJS({
-  "node_modules/crypto-js/mode-ecb.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/mode-ecb.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -3940,9 +3821,9 @@ var require_mode_ecb = __commonJS({
   }
 });
 
-// node_modules/crypto-js/pad-ansix923.js
+// node_modules/pdfkit-next/node_modules/crypto-js/pad-ansix923.js
 var require_pad_ansix923 = __commonJS({
-  "node_modules/crypto-js/pad-ansix923.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/pad-ansix923.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -3973,9 +3854,9 @@ var require_pad_ansix923 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/pad-iso10126.js
+// node_modules/pdfkit-next/node_modules/crypto-js/pad-iso10126.js
 var require_pad_iso10126 = __commonJS({
-  "node_modules/crypto-js/pad-iso10126.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/pad-iso10126.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -4002,9 +3883,9 @@ var require_pad_iso10126 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/pad-iso97971.js
+// node_modules/pdfkit-next/node_modules/crypto-js/pad-iso97971.js
 var require_pad_iso97971 = __commonJS({
-  "node_modules/crypto-js/pad-iso97971.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/pad-iso97971.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -4030,9 +3911,9 @@ var require_pad_iso97971 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/pad-zeropadding.js
+// node_modules/pdfkit-next/node_modules/crypto-js/pad-zeropadding.js
 var require_pad_zeropadding = __commonJS({
-  "node_modules/crypto-js/pad-zeropadding.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/pad-zeropadding.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -4052,12 +3933,10 @@ var require_pad_zeropadding = __commonJS({
         unpad: function(data) {
           var dataWords = data.words;
           var i = data.sigBytes - 1;
-          for (var i = data.sigBytes - 1; i >= 0; i--) {
-            if (dataWords[i >>> 2] >>> 24 - i % 4 * 8 & 255) {
-              data.sigBytes = i + 1;
-              break;
-            }
+          while (!(dataWords[i >>> 2] >>> 24 - i % 4 * 8 & 255)) {
+            i--;
           }
+          data.sigBytes = i + 1;
         }
       };
       return CryptoJS.pad.ZeroPadding;
@@ -4065,9 +3944,9 @@ var require_pad_zeropadding = __commonJS({
   }
 });
 
-// node_modules/crypto-js/pad-nopadding.js
+// node_modules/pdfkit-next/node_modules/crypto-js/pad-nopadding.js
 var require_pad_nopadding = __commonJS({
-  "node_modules/crypto-js/pad-nopadding.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/pad-nopadding.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -4089,9 +3968,9 @@ var require_pad_nopadding = __commonJS({
   }
 });
 
-// node_modules/crypto-js/format-hex.js
+// node_modules/pdfkit-next/node_modules/crypto-js/format-hex.js
 var require_format_hex = __commonJS({
-  "node_modules/crypto-js/format-hex.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/format-hex.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -4124,9 +4003,9 @@ var require_format_hex = __commonJS({
   }
 });
 
-// node_modules/crypto-js/aes.js
+// node_modules/pdfkit-next/node_modules/crypto-js/aes.js
 var require_aes = __commonJS({
-  "node_modules/crypto-js/aes.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/aes.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -4192,7 +4071,6 @@ var require_aes = __commonJS({
         var RCON = [0, 1, 2, 4, 8, 16, 32, 64, 128, 27, 54];
         var AES = C_algo.AES = BlockCipher.extend({
           _doReset: function() {
-            var t;
             if (this._nRounds && this._keyPriorReset === this._key) {
               return;
             }
@@ -4206,7 +4084,7 @@ var require_aes = __commonJS({
               if (ksRow < keySize) {
                 keySchedule[ksRow] = keyWords[ksRow];
               } else {
-                t = keySchedule[ksRow - 1];
+                var t = keySchedule[ksRow - 1];
                 if (!(ksRow % keySize)) {
                   t = t << 8 | t >>> 24;
                   t = SBOX[t >>> 24] << 24 | SBOX[t >>> 16 & 255] << 16 | SBOX[t >>> 8 & 255] << 8 | SBOX[t & 255];
@@ -4279,9 +4157,9 @@ var require_aes = __commonJS({
   }
 });
 
-// node_modules/crypto-js/tripledes.js
+// node_modules/pdfkit-next/node_modules/crypto-js/tripledes.js
 var require_tripledes = __commonJS({
-  "node_modules/crypto-js/tripledes.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/tripledes.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -5030,15 +4908,9 @@ var require_tripledes = __commonJS({
           _doReset: function() {
             var key = this._key;
             var keyWords = key.words;
-            if (keyWords.length !== 2 && keyWords.length !== 4 && keyWords.length < 6) {
-              throw new Error("Invalid key length - 3DES requires the key length to be 64, 128, 192 or >192.");
-            }
-            var key1 = keyWords.slice(0, 2);
-            var key2 = keyWords.length < 4 ? keyWords.slice(0, 2) : keyWords.slice(2, 4);
-            var key3 = keyWords.length < 6 ? keyWords.slice(0, 2) : keyWords.slice(4, 6);
-            this._des1 = DES.createEncryptor(WordArray.create(key1));
-            this._des2 = DES.createEncryptor(WordArray.create(key2));
-            this._des3 = DES.createEncryptor(WordArray.create(key3));
+            this._des1 = DES.createEncryptor(WordArray.create(keyWords.slice(0, 2)));
+            this._des2 = DES.createEncryptor(WordArray.create(keyWords.slice(2, 4)));
+            this._des3 = DES.createEncryptor(WordArray.create(keyWords.slice(4, 6)));
           },
           encryptBlock: function(M, offset) {
             this._des1.encryptBlock(M, offset);
@@ -5061,9 +4933,9 @@ var require_tripledes = __commonJS({
   }
 });
 
-// node_modules/crypto-js/rc4.js
+// node_modules/pdfkit-next/node_modules/crypto-js/rc4.js
 var require_rc4 = __commonJS({
-  "node_modules/crypto-js/rc4.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/rc4.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -5140,9 +5012,9 @@ var require_rc4 = __commonJS({
   }
 });
 
-// node_modules/crypto-js/rabbit.js
+// node_modules/pdfkit-next/node_modules/crypto-js/rabbit.js
 var require_rabbit = __commonJS({
-  "node_modules/crypto-js/rabbit.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/rabbit.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -5270,9 +5142,9 @@ var require_rabbit = __commonJS({
   }
 });
 
-// node_modules/crypto-js/rabbit-legacy.js
+// node_modules/pdfkit-next/node_modules/crypto-js/rabbit-legacy.js
 var require_rabbit_legacy = __commonJS({
-  "node_modules/crypto-js/rabbit-legacy.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/rabbit-legacy.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
@@ -5397,15 +5269,15 @@ var require_rabbit_legacy = __commonJS({
   }
 });
 
-// node_modules/crypto-js/index.js
+// node_modules/pdfkit-next/node_modules/crypto-js/index.js
 var require_crypto_js = __commonJS({
-  "node_modules/crypto-js/index.js"(exports, module2) {
+  "node_modules/pdfkit-next/node_modules/crypto-js/index.js"(exports, module2) {
     init_shims();
     (function(root, factory, undef) {
       if (typeof exports === "object") {
-        module2.exports = exports = factory(require_core(), require_x64_core(), require_lib_typedarrays(), require_enc_utf16(), require_enc_base64(), require_enc_base64url(), require_md5(), require_sha1(), require_sha256(), require_sha224(), require_sha512(), require_sha384(), require_sha3(), require_ripemd160(), require_hmac(), require_pbkdf2(), require_evpkdf(), require_cipher_core(), require_mode_cfb(), require_mode_ctr(), require_mode_ctr_gladman(), require_mode_ofb(), require_mode_ecb(), require_pad_ansix923(), require_pad_iso10126(), require_pad_iso97971(), require_pad_zeropadding(), require_pad_nopadding(), require_format_hex(), require_aes(), require_tripledes(), require_rc4(), require_rabbit(), require_rabbit_legacy());
+        module2.exports = exports = factory(require_core(), require_x64_core(), require_lib_typedarrays(), require_enc_utf16(), require_enc_base64(), require_md5(), require_sha1(), require_sha256(), require_sha224(), require_sha512(), require_sha384(), require_sha3(), require_ripemd160(), require_hmac(), require_pbkdf2(), require_evpkdf(), require_cipher_core(), require_mode_cfb(), require_mode_ctr(), require_mode_ctr_gladman(), require_mode_ofb(), require_mode_ecb(), require_pad_ansix923(), require_pad_iso10126(), require_pad_iso97971(), require_pad_zeropadding(), require_pad_nopadding(), require_format_hex(), require_aes(), require_tripledes(), require_rc4(), require_rabbit(), require_rabbit_legacy());
       } else if (typeof define === "function" && define.amd) {
-        define(["./core", "./x64-core", "./lib-typedarrays", "./enc-utf16", "./enc-base64", "./enc-base64url", "./md5", "./sha1", "./sha256", "./sha224", "./sha512", "./sha384", "./sha3", "./ripemd160", "./hmac", "./pbkdf2", "./evpkdf", "./cipher-core", "./mode-cfb", "./mode-ctr", "./mode-ctr-gladman", "./mode-ofb", "./mode-ecb", "./pad-ansix923", "./pad-iso10126", "./pad-iso97971", "./pad-zeropadding", "./pad-nopadding", "./format-hex", "./aes", "./tripledes", "./rc4", "./rabbit", "./rabbit-legacy"], factory);
+        define(["./core", "./x64-core", "./lib-typedarrays", "./enc-utf16", "./enc-base64", "./md5", "./sha1", "./sha256", "./sha224", "./sha512", "./sha384", "./sha3", "./ripemd160", "./hmac", "./pbkdf2", "./evpkdf", "./cipher-core", "./mode-cfb", "./mode-ctr", "./mode-ctr-gladman", "./mode-ofb", "./mode-ecb", "./pad-ansix923", "./pad-iso10126", "./pad-iso97971", "./pad-zeropadding", "./pad-nopadding", "./format-hex", "./aes", "./tripledes", "./rc4", "./rabbit", "./rabbit-legacy"], factory);
       } else {
         root.CryptoJS = factory(root.CryptoJS);
       }
@@ -5415,3757 +5287,1133 @@ var require_crypto_js = __commonJS({
   }
 });
 
-// node_modules/restructure/src/DecodeStream.js
+// node_modules/restructure-next/src/DecodeStream.js
 var require_DecodeStream = __commonJS({
-  "node_modules/restructure/src/DecodeStream.js"(exports, module2) {
+  "node_modules/restructure-next/src/DecodeStream.js"(exports, module2) {
     init_shims();
-    (function() {
-      var DecodeStream, iconv;
-      try {
-        iconv = require("iconv-lite");
-      } catch (_error) {
+    var iconv;
+    try {
+      iconv = require("iconv-lite");
+    } catch (error2) {
+    }
+    var DecodeStream = class {
+      constructor(buffer) {
+        this.buffer = buffer;
+        this.pos = 0;
+        this.length = this.buffer.length;
       }
-      DecodeStream = function() {
-        var key;
-        function DecodeStream2(buffer) {
-          this.buffer = buffer;
-          this.pos = 0;
-          this.length = this.buffer.length;
-        }
-        DecodeStream2.TYPES = {
-          UInt8: 1,
-          UInt16: 2,
-          UInt24: 3,
-          UInt32: 4,
-          Int8: 1,
-          Int16: 2,
-          Int24: 3,
-          Int32: 4,
-          Float: 4,
-          Double: 8
-        };
-        for (key in Buffer.prototype) {
-          if (key.slice(0, 4) === "read") {
-            (function(key2) {
-              var bytes;
-              bytes = DecodeStream2.TYPES[key2.replace(/read|[BL]E/g, "")];
-              return DecodeStream2.prototype[key2] = function() {
-                var ret;
-                ret = this.buffer[key2](this.pos);
-                this.pos += bytes;
-                return ret;
-              };
-            })(key);
-          }
-        }
-        DecodeStream2.prototype.readString = function(length, encoding) {
-          var buf, byte, i, _i, _ref;
-          if (encoding == null) {
-            encoding = "ascii";
-          }
-          switch (encoding) {
-            case "utf16le":
-            case "ucs2":
-            case "utf8":
-            case "ascii":
-              return this.buffer.toString(encoding, this.pos, this.pos += length);
-            case "utf16be":
-              buf = new Buffer(this.readBuffer(length));
-              for (i = _i = 0, _ref = buf.length - 1; _i < _ref; i = _i += 2) {
-                byte = buf[i];
-                buf[i] = buf[i + 1];
-                buf[i + 1] = byte;
+      readString(length, encoding = "ascii") {
+        switch (encoding) {
+          case "utf16le":
+          case "ucs2":
+          case "utf8":
+          case "ascii":
+            return this.buffer.toString(encoding, this.pos, this.pos += length);
+          case "utf16be":
+            var buf = Buffer.from(this.readBuffer(length));
+            for (let i = 0, end = buf.length - 1; i < end; i += 2) {
+              const byte = buf[i];
+              buf[i] = buf[i + 1];
+              buf[i + 1] = byte;
+            }
+            return buf.toString("utf16le");
+          default:
+            buf = this.readBuffer(length);
+            if (iconv) {
+              try {
+                return iconv.decode(buf, encoding);
+              } catch (error1) {
               }
-              return buf.toString("utf16le");
-            default:
-              buf = this.readBuffer(length);
-              if (iconv) {
-                try {
-                  return iconv.decode(buf, encoding);
-                } catch (_error) {
-                }
-              }
-              return buf;
-          }
+            }
+            return buf;
+        }
+      }
+      readBuffer(length) {
+        return this.buffer.slice(this.pos, this.pos += length);
+      }
+      readUInt24BE() {
+        return (this.readUInt16BE() << 8) + this.readUInt8();
+      }
+      readUInt24LE() {
+        return this.readUInt16LE() + (this.readUInt8() << 16);
+      }
+      readInt24BE() {
+        return (this.readInt16BE() << 8) + this.readUInt8();
+      }
+      readInt24LE() {
+        return this.readUInt16LE() + (this.readInt8() << 16);
+      }
+    };
+    DecodeStream.TYPES = {
+      UInt8: 1,
+      UInt16: 2,
+      UInt24: 3,
+      UInt32: 4,
+      Int8: 1,
+      Int16: 2,
+      Int24: 3,
+      Int32: 4,
+      Float: 4,
+      Double: 8
+    };
+    for (let key in Buffer.prototype) {
+      if (key.slice(0, 4) === "read") {
+        const bytes = DecodeStream.TYPES[key.replace(/read|[BL]E/g, "")];
+        DecodeStream.prototype[key] = function() {
+          const ret = this.buffer[key](this.pos);
+          this.pos += bytes;
+          return ret;
         };
-        DecodeStream2.prototype.readBuffer = function(length) {
-          return this.buffer.slice(this.pos, this.pos += length);
-        };
-        DecodeStream2.prototype.readUInt24BE = function() {
-          return (this.readUInt16BE() << 8) + this.readUInt8();
-        };
-        DecodeStream2.prototype.readUInt24LE = function() {
-          return this.readUInt16LE() + (this.readUInt8() << 16);
-        };
-        DecodeStream2.prototype.readInt24BE = function() {
-          return (this.readInt16BE() << 8) + this.readUInt8();
-        };
-        DecodeStream2.prototype.readInt24LE = function() {
-          return this.readUInt16LE() + (this.readInt8() << 16);
-        };
-        return DecodeStream2;
-      }();
-      module2.exports = DecodeStream;
-    }).call(exports);
+      }
+    }
+    module2.exports = DecodeStream;
   }
 });
 
-// node_modules/restructure/src/EncodeStream.js
+// node_modules/restructure-next/src/EncodeStream.js
 var require_EncodeStream = __commonJS({
-  "node_modules/restructure/src/EncodeStream.js"(exports, module2) {
+  "node_modules/restructure-next/src/EncodeStream.js"(exports, module2) {
     init_shims();
-    (function() {
-      var DecodeStream, EncodeStream, iconv, stream, __hasProp = {}.hasOwnProperty, __extends = function(child, parent) {
-        for (var key in parent) {
-          if (__hasProp.call(parent, key))
-            child[key] = parent[key];
-        }
-        function ctor() {
-          this.constructor = child;
-        }
-        ctor.prototype = parent.prototype;
-        child.prototype = new ctor();
-        child.__super__ = parent.prototype;
-        return child;
-      };
-      stream = require("stream");
-      DecodeStream = require_DecodeStream();
-      try {
-        iconv = require("iconv-lite");
-      } catch (_error) {
+    var iconv;
+    var stream = require("stream");
+    var DecodeStream = require_DecodeStream();
+    try {
+      iconv = require("iconv-lite");
+    } catch (error2) {
+    }
+    var EncodeStream = class extends stream.Readable {
+      constructor(bufferSize = 65536) {
+        super(...arguments);
+        this.buffer = Buffer.alloc(bufferSize);
+        this.bufferOffset = 0;
+        this.pos = 0;
       }
-      EncodeStream = function(_super) {
-        var key;
-        __extends(EncodeStream2, _super);
-        function EncodeStream2(bufferSize) {
-          if (bufferSize == null) {
-            bufferSize = 65536;
-          }
-          EncodeStream2.__super__.constructor.apply(this, arguments);
-          this.buffer = new Buffer(bufferSize);
-          this.bufferOffset = 0;
-          this.pos = 0;
+      _read() {
+      }
+      ensure(bytes) {
+        if (this.bufferOffset + bytes > this.buffer.length) {
+          return this.flush();
         }
-        for (key in Buffer.prototype) {
-          if (key.slice(0, 5) === "write") {
-            (function(key2) {
-              var bytes;
-              bytes = +DecodeStream.TYPES[key2.replace(/write|[BL]E/g, "")];
-              return EncodeStream2.prototype[key2] = function(value) {
-                this.ensure(bytes);
-                this.buffer[key2](value, this.bufferOffset);
-                this.bufferOffset += bytes;
-                return this.pos += bytes;
-              };
-            })(key);
-          }
+      }
+      flush() {
+        if (this.bufferOffset > 0) {
+          this.push(Buffer.from(this.buffer.slice(0, this.bufferOffset)));
+          return this.bufferOffset = 0;
         }
-        EncodeStream2.prototype._read = function() {
-        };
-        EncodeStream2.prototype.ensure = function(bytes) {
-          if (this.bufferOffset + bytes > this.buffer.length) {
-            return this.flush();
-          }
-        };
-        EncodeStream2.prototype.flush = function() {
-          if (this.bufferOffset > 0) {
-            this.push(new Buffer(this.buffer.slice(0, this.bufferOffset)));
-            return this.bufferOffset = 0;
-          }
-        };
-        EncodeStream2.prototype.writeBuffer = function(buffer) {
-          this.flush();
-          this.push(buffer);
-          return this.pos += buffer.length;
-        };
-        EncodeStream2.prototype.writeString = function(string, encoding) {
-          var buf, byte, i, _i, _ref;
-          if (encoding == null) {
-            encoding = "ascii";
-          }
-          switch (encoding) {
-            case "utf16le":
-            case "ucs2":
-            case "utf8":
-            case "ascii":
-              return this.writeBuffer(new Buffer(string, encoding));
-            case "utf16be":
-              buf = new Buffer(string, "utf16le");
-              for (i = _i = 0, _ref = buf.length - 1; _i < _ref; i = _i += 2) {
-                byte = buf[i];
-                buf[i] = buf[i + 1];
-                buf[i + 1] = byte;
-              }
-              return this.writeBuffer(buf);
-            default:
-              if (iconv) {
-                return this.writeBuffer(iconv.encode(string, encoding));
-              } else {
-                throw new Error("Install iconv-lite to enable additional string encodings.");
-              }
-          }
-        };
-        EncodeStream2.prototype.writeUInt24BE = function(val) {
-          this.ensure(3);
-          this.buffer[this.bufferOffset++] = val >>> 16 & 255;
-          this.buffer[this.bufferOffset++] = val >>> 8 & 255;
-          this.buffer[this.bufferOffset++] = val & 255;
-          return this.pos += 3;
-        };
-        EncodeStream2.prototype.writeUInt24LE = function(val) {
-          this.ensure(3);
-          this.buffer[this.bufferOffset++] = val & 255;
-          this.buffer[this.bufferOffset++] = val >>> 8 & 255;
-          this.buffer[this.bufferOffset++] = val >>> 16 & 255;
-          return this.pos += 3;
-        };
-        EncodeStream2.prototype.writeInt24BE = function(val) {
-          if (val >= 0) {
-            return this.writeUInt24BE(val);
-          } else {
-            return this.writeUInt24BE(val + 16777215 + 1);
-          }
-        };
-        EncodeStream2.prototype.writeInt24LE = function(val) {
-          if (val >= 0) {
-            return this.writeUInt24LE(val);
-          } else {
-            return this.writeUInt24LE(val + 16777215 + 1);
-          }
-        };
-        EncodeStream2.prototype.fill = function(val, length) {
-          var buf;
-          if (length < this.buffer.length) {
-            this.ensure(length);
-            this.buffer.fill(val, this.bufferOffset, this.bufferOffset + length);
-            this.bufferOffset += length;
-            return this.pos += length;
-          } else {
-            buf = new Buffer(length);
-            buf.fill(val);
+      }
+      writeBuffer(buffer) {
+        this.flush();
+        this.push(buffer);
+        return this.pos += buffer.length;
+      }
+      writeString(string, encoding = "ascii") {
+        switch (encoding) {
+          case "utf16le":
+          case "ucs2":
+          case "utf8":
+          case "ascii":
+            return this.writeBuffer(Buffer.from(string, encoding));
+          case "utf16be":
+            var buf = Buffer.from(string, "utf16le");
+            for (let i = 0, end = buf.length - 1; i < end; i += 2) {
+              const byte = buf[i];
+              buf[i] = buf[i + 1];
+              buf[i + 1] = byte;
+            }
             return this.writeBuffer(buf);
-          }
+          default:
+            if (iconv) {
+              return this.writeBuffer(iconv.encode(string, encoding));
+            } else {
+              throw new Error("Install iconv-lite to enable additional string encodings.");
+            }
+        }
+      }
+      writeUInt24BE(val) {
+        this.ensure(3);
+        this.buffer[this.bufferOffset++] = val >>> 16 & 255;
+        this.buffer[this.bufferOffset++] = val >>> 8 & 255;
+        this.buffer[this.bufferOffset++] = val & 255;
+        return this.pos += 3;
+      }
+      writeUInt24LE(val) {
+        this.ensure(3);
+        this.buffer[this.bufferOffset++] = val & 255;
+        this.buffer[this.bufferOffset++] = val >>> 8 & 255;
+        this.buffer[this.bufferOffset++] = val >>> 16 & 255;
+        return this.pos += 3;
+      }
+      writeInt24BE(val) {
+        if (val >= 0) {
+          return this.writeUInt24BE(val);
+        } else {
+          return this.writeUInt24BE(val + 16777215 + 1);
+        }
+      }
+      writeInt24LE(val) {
+        if (val >= 0) {
+          return this.writeUInt24LE(val);
+        } else {
+          return this.writeUInt24LE(val + 16777215 + 1);
+        }
+      }
+      fill(val, length) {
+        if (length < this.buffer.length) {
+          this.ensure(length);
+          this.buffer.fill(val, this.bufferOffset, this.bufferOffset + length);
+          this.bufferOffset += length;
+          return this.pos += length;
+        } else {
+          const buf = Buffer.alloc(length);
+          buf.fill(val);
+          return this.writeBuffer(buf);
+        }
+      }
+      end() {
+        this.flush();
+        return this.push(null);
+      }
+    };
+    for (let key in Buffer.prototype) {
+      if (key.slice(0, 5) === "write") {
+        const bytes = +DecodeStream.TYPES[key.replace(/write|[BL]E/g, "")];
+        EncodeStream.prototype[key] = function(value) {
+          this.ensure(bytes);
+          this.buffer[key](value, this.bufferOffset);
+          this.bufferOffset += bytes;
+          return this.pos += bytes;
         };
-        EncodeStream2.prototype.end = function() {
-          this.flush();
-          return this.push(null);
-        };
-        return EncodeStream2;
-      }(stream.Readable);
-      module2.exports = EncodeStream;
-    }).call(exports);
+      }
+    }
+    module2.exports = EncodeStream;
   }
 });
 
-// node_modules/restructure/src/Number.js
+// node_modules/restructure-next/src/Number.js
 var require_Number = __commonJS({
-  "node_modules/restructure/src/Number.js"(exports) {
+  "node_modules/restructure-next/src/Number.js"(exports) {
     init_shims();
-    (function() {
-      var DecodeStream, Fixed, NumberT, __hasProp = {}.hasOwnProperty, __extends = function(child, parent) {
-        for (var key in parent) {
-          if (__hasProp.call(parent, key))
-            child[key] = parent[key];
+    var DecodeStream = require_DecodeStream();
+    var NumberT = class {
+      constructor(type, endian = "BE") {
+        this.type = type;
+        this.endian = endian;
+        this.fn = this.type;
+        if (this.type[this.type.length - 1] !== "8") {
+          this.fn += this.endian;
         }
-        function ctor() {
-          this.constructor = child;
-        }
-        ctor.prototype = parent.prototype;
-        child.prototype = new ctor();
-        child.__super__ = parent.prototype;
-        return child;
-      };
-      DecodeStream = require_DecodeStream();
-      NumberT = function() {
-        function NumberT2(type, endian) {
-          this.type = type;
-          this.endian = endian != null ? endian : "BE";
-          this.fn = this.type;
-          if (this.type[this.type.length - 1] !== "8") {
-            this.fn += this.endian;
-          }
-        }
-        NumberT2.prototype.size = function() {
-          return DecodeStream.TYPES[this.type];
-        };
-        NumberT2.prototype.decode = function(stream) {
-          return stream["read" + this.fn]();
-        };
-        NumberT2.prototype.encode = function(stream, val) {
-          return stream["write" + this.fn](val);
-        };
-        return NumberT2;
-      }();
-      exports.Number = NumberT;
-      exports.uint8 = new NumberT("UInt8");
-      exports.uint16be = exports.uint16 = new NumberT("UInt16", "BE");
-      exports.uint16le = new NumberT("UInt16", "LE");
-      exports.uint24be = exports.uint24 = new NumberT("UInt24", "BE");
-      exports.uint24le = new NumberT("UInt24", "LE");
-      exports.uint32be = exports.uint32 = new NumberT("UInt32", "BE");
-      exports.uint32le = new NumberT("UInt32", "LE");
-      exports.int8 = new NumberT("Int8");
-      exports.int16be = exports.int16 = new NumberT("Int16", "BE");
-      exports.int16le = new NumberT("Int16", "LE");
-      exports.int24be = exports.int24 = new NumberT("Int24", "BE");
-      exports.int24le = new NumberT("Int24", "LE");
-      exports.int32be = exports.int32 = new NumberT("Int32", "BE");
-      exports.int32le = new NumberT("Int32", "LE");
-      exports.floatbe = exports.float = new NumberT("Float", "BE");
-      exports.floatle = new NumberT("Float", "LE");
-      exports.doublebe = exports.double = new NumberT("Double", "BE");
-      exports.doublele = new NumberT("Double", "LE");
-      Fixed = function(_super) {
-        __extends(Fixed2, _super);
-        function Fixed2(size, endian, fracBits) {
-          if (fracBits == null) {
-            fracBits = size >> 1;
-          }
-          Fixed2.__super__.constructor.call(this, "Int" + size, endian);
-          this._point = 1 << fracBits;
-        }
-        Fixed2.prototype.decode = function(stream) {
-          return Fixed2.__super__.decode.call(this, stream) / this._point;
-        };
-        Fixed2.prototype.encode = function(stream, val) {
-          return Fixed2.__super__.encode.call(this, stream, val * this._point | 0);
-        };
-        return Fixed2;
-      }(NumberT);
-      exports.Fixed = Fixed;
-      exports.fixed16be = exports.fixed16 = new Fixed(16, "BE");
-      exports.fixed16le = new Fixed(16, "LE");
-      exports.fixed32be = exports.fixed32 = new Fixed(32, "BE");
-      exports.fixed32le = new Fixed(32, "LE");
-    }).call(exports);
+      }
+      size() {
+        return DecodeStream.TYPES[this.type];
+      }
+      decode(stream) {
+        return stream[`read${this.fn}`]();
+      }
+      encode(stream, val) {
+        return stream[`write${this.fn}`](val);
+      }
+    };
+    exports.Number = NumberT;
+    exports.uint8 = new NumberT("UInt8");
+    exports.uint16be = exports.uint16 = new NumberT("UInt16", "BE");
+    exports.uint16le = new NumberT("UInt16", "LE");
+    exports.uint24be = exports.uint24 = new NumberT("UInt24", "BE");
+    exports.uint24le = new NumberT("UInt24", "LE");
+    exports.uint32be = exports.uint32 = new NumberT("UInt32", "BE");
+    exports.uint32le = new NumberT("UInt32", "LE");
+    exports.int8 = new NumberT("Int8");
+    exports.int16be = exports.int16 = new NumberT("Int16", "BE");
+    exports.int16le = new NumberT("Int16", "LE");
+    exports.int24be = exports.int24 = new NumberT("Int24", "BE");
+    exports.int24le = new NumberT("Int24", "LE");
+    exports.int32be = exports.int32 = new NumberT("Int32", "BE");
+    exports.int32le = new NumberT("Int32", "LE");
+    exports.floatbe = exports.float = new NumberT("Float", "BE");
+    exports.floatle = new NumberT("Float", "LE");
+    exports.doublebe = exports.double = new NumberT("Double", "BE");
+    exports.doublele = new NumberT("Double", "LE");
+    var Fixed = class extends NumberT {
+      constructor(size, endian, fracBits = size >> 1) {
+        super(`Int${size}`, endian);
+        this._point = 1 << fracBits;
+      }
+      decode(stream) {
+        return super.decode(stream) / this._point;
+      }
+      encode(stream, val) {
+        return super.encode(stream, val * this._point | 0);
+      }
+    };
+    exports.Fixed = Fixed;
+    exports.fixed16be = exports.fixed16 = new Fixed(16, "BE");
+    exports.fixed16le = new Fixed(16, "LE");
+    exports.fixed32be = exports.fixed32 = new Fixed(32, "BE");
+    exports.fixed32le = new Fixed(32, "LE");
   }
 });
 
-// node_modules/restructure/src/utils.js
+// node_modules/restructure-next/src/utils.js
 var require_utils = __commonJS({
-  "node_modules/restructure/src/utils.js"(exports) {
+  "node_modules/restructure-next/src/utils.js"(exports) {
     init_shims();
-    (function() {
-      var NumberT, PropertyDescriptor;
-      NumberT = require_Number().Number;
-      exports.resolveLength = function(length, stream, parent) {
-        var res;
-        if (typeof length === "number") {
-          res = length;
-        } else if (typeof length === "function") {
-          res = length.call(parent, parent);
-        } else if (parent && typeof length === "string") {
-          res = parent[length];
-        } else if (stream && length instanceof NumberT) {
-          res = length.decode(stream);
+    var { Number: NumberT } = require_Number();
+    exports.resolveLength = function(length, stream, parent) {
+      let res;
+      if (typeof length === "number") {
+        res = length;
+      } else if (typeof length === "function") {
+        res = length.call(parent, parent);
+      } else if (parent && typeof length === "string") {
+        res = parent[length];
+      } else if (stream && length instanceof NumberT) {
+        res = length.decode(stream);
+      }
+      if (isNaN(res)) {
+        throw new Error("Not a fixed size");
+      }
+      return res;
+    };
+    var PropertyDescriptor = class {
+      constructor(opts = {}) {
+        this.enumerable = true;
+        this.configurable = true;
+        for (let key in opts) {
+          const val = opts[key];
+          this[key] = val;
         }
-        if (isNaN(res)) {
-          throw new Error("Not a fixed size");
+      }
+    };
+    exports.PropertyDescriptor = PropertyDescriptor;
+  }
+});
+
+// node_modules/restructure-next/src/Array.js
+var require_Array = __commonJS({
+  "node_modules/restructure-next/src/Array.js"(exports, module2) {
+    init_shims();
+    var { Number: NumberT } = require_Number();
+    var utils = require_utils();
+    var ArrayT = class {
+      constructor(type, length, lengthType = "count") {
+        this.type = type;
+        this.length = length;
+        this.lengthType = lengthType;
+      }
+      decode(stream, parent) {
+        let length;
+        const { pos } = stream;
+        const res = [];
+        let ctx = parent;
+        if (this.length != null) {
+          length = utils.resolveLength(this.length, stream, parent);
+        }
+        if (this.length instanceof NumberT) {
+          Object.defineProperties(res, {
+            parent: { value: parent },
+            _startOffset: { value: pos },
+            _currentOffset: { value: 0, writable: true },
+            _length: { value: length }
+          });
+          ctx = res;
+        }
+        if (length == null || this.lengthType === "bytes") {
+          const target = length != null ? stream.pos + length : (parent != null ? parent._length : void 0) ? parent._startOffset + parent._length : stream.length;
+          while (stream.pos < target) {
+            res.push(this.type.decode(stream, ctx));
+          }
+        } else {
+          for (let i = 0, end = length; i < end; i++) {
+            res.push(this.type.decode(stream, ctx));
+          }
         }
         return res;
-      };
-      PropertyDescriptor = function() {
-        function PropertyDescriptor2(opts) {
-          var key, val;
-          if (opts == null) {
-            opts = {};
-          }
-          this.enumerable = true;
-          this.configurable = true;
-          for (key in opts) {
-            val = opts[key];
-            this[key] = val;
-          }
+      }
+      size(array, ctx) {
+        if (!array) {
+          return this.type.size(null, ctx) * utils.resolveLength(this.length, null, ctx);
         }
-        return PropertyDescriptor2;
-      }();
-      exports.PropertyDescriptor = PropertyDescriptor;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/src/Array.js
-var require_Array = __commonJS({
-  "node_modules/restructure/src/Array.js"(exports, module2) {
-    init_shims();
-    (function() {
-      var ArrayT, NumberT, utils;
-      NumberT = require_Number().Number;
-      utils = require_utils();
-      ArrayT = function() {
-        function ArrayT2(type, length, lengthType) {
-          this.type = type;
-          this.length = length;
-          this.lengthType = lengthType != null ? lengthType : "count";
+        let size = 0;
+        if (this.length instanceof NumberT) {
+          size += this.length.size();
+          ctx = { parent: ctx };
         }
-        ArrayT2.prototype.decode = function(stream, parent) {
-          var ctx, i, length, pos, res, target, _i;
-          pos = stream.pos;
-          res = [];
-          ctx = parent;
-          if (this.length != null) {
-            length = utils.resolveLength(this.length, stream, parent);
-          }
-          if (this.length instanceof NumberT) {
-            Object.defineProperties(res, {
-              parent: {
-                value: parent
-              },
-              _startOffset: {
-                value: pos
-              },
-              _currentOffset: {
-                value: 0,
-                writable: true
-              },
-              _length: {
-                value: length
-              }
-            });
-            ctx = res;
-          }
-          if (length == null || this.lengthType === "bytes") {
-            target = length != null ? stream.pos + length : (parent != null ? parent._length : void 0) ? parent._startOffset + parent._length : stream.length;
-            while (stream.pos < target) {
-              res.push(this.type.decode(stream, ctx));
-            }
-          } else {
-            for (i = _i = 0; _i < length; i = _i += 1) {
-              res.push(this.type.decode(stream, ctx));
-            }
-          }
-          return res;
-        };
-        ArrayT2.prototype.size = function(array, ctx) {
-          var item, size, _i, _len;
-          if (!array) {
-            return this.type.size(null, ctx) * utils.resolveLength(this.length, null, ctx);
-          }
-          size = 0;
-          if (this.length instanceof NumberT) {
-            size += this.length.size();
-            ctx = {
-              parent: ctx
-            };
-          }
-          for (_i = 0, _len = array.length; _i < _len; _i++) {
-            item = array[_i];
-            size += this.type.size(item, ctx);
-          }
-          return size;
-        };
-        ArrayT2.prototype.encode = function(stream, array, parent) {
-          var ctx, i, item, ptr, _i, _len;
-          ctx = parent;
-          if (this.length instanceof NumberT) {
-            ctx = {
-              pointers: [],
-              startOffset: stream.pos,
-              parent
-            };
-            ctx.pointerOffset = stream.pos + this.size(array, ctx);
-            this.length.encode(stream, array.length);
-          }
-          for (_i = 0, _len = array.length; _i < _len; _i++) {
-            item = array[_i];
-            this.type.encode(stream, item, ctx);
-          }
-          if (this.length instanceof NumberT) {
-            i = 0;
-            while (i < ctx.pointers.length) {
-              ptr = ctx.pointers[i++];
-              ptr.type.encode(stream, ptr.val);
-            }
-          }
-        };
-        return ArrayT2;
-      }();
-      module2.exports = ArrayT;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/src/LazyArray.js
-var require_LazyArray = __commonJS({
-  "node_modules/restructure/src/LazyArray.js"(exports, module2) {
-    init_shims();
-    (function() {
-      var ArrayT, LazyArray, LazyArrayT, NumberT, inspect, utils, __hasProp = {}.hasOwnProperty, __extends = function(child, parent) {
-        for (var key in parent) {
-          if (__hasProp.call(parent, key))
-            child[key] = parent[key];
+        for (let item of array) {
+          size += this.type.size(item, ctx);
         }
-        function ctor() {
-          this.constructor = child;
-        }
-        ctor.prototype = parent.prototype;
-        child.prototype = new ctor();
-        child.__super__ = parent.prototype;
-        return child;
-      };
-      ArrayT = require_Array();
-      NumberT = require_Number().Number;
-      utils = require_utils();
-      inspect = require("util").inspect;
-      LazyArrayT = function(_super) {
-        __extends(LazyArrayT2, _super);
-        function LazyArrayT2() {
-          return LazyArrayT2.__super__.constructor.apply(this, arguments);
-        }
-        LazyArrayT2.prototype.decode = function(stream, parent) {
-          var length, pos, res;
-          pos = stream.pos;
-          length = utils.resolveLength(this.length, stream, parent);
-          if (this.length instanceof NumberT) {
-            parent = {
-              parent,
-              _startOffset: pos,
-              _currentOffset: 0,
-              _length: length
-            };
-          }
-          res = new LazyArray(this.type, length, stream, parent);
-          stream.pos += length * this.type.size(null, parent);
-          return res;
-        };
-        LazyArrayT2.prototype.size = function(val, ctx) {
-          if (val instanceof LazyArray) {
-            val = val.toArray();
-          }
-          return LazyArrayT2.__super__.size.call(this, val, ctx);
-        };
-        LazyArrayT2.prototype.encode = function(stream, val, ctx) {
-          if (val instanceof LazyArray) {
-            val = val.toArray();
-          }
-          return LazyArrayT2.__super__.encode.call(this, stream, val, ctx);
-        };
-        return LazyArrayT2;
-      }(ArrayT);
-      LazyArray = function() {
-        function LazyArray2(type, length, stream, ctx) {
-          this.type = type;
-          this.length = length;
-          this.stream = stream;
-          this.ctx = ctx;
-          this.base = this.stream.pos;
-          this.items = [];
-        }
-        LazyArray2.prototype.get = function(index2) {
-          var pos;
-          if (index2 < 0 || index2 >= this.length) {
-            return void 0;
-          }
-          if (this.items[index2] == null) {
-            pos = this.stream.pos;
-            this.stream.pos = this.base + this.type.size(null, this.ctx) * index2;
-            this.items[index2] = this.type.decode(this.stream, this.ctx);
-            this.stream.pos = pos;
-          }
-          return this.items[index2];
-        };
-        LazyArray2.prototype.toArray = function() {
-          var i, _i, _ref, _results;
-          _results = [];
-          for (i = _i = 0, _ref = this.length; _i < _ref; i = _i += 1) {
-            _results.push(this.get(i));
-          }
-          return _results;
-        };
-        LazyArray2.prototype.inspect = function() {
-          return inspect(this.toArray());
-        };
-        return LazyArray2;
-      }();
-      module2.exports = LazyArrayT;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/src/Bitfield.js
-var require_Bitfield = __commonJS({
-  "node_modules/restructure/src/Bitfield.js"(exports, module2) {
-    init_shims();
-    (function() {
-      var Bitfield;
-      Bitfield = function() {
-        function Bitfield2(type, flags) {
-          this.type = type;
-          this.flags = flags != null ? flags : [];
-        }
-        Bitfield2.prototype.decode = function(stream) {
-          var flag, i, res, val, _i, _len, _ref;
-          val = this.type.decode(stream);
-          res = {};
-          _ref = this.flags;
-          for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-            flag = _ref[i];
-            if (flag != null) {
-              res[flag] = !!(val & 1 << i);
-            }
-          }
-          return res;
-        };
-        Bitfield2.prototype.size = function() {
-          return this.type.size();
-        };
-        Bitfield2.prototype.encode = function(stream, keys) {
-          var flag, i, val, _i, _len, _ref;
-          val = 0;
-          _ref = this.flags;
-          for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
-            flag = _ref[i];
-            if (flag != null) {
-              if (keys[flag]) {
-                val |= 1 << i;
-              }
-            }
-          }
-          return this.type.encode(stream, val);
-        };
-        return Bitfield2;
-      }();
-      module2.exports = Bitfield;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/src/Boolean.js
-var require_Boolean = __commonJS({
-  "node_modules/restructure/src/Boolean.js"(exports, module2) {
-    init_shims();
-    (function() {
-      var BooleanT;
-      BooleanT = function() {
-        function BooleanT2(type) {
-          this.type = type;
-        }
-        BooleanT2.prototype.decode = function(stream, parent) {
-          return !!this.type.decode(stream, parent);
-        };
-        BooleanT2.prototype.size = function(val, parent) {
-          return this.type.size(val, parent);
-        };
-        BooleanT2.prototype.encode = function(stream, val, parent) {
-          return this.type.encode(stream, +val, parent);
-        };
-        return BooleanT2;
-      }();
-      module2.exports = BooleanT;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/src/Buffer.js
-var require_Buffer = __commonJS({
-  "node_modules/restructure/src/Buffer.js"(exports, module2) {
-    init_shims();
-    (function() {
-      var BufferT, NumberT, utils;
-      utils = require_utils();
-      NumberT = require_Number().Number;
-      BufferT = function() {
-        function BufferT2(length) {
-          this.length = length;
-        }
-        BufferT2.prototype.decode = function(stream, parent) {
-          var length;
-          length = utils.resolveLength(this.length, stream, parent);
-          return stream.readBuffer(length);
-        };
-        BufferT2.prototype.size = function(val, parent) {
-          if (!val) {
-            return utils.resolveLength(this.length, null, parent);
-          }
-          return val.length;
-        };
-        BufferT2.prototype.encode = function(stream, buf, parent) {
-          if (this.length instanceof NumberT) {
-            this.length.encode(stream, buf.length);
-          }
-          return stream.writeBuffer(buf);
-        };
-        return BufferT2;
-      }();
-      module2.exports = BufferT;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/src/Enum.js
-var require_Enum = __commonJS({
-  "node_modules/restructure/src/Enum.js"(exports, module2) {
-    init_shims();
-    (function() {
-      var Enum;
-      Enum = function() {
-        function Enum2(type, options2) {
-          this.type = type;
-          this.options = options2 != null ? options2 : [];
-        }
-        Enum2.prototype.decode = function(stream) {
-          var index2;
-          index2 = this.type.decode(stream);
-          return this.options[index2] || index2;
-        };
-        Enum2.prototype.size = function() {
-          return this.type.size();
-        };
-        Enum2.prototype.encode = function(stream, val) {
-          var index2;
-          index2 = this.options.indexOf(val);
-          if (index2 === -1) {
-            throw new Error("Unknown option in enum: " + val);
-          }
-          return this.type.encode(stream, index2);
-        };
-        return Enum2;
-      }();
-      module2.exports = Enum;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/src/Optional.js
-var require_Optional = __commonJS({
-  "node_modules/restructure/src/Optional.js"(exports, module2) {
-    init_shims();
-    (function() {
-      var Optional;
-      Optional = function() {
-        function Optional2(type, condition) {
-          this.type = type;
-          this.condition = condition != null ? condition : true;
-        }
-        Optional2.prototype.decode = function(stream, parent) {
-          var condition;
-          condition = this.condition;
-          if (typeof condition === "function") {
-            condition = condition.call(parent, parent);
-          }
-          if (condition) {
-            return this.type.decode(stream, parent);
-          }
-        };
-        Optional2.prototype.size = function(val, parent) {
-          var condition;
-          condition = this.condition;
-          if (typeof condition === "function") {
-            condition = condition.call(parent, parent);
-          }
-          if (condition) {
-            return this.type.size(val, parent);
-          } else {
-            return 0;
-          }
-        };
-        Optional2.prototype.encode = function(stream, val, parent) {
-          var condition;
-          condition = this.condition;
-          if (typeof condition === "function") {
-            condition = condition.call(parent, parent);
-          }
-          if (condition) {
-            return this.type.encode(stream, val, parent);
-          }
-        };
-        return Optional2;
-      }();
-      module2.exports = Optional;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/src/Reserved.js
-var require_Reserved = __commonJS({
-  "node_modules/restructure/src/Reserved.js"(exports, module2) {
-    init_shims();
-    (function() {
-      var Reserved, utils;
-      utils = require_utils();
-      Reserved = function() {
-        function Reserved2(type, count) {
-          this.type = type;
-          this.count = count != null ? count : 1;
-        }
-        Reserved2.prototype.decode = function(stream, parent) {
-          stream.pos += this.size(null, parent);
-          return void 0;
-        };
-        Reserved2.prototype.size = function(data, parent) {
-          var count;
-          count = utils.resolveLength(this.count, null, parent);
-          return this.type.size() * count;
-        };
-        Reserved2.prototype.encode = function(stream, val, parent) {
-          return stream.fill(0, this.size(val, parent));
-        };
-        return Reserved2;
-      }();
-      module2.exports = Reserved;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/src/String.js
-var require_String = __commonJS({
-  "node_modules/restructure/src/String.js"(exports, module2) {
-    init_shims();
-    (function() {
-      var NumberT, StringT, utils;
-      NumberT = require_Number().Number;
-      utils = require_utils();
-      StringT = function() {
-        function StringT2(length, encoding) {
-          this.length = length;
-          this.encoding = encoding != null ? encoding : "ascii";
-        }
-        StringT2.prototype.decode = function(stream, parent) {
-          var buffer, encoding, length, pos, string;
-          length = function() {
-            if (this.length != null) {
-              return utils.resolveLength(this.length, stream, parent);
-            } else {
-              buffer = stream.buffer, length = stream.length, pos = stream.pos;
-              while (pos < length && buffer[pos] !== 0) {
-                ++pos;
-              }
-              return pos - stream.pos;
-            }
-          }.call(this);
-          encoding = this.encoding;
-          if (typeof encoding === "function") {
-            encoding = encoding.call(parent, parent) || "ascii";
-          }
-          string = stream.readString(length, encoding);
-          if (this.length == null && stream.pos < stream.length) {
-            stream.pos++;
-          }
-          return string;
-        };
-        StringT2.prototype.size = function(val, parent) {
-          var encoding, size;
-          if (!val) {
-            return utils.resolveLength(this.length, null, parent);
-          }
-          encoding = this.encoding;
-          if (typeof encoding === "function") {
-            encoding = encoding.call(parent != null ? parent.val : void 0, parent != null ? parent.val : void 0) || "ascii";
-          }
-          if (encoding === "utf16be") {
-            encoding = "utf16le";
-          }
-          size = Buffer.byteLength(val, encoding);
-          if (this.length instanceof NumberT) {
-            size += this.length.size();
-          }
-          if (this.length == null) {
-            size++;
-          }
-          return size;
-        };
-        StringT2.prototype.encode = function(stream, val, parent) {
-          var encoding;
-          encoding = this.encoding;
-          if (typeof encoding === "function") {
-            encoding = encoding.call(parent != null ? parent.val : void 0, parent != null ? parent.val : void 0) || "ascii";
-          }
-          if (this.length instanceof NumberT) {
-            this.length.encode(stream, Buffer.byteLength(val, encoding));
-          }
-          stream.writeString(val, encoding);
-          if (this.length == null) {
-            return stream.writeUInt8(0);
-          }
-        };
-        return StringT2;
-      }();
-      module2.exports = StringT;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/src/Struct.js
-var require_Struct = __commonJS({
-  "node_modules/restructure/src/Struct.js"(exports, module2) {
-    init_shims();
-    (function() {
-      var Struct, utils;
-      utils = require_utils();
-      Struct = function() {
-        function Struct2(fields) {
-          this.fields = fields != null ? fields : {};
-        }
-        Struct2.prototype.decode = function(stream, parent, length) {
-          var res, _ref;
-          if (length == null) {
-            length = 0;
-          }
-          res = this._setup(stream, parent, length);
-          this._parseFields(stream, res, this.fields);
-          if ((_ref = this.process) != null) {
-            _ref.call(res, stream);
-          }
-          return res;
-        };
-        Struct2.prototype._setup = function(stream, parent, length) {
-          var res;
-          res = {};
-          Object.defineProperties(res, {
-            parent: {
-              value: parent
-            },
-            _startOffset: {
-              value: stream.pos
-            },
-            _currentOffset: {
-              value: 0,
-              writable: true
-            },
-            _length: {
-              value: length
-            }
-          });
-          return res;
-        };
-        Struct2.prototype._parseFields = function(stream, res, fields) {
-          var key, type, val;
-          for (key in fields) {
-            type = fields[key];
-            if (typeof type === "function") {
-              val = type.call(res, res);
-            } else {
-              val = type.decode(stream, res);
-            }
-            if (val !== void 0) {
-              if (val instanceof utils.PropertyDescriptor) {
-                Object.defineProperty(res, key, val);
-              } else {
-                res[key] = val;
-              }
-            }
-            res._currentOffset = stream.pos - res._startOffset;
-          }
-        };
-        Struct2.prototype.size = function(val, parent, includePointers) {
-          var ctx, key, size, type, _ref;
-          if (val == null) {
-            val = {};
-          }
-          if (includePointers == null) {
-            includePointers = true;
-          }
-          ctx = {
-            parent,
-            val,
-            pointerSize: 0
-          };
-          size = 0;
-          _ref = this.fields;
-          for (key in _ref) {
-            type = _ref[key];
-            if (type.size != null) {
-              size += type.size(val[key], ctx);
-            }
-          }
-          if (includePointers) {
-            size += ctx.pointerSize;
-          }
-          return size;
-        };
-        Struct2.prototype.encode = function(stream, val, parent) {
-          var ctx, i, key, ptr, type, _ref, _ref1;
-          if ((_ref = this.preEncode) != null) {
-            _ref.call(val, stream);
-          }
+        return size;
+      }
+      encode(stream, array, parent) {
+        let ctx = parent;
+        if (this.length instanceof NumberT) {
           ctx = {
             pointers: [],
             startOffset: stream.pos,
-            parent,
-            val,
-            pointerSize: 0
-          };
-          ctx.pointerOffset = stream.pos + this.size(val, ctx, false);
-          _ref1 = this.fields;
-          for (key in _ref1) {
-            type = _ref1[key];
-            if (type.encode != null) {
-              type.encode(stream, val[key], ctx);
-            }
-          }
-          i = 0;
-          while (i < ctx.pointers.length) {
-            ptr = ctx.pointers[i++];
-            ptr.type.encode(stream, ptr.val, ptr.parent);
-          }
-        };
-        return Struct2;
-      }();
-      module2.exports = Struct;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/src/VersionedStruct.js
-var require_VersionedStruct = __commonJS({
-  "node_modules/restructure/src/VersionedStruct.js"(exports, module2) {
-    init_shims();
-    (function() {
-      var Struct, VersionedStruct, __hasProp = {}.hasOwnProperty, __extends = function(child, parent) {
-        for (var key in parent) {
-          if (__hasProp.call(parent, key))
-            child[key] = parent[key];
-        }
-        function ctor() {
-          this.constructor = child;
-        }
-        ctor.prototype = parent.prototype;
-        child.prototype = new ctor();
-        child.__super__ = parent.prototype;
-        return child;
-      };
-      Struct = require_Struct();
-      VersionedStruct = function(_super) {
-        __extends(VersionedStruct2, _super);
-        function VersionedStruct2(type, versions) {
-          this.type = type;
-          this.versions = versions != null ? versions : {};
-          if (typeof this.type === "string") {
-            this.versionGetter = new Function("parent", "return parent." + this.type);
-            this.versionSetter = new Function("parent", "version", "return parent." + this.type + " = version");
-          }
-        }
-        VersionedStruct2.prototype.decode = function(stream, parent, length) {
-          var fields, res, _ref;
-          if (length == null) {
-            length = 0;
-          }
-          res = this._setup(stream, parent, length);
-          if (typeof this.type === "string") {
-            res.version = this.versionGetter(parent);
-          } else {
-            res.version = this.type.decode(stream);
-          }
-          if (this.versions.header) {
-            this._parseFields(stream, res, this.versions.header);
-          }
-          fields = this.versions[res.version];
-          if (fields == null) {
-            throw new Error("Unknown version " + res.version);
-          }
-          if (fields instanceof VersionedStruct2) {
-            return fields.decode(stream, parent);
-          }
-          this._parseFields(stream, res, fields);
-          if ((_ref = this.process) != null) {
-            _ref.call(res, stream);
-          }
-          return res;
-        };
-        VersionedStruct2.prototype.size = function(val, parent, includePointers) {
-          var ctx, fields, key, size, type, _ref;
-          if (includePointers == null) {
-            includePointers = true;
-          }
-          if (!val) {
-            throw new Error("Not a fixed size");
-          }
-          ctx = {
-            parent,
-            val,
-            pointerSize: 0
-          };
-          size = 0;
-          if (typeof this.type !== "string") {
-            size += this.type.size(val.version, ctx);
-          }
-          if (this.versions.header) {
-            _ref = this.versions.header;
-            for (key in _ref) {
-              type = _ref[key];
-              if (type.size != null) {
-                size += type.size(val[key], ctx);
-              }
-            }
-          }
-          fields = this.versions[val.version];
-          if (fields == null) {
-            throw new Error("Unknown version " + val.version);
-          }
-          for (key in fields) {
-            type = fields[key];
-            if (type.size != null) {
-              size += type.size(val[key], ctx);
-            }
-          }
-          if (includePointers) {
-            size += ctx.pointerSize;
-          }
-          return size;
-        };
-        VersionedStruct2.prototype.encode = function(stream, val, parent) {
-          var ctx, fields, i, key, ptr, type, _ref, _ref1;
-          if ((_ref = this.preEncode) != null) {
-            _ref.call(val, stream);
-          }
-          ctx = {
-            pointers: [],
-            startOffset: stream.pos,
-            parent,
-            val,
-            pointerSize: 0
-          };
-          ctx.pointerOffset = stream.pos + this.size(val, ctx, false);
-          if (typeof this.type !== "string") {
-            this.type.encode(stream, val.version);
-          }
-          if (this.versions.header) {
-            _ref1 = this.versions.header;
-            for (key in _ref1) {
-              type = _ref1[key];
-              if (type.encode != null) {
-                type.encode(stream, val[key], ctx);
-              }
-            }
-          }
-          fields = this.versions[val.version];
-          for (key in fields) {
-            type = fields[key];
-            if (type.encode != null) {
-              type.encode(stream, val[key], ctx);
-            }
-          }
-          i = 0;
-          while (i < ctx.pointers.length) {
-            ptr = ctx.pointers[i++];
-            ptr.type.encode(stream, ptr.val, ptr.parent);
-          }
-        };
-        return VersionedStruct2;
-      }(Struct);
-      module2.exports = VersionedStruct;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/src/Pointer.js
-var require_Pointer = __commonJS({
-  "node_modules/restructure/src/Pointer.js"(exports) {
-    init_shims();
-    (function() {
-      var Pointer, VoidPointer, utils;
-      utils = require_utils();
-      Pointer = function() {
-        function Pointer2(offsetType, type, options2) {
-          var _base, _base1, _base2, _base3;
-          this.offsetType = offsetType;
-          this.type = type;
-          this.options = options2 != null ? options2 : {};
-          if (this.type === "void") {
-            this.type = null;
-          }
-          if ((_base = this.options).type == null) {
-            _base.type = "local";
-          }
-          if ((_base1 = this.options).allowNull == null) {
-            _base1.allowNull = true;
-          }
-          if ((_base2 = this.options).nullValue == null) {
-            _base2.nullValue = 0;
-          }
-          if ((_base3 = this.options).lazy == null) {
-            _base3.lazy = false;
-          }
-          if (this.options.relativeTo) {
-            this.relativeToGetter = new Function("ctx", "return ctx." + this.options.relativeTo);
-          }
-        }
-        Pointer2.prototype.decode = function(stream, ctx) {
-          var c, decodeValue, offset, ptr, relative, val;
-          offset = this.offsetType.decode(stream, ctx);
-          if (offset === this.options.nullValue && this.options.allowNull) {
-            return null;
-          }
-          relative = function() {
-            switch (this.options.type) {
-              case "local":
-                return ctx._startOffset;
-              case "immediate":
-                return stream.pos - this.offsetType.size();
-              case "parent":
-                return ctx.parent._startOffset;
-              default:
-                c = ctx;
-                while (c.parent) {
-                  c = c.parent;
-                }
-                return c._startOffset || 0;
-            }
-          }.call(this);
-          if (this.options.relativeTo) {
-            relative += this.relativeToGetter(ctx);
-          }
-          ptr = offset + relative;
-          if (this.type != null) {
-            val = null;
-            decodeValue = function(_this) {
-              return function() {
-                var pos;
-                if (val != null) {
-                  return val;
-                }
-                pos = stream.pos;
-                stream.pos = ptr;
-                val = _this.type.decode(stream, ctx);
-                stream.pos = pos;
-                return val;
-              };
-            }(this);
-            if (this.options.lazy) {
-              return new utils.PropertyDescriptor({
-                get: decodeValue
-              });
-            }
-            return decodeValue();
-          } else {
-            return ptr;
-          }
-        };
-        Pointer2.prototype.size = function(val, ctx) {
-          var parent, type;
-          parent = ctx;
-          switch (this.options.type) {
-            case "local":
-            case "immediate":
-              break;
-            case "parent":
-              ctx = ctx.parent;
-              break;
-            default:
-              while (ctx.parent) {
-                ctx = ctx.parent;
-              }
-          }
-          type = this.type;
-          if (type == null) {
-            if (!(val instanceof VoidPointer)) {
-              throw new Error("Must be a VoidPointer");
-            }
-            type = val.type;
-            val = val.value;
-          }
-          if (val && ctx) {
-            ctx.pointerSize += type.size(val, parent);
-          }
-          return this.offsetType.size();
-        };
-        Pointer2.prototype.encode = function(stream, val, ctx) {
-          var parent, relative, type;
-          parent = ctx;
-          if (val == null) {
-            this.offsetType.encode(stream, this.options.nullValue);
-            return;
-          }
-          switch (this.options.type) {
-            case "local":
-              relative = ctx.startOffset;
-              break;
-            case "immediate":
-              relative = stream.pos + this.offsetType.size(val, parent);
-              break;
-            case "parent":
-              ctx = ctx.parent;
-              relative = ctx.startOffset;
-              break;
-            default:
-              relative = 0;
-              while (ctx.parent) {
-                ctx = ctx.parent;
-              }
-          }
-          if (this.options.relativeTo) {
-            relative += this.relativeToGetter(parent.val);
-          }
-          this.offsetType.encode(stream, ctx.pointerOffset - relative);
-          type = this.type;
-          if (type == null) {
-            if (!(val instanceof VoidPointer)) {
-              throw new Error("Must be a VoidPointer");
-            }
-            type = val.type;
-            val = val.value;
-          }
-          ctx.pointers.push({
-            type,
-            val,
             parent
-          });
-          return ctx.pointerOffset += type.size(val, parent);
-        };
-        return Pointer2;
-      }();
-      VoidPointer = function() {
-        function VoidPointer2(type, value) {
-          this.type = type;
-          this.value = value;
-        }
-        return VoidPointer2;
-      }();
-      exports.Pointer = Pointer;
-      exports.VoidPointer = VoidPointer;
-    }).call(exports);
-  }
-});
-
-// node_modules/restructure/index.js
-var require_restructure = __commonJS({
-  "node_modules/restructure/index.js"(exports) {
-    init_shims();
-    (function() {
-      var key, val, _ref, _ref1;
-      exports.EncodeStream = require_EncodeStream();
-      exports.DecodeStream = require_DecodeStream();
-      exports.Array = require_Array();
-      exports.LazyArray = require_LazyArray();
-      exports.Bitfield = require_Bitfield();
-      exports.Boolean = require_Boolean();
-      exports.Buffer = require_Buffer();
-      exports.Enum = require_Enum();
-      exports.Optional = require_Optional();
-      exports.Reserved = require_Reserved();
-      exports.String = require_String();
-      exports.Struct = require_Struct();
-      exports.VersionedStruct = require_VersionedStruct();
-      _ref = require_Number();
-      for (key in _ref) {
-        val = _ref[key];
-        exports[key] = val;
-      }
-      _ref1 = require_Pointer();
-      for (key in _ref1) {
-        val = _ref1[key];
-        exports[key] = val;
-      }
-    }).call(exports);
-  }
-});
-
-// node_modules/core-js/library/modules/_cof.js
-var require_cof = __commonJS({
-  "node_modules/core-js/library/modules/_cof.js"(exports, module2) {
-    init_shims();
-    var toString = {}.toString;
-    module2.exports = function(it) {
-      return toString.call(it).slice(8, -1);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_iobject.js
-var require_iobject = __commonJS({
-  "node_modules/core-js/library/modules/_iobject.js"(exports, module2) {
-    init_shims();
-    var cof = require_cof();
-    module2.exports = Object("z").propertyIsEnumerable(0) ? Object : function(it) {
-      return cof(it) == "String" ? it.split("") : Object(it);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_defined.js
-var require_defined = __commonJS({
-  "node_modules/core-js/library/modules/_defined.js"(exports, module2) {
-    init_shims();
-    module2.exports = function(it) {
-      if (it == void 0)
-        throw TypeError("Can't call method on  " + it);
-      return it;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_to-iobject.js
-var require_to_iobject = __commonJS({
-  "node_modules/core-js/library/modules/_to-iobject.js"(exports, module2) {
-    init_shims();
-    var IObject = require_iobject();
-    var defined = require_defined();
-    module2.exports = function(it) {
-      return IObject(defined(it));
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_object-pie.js
-var require_object_pie = __commonJS({
-  "node_modules/core-js/library/modules/_object-pie.js"(exports) {
-    init_shims();
-    exports.f = {}.propertyIsEnumerable;
-  }
-});
-
-// node_modules/core-js/library/modules/_property-desc.js
-var require_property_desc = __commonJS({
-  "node_modules/core-js/library/modules/_property-desc.js"(exports, module2) {
-    init_shims();
-    module2.exports = function(bitmap, value) {
-      return {
-        enumerable: !(bitmap & 1),
-        configurable: !(bitmap & 2),
-        writable: !(bitmap & 4),
-        value
-      };
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_is-object.js
-var require_is_object = __commonJS({
-  "node_modules/core-js/library/modules/_is-object.js"(exports, module2) {
-    init_shims();
-    module2.exports = function(it) {
-      return typeof it === "object" ? it !== null : typeof it === "function";
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_to-primitive.js
-var require_to_primitive = __commonJS({
-  "node_modules/core-js/library/modules/_to-primitive.js"(exports, module2) {
-    init_shims();
-    var isObject = require_is_object();
-    module2.exports = function(it, S) {
-      if (!isObject(it))
-        return it;
-      var fn, val;
-      if (S && typeof (fn = it.toString) == "function" && !isObject(val = fn.call(it)))
-        return val;
-      if (typeof (fn = it.valueOf) == "function" && !isObject(val = fn.call(it)))
-        return val;
-      if (!S && typeof (fn = it.toString) == "function" && !isObject(val = fn.call(it)))
-        return val;
-      throw TypeError("Can't convert object to primitive value");
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_has.js
-var require_has = __commonJS({
-  "node_modules/core-js/library/modules/_has.js"(exports, module2) {
-    init_shims();
-    var hasOwnProperty = {}.hasOwnProperty;
-    module2.exports = function(it, key) {
-      return hasOwnProperty.call(it, key);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_fails.js
-var require_fails = __commonJS({
-  "node_modules/core-js/library/modules/_fails.js"(exports, module2) {
-    init_shims();
-    module2.exports = function(exec) {
-      try {
-        return !!exec();
-      } catch (e) {
-        return true;
-      }
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_descriptors.js
-var require_descriptors = __commonJS({
-  "node_modules/core-js/library/modules/_descriptors.js"(exports, module2) {
-    init_shims();
-    module2.exports = !require_fails()(function() {
-      return Object.defineProperty({}, "a", { get: function() {
-        return 7;
-      } }).a != 7;
-    });
-  }
-});
-
-// node_modules/core-js/library/modules/_global.js
-var require_global = __commonJS({
-  "node_modules/core-js/library/modules/_global.js"(exports, module2) {
-    init_shims();
-    var global2 = module2.exports = typeof window != "undefined" && window.Math == Math ? window : typeof self != "undefined" && self.Math == Math ? self : Function("return this")();
-    if (typeof __g == "number")
-      __g = global2;
-  }
-});
-
-// node_modules/core-js/library/modules/_dom-create.js
-var require_dom_create = __commonJS({
-  "node_modules/core-js/library/modules/_dom-create.js"(exports, module2) {
-    init_shims();
-    var isObject = require_is_object();
-    var document2 = require_global().document;
-    var is = isObject(document2) && isObject(document2.createElement);
-    module2.exports = function(it) {
-      return is ? document2.createElement(it) : {};
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_ie8-dom-define.js
-var require_ie8_dom_define = __commonJS({
-  "node_modules/core-js/library/modules/_ie8-dom-define.js"(exports, module2) {
-    init_shims();
-    module2.exports = !require_descriptors() && !require_fails()(function() {
-      return Object.defineProperty(require_dom_create()("div"), "a", { get: function() {
-        return 7;
-      } }).a != 7;
-    });
-  }
-});
-
-// node_modules/core-js/library/modules/_object-gopd.js
-var require_object_gopd = __commonJS({
-  "node_modules/core-js/library/modules/_object-gopd.js"(exports) {
-    init_shims();
-    var pIE = require_object_pie();
-    var createDesc = require_property_desc();
-    var toIObject = require_to_iobject();
-    var toPrimitive = require_to_primitive();
-    var has = require_has();
-    var IE8_DOM_DEFINE = require_ie8_dom_define();
-    var gOPD = Object.getOwnPropertyDescriptor;
-    exports.f = require_descriptors() ? gOPD : function getOwnPropertyDescriptor(O, P) {
-      O = toIObject(O);
-      P = toPrimitive(P, true);
-      if (IE8_DOM_DEFINE)
-        try {
-          return gOPD(O, P);
-        } catch (e) {
-        }
-      if (has(O, P))
-        return createDesc(!pIE.f.call(O, P), O[P]);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_core.js
-var require_core2 = __commonJS({
-  "node_modules/core-js/library/modules/_core.js"(exports, module2) {
-    init_shims();
-    var core = module2.exports = { version: "2.6.12" };
-    if (typeof __e == "number")
-      __e = core;
-  }
-});
-
-// node_modules/core-js/library/modules/_a-function.js
-var require_a_function = __commonJS({
-  "node_modules/core-js/library/modules/_a-function.js"(exports, module2) {
-    init_shims();
-    module2.exports = function(it) {
-      if (typeof it != "function")
-        throw TypeError(it + " is not a function!");
-      return it;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_ctx.js
-var require_ctx = __commonJS({
-  "node_modules/core-js/library/modules/_ctx.js"(exports, module2) {
-    init_shims();
-    var aFunction = require_a_function();
-    module2.exports = function(fn, that, length) {
-      aFunction(fn);
-      if (that === void 0)
-        return fn;
-      switch (length) {
-        case 1:
-          return function(a) {
-            return fn.call(that, a);
           };
-        case 2:
-          return function(a, b) {
-            return fn.call(that, a, b);
-          };
-        case 3:
-          return function(a, b, c) {
-            return fn.call(that, a, b, c);
-          };
-      }
-      return function() {
-        return fn.apply(that, arguments);
-      };
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_an-object.js
-var require_an_object = __commonJS({
-  "node_modules/core-js/library/modules/_an-object.js"(exports, module2) {
-    init_shims();
-    var isObject = require_is_object();
-    module2.exports = function(it) {
-      if (!isObject(it))
-        throw TypeError(it + " is not an object!");
-      return it;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_object-dp.js
-var require_object_dp = __commonJS({
-  "node_modules/core-js/library/modules/_object-dp.js"(exports) {
-    init_shims();
-    var anObject = require_an_object();
-    var IE8_DOM_DEFINE = require_ie8_dom_define();
-    var toPrimitive = require_to_primitive();
-    var dP = Object.defineProperty;
-    exports.f = require_descriptors() ? Object.defineProperty : function defineProperty(O, P, Attributes) {
-      anObject(O);
-      P = toPrimitive(P, true);
-      anObject(Attributes);
-      if (IE8_DOM_DEFINE)
-        try {
-          return dP(O, P, Attributes);
-        } catch (e) {
+          ctx.pointerOffset = stream.pos + this.size(array, ctx);
+          this.length.encode(stream, array.length);
         }
-      if ("get" in Attributes || "set" in Attributes)
-        throw TypeError("Accessors not supported!");
-      if ("value" in Attributes)
-        O[P] = Attributes.value;
-      return O;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_hide.js
-var require_hide = __commonJS({
-  "node_modules/core-js/library/modules/_hide.js"(exports, module2) {
-    init_shims();
-    var dP = require_object_dp();
-    var createDesc = require_property_desc();
-    module2.exports = require_descriptors() ? function(object, key, value) {
-      return dP.f(object, key, createDesc(1, value));
-    } : function(object, key, value) {
-      object[key] = value;
-      return object;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_export.js
-var require_export = __commonJS({
-  "node_modules/core-js/library/modules/_export.js"(exports, module2) {
-    init_shims();
-    var global2 = require_global();
-    var core = require_core2();
-    var ctx = require_ctx();
-    var hide = require_hide();
-    var has = require_has();
-    var PROTOTYPE = "prototype";
-    var $export = function(type, name, source) {
-      var IS_FORCED = type & $export.F;
-      var IS_GLOBAL = type & $export.G;
-      var IS_STATIC = type & $export.S;
-      var IS_PROTO = type & $export.P;
-      var IS_BIND = type & $export.B;
-      var IS_WRAP = type & $export.W;
-      var exports2 = IS_GLOBAL ? core : core[name] || (core[name] = {});
-      var expProto = exports2[PROTOTYPE];
-      var target = IS_GLOBAL ? global2 : IS_STATIC ? global2[name] : (global2[name] || {})[PROTOTYPE];
-      var key, own, out;
-      if (IS_GLOBAL)
-        source = name;
-      for (key in source) {
-        own = !IS_FORCED && target && target[key] !== void 0;
-        if (own && has(exports2, key))
-          continue;
-        out = own ? target[key] : source[key];
-        exports2[key] = IS_GLOBAL && typeof target[key] != "function" ? source[key] : IS_BIND && own ? ctx(out, global2) : IS_WRAP && target[key] == out ? function(C) {
-          var F = function(a, b, c) {
-            if (this instanceof C) {
-              switch (arguments.length) {
-                case 0:
-                  return new C();
-                case 1:
-                  return new C(a);
-                case 2:
-                  return new C(a, b);
-              }
-              return new C(a, b, c);
-            }
-            return C.apply(this, arguments);
-          };
-          F[PROTOTYPE] = C[PROTOTYPE];
-          return F;
-        }(out) : IS_PROTO && typeof out == "function" ? ctx(Function.call, out) : out;
-        if (IS_PROTO) {
-          (exports2.virtual || (exports2.virtual = {}))[key] = out;
-          if (type & $export.R && expProto && !expProto[key])
-            hide(expProto, key, out);
+        for (let item of array) {
+          this.type.encode(stream, item, ctx);
         }
-      }
-    };
-    $export.F = 1;
-    $export.G = 2;
-    $export.S = 4;
-    $export.P = 8;
-    $export.B = 16;
-    $export.W = 32;
-    $export.U = 64;
-    $export.R = 128;
-    module2.exports = $export;
-  }
-});
-
-// node_modules/core-js/library/modules/_object-sap.js
-var require_object_sap = __commonJS({
-  "node_modules/core-js/library/modules/_object-sap.js"(exports, module2) {
-    init_shims();
-    var $export = require_export();
-    var core = require_core2();
-    var fails = require_fails();
-    module2.exports = function(KEY, exec) {
-      var fn = (core.Object || {})[KEY] || Object[KEY];
-      var exp = {};
-      exp[KEY] = exec(fn);
-      $export($export.S + $export.F * fails(function() {
-        fn(1);
-      }), "Object", exp);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.object.get-own-property-descriptor.js
-var require_es6_object_get_own_property_descriptor = __commonJS({
-  "node_modules/core-js/library/modules/es6.object.get-own-property-descriptor.js"() {
-    init_shims();
-    var toIObject = require_to_iobject();
-    var $getOwnPropertyDescriptor = require_object_gopd().f;
-    require_object_sap()("getOwnPropertyDescriptor", function() {
-      return function getOwnPropertyDescriptor(it, key) {
-        return $getOwnPropertyDescriptor(toIObject(it), key);
-      };
-    });
-  }
-});
-
-// node_modules/core-js/library/fn/object/get-own-property-descriptor.js
-var require_get_own_property_descriptor = __commonJS({
-  "node_modules/core-js/library/fn/object/get-own-property-descriptor.js"(exports, module2) {
-    init_shims();
-    require_es6_object_get_own_property_descriptor();
-    var $Object = require_core2().Object;
-    module2.exports = function getOwnPropertyDescriptor(it, key) {
-      return $Object.getOwnPropertyDescriptor(it, key);
-    };
-  }
-});
-
-// node_modules/babel-runtime/core-js/object/get-own-property-descriptor.js
-var require_get_own_property_descriptor2 = __commonJS({
-  "node_modules/babel-runtime/core-js/object/get-own-property-descriptor.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_get_own_property_descriptor(), __esModule: true };
-  }
-});
-
-// node_modules/core-js/library/modules/_add-to-unscopables.js
-var require_add_to_unscopables = __commonJS({
-  "node_modules/core-js/library/modules/_add-to-unscopables.js"(exports, module2) {
-    init_shims();
-    module2.exports = function() {
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_iter-step.js
-var require_iter_step = __commonJS({
-  "node_modules/core-js/library/modules/_iter-step.js"(exports, module2) {
-    init_shims();
-    module2.exports = function(done, value) {
-      return { value, done: !!done };
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_iterators.js
-var require_iterators = __commonJS({
-  "node_modules/core-js/library/modules/_iterators.js"(exports, module2) {
-    init_shims();
-    module2.exports = {};
-  }
-});
-
-// node_modules/core-js/library/modules/_library.js
-var require_library = __commonJS({
-  "node_modules/core-js/library/modules/_library.js"(exports, module2) {
-    init_shims();
-    module2.exports = true;
-  }
-});
-
-// node_modules/core-js/library/modules/_redefine.js
-var require_redefine = __commonJS({
-  "node_modules/core-js/library/modules/_redefine.js"(exports, module2) {
-    init_shims();
-    module2.exports = require_hide();
-  }
-});
-
-// node_modules/core-js/library/modules/_to-integer.js
-var require_to_integer = __commonJS({
-  "node_modules/core-js/library/modules/_to-integer.js"(exports, module2) {
-    init_shims();
-    var ceil = Math.ceil;
-    var floor = Math.floor;
-    module2.exports = function(it) {
-      return isNaN(it = +it) ? 0 : (it > 0 ? floor : ceil)(it);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_to-length.js
-var require_to_length = __commonJS({
-  "node_modules/core-js/library/modules/_to-length.js"(exports, module2) {
-    init_shims();
-    var toInteger = require_to_integer();
-    var min = Math.min;
-    module2.exports = function(it) {
-      return it > 0 ? min(toInteger(it), 9007199254740991) : 0;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_to-absolute-index.js
-var require_to_absolute_index = __commonJS({
-  "node_modules/core-js/library/modules/_to-absolute-index.js"(exports, module2) {
-    init_shims();
-    var toInteger = require_to_integer();
-    var max = Math.max;
-    var min = Math.min;
-    module2.exports = function(index2, length) {
-      index2 = toInteger(index2);
-      return index2 < 0 ? max(index2 + length, 0) : min(index2, length);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_array-includes.js
-var require_array_includes = __commonJS({
-  "node_modules/core-js/library/modules/_array-includes.js"(exports, module2) {
-    init_shims();
-    var toIObject = require_to_iobject();
-    var toLength = require_to_length();
-    var toAbsoluteIndex = require_to_absolute_index();
-    module2.exports = function(IS_INCLUDES) {
-      return function($this, el, fromIndex) {
-        var O = toIObject($this);
-        var length = toLength(O.length);
-        var index2 = toAbsoluteIndex(fromIndex, length);
-        var value;
-        if (IS_INCLUDES && el != el)
-          while (length > index2) {
-            value = O[index2++];
-            if (value != value)
-              return true;
+        if (this.length instanceof NumberT) {
+          let i = 0;
+          while (i < ctx.pointers.length) {
+            const ptr = ctx.pointers[i++];
+            ptr.type.encode(stream, ptr.val);
           }
-        else
-          for (; length > index2; index2++)
-            if (IS_INCLUDES || index2 in O) {
-              if (O[index2] === el)
-                return IS_INCLUDES || index2 || 0;
-            }
-        return !IS_INCLUDES && -1;
-      };
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_shared.js
-var require_shared = __commonJS({
-  "node_modules/core-js/library/modules/_shared.js"(exports, module2) {
-    init_shims();
-    var core = require_core2();
-    var global2 = require_global();
-    var SHARED = "__core-js_shared__";
-    var store = global2[SHARED] || (global2[SHARED] = {});
-    (module2.exports = function(key, value) {
-      return store[key] || (store[key] = value !== void 0 ? value : {});
-    })("versions", []).push({
-      version: core.version,
-      mode: require_library() ? "pure" : "global",
-      copyright: "\xA9 2020 Denis Pushkarev (zloirock.ru)"
-    });
-  }
-});
-
-// node_modules/core-js/library/modules/_uid.js
-var require_uid = __commonJS({
-  "node_modules/core-js/library/modules/_uid.js"(exports, module2) {
-    init_shims();
-    var id = 0;
-    var px = Math.random();
-    module2.exports = function(key) {
-      return "Symbol(".concat(key === void 0 ? "" : key, ")_", (++id + px).toString(36));
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_shared-key.js
-var require_shared_key = __commonJS({
-  "node_modules/core-js/library/modules/_shared-key.js"(exports, module2) {
-    init_shims();
-    var shared = require_shared()("keys");
-    var uid = require_uid();
-    module2.exports = function(key) {
-      return shared[key] || (shared[key] = uid(key));
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_object-keys-internal.js
-var require_object_keys_internal = __commonJS({
-  "node_modules/core-js/library/modules/_object-keys-internal.js"(exports, module2) {
-    init_shims();
-    var has = require_has();
-    var toIObject = require_to_iobject();
-    var arrayIndexOf = require_array_includes()(false);
-    var IE_PROTO = require_shared_key()("IE_PROTO");
-    module2.exports = function(object, names) {
-      var O = toIObject(object);
-      var i = 0;
-      var result = [];
-      var key;
-      for (key in O)
-        if (key != IE_PROTO)
-          has(O, key) && result.push(key);
-      while (names.length > i)
-        if (has(O, key = names[i++])) {
-          ~arrayIndexOf(result, key) || result.push(key);
-        }
-      return result;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_enum-bug-keys.js
-var require_enum_bug_keys = __commonJS({
-  "node_modules/core-js/library/modules/_enum-bug-keys.js"(exports, module2) {
-    init_shims();
-    module2.exports = "constructor,hasOwnProperty,isPrototypeOf,propertyIsEnumerable,toLocaleString,toString,valueOf".split(",");
-  }
-});
-
-// node_modules/core-js/library/modules/_object-keys.js
-var require_object_keys = __commonJS({
-  "node_modules/core-js/library/modules/_object-keys.js"(exports, module2) {
-    init_shims();
-    var $keys = require_object_keys_internal();
-    var enumBugKeys = require_enum_bug_keys();
-    module2.exports = Object.keys || function keys(O) {
-      return $keys(O, enumBugKeys);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_object-dps.js
-var require_object_dps = __commonJS({
-  "node_modules/core-js/library/modules/_object-dps.js"(exports, module2) {
-    init_shims();
-    var dP = require_object_dp();
-    var anObject = require_an_object();
-    var getKeys = require_object_keys();
-    module2.exports = require_descriptors() ? Object.defineProperties : function defineProperties(O, Properties) {
-      anObject(O);
-      var keys = getKeys(Properties);
-      var length = keys.length;
-      var i = 0;
-      var P;
-      while (length > i)
-        dP.f(O, P = keys[i++], Properties[P]);
-      return O;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_html.js
-var require_html = __commonJS({
-  "node_modules/core-js/library/modules/_html.js"(exports, module2) {
-    init_shims();
-    var document2 = require_global().document;
-    module2.exports = document2 && document2.documentElement;
-  }
-});
-
-// node_modules/core-js/library/modules/_object-create.js
-var require_object_create = __commonJS({
-  "node_modules/core-js/library/modules/_object-create.js"(exports, module2) {
-    init_shims();
-    var anObject = require_an_object();
-    var dPs = require_object_dps();
-    var enumBugKeys = require_enum_bug_keys();
-    var IE_PROTO = require_shared_key()("IE_PROTO");
-    var Empty = function() {
-    };
-    var PROTOTYPE = "prototype";
-    var createDict = function() {
-      var iframe = require_dom_create()("iframe");
-      var i = enumBugKeys.length;
-      var lt = "<";
-      var gt = ">";
-      var iframeDocument;
-      iframe.style.display = "none";
-      require_html().appendChild(iframe);
-      iframe.src = "javascript:";
-      iframeDocument = iframe.contentWindow.document;
-      iframeDocument.open();
-      iframeDocument.write(lt + "script" + gt + "document.F=Object" + lt + "/script" + gt);
-      iframeDocument.close();
-      createDict = iframeDocument.F;
-      while (i--)
-        delete createDict[PROTOTYPE][enumBugKeys[i]];
-      return createDict();
-    };
-    module2.exports = Object.create || function create(O, Properties) {
-      var result;
-      if (O !== null) {
-        Empty[PROTOTYPE] = anObject(O);
-        result = new Empty();
-        Empty[PROTOTYPE] = null;
-        result[IE_PROTO] = O;
-      } else
-        result = createDict();
-      return Properties === void 0 ? result : dPs(result, Properties);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_wks.js
-var require_wks = __commonJS({
-  "node_modules/core-js/library/modules/_wks.js"(exports, module2) {
-    init_shims();
-    var store = require_shared()("wks");
-    var uid = require_uid();
-    var Symbol2 = require_global().Symbol;
-    var USE_SYMBOL = typeof Symbol2 == "function";
-    var $exports = module2.exports = function(name) {
-      return store[name] || (store[name] = USE_SYMBOL && Symbol2[name] || (USE_SYMBOL ? Symbol2 : uid)("Symbol." + name));
-    };
-    $exports.store = store;
-  }
-});
-
-// node_modules/core-js/library/modules/_set-to-string-tag.js
-var require_set_to_string_tag = __commonJS({
-  "node_modules/core-js/library/modules/_set-to-string-tag.js"(exports, module2) {
-    init_shims();
-    var def = require_object_dp().f;
-    var has = require_has();
-    var TAG = require_wks()("toStringTag");
-    module2.exports = function(it, tag, stat) {
-      if (it && !has(it = stat ? it : it.prototype, TAG))
-        def(it, TAG, { configurable: true, value: tag });
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_iter-create.js
-var require_iter_create = __commonJS({
-  "node_modules/core-js/library/modules/_iter-create.js"(exports, module2) {
-    init_shims();
-    "use strict";
-    var create = require_object_create();
-    var descriptor = require_property_desc();
-    var setToStringTag = require_set_to_string_tag();
-    var IteratorPrototype = {};
-    require_hide()(IteratorPrototype, require_wks()("iterator"), function() {
-      return this;
-    });
-    module2.exports = function(Constructor, NAME2, next) {
-      Constructor.prototype = create(IteratorPrototype, { next: descriptor(1, next) });
-      setToStringTag(Constructor, NAME2 + " Iterator");
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_to-object.js
-var require_to_object = __commonJS({
-  "node_modules/core-js/library/modules/_to-object.js"(exports, module2) {
-    init_shims();
-    var defined = require_defined();
-    module2.exports = function(it) {
-      return Object(defined(it));
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_object-gpo.js
-var require_object_gpo = __commonJS({
-  "node_modules/core-js/library/modules/_object-gpo.js"(exports, module2) {
-    init_shims();
-    var has = require_has();
-    var toObject = require_to_object();
-    var IE_PROTO = require_shared_key()("IE_PROTO");
-    var ObjectProto = Object.prototype;
-    module2.exports = Object.getPrototypeOf || function(O) {
-      O = toObject(O);
-      if (has(O, IE_PROTO))
-        return O[IE_PROTO];
-      if (typeof O.constructor == "function" && O instanceof O.constructor) {
-        return O.constructor.prototype;
-      }
-      return O instanceof Object ? ObjectProto : null;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_iter-define.js
-var require_iter_define = __commonJS({
-  "node_modules/core-js/library/modules/_iter-define.js"(exports, module2) {
-    init_shims();
-    "use strict";
-    var LIBRARY = require_library();
-    var $export = require_export();
-    var redefine = require_redefine();
-    var hide = require_hide();
-    var Iterators = require_iterators();
-    var $iterCreate = require_iter_create();
-    var setToStringTag = require_set_to_string_tag();
-    var getPrototypeOf = require_object_gpo();
-    var ITERATOR = require_wks()("iterator");
-    var BUGGY = !([].keys && "next" in [].keys());
-    var FF_ITERATOR = "@@iterator";
-    var KEYS = "keys";
-    var VALUES = "values";
-    var returnThis = function() {
-      return this;
-    };
-    module2.exports = function(Base, NAME2, Constructor, next, DEFAULT, IS_SET, FORCED) {
-      $iterCreate(Constructor, NAME2, next);
-      var getMethod = function(kind) {
-        if (!BUGGY && kind in proto)
-          return proto[kind];
-        switch (kind) {
-          case KEYS:
-            return function keys() {
-              return new Constructor(this, kind);
-            };
-          case VALUES:
-            return function values() {
-              return new Constructor(this, kind);
-            };
-        }
-        return function entries() {
-          return new Constructor(this, kind);
-        };
-      };
-      var TAG = NAME2 + " Iterator";
-      var DEF_VALUES = DEFAULT == VALUES;
-      var VALUES_BUG = false;
-      var proto = Base.prototype;
-      var $native = proto[ITERATOR] || proto[FF_ITERATOR] || DEFAULT && proto[DEFAULT];
-      var $default = $native || getMethod(DEFAULT);
-      var $entries = DEFAULT ? !DEF_VALUES ? $default : getMethod("entries") : void 0;
-      var $anyNative = NAME2 == "Array" ? proto.entries || $native : $native;
-      var methods, key, IteratorPrototype;
-      if ($anyNative) {
-        IteratorPrototype = getPrototypeOf($anyNative.call(new Base()));
-        if (IteratorPrototype !== Object.prototype && IteratorPrototype.next) {
-          setToStringTag(IteratorPrototype, TAG, true);
-          if (!LIBRARY && typeof IteratorPrototype[ITERATOR] != "function")
-            hide(IteratorPrototype, ITERATOR, returnThis);
         }
       }
-      if (DEF_VALUES && $native && $native.name !== VALUES) {
-        VALUES_BUG = true;
-        $default = function values() {
-          return $native.call(this);
-        };
+    };
+    module2.exports = ArrayT;
+  }
+});
+
+// node_modules/restructure-next/src/LazyArray.js
+var require_LazyArray = __commonJS({
+  "node_modules/restructure-next/src/LazyArray.js"(exports, module2) {
+    init_shims();
+    var ArrayT = require_Array();
+    var { Number: NumberT } = require_Number();
+    var utils = require_utils();
+    var { inspect } = require("util");
+    var LazyArrayT = class extends ArrayT {
+      decode(stream, parent) {
+        const { pos } = stream;
+        const length = utils.resolveLength(this.length, stream, parent);
+        if (this.length instanceof NumberT) {
+          parent = {
+            parent,
+            _startOffset: pos,
+            _currentOffset: 0,
+            _length: length
+          };
+        }
+        const res = new LazyArray(this.type, length, stream, parent);
+        stream.pos += length * this.type.size(null, parent);
+        return res;
       }
-      if ((!LIBRARY || FORCED) && (BUGGY || VALUES_BUG || !proto[ITERATOR])) {
-        hide(proto, ITERATOR, $default);
+      size(val, ctx) {
+        if (val instanceof LazyArray) {
+          val = val.toArray();
+        }
+        return super.size(val, ctx);
       }
-      Iterators[NAME2] = $default;
-      Iterators[TAG] = returnThis;
-      if (DEFAULT) {
-        methods = {
-          values: DEF_VALUES ? $default : getMethod(VALUES),
-          keys: IS_SET ? $default : getMethod(KEYS),
-          entries: $entries
-        };
-        if (FORCED)
-          for (key in methods) {
-            if (!(key in proto))
-              redefine(proto, key, methods[key]);
+      encode(stream, val, ctx) {
+        if (val instanceof LazyArray) {
+          val = val.toArray();
+        }
+        return super.encode(stream, val, ctx);
+      }
+    };
+    var LazyArray = class {
+      constructor(type, length, stream, ctx) {
+        this.type = type;
+        this.length = length;
+        this.stream = stream;
+        this.ctx = ctx;
+        this.base = this.stream.pos;
+        this.items = [];
+      }
+      get(index2) {
+        if (index2 < 0 || index2 >= this.length) {
+          return void 0;
+        }
+        if (this.items[index2] == null) {
+          const { pos } = this.stream;
+          this.stream.pos = this.base + this.type.size(null, this.ctx) * index2;
+          this.items[index2] = this.type.decode(this.stream, this.ctx);
+          this.stream.pos = pos;
+        }
+        return this.items[index2];
+      }
+      toArray() {
+        const result = [];
+        for (let i = 0, end = this.length; i < end; i++) {
+          result.push(this.get(i));
+        }
+        return result;
+      }
+      inspect() {
+        return inspect(this.toArray());
+      }
+    };
+    module2.exports = LazyArrayT;
+  }
+});
+
+// node_modules/restructure-next/src/Bitfield.js
+var require_Bitfield = __commonJS({
+  "node_modules/restructure-next/src/Bitfield.js"(exports, module2) {
+    init_shims();
+    var Bitfield = class {
+      constructor(type, flags = []) {
+        this.type = type;
+        this.flags = flags;
+      }
+      decode(stream) {
+        const val = this.type.decode(stream);
+        const res = {};
+        for (let i = 0; i < this.flags.length; i++) {
+          const flag = this.flags[i];
+          if (flag != null) {
+            res[flag] = !!(val & 1 << i);
           }
-        else
-          $export($export.P + $export.F * (BUGGY || VALUES_BUG), NAME2, methods);
-      }
-      return methods;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.array.iterator.js
-var require_es6_array_iterator = __commonJS({
-  "node_modules/core-js/library/modules/es6.array.iterator.js"(exports, module2) {
-    init_shims();
-    "use strict";
-    var addToUnscopables = require_add_to_unscopables();
-    var step = require_iter_step();
-    var Iterators = require_iterators();
-    var toIObject = require_to_iobject();
-    module2.exports = require_iter_define()(Array, "Array", function(iterated, kind) {
-      this._t = toIObject(iterated);
-      this._i = 0;
-      this._k = kind;
-    }, function() {
-      var O = this._t;
-      var kind = this._k;
-      var index2 = this._i++;
-      if (!O || index2 >= O.length) {
-        this._t = void 0;
-        return step(1);
-      }
-      if (kind == "keys")
-        return step(0, index2);
-      if (kind == "values")
-        return step(0, O[index2]);
-      return step(0, [index2, O[index2]]);
-    }, "values");
-    Iterators.Arguments = Iterators.Array;
-    addToUnscopables("keys");
-    addToUnscopables("values");
-    addToUnscopables("entries");
-  }
-});
-
-// node_modules/core-js/library/modules/web.dom.iterable.js
-var require_web_dom_iterable = __commonJS({
-  "node_modules/core-js/library/modules/web.dom.iterable.js"() {
-    init_shims();
-    require_es6_array_iterator();
-    var global2 = require_global();
-    var hide = require_hide();
-    var Iterators = require_iterators();
-    var TO_STRING_TAG = require_wks()("toStringTag");
-    var DOMIterables = "CSSRuleList,CSSStyleDeclaration,CSSValueList,ClientRectList,DOMRectList,DOMStringList,DOMTokenList,DataTransferItemList,FileList,HTMLAllCollection,HTMLCollection,HTMLFormElement,HTMLSelectElement,MediaList,MimeTypeArray,NamedNodeMap,NodeList,PaintRequestList,Plugin,PluginArray,SVGLengthList,SVGNumberList,SVGPathSegList,SVGPointList,SVGStringList,SVGTransformList,SourceBufferList,StyleSheetList,TextTrackCueList,TextTrackList,TouchList".split(",");
-    for (i = 0; i < DOMIterables.length; i++) {
-      NAME2 = DOMIterables[i];
-      Collection = global2[NAME2];
-      proto = Collection && Collection.prototype;
-      if (proto && !proto[TO_STRING_TAG])
-        hide(proto, TO_STRING_TAG, NAME2);
-      Iterators[NAME2] = Iterators.Array;
-    }
-    var NAME2;
-    var Collection;
-    var proto;
-    var i;
-  }
-});
-
-// node_modules/core-js/library/modules/_string-at.js
-var require_string_at = __commonJS({
-  "node_modules/core-js/library/modules/_string-at.js"(exports, module2) {
-    init_shims();
-    var toInteger = require_to_integer();
-    var defined = require_defined();
-    module2.exports = function(TO_STRING) {
-      return function(that, pos) {
-        var s2 = String(defined(that));
-        var i = toInteger(pos);
-        var l = s2.length;
-        var a, b;
-        if (i < 0 || i >= l)
-          return TO_STRING ? "" : void 0;
-        a = s2.charCodeAt(i);
-        return a < 55296 || a > 56319 || i + 1 === l || (b = s2.charCodeAt(i + 1)) < 56320 || b > 57343 ? TO_STRING ? s2.charAt(i) : a : TO_STRING ? s2.slice(i, i + 2) : (a - 55296 << 10) + (b - 56320) + 65536;
-      };
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.string.iterator.js
-var require_es6_string_iterator = __commonJS({
-  "node_modules/core-js/library/modules/es6.string.iterator.js"() {
-    init_shims();
-    "use strict";
-    var $at = require_string_at()(true);
-    require_iter_define()(String, "String", function(iterated) {
-      this._t = String(iterated);
-      this._i = 0;
-    }, function() {
-      var O = this._t;
-      var index2 = this._i;
-      var point;
-      if (index2 >= O.length)
-        return { value: void 0, done: true };
-      point = $at(O, index2);
-      this._i += point.length;
-      return { value: point, done: false };
-    });
-  }
-});
-
-// node_modules/core-js/library/modules/_classof.js
-var require_classof = __commonJS({
-  "node_modules/core-js/library/modules/_classof.js"(exports, module2) {
-    init_shims();
-    var cof = require_cof();
-    var TAG = require_wks()("toStringTag");
-    var ARG = cof(function() {
-      return arguments;
-    }()) == "Arguments";
-    var tryGet = function(it, key) {
-      try {
-        return it[key];
-      } catch (e) {
-      }
-    };
-    module2.exports = function(it) {
-      var O, T, B;
-      return it === void 0 ? "Undefined" : it === null ? "Null" : typeof (T = tryGet(O = Object(it), TAG)) == "string" ? T : ARG ? cof(O) : (B = cof(O)) == "Object" && typeof O.callee == "function" ? "Arguments" : B;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/core.get-iterator-method.js
-var require_core_get_iterator_method = __commonJS({
-  "node_modules/core-js/library/modules/core.get-iterator-method.js"(exports, module2) {
-    init_shims();
-    var classof = require_classof();
-    var ITERATOR = require_wks()("iterator");
-    var Iterators = require_iterators();
-    module2.exports = require_core2().getIteratorMethod = function(it) {
-      if (it != void 0)
-        return it[ITERATOR] || it["@@iterator"] || Iterators[classof(it)];
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/core.get-iterator.js
-var require_core_get_iterator = __commonJS({
-  "node_modules/core-js/library/modules/core.get-iterator.js"(exports, module2) {
-    init_shims();
-    var anObject = require_an_object();
-    var get = require_core_get_iterator_method();
-    module2.exports = require_core2().getIterator = function(it) {
-      var iterFn = get(it);
-      if (typeof iterFn != "function")
-        throw TypeError(it + " is not iterable!");
-      return anObject(iterFn.call(it));
-    };
-  }
-});
-
-// node_modules/core-js/library/fn/get-iterator.js
-var require_get_iterator = __commonJS({
-  "node_modules/core-js/library/fn/get-iterator.js"(exports, module2) {
-    init_shims();
-    require_web_dom_iterable();
-    require_es6_string_iterator();
-    module2.exports = require_core_get_iterator();
-  }
-});
-
-// node_modules/babel-runtime/core-js/get-iterator.js
-var require_get_iterator2 = __commonJS({
-  "node_modules/babel-runtime/core-js/get-iterator.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_get_iterator(), __esModule: true };
-  }
-});
-
-// node_modules/core-js/library/modules/_meta.js
-var require_meta = __commonJS({
-  "node_modules/core-js/library/modules/_meta.js"(exports, module2) {
-    init_shims();
-    var META = require_uid()("meta");
-    var isObject = require_is_object();
-    var has = require_has();
-    var setDesc = require_object_dp().f;
-    var id = 0;
-    var isExtensible = Object.isExtensible || function() {
-      return true;
-    };
-    var FREEZE = !require_fails()(function() {
-      return isExtensible(Object.preventExtensions({}));
-    });
-    var setMeta = function(it) {
-      setDesc(it, META, { value: {
-        i: "O" + ++id,
-        w: {}
-      } });
-    };
-    var fastKey = function(it, create) {
-      if (!isObject(it))
-        return typeof it == "symbol" ? it : (typeof it == "string" ? "S" : "P") + it;
-      if (!has(it, META)) {
-        if (!isExtensible(it))
-          return "F";
-        if (!create)
-          return "E";
-        setMeta(it);
-      }
-      return it[META].i;
-    };
-    var getWeak = function(it, create) {
-      if (!has(it, META)) {
-        if (!isExtensible(it))
-          return true;
-        if (!create)
-          return false;
-        setMeta(it);
-      }
-      return it[META].w;
-    };
-    var onFreeze = function(it) {
-      if (FREEZE && meta.NEED && isExtensible(it) && !has(it, META))
-        setMeta(it);
-      return it;
-    };
-    var meta = module2.exports = {
-      KEY: META,
-      NEED: false,
-      fastKey,
-      getWeak,
-      onFreeze
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.object.freeze.js
-var require_es6_object_freeze = __commonJS({
-  "node_modules/core-js/library/modules/es6.object.freeze.js"() {
-    init_shims();
-    var isObject = require_is_object();
-    var meta = require_meta().onFreeze;
-    require_object_sap()("freeze", function($freeze) {
-      return function freeze(it) {
-        return $freeze && isObject(it) ? $freeze(meta(it)) : it;
-      };
-    });
-  }
-});
-
-// node_modules/core-js/library/fn/object/freeze.js
-var require_freeze = __commonJS({
-  "node_modules/core-js/library/fn/object/freeze.js"(exports, module2) {
-    init_shims();
-    require_es6_object_freeze();
-    module2.exports = require_core2().Object.freeze;
-  }
-});
-
-// node_modules/babel-runtime/core-js/object/freeze.js
-var require_freeze2 = __commonJS({
-  "node_modules/babel-runtime/core-js/object/freeze.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_freeze(), __esModule: true };
-  }
-});
-
-// node_modules/core-js/library/modules/_wks-ext.js
-var require_wks_ext = __commonJS({
-  "node_modules/core-js/library/modules/_wks-ext.js"(exports) {
-    init_shims();
-    exports.f = require_wks();
-  }
-});
-
-// node_modules/core-js/library/fn/symbol/iterator.js
-var require_iterator = __commonJS({
-  "node_modules/core-js/library/fn/symbol/iterator.js"(exports, module2) {
-    init_shims();
-    require_es6_string_iterator();
-    require_web_dom_iterable();
-    module2.exports = require_wks_ext().f("iterator");
-  }
-});
-
-// node_modules/babel-runtime/core-js/symbol/iterator.js
-var require_iterator2 = __commonJS({
-  "node_modules/babel-runtime/core-js/symbol/iterator.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_iterator(), __esModule: true };
-  }
-});
-
-// node_modules/core-js/library/modules/_wks-define.js
-var require_wks_define = __commonJS({
-  "node_modules/core-js/library/modules/_wks-define.js"(exports, module2) {
-    init_shims();
-    var global2 = require_global();
-    var core = require_core2();
-    var LIBRARY = require_library();
-    var wksExt = require_wks_ext();
-    var defineProperty = require_object_dp().f;
-    module2.exports = function(name) {
-      var $Symbol = core.Symbol || (core.Symbol = LIBRARY ? {} : global2.Symbol || {});
-      if (name.charAt(0) != "_" && !(name in $Symbol))
-        defineProperty($Symbol, name, { value: wksExt.f(name) });
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_object-gops.js
-var require_object_gops = __commonJS({
-  "node_modules/core-js/library/modules/_object-gops.js"(exports) {
-    init_shims();
-    exports.f = Object.getOwnPropertySymbols;
-  }
-});
-
-// node_modules/core-js/library/modules/_enum-keys.js
-var require_enum_keys = __commonJS({
-  "node_modules/core-js/library/modules/_enum-keys.js"(exports, module2) {
-    init_shims();
-    var getKeys = require_object_keys();
-    var gOPS = require_object_gops();
-    var pIE = require_object_pie();
-    module2.exports = function(it) {
-      var result = getKeys(it);
-      var getSymbols = gOPS.f;
-      if (getSymbols) {
-        var symbols = getSymbols(it);
-        var isEnum = pIE.f;
-        var i = 0;
-        var key;
-        while (symbols.length > i)
-          if (isEnum.call(it, key = symbols[i++]))
-            result.push(key);
-      }
-      return result;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_is-array.js
-var require_is_array = __commonJS({
-  "node_modules/core-js/library/modules/_is-array.js"(exports, module2) {
-    init_shims();
-    var cof = require_cof();
-    module2.exports = Array.isArray || function isArray(arg) {
-      return cof(arg) == "Array";
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_object-gopn.js
-var require_object_gopn = __commonJS({
-  "node_modules/core-js/library/modules/_object-gopn.js"(exports) {
-    init_shims();
-    var $keys = require_object_keys_internal();
-    var hiddenKeys = require_enum_bug_keys().concat("length", "prototype");
-    exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
-      return $keys(O, hiddenKeys);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_object-gopn-ext.js
-var require_object_gopn_ext = __commonJS({
-  "node_modules/core-js/library/modules/_object-gopn-ext.js"(exports, module2) {
-    init_shims();
-    var toIObject = require_to_iobject();
-    var gOPN = require_object_gopn().f;
-    var toString = {}.toString;
-    var windowNames = typeof window == "object" && window && Object.getOwnPropertyNames ? Object.getOwnPropertyNames(window) : [];
-    var getWindowNames = function(it) {
-      try {
-        return gOPN(it);
-      } catch (e) {
-        return windowNames.slice();
-      }
-    };
-    module2.exports.f = function getOwnPropertyNames(it) {
-      return windowNames && toString.call(it) == "[object Window]" ? getWindowNames(it) : gOPN(toIObject(it));
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.symbol.js
-var require_es6_symbol = __commonJS({
-  "node_modules/core-js/library/modules/es6.symbol.js"() {
-    init_shims();
-    "use strict";
-    var global2 = require_global();
-    var has = require_has();
-    var DESCRIPTORS = require_descriptors();
-    var $export = require_export();
-    var redefine = require_redefine();
-    var META = require_meta().KEY;
-    var $fails = require_fails();
-    var shared = require_shared();
-    var setToStringTag = require_set_to_string_tag();
-    var uid = require_uid();
-    var wks = require_wks();
-    var wksExt = require_wks_ext();
-    var wksDefine = require_wks_define();
-    var enumKeys = require_enum_keys();
-    var isArray = require_is_array();
-    var anObject = require_an_object();
-    var isObject = require_is_object();
-    var toObject = require_to_object();
-    var toIObject = require_to_iobject();
-    var toPrimitive = require_to_primitive();
-    var createDesc = require_property_desc();
-    var _create = require_object_create();
-    var gOPNExt = require_object_gopn_ext();
-    var $GOPD = require_object_gopd();
-    var $GOPS = require_object_gops();
-    var $DP = require_object_dp();
-    var $keys = require_object_keys();
-    var gOPD = $GOPD.f;
-    var dP = $DP.f;
-    var gOPN = gOPNExt.f;
-    var $Symbol = global2.Symbol;
-    var $JSON = global2.JSON;
-    var _stringify = $JSON && $JSON.stringify;
-    var PROTOTYPE = "prototype";
-    var HIDDEN = wks("_hidden");
-    var TO_PRIMITIVE = wks("toPrimitive");
-    var isEnum = {}.propertyIsEnumerable;
-    var SymbolRegistry = shared("symbol-registry");
-    var AllSymbols = shared("symbols");
-    var OPSymbols = shared("op-symbols");
-    var ObjectProto = Object[PROTOTYPE];
-    var USE_NATIVE = typeof $Symbol == "function" && !!$GOPS.f;
-    var QObject = global2.QObject;
-    var setter = !QObject || !QObject[PROTOTYPE] || !QObject[PROTOTYPE].findChild;
-    var setSymbolDesc = DESCRIPTORS && $fails(function() {
-      return _create(dP({}, "a", {
-        get: function() {
-          return dP(this, "a", { value: 7 }).a;
         }
-      })).a != 7;
-    }) ? function(it, key, D) {
-      var protoDesc = gOPD(ObjectProto, key);
-      if (protoDesc)
-        delete ObjectProto[key];
-      dP(it, key, D);
-      if (protoDesc && it !== ObjectProto)
-        dP(ObjectProto, key, protoDesc);
-    } : dP;
-    var wrap = function(tag) {
-      var sym = AllSymbols[tag] = _create($Symbol[PROTOTYPE]);
-      sym._k = tag;
-      return sym;
+        return res;
+      }
+      size() {
+        return this.type.size();
+      }
+      encode(stream, keys) {
+        let val = 0;
+        for (let i = 0; i < this.flags.length; i++) {
+          const flag = this.flags[i];
+          if (flag != null) {
+            if (keys[flag]) {
+              val |= 1 << i;
+            }
+          }
+        }
+        return this.type.encode(stream, val);
+      }
     };
-    var isSymbol = USE_NATIVE && typeof $Symbol.iterator == "symbol" ? function(it) {
-      return typeof it == "symbol";
-    } : function(it) {
-      return it instanceof $Symbol;
+    module2.exports = Bitfield;
+  }
+});
+
+// node_modules/restructure-next/src/Boolean.js
+var require_Boolean = __commonJS({
+  "node_modules/restructure-next/src/Boolean.js"(exports, module2) {
+    init_shims();
+    var BooleanT = class {
+      constructor(type) {
+        this.type = type;
+      }
+      decode(stream, parent) {
+        return !!this.type.decode(stream, parent);
+      }
+      size(val, parent) {
+        return this.type.size(val, parent);
+      }
+      encode(stream, val, parent) {
+        return this.type.encode(stream, +val, parent);
+      }
     };
-    var $defineProperty = function defineProperty(it, key, D) {
-      if (it === ObjectProto)
-        $defineProperty(OPSymbols, key, D);
-      anObject(it);
-      key = toPrimitive(key, true);
-      anObject(D);
-      if (has(AllSymbols, key)) {
-        if (!D.enumerable) {
-          if (!has(it, HIDDEN))
-            dP(it, HIDDEN, createDesc(1, {}));
-          it[HIDDEN][key] = true;
+    module2.exports = BooleanT;
+  }
+});
+
+// node_modules/restructure-next/src/Buffer.js
+var require_Buffer = __commonJS({
+  "node_modules/restructure-next/src/Buffer.js"(exports, module2) {
+    init_shims();
+    var utils = require_utils();
+    var { Number: NumberT } = require_Number();
+    var BufferT = class {
+      constructor(length) {
+        this.length = length;
+      }
+      decode(stream, parent) {
+        const length = utils.resolveLength(this.length, stream, parent);
+        return stream.readBuffer(length);
+      }
+      size(val, parent) {
+        if (!val) {
+          return utils.resolveLength(this.length, null, parent);
+        }
+        return val.length;
+      }
+      encode(stream, buf, parent) {
+        if (this.length instanceof NumberT) {
+          this.length.encode(stream, buf.length);
+        }
+        return stream.writeBuffer(buf);
+      }
+    };
+    module2.exports = BufferT;
+  }
+});
+
+// node_modules/restructure-next/src/Enum.js
+var require_Enum = __commonJS({
+  "node_modules/restructure-next/src/Enum.js"(exports, module2) {
+    init_shims();
+    var Enum = class {
+      constructor(type, options2 = []) {
+        this.type = type;
+        this.options = options2;
+      }
+      decode(stream) {
+        const index2 = this.type.decode(stream);
+        return this.options[index2] || index2;
+      }
+      size() {
+        return this.type.size();
+      }
+      encode(stream, val) {
+        const index2 = this.options.indexOf(val);
+        if (index2 === -1) {
+          throw new Error(`Unknown option in enum: ${val}`);
+        }
+        return this.type.encode(stream, index2);
+      }
+    };
+    module2.exports = Enum;
+  }
+});
+
+// node_modules/restructure-next/src/Optional.js
+var require_Optional = __commonJS({
+  "node_modules/restructure-next/src/Optional.js"(exports, module2) {
+    init_shims();
+    var Optional = class {
+      constructor(type, condition = true) {
+        this.type = type;
+        this.condition = condition;
+      }
+      decode(stream, parent) {
+        let { condition } = this;
+        if (typeof condition === "function") {
+          condition = condition.call(parent, parent);
+        }
+        if (condition) {
+          return this.type.decode(stream, parent);
+        }
+      }
+      size(val, parent) {
+        let { condition } = this;
+        if (typeof condition === "function") {
+          condition = condition.call(parent, parent);
+        }
+        if (condition) {
+          return this.type.size(val, parent);
         } else {
-          if (has(it, HIDDEN) && it[HIDDEN][key])
-            it[HIDDEN][key] = false;
-          D = _create(D, { enumerable: createDesc(0, false) });
-        }
-        return setSymbolDesc(it, key, D);
-      }
-      return dP(it, key, D);
-    };
-    var $defineProperties = function defineProperties(it, P) {
-      anObject(it);
-      var keys = enumKeys(P = toIObject(P));
-      var i = 0;
-      var l = keys.length;
-      var key;
-      while (l > i)
-        $defineProperty(it, key = keys[i++], P[key]);
-      return it;
-    };
-    var $create = function create(it, P) {
-      return P === void 0 ? _create(it) : $defineProperties(_create(it), P);
-    };
-    var $propertyIsEnumerable = function propertyIsEnumerable(key) {
-      var E = isEnum.call(this, key = toPrimitive(key, true));
-      if (this === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key))
-        return false;
-      return E || !has(this, key) || !has(AllSymbols, key) || has(this, HIDDEN) && this[HIDDEN][key] ? E : true;
-    };
-    var $getOwnPropertyDescriptor = function getOwnPropertyDescriptor(it, key) {
-      it = toIObject(it);
-      key = toPrimitive(key, true);
-      if (it === ObjectProto && has(AllSymbols, key) && !has(OPSymbols, key))
-        return;
-      var D = gOPD(it, key);
-      if (D && has(AllSymbols, key) && !(has(it, HIDDEN) && it[HIDDEN][key]))
-        D.enumerable = true;
-      return D;
-    };
-    var $getOwnPropertyNames = function getOwnPropertyNames(it) {
-      var names = gOPN(toIObject(it));
-      var result = [];
-      var i = 0;
-      var key;
-      while (names.length > i) {
-        if (!has(AllSymbols, key = names[i++]) && key != HIDDEN && key != META)
-          result.push(key);
-      }
-      return result;
-    };
-    var $getOwnPropertySymbols = function getOwnPropertySymbols(it) {
-      var IS_OP = it === ObjectProto;
-      var names = gOPN(IS_OP ? OPSymbols : toIObject(it));
-      var result = [];
-      var i = 0;
-      var key;
-      while (names.length > i) {
-        if (has(AllSymbols, key = names[i++]) && (IS_OP ? has(ObjectProto, key) : true))
-          result.push(AllSymbols[key]);
-      }
-      return result;
-    };
-    if (!USE_NATIVE) {
-      $Symbol = function Symbol2() {
-        if (this instanceof $Symbol)
-          throw TypeError("Symbol is not a constructor!");
-        var tag = uid(arguments.length > 0 ? arguments[0] : void 0);
-        var $set = function(value) {
-          if (this === ObjectProto)
-            $set.call(OPSymbols, value);
-          if (has(this, HIDDEN) && has(this[HIDDEN], tag))
-            this[HIDDEN][tag] = false;
-          setSymbolDesc(this, tag, createDesc(1, value));
-        };
-        if (DESCRIPTORS && setter)
-          setSymbolDesc(ObjectProto, tag, { configurable: true, set: $set });
-        return wrap(tag);
-      };
-      redefine($Symbol[PROTOTYPE], "toString", function toString() {
-        return this._k;
-      });
-      $GOPD.f = $getOwnPropertyDescriptor;
-      $DP.f = $defineProperty;
-      require_object_gopn().f = gOPNExt.f = $getOwnPropertyNames;
-      require_object_pie().f = $propertyIsEnumerable;
-      $GOPS.f = $getOwnPropertySymbols;
-      if (DESCRIPTORS && !require_library()) {
-        redefine(ObjectProto, "propertyIsEnumerable", $propertyIsEnumerable, true);
-      }
-      wksExt.f = function(name) {
-        return wrap(wks(name));
-      };
-    }
-    $export($export.G + $export.W + $export.F * !USE_NATIVE, { Symbol: $Symbol });
-    for (es6Symbols = "hasInstance,isConcatSpreadable,iterator,match,replace,search,species,split,toPrimitive,toStringTag,unscopables".split(","), j = 0; es6Symbols.length > j; )
-      wks(es6Symbols[j++]);
-    var es6Symbols;
-    var j;
-    for (wellKnownSymbols = $keys(wks.store), k = 0; wellKnownSymbols.length > k; )
-      wksDefine(wellKnownSymbols[k++]);
-    var wellKnownSymbols;
-    var k;
-    $export($export.S + $export.F * !USE_NATIVE, "Symbol", {
-      "for": function(key) {
-        return has(SymbolRegistry, key += "") ? SymbolRegistry[key] : SymbolRegistry[key] = $Symbol(key);
-      },
-      keyFor: function keyFor(sym) {
-        if (!isSymbol(sym))
-          throw TypeError(sym + " is not a symbol!");
-        for (var key in SymbolRegistry)
-          if (SymbolRegistry[key] === sym)
-            return key;
-      },
-      useSetter: function() {
-        setter = true;
-      },
-      useSimple: function() {
-        setter = false;
-      }
-    });
-    $export($export.S + $export.F * !USE_NATIVE, "Object", {
-      create: $create,
-      defineProperty: $defineProperty,
-      defineProperties: $defineProperties,
-      getOwnPropertyDescriptor: $getOwnPropertyDescriptor,
-      getOwnPropertyNames: $getOwnPropertyNames,
-      getOwnPropertySymbols: $getOwnPropertySymbols
-    });
-    var FAILS_ON_PRIMITIVES = $fails(function() {
-      $GOPS.f(1);
-    });
-    $export($export.S + $export.F * FAILS_ON_PRIMITIVES, "Object", {
-      getOwnPropertySymbols: function getOwnPropertySymbols(it) {
-        return $GOPS.f(toObject(it));
-      }
-    });
-    $JSON && $export($export.S + $export.F * (!USE_NATIVE || $fails(function() {
-      var S = $Symbol();
-      return _stringify([S]) != "[null]" || _stringify({ a: S }) != "{}" || _stringify(Object(S)) != "{}";
-    })), "JSON", {
-      stringify: function stringify(it) {
-        var args = [it];
-        var i = 1;
-        var replacer, $replacer;
-        while (arguments.length > i)
-          args.push(arguments[i++]);
-        $replacer = replacer = args[1];
-        if (!isObject(replacer) && it === void 0 || isSymbol(it))
-          return;
-        if (!isArray(replacer))
-          replacer = function(key, value) {
-            if (typeof $replacer == "function")
-              value = $replacer.call(this, key, value);
-            if (!isSymbol(value))
-              return value;
-          };
-        args[1] = replacer;
-        return _stringify.apply($JSON, args);
-      }
-    });
-    $Symbol[PROTOTYPE][TO_PRIMITIVE] || require_hide()($Symbol[PROTOTYPE], TO_PRIMITIVE, $Symbol[PROTOTYPE].valueOf);
-    setToStringTag($Symbol, "Symbol");
-    setToStringTag(Math, "Math", true);
-    setToStringTag(global2.JSON, "JSON", true);
-  }
-});
-
-// node_modules/core-js/library/modules/es6.object.to-string.js
-var require_es6_object_to_string = __commonJS({
-  "node_modules/core-js/library/modules/es6.object.to-string.js"() {
-    init_shims();
-  }
-});
-
-// node_modules/core-js/library/modules/es7.symbol.async-iterator.js
-var require_es7_symbol_async_iterator = __commonJS({
-  "node_modules/core-js/library/modules/es7.symbol.async-iterator.js"() {
-    init_shims();
-    require_wks_define()("asyncIterator");
-  }
-});
-
-// node_modules/core-js/library/modules/es7.symbol.observable.js
-var require_es7_symbol_observable = __commonJS({
-  "node_modules/core-js/library/modules/es7.symbol.observable.js"() {
-    init_shims();
-    require_wks_define()("observable");
-  }
-});
-
-// node_modules/core-js/library/fn/symbol/index.js
-var require_symbol = __commonJS({
-  "node_modules/core-js/library/fn/symbol/index.js"(exports, module2) {
-    init_shims();
-    require_es6_symbol();
-    require_es6_object_to_string();
-    require_es7_symbol_async_iterator();
-    require_es7_symbol_observable();
-    module2.exports = require_core2().Symbol;
-  }
-});
-
-// node_modules/babel-runtime/core-js/symbol.js
-var require_symbol2 = __commonJS({
-  "node_modules/babel-runtime/core-js/symbol.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_symbol(), __esModule: true };
-  }
-});
-
-// node_modules/babel-runtime/helpers/typeof.js
-var require_typeof = __commonJS({
-  "node_modules/babel-runtime/helpers/typeof.js"(exports) {
-    init_shims();
-    "use strict";
-    exports.__esModule = true;
-    var _iterator = require_iterator2();
-    var _iterator2 = _interopRequireDefault(_iterator);
-    var _symbol = require_symbol2();
-    var _symbol2 = _interopRequireDefault(_symbol);
-    var _typeof = typeof _symbol2.default === "function" && typeof _iterator2.default === "symbol" ? function(obj) {
-      return typeof obj;
-    } : function(obj) {
-      return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj;
-    };
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    exports.default = typeof _symbol2.default === "function" && _typeof(_iterator2.default) === "symbol" ? function(obj) {
-      return typeof obj === "undefined" ? "undefined" : _typeof(obj);
-    } : function(obj) {
-      return obj && typeof _symbol2.default === "function" && obj.constructor === _symbol2.default && obj !== _symbol2.default.prototype ? "symbol" : typeof obj === "undefined" ? "undefined" : _typeof(obj);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.object.keys.js
-var require_es6_object_keys = __commonJS({
-  "node_modules/core-js/library/modules/es6.object.keys.js"() {
-    init_shims();
-    var toObject = require_to_object();
-    var $keys = require_object_keys();
-    require_object_sap()("keys", function() {
-      return function keys(it) {
-        return $keys(toObject(it));
-      };
-    });
-  }
-});
-
-// node_modules/core-js/library/fn/object/keys.js
-var require_keys = __commonJS({
-  "node_modules/core-js/library/fn/object/keys.js"(exports, module2) {
-    init_shims();
-    require_es6_object_keys();
-    module2.exports = require_core2().Object.keys;
-  }
-});
-
-// node_modules/babel-runtime/core-js/object/keys.js
-var require_keys2 = __commonJS({
-  "node_modules/babel-runtime/core-js/object/keys.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_keys(), __esModule: true };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.object.define-property.js
-var require_es6_object_define_property = __commonJS({
-  "node_modules/core-js/library/modules/es6.object.define-property.js"() {
-    init_shims();
-    var $export = require_export();
-    $export($export.S + $export.F * !require_descriptors(), "Object", { defineProperty: require_object_dp().f });
-  }
-});
-
-// node_modules/core-js/library/fn/object/define-property.js
-var require_define_property = __commonJS({
-  "node_modules/core-js/library/fn/object/define-property.js"(exports, module2) {
-    init_shims();
-    require_es6_object_define_property();
-    var $Object = require_core2().Object;
-    module2.exports = function defineProperty(it, key, desc) {
-      return $Object.defineProperty(it, key, desc);
-    };
-  }
-});
-
-// node_modules/babel-runtime/core-js/object/define-property.js
-var require_define_property2 = __commonJS({
-  "node_modules/babel-runtime/core-js/object/define-property.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_define_property(), __esModule: true };
-  }
-});
-
-// node_modules/babel-runtime/helpers/classCallCheck.js
-var require_classCallCheck = __commonJS({
-  "node_modules/babel-runtime/helpers/classCallCheck.js"(exports) {
-    init_shims();
-    "use strict";
-    exports.__esModule = true;
-    exports.default = function(instance, Constructor) {
-      if (!(instance instanceof Constructor)) {
-        throw new TypeError("Cannot call a class as a function");
-      }
-    };
-  }
-});
-
-// node_modules/babel-runtime/helpers/createClass.js
-var require_createClass = __commonJS({
-  "node_modules/babel-runtime/helpers/createClass.js"(exports) {
-    init_shims();
-    "use strict";
-    exports.__esModule = true;
-    var _defineProperty = require_define_property2();
-    var _defineProperty2 = _interopRequireDefault(_defineProperty);
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    exports.default = function() {
-      function defineProperties(target, props) {
-        for (var i = 0; i < props.length; i++) {
-          var descriptor = props[i];
-          descriptor.enumerable = descriptor.enumerable || false;
-          descriptor.configurable = true;
-          if ("value" in descriptor)
-            descriptor.writable = true;
-          (0, _defineProperty2.default)(target, descriptor.key, descriptor);
+          return 0;
         }
       }
-      return function(Constructor, protoProps, staticProps) {
-        if (protoProps)
-          defineProperties(Constructor.prototype, protoProps);
-        if (staticProps)
-          defineProperties(Constructor, staticProps);
-        return Constructor;
-      };
-    }();
-  }
-});
-
-// node_modules/core-js/library/modules/_redefine-all.js
-var require_redefine_all = __commonJS({
-  "node_modules/core-js/library/modules/_redefine-all.js"(exports, module2) {
-    init_shims();
-    var hide = require_hide();
-    module2.exports = function(target, src2, safe) {
-      for (var key in src2) {
-        if (safe && target[key])
-          target[key] = src2[key];
-        else
-          hide(target, key, src2[key]);
-      }
-      return target;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_an-instance.js
-var require_an_instance = __commonJS({
-  "node_modules/core-js/library/modules/_an-instance.js"(exports, module2) {
-    init_shims();
-    module2.exports = function(it, Constructor, name, forbiddenField) {
-      if (!(it instanceof Constructor) || forbiddenField !== void 0 && forbiddenField in it) {
-        throw TypeError(name + ": incorrect invocation!");
-      }
-      return it;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_iter-call.js
-var require_iter_call = __commonJS({
-  "node_modules/core-js/library/modules/_iter-call.js"(exports, module2) {
-    init_shims();
-    var anObject = require_an_object();
-    module2.exports = function(iterator, fn, value, entries) {
-      try {
-        return entries ? fn(anObject(value)[0], value[1]) : fn(value);
-      } catch (e) {
-        var ret = iterator["return"];
-        if (ret !== void 0)
-          anObject(ret.call(iterator));
-        throw e;
-      }
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_is-array-iter.js
-var require_is_array_iter = __commonJS({
-  "node_modules/core-js/library/modules/_is-array-iter.js"(exports, module2) {
-    init_shims();
-    var Iterators = require_iterators();
-    var ITERATOR = require_wks()("iterator");
-    var ArrayProto = Array.prototype;
-    module2.exports = function(it) {
-      return it !== void 0 && (Iterators.Array === it || ArrayProto[ITERATOR] === it);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_for-of.js
-var require_for_of = __commonJS({
-  "node_modules/core-js/library/modules/_for-of.js"(exports, module2) {
-    init_shims();
-    var ctx = require_ctx();
-    var call = require_iter_call();
-    var isArrayIter = require_is_array_iter();
-    var anObject = require_an_object();
-    var toLength = require_to_length();
-    var getIterFn = require_core_get_iterator_method();
-    var BREAK = {};
-    var RETURN = {};
-    var exports = module2.exports = function(iterable, entries, fn, that, ITERATOR) {
-      var iterFn = ITERATOR ? function() {
-        return iterable;
-      } : getIterFn(iterable);
-      var f = ctx(fn, that, entries ? 2 : 1);
-      var index2 = 0;
-      var length, step, iterator, result;
-      if (typeof iterFn != "function")
-        throw TypeError(iterable + " is not iterable!");
-      if (isArrayIter(iterFn))
-        for (length = toLength(iterable.length); length > index2; index2++) {
-          result = entries ? f(anObject(step = iterable[index2])[0], step[1]) : f(iterable[index2]);
-          if (result === BREAK || result === RETURN)
-            return result;
+      encode(stream, val, parent) {
+        let { condition } = this;
+        if (typeof condition === "function") {
+          condition = condition.call(parent, parent);
         }
-      else
-        for (iterator = iterFn.call(iterable); !(step = iterator.next()).done; ) {
-          result = call(iterator, f, step.value, entries);
-          if (result === BREAK || result === RETURN)
-            return result;
+        if (condition) {
+          return this.type.encode(stream, val, parent);
         }
-    };
-    exports.BREAK = BREAK;
-    exports.RETURN = RETURN;
-  }
-});
-
-// node_modules/core-js/library/modules/_set-species.js
-var require_set_species = __commonJS({
-  "node_modules/core-js/library/modules/_set-species.js"(exports, module2) {
-    init_shims();
-    "use strict";
-    var global2 = require_global();
-    var core = require_core2();
-    var dP = require_object_dp();
-    var DESCRIPTORS = require_descriptors();
-    var SPECIES = require_wks()("species");
-    module2.exports = function(KEY) {
-      var C = typeof core[KEY] == "function" ? core[KEY] : global2[KEY];
-      if (DESCRIPTORS && C && !C[SPECIES])
-        dP.f(C, SPECIES, {
-          configurable: true,
-          get: function() {
-            return this;
-          }
-        });
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_validate-collection.js
-var require_validate_collection = __commonJS({
-  "node_modules/core-js/library/modules/_validate-collection.js"(exports, module2) {
-    init_shims();
-    var isObject = require_is_object();
-    module2.exports = function(it, TYPE) {
-      if (!isObject(it) || it._t !== TYPE)
-        throw TypeError("Incompatible receiver, " + TYPE + " required!");
-      return it;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_collection-strong.js
-var require_collection_strong = __commonJS({
-  "node_modules/core-js/library/modules/_collection-strong.js"(exports, module2) {
-    init_shims();
-    "use strict";
-    var dP = require_object_dp().f;
-    var create = require_object_create();
-    var redefineAll = require_redefine_all();
-    var ctx = require_ctx();
-    var anInstance = require_an_instance();
-    var forOf = require_for_of();
-    var $iterDefine = require_iter_define();
-    var step = require_iter_step();
-    var setSpecies = require_set_species();
-    var DESCRIPTORS = require_descriptors();
-    var fastKey = require_meta().fastKey;
-    var validate = require_validate_collection();
-    var SIZE = DESCRIPTORS ? "_s" : "size";
-    var getEntry = function(that, key) {
-      var index2 = fastKey(key);
-      var entry;
-      if (index2 !== "F")
-        return that._i[index2];
-      for (entry = that._f; entry; entry = entry.n) {
-        if (entry.k == key)
-          return entry;
       }
     };
-    module2.exports = {
-      getConstructor: function(wrapper, NAME2, IS_MAP, ADDER) {
-        var C = wrapper(function(that, iterable) {
-          anInstance(that, C, NAME2, "_i");
-          that._t = NAME2;
-          that._i = create(null);
-          that._f = void 0;
-          that._l = void 0;
-          that[SIZE] = 0;
-          if (iterable != void 0)
-            forOf(iterable, IS_MAP, that[ADDER], that);
-        });
-        redefineAll(C.prototype, {
-          clear: function clear() {
-            for (var that = validate(this, NAME2), data = that._i, entry = that._f; entry; entry = entry.n) {
-              entry.r = true;
-              if (entry.p)
-                entry.p = entry.p.n = void 0;
-              delete data[entry.i];
-            }
-            that._f = that._l = void 0;
-            that[SIZE] = 0;
-          },
-          "delete": function(key) {
-            var that = validate(this, NAME2);
-            var entry = getEntry(that, key);
-            if (entry) {
-              var next = entry.n;
-              var prev = entry.p;
-              delete that._i[entry.i];
-              entry.r = true;
-              if (prev)
-                prev.n = next;
-              if (next)
-                next.p = prev;
-              if (that._f == entry)
-                that._f = next;
-              if (that._l == entry)
-                that._l = prev;
-              that[SIZE]--;
-            }
-            return !!entry;
-          },
-          forEach: function forEach(callbackfn) {
-            validate(this, NAME2);
-            var f = ctx(callbackfn, arguments.length > 1 ? arguments[1] : void 0, 3);
-            var entry;
-            while (entry = entry ? entry.n : this._f) {
-              f(entry.v, entry.k, this);
-              while (entry && entry.r)
-                entry = entry.p;
-            }
-          },
-          has: function has(key) {
-            return !!getEntry(validate(this, NAME2), key);
-          }
-        });
-        if (DESCRIPTORS)
-          dP(C.prototype, "size", {
-            get: function() {
-              return validate(this, NAME2)[SIZE];
-            }
-          });
-        return C;
-      },
-      def: function(that, key, value) {
-        var entry = getEntry(that, key);
-        var prev, index2;
-        if (entry) {
-          entry.v = value;
+    module2.exports = Optional;
+  }
+});
+
+// node_modules/restructure-next/src/Reserved.js
+var require_Reserved = __commonJS({
+  "node_modules/restructure-next/src/Reserved.js"(exports, module2) {
+    init_shims();
+    var utils = require_utils();
+    var Reserved = class {
+      constructor(type, count = 1) {
+        this.type = type;
+        this.count = count;
+      }
+      decode(stream, parent) {
+        stream.pos += this.size(null, parent);
+        return void 0;
+      }
+      size(data, parent) {
+        const count = utils.resolveLength(this.count, null, parent);
+        return this.type.size() * count;
+      }
+      encode(stream, val, parent) {
+        return stream.fill(0, this.size(val, parent));
+      }
+    };
+    module2.exports = Reserved;
+  }
+});
+
+// node_modules/restructure-next/src/String.js
+var require_String = __commonJS({
+  "node_modules/restructure-next/src/String.js"(exports, module2) {
+    init_shims();
+    var { Number: NumberT } = require_Number();
+    var utils = require_utils();
+    var StringT = class {
+      constructor(length, encoding = "ascii") {
+        this.length = length;
+        this.encoding = encoding;
+      }
+      decode(stream, parent) {
+        let length, pos;
+        if (this.length != null) {
+          length = utils.resolveLength(this.length, stream, parent);
         } else {
-          that._l = entry = {
-            i: index2 = fastKey(key, true),
-            k: key,
-            v: value,
-            p: prev = that._l,
-            n: void 0,
-            r: false
-          };
-          if (!that._f)
-            that._f = entry;
-          if (prev)
-            prev.n = entry;
-          that[SIZE]++;
-          if (index2 !== "F")
-            that._i[index2] = entry;
-        }
-        return that;
-      },
-      getEntry,
-      setStrong: function(C, NAME2, IS_MAP) {
-        $iterDefine(C, NAME2, function(iterated, kind) {
-          this._t = validate(iterated, NAME2);
-          this._k = kind;
-          this._l = void 0;
-        }, function() {
-          var that = this;
-          var kind = that._k;
-          var entry = that._l;
-          while (entry && entry.r)
-            entry = entry.p;
-          if (!that._t || !(that._l = entry = entry ? entry.n : that._t._f)) {
-            that._t = void 0;
-            return step(1);
+          let buffer;
+          ({ buffer, length, pos } = stream);
+          while (pos < length && buffer[pos] !== 0) {
+            ++pos;
           }
-          if (kind == "keys")
-            return step(0, entry.k);
-          if (kind == "values")
-            return step(0, entry.v);
-          return step(0, [entry.k, entry.v]);
-        }, IS_MAP ? "entries" : "values", !IS_MAP, true);
-        setSpecies(NAME2);
+          length = pos - stream.pos;
+        }
+        let { encoding } = this;
+        if (typeof encoding === "function") {
+          encoding = encoding.call(parent, parent) || "ascii";
+        }
+        const string = stream.readString(length, encoding);
+        if (this.length == null && stream.pos < stream.length) {
+          stream.pos++;
+        }
+        return string;
       }
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_array-species-constructor.js
-var require_array_species_constructor = __commonJS({
-  "node_modules/core-js/library/modules/_array-species-constructor.js"(exports, module2) {
-    init_shims();
-    var isObject = require_is_object();
-    var isArray = require_is_array();
-    var SPECIES = require_wks()("species");
-    module2.exports = function(original) {
-      var C;
-      if (isArray(original)) {
-        C = original.constructor;
-        if (typeof C == "function" && (C === Array || isArray(C.prototype)))
-          C = void 0;
-        if (isObject(C)) {
-          C = C[SPECIES];
-          if (C === null)
-            C = void 0;
+      size(val, parent) {
+        if (!val) {
+          return utils.resolveLength(this.length, null, parent);
+        }
+        let { encoding } = this;
+        if (typeof encoding === "function") {
+          encoding = encoding.call(parent != null ? parent.val : void 0, parent != null ? parent.val : void 0) || "ascii";
+        }
+        if (encoding === "utf16be") {
+          encoding = "utf16le";
+        }
+        let size = Buffer.byteLength(val, encoding);
+        if (this.length instanceof NumberT) {
+          size += this.length.size();
+        }
+        if (this.length == null) {
+          size++;
+        }
+        return size;
+      }
+      encode(stream, val, parent) {
+        let { encoding } = this;
+        if (typeof encoding === "function") {
+          encoding = encoding.call(parent != null ? parent.val : void 0, parent != null ? parent.val : void 0) || "ascii";
+        }
+        if (this.length instanceof NumberT) {
+          this.length.encode(stream, Buffer.byteLength(val, encoding));
+        }
+        stream.writeString(val, encoding);
+        if (this.length == null) {
+          return stream.writeUInt8(0);
         }
       }
-      return C === void 0 ? Array : C;
     };
+    module2.exports = StringT;
   }
 });
 
-// node_modules/core-js/library/modules/_array-species-create.js
-var require_array_species_create = __commonJS({
-  "node_modules/core-js/library/modules/_array-species-create.js"(exports, module2) {
+// node_modules/restructure-next/src/Struct.js
+var require_Struct = __commonJS({
+  "node_modules/restructure-next/src/Struct.js"(exports, module2) {
     init_shims();
-    var speciesConstructor = require_array_species_constructor();
-    module2.exports = function(original, length) {
-      return new (speciesConstructor(original))(length);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_array-methods.js
-var require_array_methods = __commonJS({
-  "node_modules/core-js/library/modules/_array-methods.js"(exports, module2) {
-    init_shims();
-    var ctx = require_ctx();
-    var IObject = require_iobject();
-    var toObject = require_to_object();
-    var toLength = require_to_length();
-    var asc = require_array_species_create();
-    module2.exports = function(TYPE, $create) {
-      var IS_MAP = TYPE == 1;
-      var IS_FILTER = TYPE == 2;
-      var IS_SOME = TYPE == 3;
-      var IS_EVERY = TYPE == 4;
-      var IS_FIND_INDEX = TYPE == 6;
-      var NO_HOLES = TYPE == 5 || IS_FIND_INDEX;
-      var create = $create || asc;
-      return function($this, callbackfn, that) {
-        var O = toObject($this);
-        var self2 = IObject(O);
-        var f = ctx(callbackfn, that, 3);
-        var length = toLength(self2.length);
-        var index2 = 0;
-        var result = IS_MAP ? create($this, length) : IS_FILTER ? create($this, 0) : void 0;
-        var val, res;
-        for (; length > index2; index2++)
-          if (NO_HOLES || index2 in self2) {
-            val = self2[index2];
-            res = f(val, index2, O);
-            if (TYPE) {
-              if (IS_MAP)
-                result[index2] = res;
-              else if (res)
-                switch (TYPE) {
-                  case 3:
-                    return true;
-                  case 5:
-                    return val;
-                  case 6:
-                    return index2;
-                  case 2:
-                    result.push(val);
-                }
-              else if (IS_EVERY)
-                return false;
+    var utils = require_utils();
+    var Struct = class {
+      constructor(fields = {}) {
+        this.fields = fields;
+      }
+      decode(stream, parent, length = 0) {
+        const res = this._setup(stream, parent, length);
+        this._parseFields(stream, res, this.fields);
+        if (this.process != null) {
+          this.process.call(res, stream);
+        }
+        return res;
+      }
+      _setup(stream, parent, length) {
+        const res = {};
+        Object.defineProperties(res, {
+          parent: { value: parent },
+          _startOffset: { value: stream.pos },
+          _currentOffset: { value: 0, writable: true },
+          _length: { value: length }
+        });
+        return res;
+      }
+      _parseFields(stream, res, fields) {
+        for (let key in fields) {
+          var val;
+          const type = fields[key];
+          if (typeof type === "function") {
+            val = type.call(res, res);
+          } else {
+            val = type.decode(stream, res);
+          }
+          if (val !== void 0) {
+            if (val instanceof utils.PropertyDescriptor) {
+              Object.defineProperty(res, key, val);
+            } else {
+              res[key] = val;
             }
           }
-        return IS_FIND_INDEX ? -1 : IS_SOME || IS_EVERY ? IS_EVERY : result;
-      };
+          res._currentOffset = stream.pos - res._startOffset;
+        }
+      }
+      size(val, parent, includePointers) {
+        if (val == null) {
+          val = {};
+        }
+        if (includePointers == null) {
+          includePointers = true;
+        }
+        const ctx = {
+          parent,
+          val,
+          pointerSize: 0
+        };
+        let size = 0;
+        for (let key in this.fields) {
+          const type = this.fields[key];
+          if (type.size != null) {
+            size += type.size(val[key], ctx);
+          }
+        }
+        if (includePointers) {
+          size += ctx.pointerSize;
+        }
+        return size;
+      }
+      encode(stream, val, parent) {
+        let type;
+        if (this.preEncode != null) {
+          this.preEncode.call(val, stream);
+        }
+        const ctx = {
+          pointers: [],
+          startOffset: stream.pos,
+          parent,
+          val,
+          pointerSize: 0
+        };
+        ctx.pointerOffset = stream.pos + this.size(val, ctx, false);
+        for (let key in this.fields) {
+          type = this.fields[key];
+          if (type.encode != null) {
+            type.encode(stream, val[key], ctx);
+          }
+        }
+        let i = 0;
+        while (i < ctx.pointers.length) {
+          const ptr = ctx.pointers[i++];
+          ptr.type.encode(stream, ptr.val, ptr.parent);
+        }
+      }
     };
+    module2.exports = Struct;
   }
 });
 
-// node_modules/core-js/library/modules/_collection.js
-var require_collection = __commonJS({
-  "node_modules/core-js/library/modules/_collection.js"(exports, module2) {
+// node_modules/restructure-next/src/VersionedStruct.js
+var require_VersionedStruct = __commonJS({
+  "node_modules/restructure-next/src/VersionedStruct.js"(exports, module2) {
     init_shims();
-    "use strict";
-    var global2 = require_global();
-    var $export = require_export();
-    var meta = require_meta();
-    var fails = require_fails();
-    var hide = require_hide();
-    var redefineAll = require_redefine_all();
-    var forOf = require_for_of();
-    var anInstance = require_an_instance();
-    var isObject = require_is_object();
-    var setToStringTag = require_set_to_string_tag();
-    var dP = require_object_dp().f;
-    var each2 = require_array_methods()(0);
-    var DESCRIPTORS = require_descriptors();
-    module2.exports = function(NAME2, wrapper, methods, common, IS_MAP, IS_WEAK) {
-      var Base = global2[NAME2];
-      var C = Base;
-      var ADDER = IS_MAP ? "set" : "add";
-      var proto = C && C.prototype;
-      var O = {};
-      if (!DESCRIPTORS || typeof C != "function" || !(IS_WEAK || proto.forEach && !fails(function() {
-        new C().entries().next();
-      }))) {
-        C = common.getConstructor(wrapper, NAME2, IS_MAP, ADDER);
-        redefineAll(C.prototype, methods);
-        meta.NEED = true;
-      } else {
-        C = wrapper(function(target, iterable) {
-          anInstance(target, C, NAME2, "_c");
-          target._c = new Base();
-          if (iterable != void 0)
-            forOf(iterable, IS_MAP, target[ADDER], target);
-        });
-        each2("add,clear,delete,forEach,get,has,set,keys,values,entries,toJSON".split(","), function(KEY) {
-          var IS_ADDER = KEY == "add" || KEY == "set";
-          if (KEY in proto && !(IS_WEAK && KEY == "clear"))
-            hide(C.prototype, KEY, function(a, b) {
-              anInstance(this, C, KEY);
-              if (!IS_ADDER && IS_WEAK && !isObject(a))
-                return KEY == "get" ? void 0 : false;
-              var result = this._c[KEY](a === 0 ? 0 : a, b);
-              return IS_ADDER ? this : result;
+    var Struct = require_Struct();
+    var getPath = (object, pathArray) => {
+      return pathArray.reduce((prevObj, key) => prevObj && prevObj[key], object);
+    };
+    var VersionedStruct = class extends Struct {
+      constructor(type, versions = {}) {
+        super();
+        this.type = type;
+        this.versions = versions;
+        if (typeof type === "string") {
+          this.versionPath = type.split(".");
+        }
+      }
+      decode(stream, parent, length = 0) {
+        const res = this._setup(stream, parent, length);
+        if (typeof this.type === "string") {
+          res.version = getPath(parent, this.versionPath);
+        } else {
+          res.version = this.type.decode(stream);
+        }
+        if (this.versions.header) {
+          this._parseFields(stream, res, this.versions.header);
+        }
+        const fields = this.versions[res.version];
+        if (fields == null) {
+          throw new Error(`Unknown version ${res.version}`);
+        }
+        if (fields instanceof VersionedStruct) {
+          return fields.decode(stream, parent);
+        }
+        this._parseFields(stream, res, fields);
+        if (this.process != null) {
+          this.process.call(res, stream);
+        }
+        return res;
+      }
+      size(val, parent, includePointers = true) {
+        let key, type;
+        if (!val) {
+          throw new Error("Not a fixed size");
+        }
+        const ctx = {
+          parent,
+          val,
+          pointerSize: 0
+        };
+        let size = 0;
+        if (typeof this.type !== "string") {
+          size += this.type.size(val.version, ctx);
+        }
+        if (this.versions.header) {
+          for (key in this.versions.header) {
+            type = this.versions.header[key];
+            if (type.size != null) {
+              size += type.size(val[key], ctx);
+            }
+          }
+        }
+        const fields = this.versions[val.version];
+        if (fields == null) {
+          throw new Error(`Unknown version ${val.version}`);
+        }
+        for (key in fields) {
+          type = fields[key];
+          if (type.size != null) {
+            size += type.size(val[key], ctx);
+          }
+        }
+        if (includePointers) {
+          size += ctx.pointerSize;
+        }
+        return size;
+      }
+      encode(stream, val, parent) {
+        let key, type;
+        if (this.preEncode != null) {
+          this.preEncode.call(val, stream);
+        }
+        const ctx = {
+          pointers: [],
+          startOffset: stream.pos,
+          parent,
+          val,
+          pointerSize: 0
+        };
+        ctx.pointerOffset = stream.pos + this.size(val, ctx, false);
+        if (typeof this.type !== "string") {
+          this.type.encode(stream, val.version);
+        }
+        if (this.versions.header) {
+          for (key in this.versions.header) {
+            type = this.versions.header[key];
+            if (type.encode != null) {
+              type.encode(stream, val[key], ctx);
+            }
+          }
+        }
+        const fields = this.versions[val.version];
+        for (key in fields) {
+          type = fields[key];
+          if (type.encode != null) {
+            type.encode(stream, val[key], ctx);
+          }
+        }
+        let i = 0;
+        while (i < ctx.pointers.length) {
+          const ptr = ctx.pointers[i++];
+          ptr.type.encode(stream, ptr.val, ptr.parent);
+        }
+      }
+    };
+    module2.exports = VersionedStruct;
+  }
+});
+
+// node_modules/restructure-next/src/Pointer.js
+var require_Pointer = __commonJS({
+  "node_modules/restructure-next/src/Pointer.js"(exports) {
+    init_shims();
+    var utils = require_utils();
+    var Pointer = class {
+      constructor(offsetType, type, options2 = {}) {
+        this.offsetType = offsetType;
+        this.type = type;
+        this.options = options2;
+        if (this.type === "void") {
+          this.type = null;
+        }
+        if (this.options.type == null) {
+          this.options.type = "local";
+        }
+        if (this.options.allowNull == null) {
+          this.options.allowNull = true;
+        }
+        if (this.options.nullValue == null) {
+          this.options.nullValue = 0;
+        }
+        if (this.options.lazy == null) {
+          this.options.lazy = false;
+        }
+        if (this.options.relativeTo) {
+          if (typeof this.options.relativeTo !== "function") {
+            throw new Error("relativeTo option must be a function");
+          }
+          this.relativeToGetter = options2.relativeTo;
+        }
+      }
+      decode(stream, ctx) {
+        const offset = this.offsetType.decode(stream, ctx);
+        if (offset === this.options.nullValue && this.options.allowNull) {
+          return null;
+        }
+        let relative;
+        switch (this.options.type) {
+          case "local":
+            relative = ctx._startOffset;
+            break;
+          case "immediate":
+            relative = stream.pos - this.offsetType.size();
+            break;
+          case "parent":
+            relative = ctx.parent._startOffset;
+            break;
+          default:
+            var c = ctx;
+            while (c.parent) {
+              c = c.parent;
+            }
+            relative = c._startOffset || 0;
+        }
+        if (this.options.relativeTo) {
+          relative += this.relativeToGetter(ctx);
+        }
+        const ptr = offset + relative;
+        if (this.type != null) {
+          let val = null;
+          const decodeValue = () => {
+            if (val != null) {
+              return val;
+            }
+            const { pos } = stream;
+            stream.pos = ptr;
+            val = this.type.decode(stream, ctx);
+            stream.pos = pos;
+            return val;
+          };
+          if (this.options.lazy) {
+            return new utils.PropertyDescriptor({
+              get: decodeValue
             });
-        });
-        IS_WEAK || dP(C.prototype, "size", {
-          get: function() {
-            return this._c.size;
           }
-        });
-      }
-      setToStringTag(C, NAME2);
-      O[NAME2] = C;
-      $export($export.G + $export.W + $export.F, O);
-      if (!IS_WEAK)
-        common.setStrong(C, NAME2, IS_MAP);
-      return C;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.map.js
-var require_es6_map = __commonJS({
-  "node_modules/core-js/library/modules/es6.map.js"(exports, module2) {
-    init_shims();
-    "use strict";
-    var strong = require_collection_strong();
-    var validate = require_validate_collection();
-    var MAP = "Map";
-    module2.exports = require_collection()(MAP, function(get) {
-      return function Map2() {
-        return get(this, arguments.length > 0 ? arguments[0] : void 0);
-      };
-    }, {
-      get: function get(key) {
-        var entry = strong.getEntry(validate(this, MAP), key);
-        return entry && entry.v;
-      },
-      set: function set(key, value) {
-        return strong.def(validate(this, MAP), key === 0 ? 0 : key, value);
-      }
-    }, strong, true);
-  }
-});
-
-// node_modules/core-js/library/modules/_array-from-iterable.js
-var require_array_from_iterable = __commonJS({
-  "node_modules/core-js/library/modules/_array-from-iterable.js"(exports, module2) {
-    init_shims();
-    var forOf = require_for_of();
-    module2.exports = function(iter, ITERATOR) {
-      var result = [];
-      forOf(iter, false, result.push, result, ITERATOR);
-      return result;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_collection-to-json.js
-var require_collection_to_json = __commonJS({
-  "node_modules/core-js/library/modules/_collection-to-json.js"(exports, module2) {
-    init_shims();
-    var classof = require_classof();
-    var from = require_array_from_iterable();
-    module2.exports = function(NAME2) {
-      return function toJSON() {
-        if (classof(this) != NAME2)
-          throw TypeError(NAME2 + "#toJSON isn't generic");
-        return from(this);
-      };
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es7.map.to-json.js
-var require_es7_map_to_json = __commonJS({
-  "node_modules/core-js/library/modules/es7.map.to-json.js"() {
-    init_shims();
-    var $export = require_export();
-    $export($export.P + $export.R, "Map", { toJSON: require_collection_to_json()("Map") });
-  }
-});
-
-// node_modules/core-js/library/modules/_set-collection-of.js
-var require_set_collection_of = __commonJS({
-  "node_modules/core-js/library/modules/_set-collection-of.js"(exports, module2) {
-    init_shims();
-    "use strict";
-    var $export = require_export();
-    module2.exports = function(COLLECTION) {
-      $export($export.S, COLLECTION, { of: function of() {
-        var length = arguments.length;
-        var A = new Array(length);
-        while (length--)
-          A[length] = arguments[length];
-        return new this(A);
-      } });
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es7.map.of.js
-var require_es7_map_of = __commonJS({
-  "node_modules/core-js/library/modules/es7.map.of.js"() {
-    init_shims();
-    require_set_collection_of()("Map");
-  }
-});
-
-// node_modules/core-js/library/modules/_set-collection-from.js
-var require_set_collection_from = __commonJS({
-  "node_modules/core-js/library/modules/_set-collection-from.js"(exports, module2) {
-    init_shims();
-    "use strict";
-    var $export = require_export();
-    var aFunction = require_a_function();
-    var ctx = require_ctx();
-    var forOf = require_for_of();
-    module2.exports = function(COLLECTION) {
-      $export($export.S, COLLECTION, { from: function from(source) {
-        var mapFn = arguments[1];
-        var mapping, A, n, cb;
-        aFunction(this);
-        mapping = mapFn !== void 0;
-        if (mapping)
-          aFunction(mapFn);
-        if (source == void 0)
-          return new this();
-        A = [];
-        if (mapping) {
-          n = 0;
-          cb = ctx(mapFn, arguments[2], 2);
-          forOf(source, false, function(nextItem) {
-            A.push(cb(nextItem, n++));
-          });
+          return decodeValue();
         } else {
-          forOf(source, false, A.push, A);
+          return ptr;
         }
-        return new this(A);
-      } });
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es7.map.from.js
-var require_es7_map_from = __commonJS({
-  "node_modules/core-js/library/modules/es7.map.from.js"() {
-    init_shims();
-    require_set_collection_from()("Map");
-  }
-});
-
-// node_modules/core-js/library/fn/map.js
-var require_map = __commonJS({
-  "node_modules/core-js/library/fn/map.js"(exports, module2) {
-    init_shims();
-    require_es6_object_to_string();
-    require_es6_string_iterator();
-    require_web_dom_iterable();
-    require_es6_map();
-    require_es7_map_to_json();
-    require_es7_map_of();
-    require_es7_map_from();
-    module2.exports = require_core2().Map;
-  }
-});
-
-// node_modules/babel-runtime/core-js/map.js
-var require_map2 = __commonJS({
-  "node_modules/babel-runtime/core-js/map.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_map(), __esModule: true };
-  }
-});
-
-// node_modules/babel-runtime/helpers/possibleConstructorReturn.js
-var require_possibleConstructorReturn = __commonJS({
-  "node_modules/babel-runtime/helpers/possibleConstructorReturn.js"(exports) {
-    init_shims();
-    "use strict";
-    exports.__esModule = true;
-    var _typeof2 = require_typeof();
-    var _typeof3 = _interopRequireDefault(_typeof2);
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    exports.default = function(self2, call) {
-      if (!self2) {
-        throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
       }
-      return call && ((typeof call === "undefined" ? "undefined" : (0, _typeof3.default)(call)) === "object" || typeof call === "function") ? call : self2;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_set-proto.js
-var require_set_proto = __commonJS({
-  "node_modules/core-js/library/modules/_set-proto.js"(exports, module2) {
-    init_shims();
-    var isObject = require_is_object();
-    var anObject = require_an_object();
-    var check = function(O, proto) {
-      anObject(O);
-      if (!isObject(proto) && proto !== null)
-        throw TypeError(proto + ": can't set as prototype!");
-    };
-    module2.exports = {
-      set: Object.setPrototypeOf || ("__proto__" in {} ? function(test, buggy, set) {
-        try {
-          set = require_ctx()(Function.call, require_object_gopd().f(Object.prototype, "__proto__").set, 2);
-          set(test, []);
-          buggy = !(test instanceof Array);
-        } catch (e) {
-          buggy = true;
+      size(val, ctx) {
+        const parent = ctx;
+        switch (this.options.type) {
+          case "local":
+          case "immediate":
+            break;
+          case "parent":
+            ctx = ctx.parent;
+            break;
+          default:
+            while (ctx.parent) {
+              ctx = ctx.parent;
+            }
         }
-        return function setPrototypeOf(O, proto) {
-          check(O, proto);
-          if (buggy)
-            O.__proto__ = proto;
-          else
-            set(O, proto);
-          return O;
-        };
-      }({}, false) : void 0),
-      check
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.object.set-prototype-of.js
-var require_es6_object_set_prototype_of = __commonJS({
-  "node_modules/core-js/library/modules/es6.object.set-prototype-of.js"() {
-    init_shims();
-    var $export = require_export();
-    $export($export.S, "Object", { setPrototypeOf: require_set_proto().set });
-  }
-});
-
-// node_modules/core-js/library/fn/object/set-prototype-of.js
-var require_set_prototype_of = __commonJS({
-  "node_modules/core-js/library/fn/object/set-prototype-of.js"(exports, module2) {
-    init_shims();
-    require_es6_object_set_prototype_of();
-    module2.exports = require_core2().Object.setPrototypeOf;
-  }
-});
-
-// node_modules/babel-runtime/core-js/object/set-prototype-of.js
-var require_set_prototype_of2 = __commonJS({
-  "node_modules/babel-runtime/core-js/object/set-prototype-of.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_set_prototype_of(), __esModule: true };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.object.create.js
-var require_es6_object_create = __commonJS({
-  "node_modules/core-js/library/modules/es6.object.create.js"() {
-    init_shims();
-    var $export = require_export();
-    $export($export.S, "Object", { create: require_object_create() });
-  }
-});
-
-// node_modules/core-js/library/fn/object/create.js
-var require_create = __commonJS({
-  "node_modules/core-js/library/fn/object/create.js"(exports, module2) {
-    init_shims();
-    require_es6_object_create();
-    var $Object = require_core2().Object;
-    module2.exports = function create(P, D) {
-      return $Object.create(P, D);
-    };
-  }
-});
-
-// node_modules/babel-runtime/core-js/object/create.js
-var require_create2 = __commonJS({
-  "node_modules/babel-runtime/core-js/object/create.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_create(), __esModule: true };
-  }
-});
-
-// node_modules/babel-runtime/helpers/inherits.js
-var require_inherits = __commonJS({
-  "node_modules/babel-runtime/helpers/inherits.js"(exports) {
-    init_shims();
-    "use strict";
-    exports.__esModule = true;
-    var _setPrototypeOf = require_set_prototype_of2();
-    var _setPrototypeOf2 = _interopRequireDefault(_setPrototypeOf);
-    var _create = require_create2();
-    var _create2 = _interopRequireDefault(_create);
-    var _typeof2 = require_typeof();
-    var _typeof3 = _interopRequireDefault(_typeof2);
-    function _interopRequireDefault(obj) {
-      return obj && obj.__esModule ? obj : { default: obj };
-    }
-    exports.default = function(subClass, superClass) {
-      if (typeof superClass !== "function" && superClass !== null) {
-        throw new TypeError("Super expression must either be null or a function, not " + (typeof superClass === "undefined" ? "undefined" : (0, _typeof3.default)(superClass)));
+        let { type } = this;
+        if (type == null) {
+          if (!(val instanceof VoidPointer)) {
+            throw new Error("Must be a VoidPointer");
+          }
+          ({ type } = val);
+          val = val.value;
+        }
+        if (val && ctx) {
+          ctx.pointerSize += type.size(val, parent);
+        }
+        return this.offsetType.size();
       }
-      subClass.prototype = (0, _create2.default)(superClass && superClass.prototype, {
-        constructor: {
-          value: subClass,
-          enumerable: false,
-          writable: true,
-          configurable: true
+      encode(stream, val, ctx) {
+        let relative;
+        const parent = ctx;
+        if (val == null) {
+          this.offsetType.encode(stream, this.options.nullValue);
+          return;
         }
-      });
-      if (superClass)
-        _setPrototypeOf2.default ? (0, _setPrototypeOf2.default)(subClass, superClass) : subClass.__proto__ = superClass;
+        switch (this.options.type) {
+          case "local":
+            relative = ctx.startOffset;
+            break;
+          case "immediate":
+            relative = stream.pos + this.offsetType.size(val, parent);
+            break;
+          case "parent":
+            ctx = ctx.parent;
+            relative = ctx.startOffset;
+            break;
+          default:
+            relative = 0;
+            while (ctx.parent) {
+              ctx = ctx.parent;
+            }
+        }
+        if (this.options.relativeTo) {
+          relative += this.relativeToGetter(parent.val);
+        }
+        this.offsetType.encode(stream, ctx.pointerOffset - relative);
+        let { type } = this;
+        if (type == null) {
+          if (!(val instanceof VoidPointer)) {
+            throw new Error("Must be a VoidPointer");
+          }
+          ({ type } = val);
+          val = val.value;
+        }
+        ctx.pointers.push({
+          type,
+          val,
+          parent
+        });
+        return ctx.pointerOffset += type.size(val, parent);
+      }
     };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.object.define-properties.js
-var require_es6_object_define_properties = __commonJS({
-  "node_modules/core-js/library/modules/es6.object.define-properties.js"() {
-    init_shims();
-    var $export = require_export();
-    $export($export.S + $export.F * !require_descriptors(), "Object", { defineProperties: require_object_dps() });
-  }
-});
-
-// node_modules/core-js/library/fn/object/define-properties.js
-var require_define_properties = __commonJS({
-  "node_modules/core-js/library/fn/object/define-properties.js"(exports, module2) {
-    init_shims();
-    require_es6_object_define_properties();
-    var $Object = require_core2().Object;
-    module2.exports = function defineProperties(T, D) {
-      return $Object.defineProperties(T, D);
+    var VoidPointer = class {
+      constructor(type, value) {
+        this.type = type;
+        this.value = value;
+      }
     };
+    exports.Pointer = Pointer;
+    exports.VoidPointer = VoidPointer;
   }
 });
 
-// node_modules/babel-runtime/core-js/object/define-properties.js
-var require_define_properties2 = __commonJS({
-  "node_modules/babel-runtime/core-js/object/define-properties.js"(exports, module2) {
+// node_modules/restructure-next/index.js
+var require_restructure_next = __commonJS({
+  "node_modules/restructure-next/index.js"(exports) {
     init_shims();
-    module2.exports = { "default": require_define_properties(), __esModule: true };
+    var key;
+    var val;
+    exports.EncodeStream = require_EncodeStream();
+    exports.DecodeStream = require_DecodeStream();
+    exports.Array = require_Array();
+    exports.LazyArray = require_LazyArray();
+    exports.Bitfield = require_Bitfield();
+    exports.Boolean = require_Boolean();
+    exports.Buffer = require_Buffer();
+    exports.Enum = require_Enum();
+    exports.Optional = require_Optional();
+    exports.Reserved = require_Reserved();
+    exports.String = require_String();
+    exports.Struct = require_Struct();
+    exports.VersionedStruct = require_VersionedStruct();
+    var object = require_Number();
+    for (key in object) {
+      val = object[key];
+      exports[key] = val;
+    }
+    var object1 = require_Pointer();
+    for (key in object1) {
+      val = object1[key];
+      exports[key] = val;
+    }
   }
 });
 
@@ -9320,7 +6568,7 @@ var require_implementation = __commonJS({
 });
 
 // node_modules/object-keys/index.js
-var require_object_keys2 = __commonJS({
+var require_object_keys = __commonJS({
   "node_modules/object-keys/index.js"(exports, module2) {
     init_shims();
     "use strict";
@@ -9888,11 +7136,11 @@ var require_is_arguments = __commonJS({
 });
 
 // node_modules/define-properties/index.js
-var require_define_properties3 = __commonJS({
+var require_define_properties = __commonJS({
   "node_modules/define-properties/index.js"(exports, module2) {
     init_shims();
     "use strict";
-    var keys = require_object_keys2();
+    var keys = require_object_keys();
     var hasSymbols = typeof Symbol === "function" && typeof Symbol("foo") === "symbol";
     var toStr = Object.prototype.toString;
     var concat = Array.prototype.concat;
@@ -9984,7 +7232,7 @@ var require_shim = __commonJS({
     init_shims();
     "use strict";
     var getPolyfill = require_polyfill();
-    var define2 = require_define_properties3();
+    var define2 = require_define_properties();
     module2.exports = function shimObjectIs() {
       var polyfill = getPolyfill();
       define2(Object, { is: polyfill }, {
@@ -10002,7 +7250,7 @@ var require_object_is = __commonJS({
   "node_modules/object-is/index.js"(exports, module2) {
     init_shims();
     "use strict";
-    var define2 = require_define_properties3();
+    var define2 = require_define_properties();
     var callBind = require_call_bind();
     var implementation = require_implementation3();
     var getPolyfill = require_polyfill();
@@ -10111,7 +7359,7 @@ var require_polyfill2 = __commonJS({
     init_shims();
     "use strict";
     var implementation = require_implementation4();
-    var supportsDescriptors = require_define_properties3().supportsDescriptors;
+    var supportsDescriptors = require_define_properties().supportsDescriptors;
     var $gOPD = Object.getOwnPropertyDescriptor;
     var $TypeError = TypeError;
     module2.exports = function getPolyfill() {
@@ -10134,7 +7382,7 @@ var require_shim2 = __commonJS({
   "node_modules/regexp.prototype.flags/shim.js"(exports, module2) {
     init_shims();
     "use strict";
-    var supportsDescriptors = require_define_properties3().supportsDescriptors;
+    var supportsDescriptors = require_define_properties().supportsDescriptors;
     var getPolyfill = require_polyfill2();
     var gOPD = Object.getOwnPropertyDescriptor;
     var defineProperty = Object.defineProperty;
@@ -10165,7 +7413,7 @@ var require_regexp_prototype = __commonJS({
   "node_modules/regexp.prototype.flags/index.js"(exports, module2) {
     init_shims();
     "use strict";
-    var define2 = require_define_properties3();
+    var define2 = require_define_properties();
     var callBind = require_call_bind();
     var implementation = require_implementation4();
     var getPolyfill = require_polyfill2();
@@ -10210,7 +7458,7 @@ var require_is_date_object = __commonJS({
 var require_deep_equal = __commonJS({
   "node_modules/deep-equal/index.js"(exports, module2) {
     init_shims();
-    var objectKeys = require_object_keys2();
+    var objectKeys = require_object_keys();
     var isArguments = require_is_arguments();
     var is = require_object_is();
     var isRegex = require_is_regex();
@@ -10311,304 +7559,6 @@ var require_deep_equal = __commonJS({
       return true;
     }
     module2.exports = deepEqual;
-  }
-});
-
-// node_modules/core-js/library/modules/_object-assign.js
-var require_object_assign = __commonJS({
-  "node_modules/core-js/library/modules/_object-assign.js"(exports, module2) {
-    init_shims();
-    "use strict";
-    var DESCRIPTORS = require_descriptors();
-    var getKeys = require_object_keys();
-    var gOPS = require_object_gops();
-    var pIE = require_object_pie();
-    var toObject = require_to_object();
-    var IObject = require_iobject();
-    var $assign = Object.assign;
-    module2.exports = !$assign || require_fails()(function() {
-      var A = {};
-      var B = {};
-      var S = Symbol();
-      var K = "abcdefghijklmnopqrst";
-      A[S] = 7;
-      K.split("").forEach(function(k) {
-        B[k] = k;
-      });
-      return $assign({}, A)[S] != 7 || Object.keys($assign({}, B)).join("") != K;
-    }) ? function assign(target, source) {
-      var T = toObject(target);
-      var aLen = arguments.length;
-      var index2 = 1;
-      var getSymbols = gOPS.f;
-      var isEnum = pIE.f;
-      while (aLen > index2) {
-        var S = IObject(arguments[index2++]);
-        var keys = getSymbols ? getKeys(S).concat(getSymbols(S)) : getKeys(S);
-        var length = keys.length;
-        var j = 0;
-        var key;
-        while (length > j) {
-          key = keys[j++];
-          if (!DESCRIPTORS || isEnum.call(S, key))
-            T[key] = S[key];
-        }
-      }
-      return T;
-    } : $assign;
-  }
-});
-
-// node_modules/core-js/library/modules/es6.object.assign.js
-var require_es6_object_assign = __commonJS({
-  "node_modules/core-js/library/modules/es6.object.assign.js"() {
-    init_shims();
-    var $export = require_export();
-    $export($export.S + $export.F, "Object", { assign: require_object_assign() });
-  }
-});
-
-// node_modules/core-js/library/fn/object/assign.js
-var require_assign = __commonJS({
-  "node_modules/core-js/library/fn/object/assign.js"(exports, module2) {
-    init_shims();
-    require_es6_object_assign();
-    module2.exports = require_core2().Object.assign;
-  }
-});
-
-// node_modules/babel-runtime/core-js/object/assign.js
-var require_assign2 = __commonJS({
-  "node_modules/babel-runtime/core-js/object/assign.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_assign(), __esModule: true };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.string.from-code-point.js
-var require_es6_string_from_code_point = __commonJS({
-  "node_modules/core-js/library/modules/es6.string.from-code-point.js"() {
-    init_shims();
-    var $export = require_export();
-    var toAbsoluteIndex = require_to_absolute_index();
-    var fromCharCode = String.fromCharCode;
-    var $fromCodePoint = String.fromCodePoint;
-    $export($export.S + $export.F * (!!$fromCodePoint && $fromCodePoint.length != 1), "String", {
-      fromCodePoint: function fromCodePoint(x) {
-        var res = [];
-        var aLen = arguments.length;
-        var i = 0;
-        var code;
-        while (aLen > i) {
-          code = +arguments[i++];
-          if (toAbsoluteIndex(code, 1114111) !== code)
-            throw RangeError(code + " is not a valid code point");
-          res.push(code < 65536 ? fromCharCode(code) : fromCharCode(((code -= 65536) >> 10) + 55296, code % 1024 + 56320));
-        }
-        return res.join("");
-      }
-    });
-  }
-});
-
-// node_modules/core-js/library/fn/string/from-code-point.js
-var require_from_code_point = __commonJS({
-  "node_modules/core-js/library/fn/string/from-code-point.js"(exports, module2) {
-    init_shims();
-    require_es6_string_from_code_point();
-    module2.exports = require_core2().String.fromCodePoint;
-  }
-});
-
-// node_modules/babel-runtime/core-js/string/from-code-point.js
-var require_from_code_point2 = __commonJS({
-  "node_modules/babel-runtime/core-js/string/from-code-point.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_from_code_point(), __esModule: true };
-  }
-});
-
-// node_modules/core-js/library/modules/_create-property.js
-var require_create_property = __commonJS({
-  "node_modules/core-js/library/modules/_create-property.js"(exports, module2) {
-    init_shims();
-    "use strict";
-    var $defineProperty = require_object_dp();
-    var createDesc = require_property_desc();
-    module2.exports = function(object, index2, value) {
-      if (index2 in object)
-        $defineProperty.f(object, index2, createDesc(0, value));
-      else
-        object[index2] = value;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_iter-detect.js
-var require_iter_detect = __commonJS({
-  "node_modules/core-js/library/modules/_iter-detect.js"(exports, module2) {
-    init_shims();
-    var ITERATOR = require_wks()("iterator");
-    var SAFE_CLOSING = false;
-    try {
-      riter = [7][ITERATOR]();
-      riter["return"] = function() {
-        SAFE_CLOSING = true;
-      };
-      Array.from(riter, function() {
-        throw 2;
-      });
-    } catch (e) {
-    }
-    var riter;
-    module2.exports = function(exec, skipClosing) {
-      if (!skipClosing && !SAFE_CLOSING)
-        return false;
-      var safe = false;
-      try {
-        var arr = [7];
-        var iter = arr[ITERATOR]();
-        iter.next = function() {
-          return { done: safe = true };
-        };
-        arr[ITERATOR] = function() {
-          return iter;
-        };
-        exec(arr);
-      } catch (e) {
-      }
-      return safe;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.array.from.js
-var require_es6_array_from = __commonJS({
-  "node_modules/core-js/library/modules/es6.array.from.js"() {
-    init_shims();
-    "use strict";
-    var ctx = require_ctx();
-    var $export = require_export();
-    var toObject = require_to_object();
-    var call = require_iter_call();
-    var isArrayIter = require_is_array_iter();
-    var toLength = require_to_length();
-    var createProperty = require_create_property();
-    var getIterFn = require_core_get_iterator_method();
-    $export($export.S + $export.F * !require_iter_detect()(function(iter) {
-      Array.from(iter);
-    }), "Array", {
-      from: function from(arrayLike) {
-        var O = toObject(arrayLike);
-        var C = typeof this == "function" ? this : Array;
-        var aLen = arguments.length;
-        var mapfn = aLen > 1 ? arguments[1] : void 0;
-        var mapping = mapfn !== void 0;
-        var index2 = 0;
-        var iterFn = getIterFn(O);
-        var length, result, step, iterator;
-        if (mapping)
-          mapfn = ctx(mapfn, aLen > 2 ? arguments[2] : void 0, 2);
-        if (iterFn != void 0 && !(C == Array && isArrayIter(iterFn))) {
-          for (iterator = iterFn.call(O), result = new C(); !(step = iterator.next()).done; index2++) {
-            createProperty(result, index2, mapping ? call(iterator, mapfn, [step.value, index2], true) : step.value);
-          }
-        } else {
-          length = toLength(O.length);
-          for (result = new C(length); length > index2; index2++) {
-            createProperty(result, index2, mapping ? mapfn(O[index2], index2) : O[index2]);
-          }
-        }
-        result.length = index2;
-        return result;
-      }
-    });
-  }
-});
-
-// node_modules/core-js/library/fn/array/from.js
-var require_from = __commonJS({
-  "node_modules/core-js/library/fn/array/from.js"(exports, module2) {
-    init_shims();
-    require_es6_string_iterator();
-    require_es6_array_from();
-    module2.exports = require_core2().Array.from;
-  }
-});
-
-// node_modules/babel-runtime/core-js/array/from.js
-var require_from2 = __commonJS({
-  "node_modules/babel-runtime/core-js/array/from.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_from(), __esModule: true };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.set.js
-var require_es6_set = __commonJS({
-  "node_modules/core-js/library/modules/es6.set.js"(exports, module2) {
-    init_shims();
-    "use strict";
-    var strong = require_collection_strong();
-    var validate = require_validate_collection();
-    var SET = "Set";
-    module2.exports = require_collection()(SET, function(get) {
-      return function Set2() {
-        return get(this, arguments.length > 0 ? arguments[0] : void 0);
-      };
-    }, {
-      add: function add(value) {
-        return strong.def(validate(this, SET), value = value === 0 ? 0 : value, value);
-      }
-    }, strong);
-  }
-});
-
-// node_modules/core-js/library/modules/es7.set.to-json.js
-var require_es7_set_to_json = __commonJS({
-  "node_modules/core-js/library/modules/es7.set.to-json.js"() {
-    init_shims();
-    var $export = require_export();
-    $export($export.P + $export.R, "Set", { toJSON: require_collection_to_json()("Set") });
-  }
-});
-
-// node_modules/core-js/library/modules/es7.set.of.js
-var require_es7_set_of = __commonJS({
-  "node_modules/core-js/library/modules/es7.set.of.js"() {
-    init_shims();
-    require_set_collection_of()("Set");
-  }
-});
-
-// node_modules/core-js/library/modules/es7.set.from.js
-var require_es7_set_from = __commonJS({
-  "node_modules/core-js/library/modules/es7.set.from.js"() {
-    init_shims();
-    require_set_collection_from()("Set");
-  }
-});
-
-// node_modules/core-js/library/fn/set.js
-var require_set = __commonJS({
-  "node_modules/core-js/library/fn/set.js"(exports, module2) {
-    init_shims();
-    require_es6_object_to_string();
-    require_es6_string_iterator();
-    require_web_dom_iterable();
-    require_es6_set();
-    require_es7_set_to_json();
-    require_es7_set_of();
-    require_es7_set_from();
-    module2.exports = require_core2().Set;
-  }
-});
-
-// node_modules/babel-runtime/core-js/set.js
-var require_set2 = __commonJS({
-  "node_modules/babel-runtime/core-js/set.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_set(), __esModule: true };
   }
 });
 
@@ -11182,7 +8132,7 @@ var require_dfa = __commonJS({
         this.tags = dfa.tags;
       }
       match(str) {
-        var self2 = this;
+        var self = this;
         return {
           *[Symbol.iterator]() {
             var state = INITIAL_STATE;
@@ -11192,18 +8142,18 @@ var require_dfa = __commonJS({
             for (var p = 0; p < str.length; p++) {
               var c = str[p];
               lastState = state;
-              state = self2.stateTable[state][c];
+              state = self.stateTable[state][c];
               if (state === FAIL_STATE) {
                 if (startRun != null && lastAccepting != null && lastAccepting >= startRun) {
-                  yield [startRun, lastAccepting, self2.tags[lastState]];
+                  yield [startRun, lastAccepting, self.tags[lastState]];
                 }
-                state = self2.stateTable[INITIAL_STATE][c];
+                state = self.stateTable[INITIAL_STATE][c];
                 startRun = null;
               }
               if (state !== FAIL_STATE && startRun == null) {
                 startRun = p;
               }
-              if (self2.accepting[state]) {
+              if (self.accepting[state]) {
                 lastAccepting = p;
               }
               if (state === FAIL_STATE) {
@@ -11211,7 +8161,7 @@ var require_dfa = __commonJS({
               }
             }
             if (startRun != null && lastAccepting != null && lastAccepting >= startRun) {
-              yield [startRun, lastAccepting, self2.tags[state]];
+              yield [startRun, lastAccepting, self.tags[state]];
             }
           }
         };
@@ -11227,32 +8177,6 @@ var require_dfa = __commonJS({
       }
     };
     module2.exports = StateMachine;
-  }
-});
-
-// node_modules/core-js/library/modules/es6.number.epsilon.js
-var require_es6_number_epsilon = __commonJS({
-  "node_modules/core-js/library/modules/es6.number.epsilon.js"() {
-    init_shims();
-    var $export = require_export();
-    $export($export.S, "Number", { EPSILON: Math.pow(2, -52) });
-  }
-});
-
-// node_modules/core-js/library/fn/number/epsilon.js
-var require_epsilon = __commonJS({
-  "node_modules/core-js/library/fn/number/epsilon.js"(exports, module2) {
-    init_shims();
-    require_es6_number_epsilon();
-    module2.exports = Math.pow(2, -52);
-  }
-});
-
-// node_modules/babel-runtime/core-js/number/epsilon.js
-var require_epsilon2 = __commonJS({
-  "node_modules/babel-runtime/core-js/number/epsilon.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_epsilon(), __esModule: true };
   }
 });
 
@@ -11379,618 +8303,6 @@ var require_clone = __commonJS({
     if (typeof module2 === "object" && module2.exports) {
       module2.exports = clone2;
     }
-  }
-});
-
-// node_modules/core-js/library/modules/_species-constructor.js
-var require_species_constructor = __commonJS({
-  "node_modules/core-js/library/modules/_species-constructor.js"(exports, module2) {
-    init_shims();
-    var anObject = require_an_object();
-    var aFunction = require_a_function();
-    var SPECIES = require_wks()("species");
-    module2.exports = function(O, D) {
-      var C = anObject(O).constructor;
-      var S;
-      return C === void 0 || (S = anObject(C)[SPECIES]) == void 0 ? D : aFunction(S);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_invoke.js
-var require_invoke = __commonJS({
-  "node_modules/core-js/library/modules/_invoke.js"(exports, module2) {
-    init_shims();
-    module2.exports = function(fn, args, that) {
-      var un = that === void 0;
-      switch (args.length) {
-        case 0:
-          return un ? fn() : fn.call(that);
-        case 1:
-          return un ? fn(args[0]) : fn.call(that, args[0]);
-        case 2:
-          return un ? fn(args[0], args[1]) : fn.call(that, args[0], args[1]);
-        case 3:
-          return un ? fn(args[0], args[1], args[2]) : fn.call(that, args[0], args[1], args[2]);
-        case 4:
-          return un ? fn(args[0], args[1], args[2], args[3]) : fn.call(that, args[0], args[1], args[2], args[3]);
-      }
-      return fn.apply(that, args);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_task.js
-var require_task = __commonJS({
-  "node_modules/core-js/library/modules/_task.js"(exports, module2) {
-    init_shims();
-    var ctx = require_ctx();
-    var invoke = require_invoke();
-    var html = require_html();
-    var cel = require_dom_create();
-    var global2 = require_global();
-    var process2 = global2.process;
-    var setTask = global2.setImmediate;
-    var clearTask = global2.clearImmediate;
-    var MessageChannel = global2.MessageChannel;
-    var Dispatch = global2.Dispatch;
-    var counter = 0;
-    var queue = {};
-    var ONREADYSTATECHANGE = "onreadystatechange";
-    var defer;
-    var channel;
-    var port;
-    var run2 = function() {
-      var id = +this;
-      if (queue.hasOwnProperty(id)) {
-        var fn = queue[id];
-        delete queue[id];
-        fn();
-      }
-    };
-    var listener = function(event) {
-      run2.call(event.data);
-    };
-    if (!setTask || !clearTask) {
-      setTask = function setImmediate(fn) {
-        var args = [];
-        var i = 1;
-        while (arguments.length > i)
-          args.push(arguments[i++]);
-        queue[++counter] = function() {
-          invoke(typeof fn == "function" ? fn : Function(fn), args);
-        };
-        defer(counter);
-        return counter;
-      };
-      clearTask = function clearImmediate(id) {
-        delete queue[id];
-      };
-      if (require_cof()(process2) == "process") {
-        defer = function(id) {
-          process2.nextTick(ctx(run2, id, 1));
-        };
-      } else if (Dispatch && Dispatch.now) {
-        defer = function(id) {
-          Dispatch.now(ctx(run2, id, 1));
-        };
-      } else if (MessageChannel) {
-        channel = new MessageChannel();
-        port = channel.port2;
-        channel.port1.onmessage = listener;
-        defer = ctx(port.postMessage, port, 1);
-      } else if (global2.addEventListener && typeof postMessage == "function" && !global2.importScripts) {
-        defer = function(id) {
-          global2.postMessage(id + "", "*");
-        };
-        global2.addEventListener("message", listener, false);
-      } else if (ONREADYSTATECHANGE in cel("script")) {
-        defer = function(id) {
-          html.appendChild(cel("script"))[ONREADYSTATECHANGE] = function() {
-            html.removeChild(this);
-            run2.call(id);
-          };
-        };
-      } else {
-        defer = function(id) {
-          setTimeout(ctx(run2, id, 1), 0);
-        };
-      }
-    }
-    module2.exports = {
-      set: setTask,
-      clear: clearTask
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_microtask.js
-var require_microtask = __commonJS({
-  "node_modules/core-js/library/modules/_microtask.js"(exports, module2) {
-    init_shims();
-    var global2 = require_global();
-    var macrotask = require_task().set;
-    var Observer = global2.MutationObserver || global2.WebKitMutationObserver;
-    var process2 = global2.process;
-    var Promise2 = global2.Promise;
-    var isNode = require_cof()(process2) == "process";
-    module2.exports = function() {
-      var head, last, notify;
-      var flush = function() {
-        var parent, fn;
-        if (isNode && (parent = process2.domain))
-          parent.exit();
-        while (head) {
-          fn = head.fn;
-          head = head.next;
-          try {
-            fn();
-          } catch (e) {
-            if (head)
-              notify();
-            else
-              last = void 0;
-            throw e;
-          }
-        }
-        last = void 0;
-        if (parent)
-          parent.enter();
-      };
-      if (isNode) {
-        notify = function() {
-          process2.nextTick(flush);
-        };
-      } else if (Observer && !(global2.navigator && global2.navigator.standalone)) {
-        var toggle = true;
-        var node = document.createTextNode("");
-        new Observer(flush).observe(node, { characterData: true });
-        notify = function() {
-          node.data = toggle = !toggle;
-        };
-      } else if (Promise2 && Promise2.resolve) {
-        var promise = Promise2.resolve(void 0);
-        notify = function() {
-          promise.then(flush);
-        };
-      } else {
-        notify = function() {
-          macrotask.call(global2, flush);
-        };
-      }
-      return function(fn) {
-        var task = { fn, next: void 0 };
-        if (last)
-          last.next = task;
-        if (!head) {
-          head = task;
-          notify();
-        }
-        last = task;
-      };
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_new-promise-capability.js
-var require_new_promise_capability = __commonJS({
-  "node_modules/core-js/library/modules/_new-promise-capability.js"(exports, module2) {
-    init_shims();
-    "use strict";
-    var aFunction = require_a_function();
-    function PromiseCapability(C) {
-      var resolve2, reject;
-      this.promise = new C(function($$resolve, $$reject) {
-        if (resolve2 !== void 0 || reject !== void 0)
-          throw TypeError("Bad Promise constructor");
-        resolve2 = $$resolve;
-        reject = $$reject;
-      });
-      this.resolve = aFunction(resolve2);
-      this.reject = aFunction(reject);
-    }
-    module2.exports.f = function(C) {
-      return new PromiseCapability(C);
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_perform.js
-var require_perform = __commonJS({
-  "node_modules/core-js/library/modules/_perform.js"(exports, module2) {
-    init_shims();
-    module2.exports = function(exec) {
-      try {
-        return { e: false, v: exec() };
-      } catch (e) {
-        return { e: true, v: e };
-      }
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/_user-agent.js
-var require_user_agent = __commonJS({
-  "node_modules/core-js/library/modules/_user-agent.js"(exports, module2) {
-    init_shims();
-    var global2 = require_global();
-    var navigator = global2.navigator;
-    module2.exports = navigator && navigator.userAgent || "";
-  }
-});
-
-// node_modules/core-js/library/modules/_promise-resolve.js
-var require_promise_resolve = __commonJS({
-  "node_modules/core-js/library/modules/_promise-resolve.js"(exports, module2) {
-    init_shims();
-    var anObject = require_an_object();
-    var isObject = require_is_object();
-    var newPromiseCapability = require_new_promise_capability();
-    module2.exports = function(C, x) {
-      anObject(C);
-      if (isObject(x) && x.constructor === C)
-        return x;
-      var promiseCapability = newPromiseCapability.f(C);
-      var resolve2 = promiseCapability.resolve;
-      resolve2(x);
-      return promiseCapability.promise;
-    };
-  }
-});
-
-// node_modules/core-js/library/modules/es6.promise.js
-var require_es6_promise = __commonJS({
-  "node_modules/core-js/library/modules/es6.promise.js"() {
-    init_shims();
-    "use strict";
-    var LIBRARY = require_library();
-    var global2 = require_global();
-    var ctx = require_ctx();
-    var classof = require_classof();
-    var $export = require_export();
-    var isObject = require_is_object();
-    var aFunction = require_a_function();
-    var anInstance = require_an_instance();
-    var forOf = require_for_of();
-    var speciesConstructor = require_species_constructor();
-    var task = require_task().set;
-    var microtask = require_microtask()();
-    var newPromiseCapabilityModule = require_new_promise_capability();
-    var perform = require_perform();
-    var userAgent = require_user_agent();
-    var promiseResolve = require_promise_resolve();
-    var PROMISE = "Promise";
-    var TypeError2 = global2.TypeError;
-    var process2 = global2.process;
-    var versions = process2 && process2.versions;
-    var v8 = versions && versions.v8 || "";
-    var $Promise = global2[PROMISE];
-    var isNode = classof(process2) == "process";
-    var empty2 = function() {
-    };
-    var Internal;
-    var newGenericPromiseCapability;
-    var OwnPromiseCapability;
-    var Wrapper;
-    var newPromiseCapability = newGenericPromiseCapability = newPromiseCapabilityModule.f;
-    var USE_NATIVE = !!function() {
-      try {
-        var promise = $Promise.resolve(1);
-        var FakePromise = (promise.constructor = {})[require_wks()("species")] = function(exec) {
-          exec(empty2, empty2);
-        };
-        return (isNode || typeof PromiseRejectionEvent == "function") && promise.then(empty2) instanceof FakePromise && v8.indexOf("6.6") !== 0 && userAgent.indexOf("Chrome/66") === -1;
-      } catch (e) {
-      }
-    }();
-    var isThenable = function(it) {
-      var then;
-      return isObject(it) && typeof (then = it.then) == "function" ? then : false;
-    };
-    var notify = function(promise, isReject) {
-      if (promise._n)
-        return;
-      promise._n = true;
-      var chain = promise._c;
-      microtask(function() {
-        var value = promise._v;
-        var ok = promise._s == 1;
-        var i = 0;
-        var run2 = function(reaction) {
-          var handler = ok ? reaction.ok : reaction.fail;
-          var resolve2 = reaction.resolve;
-          var reject = reaction.reject;
-          var domain = reaction.domain;
-          var result, then, exited;
-          try {
-            if (handler) {
-              if (!ok) {
-                if (promise._h == 2)
-                  onHandleUnhandled(promise);
-                promise._h = 1;
-              }
-              if (handler === true)
-                result = value;
-              else {
-                if (domain)
-                  domain.enter();
-                result = handler(value);
-                if (domain) {
-                  domain.exit();
-                  exited = true;
-                }
-              }
-              if (result === reaction.promise) {
-                reject(TypeError2("Promise-chain cycle"));
-              } else if (then = isThenable(result)) {
-                then.call(result, resolve2, reject);
-              } else
-                resolve2(result);
-            } else
-              reject(value);
-          } catch (e) {
-            if (domain && !exited)
-              domain.exit();
-            reject(e);
-          }
-        };
-        while (chain.length > i)
-          run2(chain[i++]);
-        promise._c = [];
-        promise._n = false;
-        if (isReject && !promise._h)
-          onUnhandled(promise);
-      });
-    };
-    var onUnhandled = function(promise) {
-      task.call(global2, function() {
-        var value = promise._v;
-        var unhandled = isUnhandled(promise);
-        var result, handler, console2;
-        if (unhandled) {
-          result = perform(function() {
-            if (isNode) {
-              process2.emit("unhandledRejection", value, promise);
-            } else if (handler = global2.onunhandledrejection) {
-              handler({ promise, reason: value });
-            } else if ((console2 = global2.console) && console2.error) {
-              console2.error("Unhandled promise rejection", value);
-            }
-          });
-          promise._h = isNode || isUnhandled(promise) ? 2 : 1;
-        }
-        promise._a = void 0;
-        if (unhandled && result.e)
-          throw result.v;
-      });
-    };
-    var isUnhandled = function(promise) {
-      return promise._h !== 1 && (promise._a || promise._c).length === 0;
-    };
-    var onHandleUnhandled = function(promise) {
-      task.call(global2, function() {
-        var handler;
-        if (isNode) {
-          process2.emit("rejectionHandled", promise);
-        } else if (handler = global2.onrejectionhandled) {
-          handler({ promise, reason: promise._v });
-        }
-      });
-    };
-    var $reject = function(value) {
-      var promise = this;
-      if (promise._d)
-        return;
-      promise._d = true;
-      promise = promise._w || promise;
-      promise._v = value;
-      promise._s = 2;
-      if (!promise._a)
-        promise._a = promise._c.slice();
-      notify(promise, true);
-    };
-    var $resolve = function(value) {
-      var promise = this;
-      var then;
-      if (promise._d)
-        return;
-      promise._d = true;
-      promise = promise._w || promise;
-      try {
-        if (promise === value)
-          throw TypeError2("Promise can't be resolved itself");
-        if (then = isThenable(value)) {
-          microtask(function() {
-            var wrapper = { _w: promise, _d: false };
-            try {
-              then.call(value, ctx($resolve, wrapper, 1), ctx($reject, wrapper, 1));
-            } catch (e) {
-              $reject.call(wrapper, e);
-            }
-          });
-        } else {
-          promise._v = value;
-          promise._s = 1;
-          notify(promise, false);
-        }
-      } catch (e) {
-        $reject.call({ _w: promise, _d: false }, e);
-      }
-    };
-    if (!USE_NATIVE) {
-      $Promise = function Promise2(executor) {
-        anInstance(this, $Promise, PROMISE, "_h");
-        aFunction(executor);
-        Internal.call(this);
-        try {
-          executor(ctx($resolve, this, 1), ctx($reject, this, 1));
-        } catch (err) {
-          $reject.call(this, err);
-        }
-      };
-      Internal = function Promise2(executor) {
-        this._c = [];
-        this._a = void 0;
-        this._s = 0;
-        this._d = false;
-        this._v = void 0;
-        this._h = 0;
-        this._n = false;
-      };
-      Internal.prototype = require_redefine_all()($Promise.prototype, {
-        then: function then(onFulfilled, onRejected) {
-          var reaction = newPromiseCapability(speciesConstructor(this, $Promise));
-          reaction.ok = typeof onFulfilled == "function" ? onFulfilled : true;
-          reaction.fail = typeof onRejected == "function" && onRejected;
-          reaction.domain = isNode ? process2.domain : void 0;
-          this._c.push(reaction);
-          if (this._a)
-            this._a.push(reaction);
-          if (this._s)
-            notify(this, false);
-          return reaction.promise;
-        },
-        "catch": function(onRejected) {
-          return this.then(void 0, onRejected);
-        }
-      });
-      OwnPromiseCapability = function() {
-        var promise = new Internal();
-        this.promise = promise;
-        this.resolve = ctx($resolve, promise, 1);
-        this.reject = ctx($reject, promise, 1);
-      };
-      newPromiseCapabilityModule.f = newPromiseCapability = function(C) {
-        return C === $Promise || C === Wrapper ? new OwnPromiseCapability(C) : newGenericPromiseCapability(C);
-      };
-    }
-    $export($export.G + $export.W + $export.F * !USE_NATIVE, { Promise: $Promise });
-    require_set_to_string_tag()($Promise, PROMISE);
-    require_set_species()(PROMISE);
-    Wrapper = require_core2()[PROMISE];
-    $export($export.S + $export.F * !USE_NATIVE, PROMISE, {
-      reject: function reject(r) {
-        var capability = newPromiseCapability(this);
-        var $$reject = capability.reject;
-        $$reject(r);
-        return capability.promise;
-      }
-    });
-    $export($export.S + $export.F * (LIBRARY || !USE_NATIVE), PROMISE, {
-      resolve: function resolve2(x) {
-        return promiseResolve(LIBRARY && this === Wrapper ? $Promise : this, x);
-      }
-    });
-    $export($export.S + $export.F * !(USE_NATIVE && require_iter_detect()(function(iter) {
-      $Promise.all(iter)["catch"](empty2);
-    })), PROMISE, {
-      all: function all(iterable) {
-        var C = this;
-        var capability = newPromiseCapability(C);
-        var resolve2 = capability.resolve;
-        var reject = capability.reject;
-        var result = perform(function() {
-          var values = [];
-          var index2 = 0;
-          var remaining = 1;
-          forOf(iterable, false, function(promise) {
-            var $index = index2++;
-            var alreadyCalled = false;
-            values.push(void 0);
-            remaining++;
-            C.resolve(promise).then(function(value) {
-              if (alreadyCalled)
-                return;
-              alreadyCalled = true;
-              values[$index] = value;
-              --remaining || resolve2(values);
-            }, reject);
-          });
-          --remaining || resolve2(values);
-        });
-        if (result.e)
-          reject(result.v);
-        return capability.promise;
-      },
-      race: function race(iterable) {
-        var C = this;
-        var capability = newPromiseCapability(C);
-        var reject = capability.reject;
-        var result = perform(function() {
-          forOf(iterable, false, function(promise) {
-            C.resolve(promise).then(capability.resolve, reject);
-          });
-        });
-        if (result.e)
-          reject(result.v);
-        return capability.promise;
-      }
-    });
-  }
-});
-
-// node_modules/core-js/library/modules/es7.promise.finally.js
-var require_es7_promise_finally = __commonJS({
-  "node_modules/core-js/library/modules/es7.promise.finally.js"() {
-    init_shims();
-    "use strict";
-    var $export = require_export();
-    var core = require_core2();
-    var global2 = require_global();
-    var speciesConstructor = require_species_constructor();
-    var promiseResolve = require_promise_resolve();
-    $export($export.P + $export.R, "Promise", { "finally": function(onFinally) {
-      var C = speciesConstructor(this, core.Promise || global2.Promise);
-      var isFunction = typeof onFinally == "function";
-      return this.then(isFunction ? function(x) {
-        return promiseResolve(C, onFinally()).then(function() {
-          return x;
-        });
-      } : onFinally, isFunction ? function(e) {
-        return promiseResolve(C, onFinally()).then(function() {
-          throw e;
-        });
-      } : onFinally);
-    } });
-  }
-});
-
-// node_modules/core-js/library/modules/es7.promise.try.js
-var require_es7_promise_try = __commonJS({
-  "node_modules/core-js/library/modules/es7.promise.try.js"() {
-    init_shims();
-    "use strict";
-    var $export = require_export();
-    var newPromiseCapability = require_new_promise_capability();
-    var perform = require_perform();
-    $export($export.S, "Promise", { "try": function(callbackfn) {
-      var promiseCapability = newPromiseCapability.f(this);
-      var result = perform(callbackfn);
-      (result.e ? promiseCapability.reject : promiseCapability.resolve)(result.v);
-      return promiseCapability.promise;
-    } });
-  }
-});
-
-// node_modules/core-js/library/fn/promise.js
-var require_promise = __commonJS({
-  "node_modules/core-js/library/fn/promise.js"(exports, module2) {
-    init_shims();
-    require_es6_object_to_string();
-    require_es6_string_iterator();
-    require_web_dom_iterable();
-    require_es6_promise();
-    require_es7_promise_finally();
-    require_es7_promise_try();
-    module2.exports = require_core2().Promise;
-  }
-});
-
-// node_modules/babel-runtime/core-js/promise.js
-var require_promise2 = __commonJS({
-  "node_modules/babel-runtime/core-js/promise.js"(exports, module2) {
-    init_shims();
-    module2.exports = { "default": require_promise(), __esModule: true };
   }
 });
 
@@ -138067,41 +134379,20 @@ var require_decompress = __commonJS({
   }
 });
 
-// node_modules/fontkit/index.js
-var require_fontkit = __commonJS({
-  "node_modules/fontkit/index.js"(exports, module2) {
+// node_modules/fontkit-next/index.js
+var require_fontkit_next = __commonJS({
+  "node_modules/fontkit-next/index.js"(exports, module2) {
     init_shims();
     "use strict";
-    function _interopDefault(ex) {
-      return ex && typeof ex === "object" && "default" in ex ? ex["default"] : ex;
-    }
-    var r = _interopDefault(require_restructure());
-    var _Object$getOwnPropertyDescriptor = _interopDefault(require_get_own_property_descriptor2());
-    var _getIterator = _interopDefault(require_get_iterator2());
-    var _Object$freeze = _interopDefault(require_freeze2());
-    var _typeof = _interopDefault(require_typeof());
-    var _Object$keys = _interopDefault(require_keys2());
-    var _Object$defineProperty = _interopDefault(require_define_property2());
-    var _classCallCheck = _interopDefault(require_classCallCheck());
-    var _createClass = _interopDefault(require_createClass());
-    var _Map = _interopDefault(require_map2());
-    var _possibleConstructorReturn = _interopDefault(require_possibleConstructorReturn());
-    var _inherits = _interopDefault(require_inherits());
-    var restructure_src_utils = require_utils();
-    var _Object$defineProperties = _interopDefault(require_define_properties2());
-    var isEqual = _interopDefault(require_deep_equal());
-    var _Object$assign = _interopDefault(require_assign2());
-    var _String$fromCodePoint = _interopDefault(require_from_code_point2());
-    var _Array$from = _interopDefault(require_from2());
-    var _Set = _interopDefault(require_set2());
-    var unicode = _interopDefault(require_unicode_properties_cjs());
-    var UnicodeTrie = _interopDefault(require_unicode_trie2());
-    var StateMachine = _interopDefault(require_dfa());
-    var _Number$EPSILON = _interopDefault(require_epsilon2());
-    var cloneDeep = _interopDefault(require_clone());
-    var _Promise = _interopDefault(require_promise2());
-    var inflate = _interopDefault(require_tiny_inflate());
-    var brotli = _interopDefault(require_decompress());
+    var r = require_restructure_next();
+    var utils = require_utils();
+    var isEqual = require_deep_equal();
+    var unicode = require_unicode_properties_cjs();
+    var UnicodeTrie = require_unicode_trie2();
+    var StateMachine = require_dfa();
+    var cloneDeep = require_clone();
+    var inflate = require_tiny_inflate();
+    var brotli = require_decompress();
     var fs = require("fs");
     var fontkit = {};
     fontkit.logErrors = false;
@@ -138145,27 +134436,61 @@ var require_fontkit = __commonJS({
       throw new Error("Unknown font format");
     };
     fontkit.defaultLanguage = "en";
-    fontkit.setDefaultLanguage = function() {
-      var lang = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "en";
+    fontkit.setDefaultLanguage = function(lang = "en") {
       fontkit.defaultLanguage = lang;
     };
+    function _defineProperty(obj, key, value) {
+      if (key in obj) {
+        Object.defineProperty(obj, key, {
+          value,
+          enumerable: true,
+          configurable: true,
+          writable: true
+        });
+      } else {
+        obj[key] = value;
+      }
+      return obj;
+    }
+    function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+      var desc = {};
+      Object.keys(descriptor).forEach(function(key) {
+        desc[key] = descriptor[key];
+      });
+      desc.enumerable = !!desc.enumerable;
+      desc.configurable = !!desc.configurable;
+      if ("value" in desc || desc.initializer) {
+        desc.writable = true;
+      }
+      desc = decorators.slice().reverse().reduce(function(desc2, decorator) {
+        return decorator(target, property, desc2) || desc2;
+      }, desc);
+      if (context && desc.initializer !== void 0) {
+        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+        desc.initializer = void 0;
+      }
+      if (desc.initializer === void 0) {
+        Object.defineProperty(target, property, desc);
+        desc = null;
+      }
+      return desc;
+    }
     function cache(target, key, descriptor) {
       if (descriptor.get) {
         var get = descriptor.get;
         descriptor.get = function() {
           var value = get.call(this);
-          _Object$defineProperty(this, key, { value });
+          Object.defineProperty(this, key, {
+            value
+          });
           return value;
         };
       } else if (typeof descriptor.value === "function") {
         var fn = descriptor.value;
         return {
-          get: function get2() {
-            var cache2 = new _Map();
-            function memoized() {
-              for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-                args[_key] = arguments[_key];
-              }
+          get() {
+            var cache2 = new Map();
+            function memoized(...args) {
               var key2 = args.length > 0 ? args[0] : "value";
               if (cache2.has(key2)) {
                 return cache2.get(key2);
@@ -138174,8 +134499,9 @@ var require_fontkit = __commonJS({
               cache2.set(key2, result);
               return result;
             }
-            ;
-            _Object$defineProperty(this, key, { value: memoized });
+            Object.defineProperty(this, key, {
+              value: memoized
+            });
             return memoized;
           }
         };
@@ -138204,8 +134530,12 @@ var require_fontkit = __commonJS({
     var NonDefaultUVS = new r.Array(UVSMapping, r.uint32);
     var VarSelectorRecord = new r.Struct({
       varSelector: r.uint24,
-      defaultUVS: new r.Pointer(r.uint32, DefaultUVS, { type: "parent" }),
-      nonDefaultUVS: new r.Pointer(r.uint32, NonDefaultUVS, { type: "parent" })
+      defaultUVS: new r.Pointer(r.uint32, DefaultUVS, {
+        type: "parent"
+      }),
+      nonDefaultUVS: new r.Pointer(r.uint32, NonDefaultUVS, {
+        type: "parent"
+      })
     });
     var CmapSubtable = new r.VersionedStruct(r.uint16, {
       0: {
@@ -138217,9 +134547,7 @@ var require_fontkit = __commonJS({
         length: r.uint16,
         language: r.uint16,
         subHeaderKeys: new r.Array(r.uint16, 256),
-        subHeaderCount: function subHeaderCount(t2) {
-          return Math.max.apply(Math, t2.subHeaderKeys);
-        },
+        subHeaderCount: (t2) => Math.max.apply(Math, t2.subHeaderKeys),
         subHeaders: new r.LazyArray(SubHeader, "subHeaderCount"),
         glyphIndexArray: new r.LazyArray(r.uint16, "subHeaderCount")
       },
@@ -138227,9 +134555,7 @@ var require_fontkit = __commonJS({
         length: r.uint16,
         language: r.uint16,
         segCountX2: r.uint16,
-        segCount: function segCount(t2) {
-          return t2.segCountX2 >> 1;
-        },
+        segCount: (t2) => t2.segCountX2 >> 1,
         searchRange: r.uint16,
         entrySelector: r.uint16,
         rangeShift: r.uint16,
@@ -138238,9 +134564,7 @@ var require_fontkit = __commonJS({
         startCode: new r.LazyArray(r.uint16, "segCount"),
         idDelta: new r.LazyArray(r.int16, "segCount"),
         idRangeOffset: new r.LazyArray(r.uint16, "segCount"),
-        glyphIndexArray: new r.LazyArray(r.uint16, function(t2) {
-          return (t2.length - t2._currentOffset) / 2;
-        })
+        glyphIndexArray: new r.LazyArray(r.uint16, (t2) => (t2.length - t2._currentOffset) / 2)
       },
       6: {
         length: r.uint16,
@@ -138288,7 +134612,10 @@ var require_fontkit = __commonJS({
     var CmapEntry = new r.Struct({
       platformID: r.uint16,
       encodingID: r.uint16,
-      table: new r.Pointer(r.uint32, CmapSubtable, { type: "parent", lazy: true })
+      table: new r.Pointer(r.uint32, CmapSubtable, {
+        type: "parent",
+        lazy: true
+      })
     });
     var cmap = new r.Struct({
       version: r.uint16,
@@ -138335,12 +134662,8 @@ var require_fontkit = __commonJS({
       bearing: r.int16
     });
     var hmtx = new r.Struct({
-      metrics: new r.LazyArray(HmtxEntry, function(t2) {
-        return t2.parent.hhea.numberOfMetrics;
-      }),
-      bearings: new r.LazyArray(r.int16, function(t2) {
-        return t2.parent.maxp.numGlyphs - t2.parent.hhea.numberOfMetrics;
-      })
+      metrics: new r.LazyArray(HmtxEntry, (t2) => t2.parent.hhea.numberOfMetrics),
+      bearings: new r.LazyArray(r.int16, (t2) => t2.parent.maxp.numGlyphs - t2.parent.hhea.numberOfMetrics)
     });
     var maxp = new r.Struct({
       version: r.int32,
@@ -138359,8 +134682,7 @@ var require_fontkit = __commonJS({
       maxComponentElements: r.uint16,
       maxComponentDepth: r.uint16
     });
-    function getEncoding(platformID, encodingID) {
-      var languageID = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 0;
+    function getEncoding(platformID, encodingID, languageID = 0) {
       if (platformID === 1 && MAC_LANGUAGE_ENCODINGS[languageID]) {
         return MAC_LANGUAGE_ENCODINGS[languageID];
       }
@@ -138727,13 +135049,18 @@ var require_fontkit = __commonJS({
       languageID: r.uint16,
       nameID: r.uint16,
       length: r.uint16,
-      string: new r.Pointer(r.uint16, new r.String("length", function(t2) {
-        return getEncoding(t2.platformID, t2.encodingID, t2.languageID);
-      }), { type: "parent", relativeTo: "parent.stringOffset", allowNull: false })
+      string: new r.Pointer(r.uint16, new r.String("length", (t2) => getEncoding(t2.platformID, t2.encodingID, t2.languageID)), {
+        type: "parent",
+        relativeTo: (ctx) => ctx.parent.stringOffset,
+        allowNull: false
+      })
     });
     var LangTagRecord = new r.Struct({
       length: r.uint16,
-      tag: new r.Pointer(r.uint16, new r.String("length", "utf16be"), { type: "parent", relativeTo: "stringOffset" })
+      tag: new r.Pointer(r.uint16, new r.String("length", "utf16be"), {
+        type: "parent",
+        relativeTo: (ctx) => ctx.stringOffset
+      })
     });
     var NameTable = new r.VersionedStruct(r.uint16, {
       0: {
@@ -138776,19 +135103,7 @@ var require_fontkit = __commonJS({
     ];
     NameTable.process = function(stream) {
       var records = {};
-      for (var _iterator2 = this.records, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-        var _ref2;
-        if (_isArray2) {
-          if (_i2 >= _iterator2.length)
-            break;
-          _ref2 = _iterator2[_i2++];
-        } else {
-          _i2 = _iterator2.next();
-          if (_i2.done)
-            break;
-          _ref2 = _i2.value;
-        }
-        var record = _ref2;
+      for (var record of this.records) {
         var language = LANGUAGES[record.platformID][record.languageID];
         if (language == null && this.langTags != null && record.languageID >= 32768) {
           language = this.langTags[record.languageID - 32768].tag;
@@ -138951,9 +135266,7 @@ var require_fontkit = __commonJS({
       },
       3: {},
       4: {
-        map: new r.Array(r.uint32, function(t2) {
-          return t2.parent.maxp.numGlyphs;
-        })
+        map: new r.Array(r.uint32, (t2) => t2.parent.maxp.numGlyphs)
       }
     });
     var cvt = new r.Struct({
@@ -138988,25 +135301,24 @@ var require_fontkit = __commonJS({
       controlValueProgram: new r.Array(r.uint8)
     });
     var glyf = new r.Array(new r.Buffer());
-    var CFFIndex = function() {
-      function CFFIndex2(type) {
-        _classCallCheck(this, CFFIndex2);
+    var CFFIndex = class {
+      constructor(type) {
         this.type = type;
       }
-      CFFIndex2.prototype.getCFFVersion = function getCFFVersion(ctx) {
+      getCFFVersion(ctx) {
         while (ctx && !ctx.hdrSize) {
           ctx = ctx.parent;
         }
         return ctx ? ctx.version : -1;
-      };
-      CFFIndex2.prototype.decode = function decode(stream, parent) {
+      }
+      decode(stream, parent) {
         var version = this.getCFFVersion(parent);
         var count = version >= 2 ? stream.readUInt32BE() : stream.readUInt16BE();
         if (count === 0) {
           return [];
         }
         var offSize = stream.readUInt8();
-        var offsetType = void 0;
+        var offsetType;
         if (offSize === 1) {
           offsetType = r.uint8;
         } else if (offSize === 2) {
@@ -139016,7 +135328,7 @@ var require_fontkit = __commonJS({
         } else if (offSize === 4) {
           offsetType = r.uint32;
         } else {
-          throw new Error("Bad offset size in CFFIndex: " + offSize + " " + stream.pos);
+          throw new Error("Bad offset size in CFFIndex: ".concat(offSize, " ").concat(stream.pos));
         }
         var ret = [];
         var startPos = stream.pos + (count + 1) * offSize - 1;
@@ -139039,11 +135351,11 @@ var require_fontkit = __commonJS({
         }
         stream.pos = startPos + start;
         return ret;
-      };
-      CFFIndex2.prototype.size = function size(arr, parent) {
-        var size2 = 2;
+      }
+      size(arr, parent) {
+        var size = 2;
         if (arr.length === 0) {
-          return size2;
+          return size;
         }
         var type = this.type || new r.Buffer();
         var offset = 1;
@@ -139051,7 +135363,7 @@ var require_fontkit = __commonJS({
           var item = arr[i2];
           offset += type.size(item, parent);
         }
-        var offsetType = void 0;
+        var offsetType;
         if (offset <= 255) {
           offsetType = r.uint8;
         } else if (offset <= 65535) {
@@ -139063,11 +135375,11 @@ var require_fontkit = __commonJS({
         } else {
           throw new Error("Bad offset in CFFIndex");
         }
-        size2 += 1 + offsetType.size() * (arr.length + 1);
-        size2 += offset - 1;
-        return size2;
-      };
-      CFFIndex2.prototype.encode = function encode(stream, arr, parent) {
+        size += 1 + offsetType.size() * (arr.length + 1);
+        size += offset - 1;
+        return size;
+      }
+      encode(stream, arr, parent) {
         stream.writeUInt16BE(arr.length);
         if (arr.length === 0) {
           return;
@@ -139075,24 +135387,12 @@ var require_fontkit = __commonJS({
         var type = this.type || new r.Buffer();
         var sizes = [];
         var offset = 1;
-        for (var _iterator2 = arr, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var item = _ref2;
+        for (var item of arr) {
           var s2 = type.size(item, parent);
           sizes.push(s2);
           offset += s2;
         }
-        var offsetType = void 0;
+        var offsetType;
         if (offset <= 255) {
           offsetType = r.uint8;
         } else if (offset <= 65535) {
@@ -139107,41 +135407,16 @@ var require_fontkit = __commonJS({
         stream.writeUInt8(offsetType.size());
         offset = 1;
         offsetType.encode(stream, offset);
-        for (var _iterator22 = sizes, _isArray22 = Array.isArray(_iterator22), _i22 = 0, _iterator22 = _isArray22 ? _iterator22 : _getIterator(_iterator22); ; ) {
-          var _ref22;
-          if (_isArray22) {
-            if (_i22 >= _iterator22.length)
-              break;
-            _ref22 = _iterator22[_i22++];
-          } else {
-            _i22 = _iterator22.next();
-            if (_i22.done)
-              break;
-            _ref22 = _i22.value;
-          }
-          var size = _ref22;
+        for (var size of sizes) {
           offset += size;
           offsetType.encode(stream, offset);
         }
-        for (var _iterator3 = arr, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-          var _ref3;
-          if (_isArray3) {
-            if (_i3 >= _iterator3.length)
-              break;
-            _ref3 = _iterator3[_i3++];
-          } else {
-            _i3 = _iterator3.next();
-            if (_i3.done)
-              break;
-            _ref3 = _i3.value;
-          }
-          var _item = _ref3;
+        for (var _item of arr) {
           type.encode(stream, _item, parent);
         }
         return;
-      };
-      return CFFIndex2;
-    }();
+      }
+    };
     var FLOAT_EOF = 15;
     var FLOAT_LOOKUP = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "E", "E-", null, "-"];
     var FLOAT_ENCODE_LOOKUP = {
@@ -139150,11 +135425,8 @@ var require_fontkit = __commonJS({
       "E-": 12,
       "-": 14
     };
-    var CFFOperand = function() {
-      function CFFOperand2() {
-        _classCallCheck(this, CFFOperand2);
-      }
-      CFFOperand2.decode = function decode(stream, value) {
+    var CFFOperand = class {
+      static decode(stream, value) {
         if (32 <= value && value <= 246) {
           return value - 139;
         }
@@ -139188,8 +135460,8 @@ var require_fontkit = __commonJS({
           return parseFloat(str);
         }
         return null;
-      };
-      CFFOperand2.size = function size(value) {
+      }
+      static size(value) {
         if (value.forceLarge) {
           value = 32768;
         }
@@ -139205,8 +135477,8 @@ var require_fontkit = __commonJS({
         } else {
           return 5;
         }
-      };
-      CFFOperand2.encode = function encode(stream, value) {
+      }
+      static encode(stream, value) {
         var val = Number(value);
         if (value.forceLarge) {
           stream.writeUInt8(29);
@@ -139245,38 +135517,20 @@ var require_fontkit = __commonJS({
           stream.writeUInt8(29);
           return stream.writeInt32BE(val);
         }
-      };
-      return CFFOperand2;
-    }();
-    var CFFDict = function() {
-      function CFFDict2() {
-        var ops = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
-        _classCallCheck(this, CFFDict2);
+      }
+    };
+    var CFFDict = class {
+      constructor(ops = []) {
         this.ops = ops;
         this.fields = {};
-        for (var _iterator2 = ops, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var field = _ref2;
+        for (var field of ops) {
           var key = Array.isArray(field[0]) ? field[0][0] << 8 | field[0][1] : field[0];
           this.fields[key] = field;
         }
       }
-      CFFDict2.prototype.decodeOperands = function decodeOperands(type, stream, ret, operands) {
-        var _this = this;
+      decodeOperands(type, stream, ret, operands) {
         if (Array.isArray(type)) {
-          return operands.map(function(op, i2) {
-            return _this.decodeOperands(type[i2], stream, ret, [op]);
-          });
+          return operands.map((op, i2) => this.decodeOperands(type[i2], stream, ret, [op]));
         } else if (type.decode != null) {
           return type.decode(stream, ret, operands);
         } else {
@@ -139291,13 +135545,10 @@ var require_fontkit = __commonJS({
               return operands;
           }
         }
-      };
-      CFFDict2.prototype.encodeOperands = function encodeOperands(type, stream, ctx, operands) {
-        var _this2 = this;
+      }
+      encodeOperands(type, stream, ctx, operands) {
         if (Array.isArray(type)) {
-          return operands.map(function(op, i2) {
-            return _this2.encodeOperands(type[i2], stream, ctx, op)[0];
-          });
+          return operands.map((op, i2) => this.encodeOperands(type[i2], stream, ctx, op)[0]);
         } else if (type.encode != null) {
           return type.encode(stream, operands, ctx);
         } else if (typeof operands === "number") {
@@ -139309,14 +135560,18 @@ var require_fontkit = __commonJS({
         } else {
           return [operands];
         }
-      };
-      CFFDict2.prototype.decode = function decode(stream, parent) {
+      }
+      decode(stream, parent) {
         var end = stream.pos + parent.length;
         var ret = {};
         var operands = [];
-        _Object$defineProperties(ret, {
-          parent: { value: parent },
-          _startOffset: { value: stream.pos }
+        Object.defineProperties(ret, {
+          parent: {
+            value: parent
+          },
+          _startOffset: {
+            value: stream.pos
+          }
         });
         for (var key in this.fields) {
           var field = this.fields[key];
@@ -139330,12 +135585,12 @@ var require_fontkit = __commonJS({
             }
             var _field = this.fields[b];
             if (!_field) {
-              throw new Error("Unknown operator " + b);
+              throw new Error("Unknown operator ".concat(b));
             }
             var val = this.decodeOperands(_field[2], stream, ret, operands);
             if (val != null) {
-              if (val instanceof restructure_src_utils.PropertyDescriptor) {
-                _Object$defineProperty(ret, _field[1], val);
+              if (val instanceof utils.PropertyDescriptor) {
+                Object.defineProperty(ret, _field[1], val);
               } else {
                 ret[_field[1]] = val;
               }
@@ -139346,9 +135601,8 @@ var require_fontkit = __commonJS({
           }
         }
         return ret;
-      };
-      CFFDict2.prototype.size = function size(dict, parent) {
-        var includePointers = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : true;
+      }
+      size(dict, parent, includePointers = true) {
         var ctx = {
           parent,
           val: dict,
@@ -139363,19 +135617,7 @@ var require_fontkit = __commonJS({
             continue;
           }
           var operands = this.encodeOperands(field[2], null, ctx, val);
-          for (var _iterator2 = operands, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-            var _ref2;
-            if (_isArray2) {
-              if (_i2 >= _iterator2.length)
-                break;
-              _ref2 = _iterator2[_i2++];
-            } else {
-              _i2 = _iterator2.next();
-              if (_i2.done)
-                break;
-              _ref2 = _i2.value;
-            }
-            var op = _ref2;
+          for (var op of operands) {
             len += CFFOperand.size(op);
           }
           var key = Array.isArray(field[0]) ? field[0] : [field[0]];
@@ -139385,8 +135627,8 @@ var require_fontkit = __commonJS({
           len += ctx.pointerSize;
         }
         return len;
-      };
-      CFFDict2.prototype.encode = function encode(stream, dict, parent) {
+      }
+      encode(stream, dict, parent) {
         var ctx = {
           pointers: [],
           startOffset: stream.pos,
@@ -139395,53 +135637,17 @@ var require_fontkit = __commonJS({
           pointerSize: 0
         };
         ctx.pointerOffset = stream.pos + this.size(dict, ctx, false);
-        for (var _iterator3 = this.ops, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-          var _ref3;
-          if (_isArray3) {
-            if (_i3 >= _iterator3.length)
-              break;
-            _ref3 = _iterator3[_i3++];
-          } else {
-            _i3 = _iterator3.next();
-            if (_i3.done)
-              break;
-            _ref3 = _i3.value;
-          }
-          var field = _ref3;
+        for (var field of this.ops) {
           var val = dict[field[1]];
           if (val == null || isEqual(val, field[3])) {
             continue;
           }
           var operands = this.encodeOperands(field[2], stream, ctx, val);
-          for (var _iterator4 = operands, _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _getIterator(_iterator4); ; ) {
-            var _ref4;
-            if (_isArray4) {
-              if (_i4 >= _iterator4.length)
-                break;
-              _ref4 = _iterator4[_i4++];
-            } else {
-              _i4 = _iterator4.next();
-              if (_i4.done)
-                break;
-              _ref4 = _i4.value;
-            }
-            var op = _ref4;
+          for (var op of operands) {
             CFFOperand.encode(stream, op);
           }
           var key = Array.isArray(field[0]) ? field[0] : [field[0]];
-          for (var _iterator5 = key, _isArray5 = Array.isArray(_iterator5), _i5 = 0, _iterator5 = _isArray5 ? _iterator5 : _getIterator(_iterator5); ; ) {
-            var _ref5;
-            if (_isArray5) {
-              if (_i5 >= _iterator5.length)
-                break;
-              _ref5 = _iterator5[_i5++];
-            } else {
-              _i5 = _iterator5.next();
-              if (_i5.done)
-                break;
-              _ref5 = _i5.value;
-            }
-            var _op = _ref5;
+          for (var _op of key) {
             stream.writeUInt8(_op);
           }
         }
@@ -139451,71 +135657,54 @@ var require_fontkit = __commonJS({
           ptr2.type.encode(stream, ptr2.val, ptr2.parent);
         }
         return;
-      };
-      return CFFDict2;
-    }();
-    var CFFPointer = function(_r$Pointer) {
-      _inherits(CFFPointer2, _r$Pointer);
-      function CFFPointer2(type) {
-        var options2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-        _classCallCheck(this, CFFPointer2);
+      }
+    };
+    var CFFPointer = class extends r.Pointer {
+      constructor(type, options2 = {}) {
         if (options2.type == null) {
           options2.type = "global";
         }
-        return _possibleConstructorReturn(this, _r$Pointer.call(this, null, type, options2));
+        super(null, type, options2);
       }
-      CFFPointer2.prototype.decode = function decode(stream, parent, operands) {
+      decode(stream, parent, operands) {
         this.offsetType = {
-          decode: function decode2() {
-            return operands[0];
-          }
+          decode: () => operands[0]
         };
-        return _r$Pointer.prototype.decode.call(this, stream, parent, operands);
-      };
-      CFFPointer2.prototype.encode = function encode(stream, value, ctx) {
+        return super.decode(stream, parent, operands);
+      }
+      encode(stream, value, ctx) {
         if (!stream) {
           this.offsetType = {
-            size: function size() {
-              return 0;
-            }
+            size: () => 0
           };
           this.size(value, ctx);
           return [new Ptr(0)];
         }
         var ptr2 = null;
         this.offsetType = {
-          encode: function encode2(stream2, val) {
-            return ptr2 = val;
-          }
+          encode: (stream2, val) => ptr2 = val
         };
-        _r$Pointer.prototype.encode.call(this, stream, value, ctx);
+        super.encode(stream, value, ctx);
         return [new Ptr(ptr2)];
-      };
-      return CFFPointer2;
-    }(r.Pointer);
-    var Ptr = function() {
-      function Ptr2(val) {
-        _classCallCheck(this, Ptr2);
+      }
+    };
+    var Ptr = class {
+      constructor(val) {
         this.val = val;
         this.forceLarge = true;
       }
-      Ptr2.prototype.valueOf = function valueOf() {
+      valueOf() {
         return this.val;
-      };
-      return Ptr2;
-    }();
-    var CFFBlendOp = function() {
-      function CFFBlendOp2() {
-        _classCallCheck(this, CFFBlendOp2);
       }
-      CFFBlendOp2.decode = function decode(stream, parent, operands) {
+    };
+    var CFFBlendOp = class {
+      static decode(stream, parent, operands) {
         var numBlends = operands.pop();
         while (operands.length > numBlends) {
           operands.pop();
         }
-      };
-      return CFFBlendOp2;
-    }();
+      }
+    };
     var CFFPrivateDict = new CFFDict([
       [6, "BlueValues", "delta", null],
       [7, "OtherBlues", "delta", null],
@@ -139536,7 +135725,9 @@ var require_fontkit = __commonJS({
       [21, "nominalWidthX", "number", 0],
       [22, "vsindex", "number", 0],
       [23, "blend", CFFBlendOp, null],
-      [19, "Subrs", new CFFPointer(new CFFIndex(), { type: "local" }), null]
+      [19, "Subrs", new CFFPointer(new CFFIndex(), {
+        type: "local"
+      }), null]
     ]);
     var standardStrings = [".notdef", "space", "exclam", "quotedbl", "numbersign", "dollar", "percent", "ampersand", "quoteright", "parenleft", "parenright", "asterisk", "plus", "comma", "hyphen", "period", "slash", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "colon", "semicolon", "less", "equal", "greater", "question", "at", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "bracketleft", "backslash", "bracketright", "asciicircum", "underscore", "quoteleft", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "braceleft", "bar", "braceright", "asciitilde", "exclamdown", "cent", "sterling", "fraction", "yen", "florin", "section", "currency", "quotesingle", "quotedblleft", "guillemotleft", "guilsinglleft", "guilsinglright", "fi", "fl", "endash", "dagger", "daggerdbl", "periodcentered", "paragraph", "bullet", "quotesinglbase", "quotedblbase", "quotedblright", "guillemotright", "ellipsis", "perthousand", "questiondown", "grave", "acute", "circumflex", "tilde", "macron", "breve", "dotaccent", "dieresis", "ring", "cedilla", "hungarumlaut", "ogonek", "caron", "emdash", "AE", "ordfeminine", "Lslash", "Oslash", "OE", "ordmasculine", "ae", "dotlessi", "lslash", "oslash", "oe", "germandbls", "onesuperior", "logicalnot", "mu", "trademark", "Eth", "onehalf", "plusminus", "Thorn", "onequarter", "divide", "brokenbar", "degree", "thorn", "threequarters", "twosuperior", "registered", "minus", "eth", "multiply", "threesuperior", "copyright", "Aacute", "Acircumflex", "Adieresis", "Agrave", "Aring", "Atilde", "Ccedilla", "Eacute", "Ecircumflex", "Edieresis", "Egrave", "Iacute", "Icircumflex", "Idieresis", "Igrave", "Ntilde", "Oacute", "Ocircumflex", "Odieresis", "Ograve", "Otilde", "Scaron", "Uacute", "Ucircumflex", "Udieresis", "Ugrave", "Yacute", "Ydieresis", "Zcaron", "aacute", "acircumflex", "adieresis", "agrave", "aring", "atilde", "ccedilla", "eacute", "ecircumflex", "edieresis", "egrave", "iacute", "icircumflex", "idieresis", "igrave", "ntilde", "oacute", "ocircumflex", "odieresis", "ograve", "otilde", "scaron", "uacute", "ucircumflex", "udieresis", "ugrave", "yacute", "ydieresis", "zcaron", "exclamsmall", "Hungarumlautsmall", "dollaroldstyle", "dollarsuperior", "ampersandsmall", "Acutesmall", "parenleftsuperior", "parenrightsuperior", "twodotenleader", "onedotenleader", "zerooldstyle", "oneoldstyle", "twooldstyle", "threeoldstyle", "fouroldstyle", "fiveoldstyle", "sixoldstyle", "sevenoldstyle", "eightoldstyle", "nineoldstyle", "commasuperior", "threequartersemdash", "periodsuperior", "questionsmall", "asuperior", "bsuperior", "centsuperior", "dsuperior", "esuperior", "isuperior", "lsuperior", "msuperior", "nsuperior", "osuperior", "rsuperior", "ssuperior", "tsuperior", "ff", "ffi", "ffl", "parenleftinferior", "parenrightinferior", "Circumflexsmall", "hyphensuperior", "Gravesmall", "Asmall", "Bsmall", "Csmall", "Dsmall", "Esmall", "Fsmall", "Gsmall", "Hsmall", "Ismall", "Jsmall", "Ksmall", "Lsmall", "Msmall", "Nsmall", "Osmall", "Psmall", "Qsmall", "Rsmall", "Ssmall", "Tsmall", "Usmall", "Vsmall", "Wsmall", "Xsmall", "Ysmall", "Zsmall", "colonmonetary", "onefitted", "rupiah", "Tildesmall", "exclamdownsmall", "centoldstyle", "Lslashsmall", "Scaronsmall", "Zcaronsmall", "Dieresissmall", "Brevesmall", "Caronsmall", "Dotaccentsmall", "Macronsmall", "figuredash", "hypheninferior", "Ogoneksmall", "Ringsmall", "Cedillasmall", "questiondownsmall", "oneeighth", "threeeighths", "fiveeighths", "seveneighths", "onethird", "twothirds", "zerosuperior", "foursuperior", "fivesuperior", "sixsuperior", "sevensuperior", "eightsuperior", "ninesuperior", "zeroinferior", "oneinferior", "twoinferior", "threeinferior", "fourinferior", "fiveinferior", "sixinferior", "seveninferior", "eightinferior", "nineinferior", "centinferior", "dollarinferior", "periodinferior", "commainferior", "Agravesmall", "Aacutesmall", "Acircumflexsmall", "Atildesmall", "Adieresissmall", "Aringsmall", "AEsmall", "Ccedillasmall", "Egravesmall", "Eacutesmall", "Ecircumflexsmall", "Edieresissmall", "Igravesmall", "Iacutesmall", "Icircumflexsmall", "Idieresissmall", "Ethsmall", "Ntildesmall", "Ogravesmall", "Oacutesmall", "Ocircumflexsmall", "Otildesmall", "Odieresissmall", "OEsmall", "Oslashsmall", "Ugravesmall", "Uacutesmall", "Ucircumflexsmall", "Udieresissmall", "Yacutesmall", "Thornsmall", "Ydieresissmall", "001.000", "001.001", "001.002", "001.003", "Black", "Bold", "Book", "Light", "Medium", "Regular", "Roman", "Semibold"];
     var StandardEncoding = ["", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "space", "exclam", "quotedbl", "numbersign", "dollar", "percent", "ampersand", "quoteright", "parenleft", "parenright", "asterisk", "plus", "comma", "hyphen", "period", "slash", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "colon", "semicolon", "less", "equal", "greater", "question", "at", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "bracketleft", "backslash", "bracketright", "asciicircum", "underscore", "quoteleft", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "braceleft", "bar", "braceright", "asciitilde", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "exclamdown", "cent", "sterling", "fraction", "yen", "florin", "section", "currency", "quotesingle", "quotedblleft", "guillemotleft", "guilsinglleft", "guilsinglright", "fi", "fl", "", "endash", "dagger", "daggerdbl", "periodcentered", "", "paragraph", "bullet", "quotesinglbase", "quotedblbase", "quotedblright", "guillemotright", "ellipsis", "perthousand", "", "questiondown", "", "grave", "acute", "circumflex", "tilde", "macron", "breve", "dotaccent", "dieresis", "", "ring", "cedilla", "", "hungarumlaut", "ogonek", "caron", "emdash", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "AE", "", "ordfeminine", "", "", "", "", "Lslash", "Oslash", "OE", "ordmasculine", "", "", "", "", "", "ae", "", "", "", "dotlessi", "", "", "lslash", "oslash", "oe", "germandbls"];
@@ -139552,7 +135743,9 @@ var require_fontkit = __commonJS({
     });
     var LangSysRecord = new r.Struct({
       tag: new r.String(4),
-      langSys: new r.Pointer(r.uint16, LangSysTable, { type: "parent" })
+      langSys: new r.Pointer(r.uint16, LangSysTable, {
+        type: "parent"
+      })
     });
     var Script = new r.Struct({
       defaultLangSys: new r.Pointer(r.uint16, LangSysTable),
@@ -139561,7 +135754,9 @@ var require_fontkit = __commonJS({
     });
     var ScriptRecord = new r.Struct({
       tag: new r.String(4),
-      script: new r.Pointer(r.uint16, Script, { type: "parent" })
+      script: new r.Pointer(r.uint16, Script, {
+        type: "parent"
+      })
     });
     var ScriptList = new r.Array(ScriptRecord, r.uint16);
     var Feature = new r.Struct({
@@ -139571,7 +135766,9 @@ var require_fontkit = __commonJS({
     });
     var FeatureRecord = new r.Struct({
       tag: new r.String(4),
-      feature: new r.Pointer(r.uint16, Feature, { type: "parent" })
+      feature: new r.Pointer(r.uint16, Feature, {
+        type: "parent"
+      })
     });
     var FeatureList = new r.Array(FeatureRecord, r.uint16);
     var LookupFlags = new r.Struct({
@@ -139584,9 +135781,7 @@ var require_fontkit = __commonJS({
         flags: LookupFlags,
         subTableCount: r.uint16,
         subTables: new r.Array(new r.Pointer(r.uint16, SubTable), "subTableCount"),
-        markFilteringSet: new r.Optional(r.uint16, function(t2) {
-          return t2.flags.flags.useMarkFilteringSet;
-        })
+        markFilteringSet: new r.Optional(r.uint16, (t2) => t2.flags.flags.useMarkFilteringSet)
       });
       return new r.LazyArray(new r.Pointer(r.uint16, Lookup), r.uint16);
     }
@@ -139633,18 +135828,14 @@ var require_fontkit = __commonJS({
     var Rule = new r.Struct({
       glyphCount: r.uint16,
       lookupCount: r.uint16,
-      input: new r.Array(r.uint16, function(t2) {
-        return t2.glyphCount - 1;
-      }),
+      input: new r.Array(r.uint16, (t2) => t2.glyphCount - 1),
       lookupRecords: new r.Array(LookupRecord, "lookupCount")
     });
     var RuleSet = new r.Array(new r.Pointer(r.uint16, Rule), r.uint16);
     var ClassRule = new r.Struct({
       glyphCount: r.uint16,
       lookupCount: r.uint16,
-      classes: new r.Array(r.uint16, function(t2) {
-        return t2.glyphCount - 1;
-      }),
+      classes: new r.Array(r.uint16, (t2) => t2.glyphCount - 1),
       lookupRecords: new r.Array(LookupRecord, "lookupCount")
     });
     var ClassSet = new r.Array(new r.Pointer(r.uint16, ClassRule), r.uint16);
@@ -139671,9 +135862,7 @@ var require_fontkit = __commonJS({
       backtrackGlyphCount: r.uint16,
       backtrack: new r.Array(r.uint16, "backtrackGlyphCount"),
       inputGlyphCount: r.uint16,
-      input: new r.Array(r.uint16, function(t2) {
-        return t2.inputGlyphCount - 1;
-      }),
+      input: new r.Array(r.uint16, (t2) => t2.inputGlyphCount - 1),
       lookaheadGlyphCount: r.uint16,
       lookahead: new r.Array(r.uint16, "lookaheadGlyphCount"),
       lookupCount: r.uint16,
@@ -139705,7 +135894,6 @@ var require_fontkit = __commonJS({
         lookupRecords: new r.Array(LookupRecord, "lookupCount")
       }
     });
-    var _;
     var F2DOT14 = new r.Fixed(16, "BE", 14);
     var RegionAxisCoordinates = new r.Struct({
       startCoord: F2DOT14,
@@ -139718,15 +135906,9 @@ var require_fontkit = __commonJS({
       variationRegions: new r.Array(new r.Array(RegionAxisCoordinates, "axisCount"), "regionCount")
     });
     var DeltaSet = new r.Struct({
-      shortDeltas: new r.Array(r.int16, function(t2) {
-        return t2.parent.shortDeltaCount;
-      }),
-      regionDeltas: new r.Array(r.int8, function(t2) {
-        return t2.parent.regionIndexCount - t2.parent.shortDeltaCount;
-      }),
-      deltas: function deltas(t2) {
-        return t2.shortDeltas.concat(t2.regionDeltas);
-      }
+      shortDeltas: new r.Array(r.int16, (t2) => t2.parent.shortDeltaCount),
+      regionDeltas: new r.Array(r.int8, (t2) => t2.parent.regionIndexCount - t2.parent.shortDeltaCount),
+      deltas: (t2) => t2.shortDeltas.concat(t2.regionDeltas)
     });
     var ItemVariationData = new r.Struct({
       itemCount: r.uint16,
@@ -139742,9 +135924,12 @@ var require_fontkit = __commonJS({
       itemVariationData: new r.Array(new r.Pointer(r.uint32, ItemVariationData), "variationDataCount")
     });
     var ConditionTable = new r.VersionedStruct(r.uint16, {
-      1: (_ = {
-        axisIndex: r.uint16
-      }, _["axisIndex"] = r.uint16, _.filterRangeMinValue = F2DOT14, _.filterRangeMaxValue = F2DOT14, _)
+      1: {
+        axisIndex: r.uint16,
+        axisIndex: r.uint16,
+        filterRangeMinValue: F2DOT14,
+        filterRangeMaxValue: F2DOT14
+      }
     });
     var ConditionSet = new r.Struct({
       conditionCount: r.uint16,
@@ -139752,7 +135937,9 @@ var require_fontkit = __commonJS({
     });
     var FeatureTableSubstitutionRecord = new r.Struct({
       featureIndex: r.uint16,
-      alternateFeatureTable: new r.Pointer(r.uint32, Feature, { type: "parent" })
+      alternateFeatureTable: new r.Pointer(r.uint32, Feature, {
+        type: "parent"
+      })
     });
     var FeatureTableSubstitution = new r.Struct({
       version: r.fixed32,
@@ -139760,8 +135947,12 @@ var require_fontkit = __commonJS({
       substitutions: new r.Array(FeatureTableSubstitutionRecord, "substitutionCount")
     });
     var FeatureVariationRecord = new r.Struct({
-      conditionSet: new r.Pointer(r.uint32, ConditionSet, { type: "parent" }),
-      featureTableSubstitution: new r.Pointer(r.uint32, FeatureTableSubstitution, { type: "parent" })
+      conditionSet: new r.Pointer(r.uint32, ConditionSet, {
+        type: "parent"
+      }),
+      featureTableSubstitution: new r.Pointer(r.uint32, FeatureTableSubstitution, {
+        type: "parent"
+      })
     });
     var FeatureVariations = new r.Struct({
       majorVersion: r.uint16,
@@ -139769,41 +135960,36 @@ var require_fontkit = __commonJS({
       featureVariationRecordCount: r.uint32,
       featureVariationRecords: new r.Array(FeatureVariationRecord, "featureVariationRecordCount")
     });
-    var PredefinedOp = function() {
-      function PredefinedOp2(predefinedOps, type) {
-        _classCallCheck(this, PredefinedOp2);
+    var PredefinedOp = class {
+      constructor(predefinedOps, type) {
         this.predefinedOps = predefinedOps;
         this.type = type;
       }
-      PredefinedOp2.prototype.decode = function decode(stream, parent, operands) {
+      decode(stream, parent, operands) {
         if (this.predefinedOps[operands[0]]) {
           return this.predefinedOps[operands[0]];
         }
         return this.type.decode(stream, parent, operands);
-      };
-      PredefinedOp2.prototype.size = function size(value, ctx) {
+      }
+      size(value, ctx) {
         return this.type.size(value, ctx);
-      };
-      PredefinedOp2.prototype.encode = function encode(stream, value, ctx) {
+      }
+      encode(stream, value, ctx) {
         var index2 = this.predefinedOps.indexOf(value);
         if (index2 !== -1) {
           return index2;
         }
         return this.type.encode(stream, value, ctx);
-      };
-      return PredefinedOp2;
-    }();
-    var CFFEncodingVersion = function(_r$Number) {
-      _inherits(CFFEncodingVersion2, _r$Number);
-      function CFFEncodingVersion2() {
-        _classCallCheck(this, CFFEncodingVersion2);
-        return _possibleConstructorReturn(this, _r$Number.call(this, "UInt8"));
       }
-      CFFEncodingVersion2.prototype.decode = function decode(stream) {
+    };
+    var CFFEncodingVersion = class extends r.Number {
+      constructor() {
+        super("UInt8");
+      }
+      decode(stream) {
         return r.uint8.decode(stream) & 127;
-      };
-      return CFFEncodingVersion2;
-    }(r.Number);
+      }
+    };
     var Range1 = new r.Struct({
       first: r.uint16,
       nLeft: r.uint8
@@ -139822,15 +136008,12 @@ var require_fontkit = __commonJS({
         ranges: new r.Array(Range1, "nRanges")
       }
     });
-    var CFFEncoding = new PredefinedOp([StandardEncoding, ExpertEncoding], new CFFPointer(CFFCustomEncoding, { lazy: true }));
-    var RangeArray = function(_r$Array) {
-      _inherits(RangeArray2, _r$Array);
-      function RangeArray2() {
-        _classCallCheck(this, RangeArray2);
-        return _possibleConstructorReturn(this, _r$Array.apply(this, arguments));
-      }
-      RangeArray2.prototype.decode = function decode(stream, parent) {
-        var length = restructure_src_utils.resolveLength(this.length, stream, parent);
+    var CFFEncoding = new PredefinedOp([StandardEncoding, ExpertEncoding], new CFFPointer(CFFCustomEncoding, {
+      lazy: true
+    }));
+    var RangeArray = class extends r.Array {
+      decode(stream, parent) {
+        var length = utils.resolveLength(this.length, stream, parent);
         var count = 0;
         var res = [];
         while (count < length) {
@@ -139840,27 +136023,22 @@ var require_fontkit = __commonJS({
           res.push(range2);
         }
         return res;
-      };
-      return RangeArray2;
-    }(r.Array);
+      }
+    };
     var CFFCustomCharset = new r.VersionedStruct(r.uint8, {
       0: {
-        glyphs: new r.Array(r.uint16, function(t2) {
-          return t2.parent.CharStrings.length - 1;
-        })
+        glyphs: new r.Array(r.uint16, (t2) => t2.parent.CharStrings.length - 1)
       },
       1: {
-        ranges: new RangeArray(Range1, function(t2) {
-          return t2.parent.CharStrings.length - 1;
-        })
+        ranges: new RangeArray(Range1, (t2) => t2.parent.CharStrings.length - 1)
       },
       2: {
-        ranges: new RangeArray(Range2, function(t2) {
-          return t2.parent.CharStrings.length - 1;
-        })
+        ranges: new RangeArray(Range2, (t2) => t2.parent.CharStrings.length - 1)
       }
     });
-    var CFFCharset = new PredefinedOp([ISOAdobeCharset, ExpertCharset, ExpertSubsetCharset], new CFFPointer(CFFCustomCharset, { lazy: true }));
+    var CFFCharset = new PredefinedOp([ISOAdobeCharset, ExpertCharset, ExpertSubsetCharset], new CFFPointer(CFFCustomCharset, {
+      lazy: true
+    }));
     var FDRange3 = new r.Struct({
       first: r.uint16,
       fd: r.uint8
@@ -139871,9 +136049,7 @@ var require_fontkit = __commonJS({
     });
     var FDSelect = new r.VersionedStruct(r.uint8, {
       0: {
-        fds: new r.Array(r.uint8, function(t2) {
-          return t2.parent.CharStrings.length;
-        })
+        fds: new r.Array(r.uint8, (t2) => t2.parent.CharStrings.length)
       },
       3: {
         nRanges: r.uint16,
@@ -139887,22 +136063,18 @@ var require_fontkit = __commonJS({
       }
     });
     var ptr = new CFFPointer(CFFPrivateDict);
-    var CFFPrivateOp = function() {
-      function CFFPrivateOp2() {
-        _classCallCheck(this, CFFPrivateOp2);
-      }
-      CFFPrivateOp2.prototype.decode = function decode(stream, parent, operands) {
+    var CFFPrivateOp = class {
+      decode(stream, parent, operands) {
         parent.length = operands[0];
         return ptr.decode(stream, parent, [operands[1]]);
-      };
-      CFFPrivateOp2.prototype.size = function size(dict, ctx) {
+      }
+      size(dict, ctx) {
         return [CFFPrivateDict.size(dict, ctx, false), ptr.size(dict, ctx)[0]];
-      };
-      CFFPrivateOp2.prototype.encode = function encode(stream, dict, ctx) {
+      }
+      encode(stream, dict, ctx) {
         return [CFFPrivateDict.size(dict, ctx, false), ptr.encode(stream, dict, ctx)[0]];
-      };
-      return CFFPrivateOp2;
-    }();
+      }
+    };
     var FontDict = new CFFDict([
       [18, "Private", new CFFPrivateOp(), null],
       [[12, 38], "FontName", "sid", null],
@@ -139966,16 +136138,15 @@ var require_fontkit = __commonJS({
         globalSubrIndex: new CFFIndex()
       }
     });
-    var CFFFont = function() {
-      function CFFFont2(stream) {
-        _classCallCheck(this, CFFFont2);
+    var CFFFont = class {
+      constructor(stream) {
         this.stream = stream;
         this.decode();
       }
-      CFFFont2.decode = function decode(stream) {
-        return new CFFFont2(stream);
-      };
-      CFFFont2.prototype.decode = function decode() {
+      static decode(stream) {
+        return new CFFFont(stream);
+      }
+      decode() {
         var start = this.stream.pos;
         var top = CFFTop.decode(this.stream);
         for (var key in top) {
@@ -139990,8 +136161,8 @@ var require_fontkit = __commonJS({
         }
         this.isCIDFont = this.topDict.ROS != null;
         return this;
-      };
-      CFFFont2.prototype.string = function string(sid) {
+      }
+      string(sid) {
         if (this.version >= 2) {
           return null;
         }
@@ -139999,19 +136170,33 @@ var require_fontkit = __commonJS({
           return standardStrings[sid];
         }
         return this.stringIndex[sid - standardStrings.length];
-      };
-      CFFFont2.prototype.getCharString = function getCharString(glyph2) {
+      }
+      get postscriptName() {
+        if (this.version < 2) {
+          return this.nameIndex[0];
+        }
+        return null;
+      }
+      get fullName() {
+        return this.string(this.topDict.FullName);
+      }
+      get familyName() {
+        return this.string(this.topDict.FamilyName);
+      }
+      getCharString(glyph2) {
         this.stream.pos = this.topDict.CharStrings[glyph2].offset;
         return this.stream.readBuffer(this.topDict.CharStrings[glyph2].length);
-      };
-      CFFFont2.prototype.getGlyphName = function getGlyphName(gid) {
+      }
+      getGlyphName(gid) {
         if (this.version >= 2) {
           return null;
         }
         if (this.isCIDFont) {
           return null;
         }
-        var charset = this.topDict.charset;
+        var {
+          charset
+        } = this.topDict;
         if (Array.isArray(charset)) {
           return charset[gid];
         }
@@ -140033,8 +136218,8 @@ var require_fontkit = __commonJS({
             break;
         }
         return null;
-      };
-      CFFFont2.prototype.fdForGlyph = function fdForGlyph(gid) {
+      }
+      fdForGlyph(gid) {
         if (!this.topDict.FDSelect) {
           return null;
         }
@@ -140043,7 +136228,9 @@ var require_fontkit = __commonJS({
             return this.topDict.FDSelect.fds[gid];
           case 3:
           case 4:
-            var ranges = this.topDict.FDSelect.ranges;
+            var {
+              ranges
+            } = this.topDict.FDSelect;
             var low = 0;
             var high = ranges.length - 1;
             while (low <= high) {
@@ -140057,10 +136244,10 @@ var require_fontkit = __commonJS({
               }
             }
           default:
-            throw new Error("Unknown FDSelect version: " + this.topDict.FDSelect.version);
+            throw new Error("Unknown FDSelect version: ".concat(this.topDict.FDSelect.version));
         }
-      };
-      CFFFont2.prototype.privateDictForGlyph = function privateDictForGlyph(gid) {
+      }
+      privateDictForGlyph(gid) {
         if (this.topDict.FDSelect) {
           var fd = this.fdForGlyph(gid);
           if (this.topDict.FDArray[fd]) {
@@ -140072,28 +136259,8 @@ var require_fontkit = __commonJS({
           return this.topDict.Private;
         }
         return this.topDict.FDArray[0].Private;
-      };
-      _createClass(CFFFont2, [{
-        key: "postscriptName",
-        get: function get() {
-          if (this.version < 2) {
-            return this.nameIndex[0];
-          }
-          return null;
-        }
-      }, {
-        key: "fullName",
-        get: function get() {
-          return this.string(this.topDict.FullName);
-        }
-      }, {
-        key: "familyName",
-        get: function get() {
-          return this.string(this.topDict.FamilyName);
-        }
-      }]);
-      return CFFFont2;
-    }();
+      }
+    };
     var VerticalOrigin = new r.Struct({
       glyphIndex: r.uint16,
       vertOriginY: r.int16
@@ -140127,11 +136294,9 @@ var require_fontkit = __commonJS({
       xOffset: r.int8,
       yOffset: r.int8
     });
-    var ByteAligned = function ByteAligned2() {
-      _classCallCheck(this, ByteAligned2);
+    var ByteAligned = class {
     };
-    var BitAligned = function BitAligned2() {
-      _classCallCheck(this, BitAligned2);
+    var BitAligned = class {
     };
     var glyph = new r.VersionedStruct("version", {
       1: {
@@ -140203,24 +136368,18 @@ var require_fontkit = __commonJS({
         imageDataOffset: r.uint32
       },
       1: {
-        offsetArray: new r.Array(r.uint32, function(t2) {
-          return t2.parent.lastGlyphIndex - t2.parent.firstGlyphIndex + 1;
-        })
+        offsetArray: new r.Array(r.uint32, (t2) => t2.parent.lastGlyphIndex - t2.parent.firstGlyphIndex + 1)
       },
       2: {
         imageSize: r.uint32,
         bigMetrics: BigMetrics
       },
       3: {
-        offsetArray: new r.Array(r.uint16, function(t2) {
-          return t2.parent.lastGlyphIndex - t2.parent.firstGlyphIndex + 1;
-        })
+        offsetArray: new r.Array(r.uint16, (t2) => t2.parent.lastGlyphIndex - t2.parent.firstGlyphIndex + 1)
       },
       4: {
         numGlyphs: r.uint32,
-        glyphArray: new r.Array(CodeOffsetPair, function(t2) {
-          return t2.numGlyphs + 1;
-        })
+        glyphArray: new r.Array(CodeOffsetPair, (t2) => t2.numGlyphs + 1)
       },
       5: {
         imageSize: r.uint32,
@@ -140235,7 +136394,9 @@ var require_fontkit = __commonJS({
       subtable: new r.Pointer(r.uint32, IndexSubtable)
     });
     var BitmapSizeTable = new r.Struct({
-      indexSubTableArray: new r.Pointer(r.uint32, new r.Array(IndexSubtableArray, 1), { type: "parent" }),
+      indexSubTableArray: new r.Pointer(r.uint32, new r.Array(IndexSubtableArray, 1), {
+        type: "parent"
+      }),
       indexTablesSize: r.uint32,
       numberOfIndexSubTables: r.uint32,
       colorRef: r.uint32,
@@ -140256,9 +136417,7 @@ var require_fontkit = __commonJS({
     var ImageTable = new r.Struct({
       ppem: r.uint16,
       resolution: r.uint16,
-      imageOffsets: new r.Array(new r.Pointer(r.uint32, "void"), function(t2) {
-        return t2.parent.parent.maxp.numGlyphs + 1;
-      })
+      imageOffsets: new r.Array(new r.Pointer(r.uint32, "void"), (t2) => t2.parent.parent.maxp.numGlyphs + 1)
     });
     var sbix = new r.Struct({
       version: r.uint16,
@@ -140279,7 +136438,9 @@ var require_fontkit = __commonJS({
       version: r.uint16,
       numBaseGlyphRecords: r.uint16,
       baseGlyphRecord: new r.Pointer(r.uint32, new r.Array(BaseGlyphRecord, "numBaseGlyphRecords")),
-      layerRecords: new r.Pointer(r.uint32, new r.Array(LayerRecord, "numLayerRecords"), { lazy: true }),
+      layerRecords: new r.Pointer(r.uint32, new r.Array(LayerRecord, "numLayerRecords"), {
+        lazy: true
+      }),
       numLayerRecords: r.uint16
     });
     var ColorRecord = new r.Struct({
@@ -140324,8 +136485,12 @@ var require_fontkit = __commonJS({
     });
     var FeatMinMaxRecord = new r.Struct({
       tag: new r.String(4),
-      minCoord: new r.Pointer(r.uint16, BaseCoord, { type: "parent" }),
-      maxCoord: new r.Pointer(r.uint16, BaseCoord, { type: "parent" })
+      minCoord: new r.Pointer(r.uint16, BaseCoord, {
+        type: "parent"
+      }),
+      maxCoord: new r.Pointer(r.uint16, BaseCoord, {
+        type: "parent"
+      })
     });
     var MinMax = new r.Struct({
       minCoord: new r.Pointer(r.uint16, BaseCoord),
@@ -140335,7 +136500,9 @@ var require_fontkit = __commonJS({
     });
     var BaseLangSysRecord = new r.Struct({
       tag: new r.String(4),
-      minMax: new r.Pointer(r.uint16, MinMax, { type: "parent" })
+      minMax: new r.Pointer(r.uint16, MinMax, {
+        type: "parent"
+      })
     });
     var BaseScript = new r.Struct({
       baseValues: new r.Pointer(r.uint16, BaseValues),
@@ -140345,7 +136512,9 @@ var require_fontkit = __commonJS({
     });
     var BaseScriptRecord = new r.Struct({
       tag: new r.String(4),
-      script: new r.Pointer(r.uint16, BaseScript, { type: "parent" })
+      script: new r.Pointer(r.uint16, BaseScript, {
+        type: "parent"
+      })
     });
     var BaseScriptList = new r.Array(BaseScriptRecord, r.uint16);
     var BaseTagList = new r.Array(new r.String(4), r.uint16);
@@ -140409,23 +136578,34 @@ var require_fontkit = __commonJS({
       }
     });
     var ValueFormat = new r.Bitfield(r.uint16, ["xPlacement", "yPlacement", "xAdvance", "yAdvance", "xPlaDevice", "yPlaDevice", "xAdvDevice", "yAdvDevice"]);
+    var toRel = (ctx) => ctx.rel;
     var types2 = {
       xPlacement: r.int16,
       yPlacement: r.int16,
       xAdvance: r.int16,
       yAdvance: r.int16,
-      xPlaDevice: new r.Pointer(r.uint16, Device, { type: "global", relativeTo: "rel" }),
-      yPlaDevice: new r.Pointer(r.uint16, Device, { type: "global", relativeTo: "rel" }),
-      xAdvDevice: new r.Pointer(r.uint16, Device, { type: "global", relativeTo: "rel" }),
-      yAdvDevice: new r.Pointer(r.uint16, Device, { type: "global", relativeTo: "rel" })
+      xPlaDevice: new r.Pointer(r.uint16, Device, {
+        type: "global",
+        relativeTo: toRel
+      }),
+      yPlaDevice: new r.Pointer(r.uint16, Device, {
+        type: "global",
+        relativeTo: toRel
+      }),
+      xAdvDevice: new r.Pointer(r.uint16, Device, {
+        type: "global",
+        relativeTo: toRel
+      }),
+      yAdvDevice: new r.Pointer(r.uint16, Device, {
+        type: "global",
+        relativeTo: toRel
+      })
     };
-    var ValueRecord = function() {
-      function ValueRecord2() {
-        var key = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "valueFormat";
-        _classCallCheck(this, ValueRecord2);
+    var ValueRecord = class {
+      constructor(key = "valueFormat") {
         this.key = key;
       }
-      ValueRecord2.prototype.buildStruct = function buildStruct(parent) {
+      buildStruct(parent) {
         var struct = parent;
         while (!struct[this.key] && struct.parent) {
           struct = struct.parent;
@@ -140433,9 +136613,7 @@ var require_fontkit = __commonJS({
         if (!struct[this.key])
           return;
         var fields = {};
-        fields.rel = function() {
-          return struct._startOffset;
-        };
+        fields.rel = () => struct._startOffset;
         var format2 = struct[this.key];
         for (var key in format2) {
           if (format2[key]) {
@@ -140443,17 +136621,16 @@ var require_fontkit = __commonJS({
           }
         }
         return new r.Struct(fields);
-      };
-      ValueRecord2.prototype.size = function size(val, ctx) {
+      }
+      size(val, ctx) {
         return this.buildStruct(ctx).size(val, ctx);
-      };
-      ValueRecord2.prototype.decode = function decode(stream, parent) {
+      }
+      decode(stream, parent) {
         var res = this.buildStruct(parent).decode(stream, parent);
         delete res.rel;
         return res;
-      };
-      return ValueRecord2;
-    }();
+      }
+    };
     var PairValueRecord = new r.Struct({
       secondGlyph: r.uint16,
       value1: new ValueRecord("valueFormat1"),
@@ -140482,21 +136659,23 @@ var require_fontkit = __commonJS({
       }
     });
     var EntryExitRecord = new r.Struct({
-      entryAnchor: new r.Pointer(r.uint16, Anchor, { type: "parent" }),
-      exitAnchor: new r.Pointer(r.uint16, Anchor, { type: "parent" })
+      entryAnchor: new r.Pointer(r.uint16, Anchor, {
+        type: "parent"
+      }),
+      exitAnchor: new r.Pointer(r.uint16, Anchor, {
+        type: "parent"
+      })
     });
     var MarkRecord = new r.Struct({
       class: r.uint16,
-      markAnchor: new r.Pointer(r.uint16, Anchor, { type: "parent" })
+      markAnchor: new r.Pointer(r.uint16, Anchor, {
+        type: "parent"
+      })
     });
     var MarkArray = new r.Array(MarkRecord, r.uint16);
-    var BaseRecord = new r.Array(new r.Pointer(r.uint16, Anchor), function(t2) {
-      return t2.parent.classCount;
-    });
+    var BaseRecord = new r.Array(new r.Pointer(r.uint16, Anchor), (t2) => t2.parent.classCount);
     var BaseArray = new r.Array(BaseRecord, r.uint16);
-    var ComponentRecord = new r.Array(new r.Pointer(r.uint16, Anchor), function(t2) {
-      return t2.parent.parent.classCount;
-    });
+    var ComponentRecord = new r.Array(new r.Pointer(r.uint16, Anchor), (t2) => t2.parent.parent.classCount);
     var LigatureAttach = new r.Array(ComponentRecord, r.uint16);
     var LigatureArray = new r.Array(new r.Pointer(r.uint16, LigatureAttach), r.uint16);
     var GPOSLookup = new r.VersionedStruct("lookupType", {
@@ -140587,9 +136766,7 @@ var require_fontkit = __commonJS({
     var Ligature = new r.Struct({
       glyph: r.uint16,
       compCount: r.uint16,
-      components: new r.Array(r.uint16, function(t2) {
-        return t2.compCount - 1;
-      })
+      components: new r.Array(r.uint16, (t2) => t2.compCount - 1)
     });
     var LigatureSet = new r.Array(new r.Pointer(r.uint16, Ligature), r.uint16);
     var GSUBLookup = new r.VersionedStruct("lookupType", {
@@ -140677,19 +136854,20 @@ var require_fontkit = __commonJS({
     });
     var JstfScriptRecord = new r.Struct({
       tag: new r.String(4),
-      script: new r.Pointer(r.uint16, JstfScript, { type: "parent" })
+      script: new r.Pointer(r.uint16, JstfScript, {
+        type: "parent"
+      })
     });
     var JSTF = new r.Struct({
       version: r.uint32,
       scriptCount: r.uint16,
       scriptList: new r.Array(JstfScriptRecord, "scriptCount")
     });
-    var VariableSizeNumber = function() {
-      function VariableSizeNumber2(size) {
-        _classCallCheck(this, VariableSizeNumber2);
+    var VariableSizeNumber = class {
+      constructor(size) {
         this._size = size;
       }
-      VariableSizeNumber2.prototype.decode = function decode(stream, parent) {
+      decode(stream, parent) {
         switch (this.size(0, parent)) {
           case 1:
             return stream.readUInt8();
@@ -140700,22 +136878,15 @@ var require_fontkit = __commonJS({
           case 4:
             return stream.readUInt32BE();
         }
-      };
-      VariableSizeNumber2.prototype.size = function size(val, parent) {
-        return restructure_src_utils.resolveLength(this._size, null, parent);
-      };
-      return VariableSizeNumber2;
-    }();
-    var MapDataEntry = new r.Struct({
-      entry: new VariableSizeNumber(function(t2) {
-        return ((t2.parent.entryFormat & 48) >> 4) + 1;
-      }),
-      outerIndex: function outerIndex(t2) {
-        return t2.entry >> (t2.parent.entryFormat & 15) + 1;
-      },
-      innerIndex: function innerIndex(t2) {
-        return t2.entry & (1 << (t2.parent.entryFormat & 15) + 1) - 1;
       }
+      size(val, parent) {
+        return utils.resolveLength(this._size, null, parent);
+      }
+    };
+    var MapDataEntry = new r.Struct({
+      entry: new VariableSizeNumber((t2) => ((t2.parent.entryFormat & 48) >> 4) + 1),
+      outerIndex: (t2) => t2.entry >> (t2.parent.entryFormat & 15) + 1,
+      innerIndex: (t2) => t2.entry & (1 << (t2.parent.entryFormat & 15) + 1) - 1
     });
     var DeltaSetIndexMap = new r.Struct({
       entryFormat: r.uint16,
@@ -140764,9 +136935,7 @@ var require_fontkit = __commonJS({
     var DeviceRecord = new r.Struct({
       pixelSize: r.uint8,
       maximumWidth: r.uint8,
-      widths: new r.Array(r.uint8, function(t2) {
-        return t2.parent.parent.maxp.numGlyphs;
-      })
+      widths: new r.Array(r.uint8, (t2) => t2.parent.parent.maxp.numGlyphs)
     });
     var hdmx = new r.Struct({
       version: r.uint16,
@@ -140783,17 +136952,11 @@ var require_fontkit = __commonJS({
       firstGlyph: r.uint16,
       nGlyphs: r.uint16,
       offsets: new r.Array(r.uint16, "nGlyphs"),
-      max: function max(t2) {
-        return t2.offsets.length && Math.max.apply(Math, t2.offsets);
-      }
+      max: (t2) => t2.offsets.length && Math.max.apply(Math, t2.offsets)
     });
     var Kern2Array = new r.Struct({
-      off: function off(t2) {
-        return t2._startOffset - t2.parent.parent._startOffset;
-      },
-      len: function len(t2) {
-        return ((t2.parent.leftTable.max - t2.off) / t2.parent.rowWidth + 1) * (t2.parent.rowWidth / 2);
-      },
+      off: (t2) => t2._startOffset - t2.parent.parent._startOffset,
+      len: (t2) => ((t2.parent.leftTable.max - t2.off) / t2.parent.rowWidth + 1) * (t2.parent.rowWidth / 2),
       values: new r.LazyArray(r.int16, "len")
     });
     var KernSubtable = new r.VersionedStruct("format", {
@@ -140806,9 +136969,15 @@ var require_fontkit = __commonJS({
       },
       2: {
         rowWidth: r.uint16,
-        leftTable: new r.Pointer(r.uint16, ClassTable, { type: "parent" }),
-        rightTable: new r.Pointer(r.uint16, ClassTable, { type: "parent" }),
-        array: new r.Pointer(r.uint16, Kern2Array, { type: "parent" })
+        leftTable: new r.Pointer(r.uint16, ClassTable, {
+          type: "parent"
+        }),
+        rightTable: new r.Pointer(r.uint16, ClassTable, {
+          type: "parent"
+        }),
+        array: new r.Pointer(r.uint16, Kern2Array, {
+          type: "parent"
+        })
       },
       3: {
         glyphCount: r.uint16,
@@ -140819,9 +136988,7 @@ var require_fontkit = __commonJS({
         kernValue: new r.Array(r.int16, "kernValueCount"),
         leftClass: new r.Array(r.uint8, "glyphCount"),
         rightClass: new r.Array(r.uint8, "glyphCount"),
-        kernIndex: new r.Array(r.uint8, function(t2) {
-          return t2.leftClassCount * t2.rightClassCount;
-        })
+        kernIndex: new r.Array(r.uint8, (t2) => t2.leftClassCount * t2.rightClassCount)
       }
     });
     var KernTable = new r.VersionedStruct("version", {
@@ -140836,9 +137003,7 @@ var require_fontkit = __commonJS({
           "override"
         ]),
         subtable: KernSubtable,
-        padding: new r.Reserved(r.uint8, function(t2) {
-          return t2.length - t2._currentOffset;
-        })
+        padding: new r.Reserved(r.uint8, (t2) => t2.length - t2._currentOffset)
       },
       1: {
         length: r.uint32,
@@ -140855,9 +137020,7 @@ var require_fontkit = __commonJS({
         format: r.uint8,
         tupleIndex: r.uint16,
         subtable: KernSubtable,
-        padding: new r.Reserved(r.uint8, function(t2) {
-          return t2.length - t2._currentOffset;
-        })
+        padding: new r.Reserved(r.uint8, (t2) => t2.length - t2._currentOffset)
       }
     });
     var kern = new r.VersionedStruct(r.uint16, {
@@ -140939,12 +137102,8 @@ var require_fontkit = __commonJS({
       bearing: r.int16
     });
     var vmtx = new r.Struct({
-      metrics: new r.LazyArray(VmtxEntry, function(t2) {
-        return t2.parent.vhea.numberOfMetrics;
-      }),
-      bearings: new r.LazyArray(r.int16, function(t2) {
-        return t2.parent.maxp.numGlyphs - t2.parent.vhea.numberOfMetrics;
-      })
+      metrics: new r.LazyArray(VmtxEntry, (t2) => t2.parent.vhea.numberOfMetrics),
+      bearings: new r.LazyArray(r.int16, (t2) => t2.parent.maxp.numGlyphs - t2.parent.vhea.numberOfMetrics)
     });
     var shortFrac = new r.Fixed(16, "BE", 14);
     var Correspondence = new r.Struct({
@@ -140960,16 +137119,15 @@ var require_fontkit = __commonJS({
       axisCount: r.uint32,
       segment: new r.Array(Segment, "axisCount")
     });
-    var UnboundedArrayAccessor = function() {
-      function UnboundedArrayAccessor2(type, stream, parent) {
-        _classCallCheck(this, UnboundedArrayAccessor2);
+    var UnboundedArrayAccessor = class {
+      constructor(type, stream, parent) {
         this.type = type;
         this.stream = stream;
         this.parent = parent;
         this.base = this.stream.pos;
         this._items = [];
       }
-      UnboundedArrayAccessor2.prototype.getItem = function getItem(index2) {
+      getItem(index2) {
         if (this._items[index2] == null) {
           var pos = this.stream.pos;
           this.stream.pos = this.base + this.type.size(null, this.parent) * index2;
@@ -140977,44 +137135,37 @@ var require_fontkit = __commonJS({
           this.stream.pos = pos;
         }
         return this._items[index2];
-      };
-      UnboundedArrayAccessor2.prototype.inspect = function inspect() {
-        return "[UnboundedArray " + this.type.constructor.name + "]";
-      };
-      return UnboundedArrayAccessor2;
-    }();
-    var UnboundedArray = function(_r$Array) {
-      _inherits(UnboundedArray2, _r$Array);
-      function UnboundedArray2(type) {
-        _classCallCheck(this, UnboundedArray2);
-        return _possibleConstructorReturn(this, _r$Array.call(this, type, 0));
       }
-      UnboundedArray2.prototype.decode = function decode(stream, parent) {
+      inspect() {
+        return "[UnboundedArray ".concat(this.type.constructor.name, "]");
+      }
+    };
+    var UnboundedArray = class extends r.Array {
+      constructor(type) {
+        super(type, 0);
+      }
+      decode(stream, parent) {
         return new UnboundedArrayAccessor(this.type, stream, parent);
-      };
-      return UnboundedArray2;
-    }(r.Array);
-    var LookupTable = function LookupTable2() {
-      var ValueType = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : r.uint16;
-      var Shadow = function() {
-        function Shadow2(type) {
-          _classCallCheck(this, Shadow2);
+      }
+    };
+    var LookupTable = function(ValueType = r.uint16) {
+      class Shadow {
+        constructor(type) {
           this.type = type;
         }
-        Shadow2.prototype.decode = function decode(stream, ctx) {
+        decode(stream, ctx) {
           ctx = ctx.parent.parent;
           return this.type.decode(stream, ctx);
-        };
-        Shadow2.prototype.size = function size(val, ctx) {
+        }
+        size(val, ctx) {
           ctx = ctx.parent.parent;
           return this.type.size(val, ctx);
-        };
-        Shadow2.prototype.encode = function encode(stream, val, ctx) {
+        }
+        encode(stream, val, ctx) {
           ctx = ctx.parent.parent;
           return this.type.encode(stream, val, ctx);
-        };
-        return Shadow2;
-      }();
+        }
+      }
       ValueType = new Shadow(ValueType);
       var BinarySearchHeader = new r.Struct({
         unitSize: r.uint16,
@@ -141031,9 +137182,9 @@ var require_fontkit = __commonJS({
       var LookupSegmentArray = new r.Struct({
         lastGlyph: r.uint16,
         firstGlyph: r.uint16,
-        values: new r.Pointer(r.uint16, new r.Array(ValueType, function(t2) {
-          return t2.lastGlyph - t2.firstGlyph + 1;
-        }), { type: "parent" })
+        values: new r.Pointer(r.uint16, new r.Array(ValueType, (t2) => t2.lastGlyph - t2.firstGlyph + 1), {
+          type: "parent"
+        })
       });
       var LookupSingle = new r.Struct({
         glyph: r.uint16,
@@ -141045,21 +137196,15 @@ var require_fontkit = __commonJS({
         },
         2: {
           binarySearchHeader: BinarySearchHeader,
-          segments: new r.Array(LookupSegmentSingle, function(t2) {
-            return t2.binarySearchHeader.nUnits;
-          })
+          segments: new r.Array(LookupSegmentSingle, (t2) => t2.binarySearchHeader.nUnits)
         },
         4: {
           binarySearchHeader: BinarySearchHeader,
-          segments: new r.Array(LookupSegmentArray, function(t2) {
-            return t2.binarySearchHeader.nUnits;
-          })
+          segments: new r.Array(LookupSegmentArray, (t2) => t2.binarySearchHeader.nUnits)
         },
         6: {
           binarySearchHeader: BinarySearchHeader,
-          segments: new r.Array(LookupSingle, function(t2) {
-            return t2.binarySearchHeader.nUnits;
-          })
+          segments: new r.Array(LookupSingle, (t2) => t2.binarySearchHeader.nUnits)
         },
         8: {
           firstGlyph: r.uint16,
@@ -141068,17 +137213,13 @@ var require_fontkit = __commonJS({
         }
       });
     };
-    function StateTable() {
-      var entryData = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-      var lookupType = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : r.uint16;
-      var entry = _Object$assign({
+    function StateTable(entryData = {}, lookupType = r.uint16) {
+      var entry = Object.assign({
         newState: r.uint16,
         flags: r.uint16
       }, entryData);
       var Entry = new r.Struct(entry);
-      var StateArray = new UnboundedArray(new r.Array(r.uint16, function(t2) {
-        return t2.nClasses;
-      }));
+      var StateArray = new UnboundedArray(new r.Array(r.uint16, (t2) => t2.nClasses));
       var StateHeader = new r.Struct({
         nClasses: r.uint32,
         classTable: new r.Pointer(r.uint32, new LookupTable(lookupType)),
@@ -141087,27 +137228,21 @@ var require_fontkit = __commonJS({
       });
       return StateHeader;
     }
-    function StateTable1() {
-      var entryData = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-      var lookupType = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : r.uint16;
+    function StateTable1(entryData = {}, lookupType = r.uint16) {
       var ClassLookupTable = new r.Struct({
-        version: function version() {
+        version() {
           return 8;
         },
         firstGlyph: r.uint16,
         values: new r.Array(r.uint8, r.uint16)
       });
-      var entry = _Object$assign({
+      var entry = Object.assign({
         newStateOffset: r.uint16,
-        newState: function newState(t2) {
-          return (t2.newStateOffset - (t2.parent.stateArray.base - t2.parent._startOffset)) / t2.parent.nClasses;
-        },
+        newState: (t2) => (t2.newStateOffset - (t2.parent.stateArray.base - t2.parent._startOffset)) / t2.parent.nClasses,
         flags: r.uint16
       }, entryData);
       var Entry = new r.Struct(entry);
-      var StateArray = new UnboundedArray(new r.Array(r.uint8, function(t2) {
-        return t2.nClasses;
-      }));
+      var StateArray = new UnboundedArray(new r.Array(r.uint8, (t2) => t2.nClasses));
       var StateHeader1 = new r.Struct({
         nClasses: r.uint16,
         classTable: new r.Pointer(r.uint16, ClassLookupTable),
@@ -141143,20 +137278,18 @@ var require_fontkit = __commonJS({
     var Setting = new r.Struct({
       setting: r.uint16,
       nameIndex: r.int16,
-      name: function name(t2) {
-        return t2.parent.parent.parent.name.records.fontFeatures[t2.nameIndex];
-      }
+      name: (t2) => t2.parent.parent.parent.name.records.fontFeatures[t2.nameIndex]
     });
     var FeatureName = new r.Struct({
       feature: r.uint16,
       nSettings: r.uint16,
-      settingTable: new r.Pointer(r.uint32, new r.Array(Setting, "nSettings"), { type: "parent" }),
+      settingTable: new r.Pointer(r.uint32, new r.Array(Setting, "nSettings"), {
+        type: "parent"
+      }),
       featureFlags: new r.Bitfield(r.uint8, [null, null, null, null, null, null, "hasDefault", "exclusive"]),
       defaultSetting: r.uint8,
       nameIndex: r.int16,
-      name: function name(t2) {
-        return t2.parent.parent.name.records.fontFeatures[t2.nameIndex];
-      }
+      name: (t2) => t2.parent.parent.name.records.fontFeatures[t2.nameIndex]
     });
     var feat = new r.Struct({
       version: r.fixed32,
@@ -141172,22 +137305,14 @@ var require_fontkit = __commonJS({
       maxValue: r.fixed32,
       flags: r.uint16,
       nameID: r.uint16,
-      name: function name(t2) {
-        return t2.parent.parent.name.records.fontFeatures[t2.nameID];
-      }
+      name: (t2) => t2.parent.parent.name.records.fontFeatures[t2.nameID]
     });
     var Instance = new r.Struct({
       nameID: r.uint16,
-      name: function name(t2) {
-        return t2.parent.parent.name.records.fontFeatures[t2.nameID];
-      },
+      name: (t2) => t2.parent.parent.name.records.fontFeatures[t2.nameID],
       flags: r.uint16,
-      coord: new r.Array(r.fixed32, function(t2) {
-        return t2.parent.axisCount;
-      }),
-      postscriptNameID: new r.Optional(r.uint16, function(t2) {
-        return t2.parent.instanceSize - t2._currentOffset > 0;
-      })
+      coord: new r.Array(r.fixed32, (t2) => t2.parent.axisCount),
+      postscriptNameID: new r.Optional(r.uint16, (t2) => t2.parent.instanceSize - t2._currentOffset > 0)
     });
     var fvar = new r.Struct({
       version: r.fixed32,
@@ -141201,15 +137326,11 @@ var require_fontkit = __commonJS({
       instance: new r.Array(Instance, "instanceCount")
     });
     var shortFrac$1 = new r.Fixed(16, "BE", 14);
-    var Offset = function() {
-      function Offset2() {
-        _classCallCheck(this, Offset2);
-      }
-      Offset2.decode = function decode(stream, parent) {
+    var Offset = class {
+      static decode(stream, parent) {
         return parent.flags ? stream.readUInt32BE() : stream.readUInt16BE() * 2;
-      };
-      return Offset2;
-    }();
+      }
+    };
     var gvar = new r.Struct({
       version: r.uint16,
       reserved: new r.Reserved(r.uint16),
@@ -141219,9 +137340,10 @@ var require_fontkit = __commonJS({
       glyphCount: r.uint16,
       flags: r.uint16,
       offsetToData: r.uint32,
-      offsets: new r.Array(new r.Pointer(Offset, "void", { relativeTo: "offsetToData", allowNull: false }), function(t2) {
-        return t2.glyphCount + 1;
-      })
+      offsets: new r.Array(new r.Pointer(Offset, "void", {
+        relativeTo: (ctx) => ctx.offsetToData,
+        allowNull: false
+      }), (t2) => t2.glyphCount + 1)
     });
     var ClassTable$1 = new r.Struct({
       length: r.uint16,
@@ -141271,19 +137393,24 @@ var require_fontkit = __commonJS({
       actionType: r.uint16,
       actionLength: r.uint32,
       actionData: ActionData,
-      padding: new r.Reserved(r.uint8, function(t2) {
-        return t2.actionLength - t2._currentOffset;
-      })
+      padding: new r.Reserved(r.uint8, (t2) => t2.actionLength - t2._currentOffset)
     });
     var PostcompensationAction = new r.Array(Action, r.uint32);
     var PostCompensationTable = new r.Struct({
       lookupTable: new LookupTable(new r.Pointer(r.uint16, PostcompensationAction))
     });
     var JustificationTable = new r.Struct({
-      classTable: new r.Pointer(r.uint16, ClassTable$1, { type: "parent" }),
+      classTable: new r.Pointer(r.uint16, ClassTable$1, {
+        type: "parent"
+      }),
       wdcOffset: r.uint16,
-      postCompensationTable: new r.Pointer(r.uint16, PostCompensationTable, { type: "parent" }),
-      widthDeltaClusters: new LookupTable(new r.Pointer(r.uint16, WidthDeltaCluster, { type: "parent", relativeTo: "wdcOffset" }))
+      postCompensationTable: new r.Pointer(r.uint16, PostCompensationTable, {
+        type: "parent"
+      }),
+      widthDeltaClusters: new LookupTable(new r.Pointer(r.uint16, WidthDeltaCluster, {
+        type: "parent",
+        relativeTo: (ctx) => ctx.wdcOffset
+      }))
     });
     var just = new r.Struct({
       version: r.uint32,
@@ -141333,9 +137460,7 @@ var require_fontkit = __commonJS({
       type: r.uint8,
       subFeatureFlags: r.uint32,
       table: SubtableData,
-      padding: new r.Reserved(r.uint8, function(t2) {
-        return t2.length - t2._currentOffset;
-      })
+      padding: new r.Reserved(r.uint8, (t2) => t2.length - t2._currentOffset)
     });
     var FeatureEntry = new r.Struct({
       featureType: r.uint16,
@@ -141416,7 +137541,9 @@ var require_fontkit = __commonJS({
     var TableEntry = new r.Struct({
       tag: new r.String(4),
       checkSum: r.uint32,
-      offset: new r.Pointer(r.uint32, "void", { type: "global" }),
+      offset: new r.Pointer(r.uint32, "void", {
+        type: "global"
+      }),
       length: r.uint32
     });
     var Directory = new r.Struct({
@@ -141429,29 +137556,17 @@ var require_fontkit = __commonJS({
     });
     Directory.process = function() {
       var tables2 = {};
-      for (var _iterator2 = this.tables, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-        var _ref2;
-        if (_isArray2) {
-          if (_i2 >= _iterator2.length)
-            break;
-          _ref2 = _iterator2[_i2++];
-        } else {
-          _i2 = _iterator2.next();
-          if (_i2.done)
-            break;
-          _ref2 = _i2.value;
-        }
-        var table = _ref2;
+      for (var table of this.tables) {
         tables2[table.tag] = table;
       }
       this.tables = tables2;
     };
     Directory.preEncode = function(stream) {
-      var tables$$ = [];
+      var tables$1 = [];
       for (var tag2 in this.tables) {
         var table = this.tables[tag2];
         if (table) {
-          tables$$.push({
+          tables$1.push({
             tag: tag2,
             checkSum: 0,
             offset: new r.VoidPointer(tables[tag2], table),
@@ -141460,8 +137575,8 @@ var require_fontkit = __commonJS({
         }
       }
       this.tag = "true";
-      this.numTables = tables$$.length;
-      this.tables = tables$$;
+      this.numTables = tables$1.length;
+      this.tables = tables$1;
       var maxExponentFor2 = Math.floor(Math.log(this.numTables) / Math.LN2);
       var maxPowerOf2 = Math.pow(2, maxExponentFor2);
       this.searchRange = maxPowerOf2 * 16;
@@ -141491,38 +137606,14 @@ var require_fontkit = __commonJS({
       }
       return range2;
     }
-    var _class$1;
-    function _applyDecoratedDescriptor$1(target, property, decorators, descriptor, context) {
-      var desc = {};
-      Object["keys"](descriptor).forEach(function(key) {
-        desc[key] = descriptor[key];
-      });
-      desc.enumerable = !!desc.enumerable;
-      desc.configurable = !!desc.configurable;
-      if ("value" in desc || desc.initializer) {
-        desc.writable = true;
-      }
-      desc = decorators.slice().reverse().reduce(function(desc2, decorator) {
-        return decorator(target, property, desc2) || desc2;
-      }, desc);
-      if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = void 0;
-      }
-      if (desc.initializer === void 0) {
-        Object["defineProperty"](target, property, desc);
-        desc = null;
-      }
-      return desc;
-    }
+    var _class;
     try {
       iconv = require("iconv-lite");
     } catch (err) {
     }
     var iconv;
-    var CmapProcessor = (_class$1 = function() {
-      function CmapProcessor2(cmapTable) {
-        _classCallCheck(this, CmapProcessor2);
+    var CmapProcessor = (_class = class CmapProcessor {
+      constructor(cmapTable) {
         this.encoding = null;
         this.cmap = this.findSubtable(cmapTable, [
           [3, 10],
@@ -141535,19 +137626,7 @@ var require_fontkit = __commonJS({
           [0, 0]
         ]);
         if (!this.cmap && iconv) {
-          for (var _iterator2 = cmapTable.tables, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-            var _ref2;
-            if (_isArray2) {
-              if (_i2 >= _iterator2.length)
-                break;
-              _ref2 = _iterator2[_i2++];
-            } else {
-              _i2 = _iterator2.next();
-              if (_i2.done)
-                break;
-              _ref2 = _i2.value;
-            }
-            var cmap2 = _ref2;
+          for (var cmap2 of cmapTable.tables) {
             var encoding = getEncoding(cmap2.platformID, cmap2.encodingID, cmap2.table.language - 1);
             if (iconv.encodingExists(encoding)) {
               this.cmap = cmap2.table;
@@ -141563,43 +137642,19 @@ var require_fontkit = __commonJS({
           this.uvs = null;
         }
       }
-      CmapProcessor2.prototype.findSubtable = function findSubtable(cmapTable, pairs) {
-        for (var _iterator2 = pairs, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var _ref3 = _ref2, platformID = _ref3[0], encodingID = _ref3[1];
-          for (var _iterator3 = cmapTable.tables, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-            var _ref4;
-            if (_isArray3) {
-              if (_i3 >= _iterator3.length)
-                break;
-              _ref4 = _iterator3[_i3++];
-            } else {
-              _i3 = _iterator3.next();
-              if (_i3.done)
-                break;
-              _ref4 = _i3.value;
-            }
-            var cmap2 = _ref4;
+      findSubtable(cmapTable, pairs) {
+        for (var [platformID, encodingID] of pairs) {
+          for (var cmap2 of cmapTable.tables) {
             if (cmap2.platformID === platformID && cmap2.encodingID === encodingID) {
               return cmap2.table;
             }
           }
         }
         return null;
-      };
-      CmapProcessor2.prototype.lookup = function lookup(codepoint, variationSelector) {
+      }
+      lookup(codepoint, variationSelector) {
         if (this.encoding) {
-          var buf = iconv.encode(_String$fromCodePoint(codepoint), this.encoding);
+          var buf = iconv.encode(String.fromCodePoint(codepoint), this.encoding);
           codepoint = 0;
           for (var i2 = 0; i2 < buf.length; i2++) {
             codepoint = codepoint << 8 | buf[i2];
@@ -141669,34 +137724,28 @@ var require_fontkit = __commonJS({
           case 14:
             throw new Error("TODO: cmap format 14");
           default:
-            throw new Error("Unknown cmap format " + cmap2.version);
+            throw new Error("Unknown cmap format ".concat(cmap2.version));
         }
-      };
-      CmapProcessor2.prototype.getVariationSelector = function getVariationSelector(codepoint, variationSelector) {
+      }
+      getVariationSelector(codepoint, variationSelector) {
         if (!this.uvs) {
           return 0;
         }
         var selectors = this.uvs.varSelectors.toArray();
-        var i2 = binarySearch(selectors, function(x) {
-          return variationSelector - x.varSelector;
-        });
+        var i2 = binarySearch(selectors, (x) => variationSelector - x.varSelector);
         var sel = selectors[i2];
         if (i2 !== -1 && sel.defaultUVS) {
-          i2 = binarySearch(sel.defaultUVS, function(x) {
-            return codepoint < x.startUnicodeValue ? -1 : codepoint > x.startUnicodeValue + x.additionalCount ? 1 : 0;
-          });
+          i2 = binarySearch(sel.defaultUVS, (x) => codepoint < x.startUnicodeValue ? -1 : codepoint > x.startUnicodeValue + x.additionalCount ? 1 : 0);
         }
         if (i2 !== -1 && sel.nonDefaultUVS) {
-          i2 = binarySearch(sel.nonDefaultUVS, function(x) {
-            return codepoint - x.unicodeValue;
-          });
+          i2 = binarySearch(sel.nonDefaultUVS, (x) => codepoint - x.unicodeValue);
           if (i2 !== -1) {
             return sel.nonDefaultUVS[i2].glyphID;
           }
         }
         return 0;
-      };
-      CmapProcessor2.prototype.getCharacterSet = function getCharacterSet() {
+      }
+      getCharacterSet() {
         var cmap2 = this.cmap;
         switch (cmap2.version) {
           case 0:
@@ -141707,7 +137756,7 @@ var require_fontkit = __commonJS({
             for (var i2 = 0; i2 < endCodes.length; i2++) {
               var tail = endCodes[i2] + 1;
               var start = cmap2.startCode.get(i2);
-              res.push.apply(res, range(start, tail));
+              res.push(...range(start, tail));
             }
             return res;
           }
@@ -141719,30 +137768,18 @@ var require_fontkit = __commonJS({
           case 12:
           case 13: {
             var _res = [];
-            for (var _iterator4 = cmap2.groups.toArray(), _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _getIterator(_iterator4); ; ) {
-              var _ref5;
-              if (_isArray4) {
-                if (_i4 >= _iterator4.length)
-                  break;
-                _ref5 = _iterator4[_i4++];
-              } else {
-                _i4 = _iterator4.next();
-                if (_i4.done)
-                  break;
-                _ref5 = _i4.value;
-              }
-              var group = _ref5;
-              _res.push.apply(_res, range(group.startCharCode, group.endCharCode + 1));
+            for (var group of cmap2.groups.toArray()) {
+              _res.push(...range(group.startCharCode, group.endCharCode + 1));
             }
             return _res;
           }
           case 14:
             throw new Error("TODO: cmap format 14");
           default:
-            throw new Error("Unknown cmap format " + cmap2.version);
+            throw new Error("Unknown cmap format ".concat(cmap2.version));
         }
-      };
-      CmapProcessor2.prototype.codePointsForGlyph = function codePointsForGlyph(gid) {
+      }
+      codePointsForGlyph(gid) {
         var cmap2 = this.cmap;
         switch (cmap2.version) {
           case 0: {
@@ -141756,17 +137793,17 @@ var require_fontkit = __commonJS({
           }
           case 4: {
             var _res2 = [];
-            for (var _i5 = 0; _i5 < cmap2.segCount; _i5++) {
-              var end = cmap2.endCode.get(_i5);
-              var start = cmap2.startCode.get(_i5);
-              var rangeOffset = cmap2.idRangeOffset.get(_i5);
-              var delta = cmap2.idDelta.get(_i5);
+            for (var _i = 0; _i < cmap2.segCount; _i++) {
+              var end = cmap2.endCode.get(_i);
+              var start = cmap2.startCode.get(_i);
+              var rangeOffset = cmap2.idRangeOffset.get(_i);
+              var delta = cmap2.idDelta.get(_i);
               for (var c = start; c <= end; c++) {
                 var g = 0;
                 if (rangeOffset === 0) {
                   g = c + delta;
                 } else {
-                  var index2 = rangeOffset / 2 + (c - start) - (cmap2.segCount - _i5);
+                  var index2 = rangeOffset / 2 + (c - start) - (cmap2.segCount - _i);
                   g = cmap2.glyphIndexArray.get(index2) || 0;
                   if (g !== 0) {
                     g += delta;
@@ -141781,19 +137818,7 @@ var require_fontkit = __commonJS({
           }
           case 12: {
             var _res3 = [];
-            for (var _iterator5 = cmap2.groups.toArray(), _isArray5 = Array.isArray(_iterator5), _i62 = 0, _iterator5 = _isArray5 ? _iterator5 : _getIterator(_iterator5); ; ) {
-              var _ref6;
-              if (_isArray5) {
-                if (_i62 >= _iterator5.length)
-                  break;
-                _ref6 = _iterator5[_i62++];
-              } else {
-                _i62 = _iterator5.next();
-                if (_i62.done)
-                  break;
-                _ref6 = _i62.value;
-              }
-              var group = _ref6;
+            for (var group of cmap2.groups.toArray()) {
               if (gid >= group.glyphID && gid <= group.glyphID + (group.endCharCode - group.startCharCode)) {
                 _res3.push(group.startCharCode + (gid - group.glyphID));
               }
@@ -141802,58 +137827,32 @@ var require_fontkit = __commonJS({
           }
           case 13: {
             var _res4 = [];
-            for (var _iterator6 = cmap2.groups.toArray(), _isArray6 = Array.isArray(_iterator6), _i7 = 0, _iterator6 = _isArray6 ? _iterator6 : _getIterator(_iterator6); ; ) {
-              var _ref7;
-              if (_isArray6) {
-                if (_i7 >= _iterator6.length)
-                  break;
-                _ref7 = _iterator6[_i7++];
-              } else {
-                _i7 = _iterator6.next();
-                if (_i7.done)
-                  break;
-                _ref7 = _i7.value;
-              }
-              var _group = _ref7;
+            for (var _group of cmap2.groups.toArray()) {
               if (gid === _group.glyphID) {
-                _res4.push.apply(_res4, range(_group.startCharCode, _group.endCharCode + 1));
+                _res4.push(...range(_group.startCharCode, _group.endCharCode + 1));
               }
             }
             return _res4;
           }
           default:
-            throw new Error("Unknown cmap format " + cmap2.version);
+            throw new Error("Unknown cmap format ".concat(cmap2.version));
         }
-      };
-      return CmapProcessor2;
-    }(), _applyDecoratedDescriptor$1(_class$1.prototype, "getCharacterSet", [cache], _Object$getOwnPropertyDescriptor(_class$1.prototype, "getCharacterSet"), _class$1.prototype), _applyDecoratedDescriptor$1(_class$1.prototype, "codePointsForGlyph", [cache], _Object$getOwnPropertyDescriptor(_class$1.prototype, "codePointsForGlyph"), _class$1.prototype), _class$1);
-    var KernProcessor = function() {
-      function KernProcessor2(font) {
-        _classCallCheck(this, KernProcessor2);
+      }
+    }, _applyDecoratedDescriptor(_class.prototype, "getCharacterSet", [cache], Object.getOwnPropertyDescriptor(_class.prototype, "getCharacterSet"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "codePointsForGlyph", [cache], Object.getOwnPropertyDescriptor(_class.prototype, "codePointsForGlyph"), _class.prototype), _class);
+    var KernProcessor = class {
+      constructor(font) {
         this.kern = font.kern;
       }
-      KernProcessor2.prototype.process = function process2(glyphs, positions) {
+      process(glyphs, positions) {
         for (var glyphIndex = 0; glyphIndex < glyphs.length - 1; glyphIndex++) {
           var left = glyphs[glyphIndex].id;
           var right = glyphs[glyphIndex + 1].id;
           positions[glyphIndex].xAdvance += this.getKerning(left, right);
         }
-      };
-      KernProcessor2.prototype.getKerning = function getKerning(left, right) {
+      }
+      getKerning(left, right) {
         var res = 0;
-        for (var _iterator2 = this.kern.tables, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var table = _ref2;
+        for (var table of this.kern.tables) {
           if (table.coverage.crossStream) {
             continue;
           }
@@ -141869,7 +137868,7 @@ var require_fontkit = __commonJS({
               }
               break;
             default:
-              throw new Error("Unsupported kerning table version " + table.version);
+              throw new Error("Unsupported kerning table version ".concat(table.version));
           }
           var val = 0;
           var s2 = table.subtable;
@@ -141902,7 +137901,7 @@ var require_fontkit = __commonJS({
               val = s2.kernValue[s2.kernIndex[s2.leftClass[left] * s2.rightClassCount + s2.rightClass[right]]];
               break;
             default:
-              throw new Error("Unsupported kerning sub-table format " + table.format);
+              throw new Error("Unsupported kerning sub-table format ".concat(table.format));
           }
           if (table.coverage.override) {
             res = val;
@@ -141911,15 +137910,13 @@ var require_fontkit = __commonJS({
           }
         }
         return res;
-      };
-      return KernProcessor2;
-    }();
-    var UnicodeLayoutEngine = function() {
-      function UnicodeLayoutEngine2(font) {
-        _classCallCheck(this, UnicodeLayoutEngine2);
+      }
+    };
+    var UnicodeLayoutEngine = class {
+      constructor(font) {
         this.font = font;
       }
-      UnicodeLayoutEngine2.prototype.positionGlyphs = function positionGlyphs(glyphs, positions) {
+      positionGlyphs(glyphs, positions) {
         var clusterStart = 0;
         var clusterEnd = 0;
         for (var index2 = 0; index2 < glyphs.length; index2++) {
@@ -141937,8 +137934,8 @@ var require_fontkit = __commonJS({
           this.positionCluster(glyphs, positions, clusterStart, clusterEnd);
         }
         return positions;
-      };
-      UnicodeLayoutEngine2.prototype.positionCluster = function positionCluster(glyphs, positions, clusterStart, clusterEnd) {
+      }
+      positionCluster(glyphs, positions, clusterStart, clusterEnd) {
         var base2 = glyphs[clusterStart];
         var baseBox = base2.cbox.copy();
         if (base2.codePoints.length > 1) {
@@ -142007,8 +138004,8 @@ var require_fontkit = __commonJS({
           }
         }
         return;
-      };
-      UnicodeLayoutEngine2.prototype.getCombiningClass = function getCombiningClass(codePoint) {
+      }
+      getCombiningClass(codePoint) {
         var combiningClass = unicode.getCombiningClass(codePoint);
         if ((codePoint & ~255) === 3584) {
           if (combiningClass === "Not_Reordered") {
@@ -142090,22 +138087,22 @@ var require_fontkit = __commonJS({
             return "Above";
         }
         return combiningClass;
-      };
-      return UnicodeLayoutEngine2;
-    }();
-    var BBox = function() {
-      function BBox2() {
-        var minX = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : Infinity;
-        var minY = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : Infinity;
-        var maxX = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : -Infinity;
-        var maxY = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : -Infinity;
-        _classCallCheck(this, BBox2);
+      }
+    };
+    var BBox = class {
+      constructor(minX = Infinity, minY = Infinity, maxX = -Infinity, maxY = -Infinity) {
         this.minX = minX;
         this.minY = minY;
         this.maxX = maxX;
         this.maxY = maxY;
       }
-      BBox2.prototype.addPoint = function addPoint(x, y) {
+      get width() {
+        return this.maxX - this.minX;
+      }
+      get height() {
+        return this.maxY - this.minY;
+      }
+      addPoint(x, y) {
         if (Math.abs(x) !== Infinity) {
           if (x < this.minX) {
             this.minX = x;
@@ -142122,23 +138119,11 @@ var require_fontkit = __commonJS({
             this.maxY = y;
           }
         }
-      };
-      BBox2.prototype.copy = function copy() {
-        return new BBox2(this.minX, this.minY, this.maxX, this.maxY);
-      };
-      _createClass(BBox2, [{
-        key: "width",
-        get: function get() {
-          return this.maxX - this.minX;
-        }
-      }, {
-        key: "height",
-        get: function get() {
-          return this.maxY - this.minY;
-        }
-      }]);
-      return BBox2;
-    }();
+      }
+      copy() {
+        return new BBox(this.minX, this.minY, this.maxX, this.maxY);
+      }
+    };
     var UNICODE_SCRIPTS = {
       Caucasian_Albanian: "aghb",
       Arabic: "arab",
@@ -142272,18 +138257,7 @@ var require_fontkit = __commonJS({
     for (script in UNICODE_SCRIPTS) {
       tag = UNICODE_SCRIPTS[script];
       if (Array.isArray(tag)) {
-        for (_iterator = tag, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _getIterator(_iterator); ; ) {
-          if (_isArray) {
-            if (_i >= _iterator.length)
-              break;
-            _ref = _iterator[_i++];
-          } else {
-            _i = _iterator.next();
-            if (_i.done)
-              break;
-            _ref = _i.value;
-          }
-          t = _ref;
+        for (t of tag) {
           OPENTYPE_SCRIPTS[t] = script;
         }
       } else {
@@ -142291,11 +138265,7 @@ var require_fontkit = __commonJS({
       }
     }
     var tag;
-    var _ref;
     var t;
-    var _iterator;
-    var _isArray;
-    var _i;
     var script;
     function fromOpenType(tag2) {
       return OPENTYPE_SCRIPTS[tag2];
@@ -142362,107 +138332,59 @@ var require_fontkit = __commonJS({
       }
       return "ltr";
     }
-    var GlyphRun = function() {
-      function GlyphRun2(glyphs, features2, script2, language, direction$$) {
-        _classCallCheck(this, GlyphRun2);
+    var GlyphRun = class {
+      constructor(glyphs, features2, script2, language, direction$1) {
         this.glyphs = glyphs;
         this.positions = null;
         this.script = script2;
         this.language = language || null;
-        this.direction = direction$$ || direction(script2);
+        this.direction = direction$1 || direction(script2);
         this.features = {};
         if (Array.isArray(features2)) {
-          for (var _iterator2 = features2, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-            var _ref2;
-            if (_isArray2) {
-              if (_i2 >= _iterator2.length)
-                break;
-              _ref2 = _iterator2[_i2++];
-            } else {
-              _i2 = _iterator2.next();
-              if (_i2.done)
-                break;
-              _ref2 = _i2.value;
-            }
-            var tag2 = _ref2;
+          for (var tag2 of features2) {
             this.features[tag2] = true;
           }
-        } else if ((typeof features2 === "undefined" ? "undefined" : _typeof(features2)) === "object") {
+        } else if (typeof features2 === "object") {
           this.features = features2;
         }
       }
-      _createClass(GlyphRun2, [{
-        key: "advanceWidth",
-        get: function get() {
-          var width = 0;
-          for (var _iterator2 = this.positions, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-            var _ref2;
-            if (_isArray2) {
-              if (_i2 >= _iterator2.length)
-                break;
-              _ref2 = _iterator2[_i2++];
-            } else {
-              _i2 = _iterator2.next();
-              if (_i2.done)
-                break;
-              _ref2 = _i2.value;
-            }
-            var position = _ref2;
-            width += position.xAdvance;
-          }
-          return width;
+      get advanceWidth() {
+        var width = 0;
+        for (var position of this.positions) {
+          width += position.xAdvance;
         }
-      }, {
-        key: "advanceHeight",
-        get: function get() {
-          var height = 0;
-          for (var _iterator3 = this.positions, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-            var _ref3;
-            if (_isArray3) {
-              if (_i3 >= _iterator3.length)
-                break;
-              _ref3 = _iterator3[_i3++];
-            } else {
-              _i3 = _iterator3.next();
-              if (_i3.done)
-                break;
-              _ref3 = _i3.value;
-            }
-            var position = _ref3;
-            height += position.yAdvance;
-          }
-          return height;
+        return width;
+      }
+      get advanceHeight() {
+        var height = 0;
+        for (var position of this.positions) {
+          height += position.yAdvance;
         }
-      }, {
-        key: "bbox",
-        get: function get() {
-          var bbox = new BBox();
-          var x = 0;
-          var y = 0;
-          for (var index2 = 0; index2 < this.glyphs.length; index2++) {
-            var glyph2 = this.glyphs[index2];
-            var p = this.positions[index2];
-            var b = glyph2.bbox;
-            bbox.addPoint(b.minX + x + p.xOffset, b.minY + y + p.yOffset);
-            bbox.addPoint(b.maxX + x + p.xOffset, b.maxY + y + p.yOffset);
-            x += p.xAdvance;
-            y += p.yAdvance;
-          }
-          return bbox;
+        return height;
+      }
+      get bbox() {
+        var bbox = new BBox();
+        var x = 0;
+        var y = 0;
+        for (var index2 = 0; index2 < this.glyphs.length; index2++) {
+          var glyph2 = this.glyphs[index2];
+          var p = this.positions[index2];
+          var b = glyph2.bbox;
+          bbox.addPoint(b.minX + x + p.xOffset, b.minY + y + p.yOffset);
+          bbox.addPoint(b.maxX + x + p.xOffset, b.maxY + y + p.yOffset);
+          x += p.xAdvance;
+          y += p.yAdvance;
         }
-      }]);
-      return GlyphRun2;
-    }();
-    var GlyphPosition = function GlyphPosition2() {
-      var xAdvance = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0;
-      var yAdvance = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0;
-      var xOffset = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 0;
-      var yOffset = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : 0;
-      _classCallCheck(this, GlyphPosition2);
-      this.xAdvance = xAdvance;
-      this.yAdvance = yAdvance;
-      this.xOffset = xOffset;
-      this.yOffset = yOffset;
+        return bbox;
+      }
+    };
+    var GlyphPosition = class {
+      constructor(xAdvance = 0, yAdvance = 0, xOffset = 0, yOffset = 0) {
+        this.xAdvance = xAdvance;
+        this.yAdvance = yAdvance;
+        this.xOffset = xOffset;
+        this.yOffset = yOffset;
+      }
     };
     var features = {
       allTypographicFeatures: {
@@ -142776,9 +138698,7 @@ var require_fontkit = __commonJS({
         fullWidthCJKRoman: 3
       }
     };
-    var feature = function feature2(name, selector) {
-      return [features[name].code, features[name][selector]];
-    };
+    var feature = (name, selector) => [features[name].code, features[name][selector]];
     var OTMapping = {
       rlig: feature("ligatures", "requiredLigatures"),
       clig: feature("ligatures", "contextualLigatures"),
@@ -142865,7 +138785,7 @@ var require_fontkit = __commonJS({
       ss20: feature("stylisticAlternatives", "stylisticAltTwenty")
     };
     for (i = 1; i <= 99; i++) {
-      OTMapping["cv" + ("00" + i).slice(-2)] = [features.characterAlternatives.code, i];
+      OTMapping["cv".concat("00".concat(i).slice(-2))] = [features.characterAlternatives.code, i];
     }
     var i;
     var AATMapping = {};
@@ -142892,7 +138812,7 @@ var require_fontkit = __commonJS({
       return res;
     }
     function mapFeatureStrings(f) {
-      var type = f[0], setting = f[1];
+      var [type, setting] = f;
       if (isNaN(type)) {
         var typeCode = features[type] && features[type].code;
       } else {
@@ -142915,7 +138835,7 @@ var require_fontkit = __commonJS({
             res[r2] = true;
           }
         }
-      } else if ((typeof features2 === "undefined" ? "undefined" : _typeof(features2)) === "object") {
+      } else if (typeof features2 === "object") {
         for (var type in features2) {
           var _feature = features2[type];
           for (var setting in _feature) {
@@ -142927,38 +138847,14 @@ var require_fontkit = __commonJS({
           }
         }
       }
-      return _Object$keys(res);
+      return Object.keys(res);
     }
-    var _class$3;
-    function _applyDecoratedDescriptor$3(target, property, decorators, descriptor, context) {
-      var desc = {};
-      Object["keys"](descriptor).forEach(function(key) {
-        desc[key] = descriptor[key];
-      });
-      desc.enumerable = !!desc.enumerable;
-      desc.configurable = !!desc.configurable;
-      if ("value" in desc || desc.initializer) {
-        desc.writable = true;
-      }
-      desc = decorators.slice().reverse().reduce(function(desc2, decorator) {
-        return decorator(target, property, desc2) || desc2;
-      }, desc);
-      if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = void 0;
-      }
-      if (desc.initializer === void 0) {
-        Object["defineProperty"](target, property, desc);
-        desc = null;
-      }
-      return desc;
-    }
-    var AATLookupTable = (_class$3 = function() {
-      function AATLookupTable2(table) {
-        _classCallCheck(this, AATLookupTable2);
+    var _class$1;
+    var AATLookupTable = (_class$1 = class AATLookupTable {
+      constructor(table) {
         this.table = table;
       }
-      AATLookupTable2.prototype.lookup = function lookup(glyph2) {
+      lookup(glyph2) {
         switch (this.table.version) {
           case 0:
             return this.table.values.getItem(glyph2);
@@ -143008,29 +138904,17 @@ var require_fontkit = __commonJS({
           case 8:
             return this.table.values[glyph2 - this.table.firstGlyph];
           default:
-            throw new Error("Unknown lookup table format: " + this.table.version);
+            throw new Error("Unknown lookup table format: ".concat(this.table.version));
         }
-      };
-      AATLookupTable2.prototype.glyphsForValue = function glyphsForValue(classValue) {
+      }
+      glyphsForValue(classValue) {
         var res = [];
         switch (this.table.version) {
           case 2:
           case 4: {
-            for (var _iterator2 = this.table.segments, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-              var _ref2;
-              if (_isArray2) {
-                if (_i2 >= _iterator2.length)
-                  break;
-                _ref2 = _iterator2[_i2++];
-              } else {
-                _i2 = _iterator2.next();
-                if (_i2.done)
-                  break;
-                _ref2 = _i2.value;
-              }
-              var segment = _ref2;
+            for (var segment of this.table.segments) {
               if (this.table.version === 2 && segment.value === classValue) {
-                res.push.apply(res, range(segment.firstGlyph, segment.lastGlyph + 1));
+                res.push(...range(segment.firstGlyph, segment.lastGlyph + 1));
               } else {
                 for (var index2 = 0; index2 < segment.values.length; index2++) {
                   if (segment.values[index2] === classValue) {
@@ -143042,19 +138926,7 @@ var require_fontkit = __commonJS({
             break;
           }
           case 6: {
-            for (var _iterator22 = this.table.segments, _isArray22 = Array.isArray(_iterator22), _i22 = 0, _iterator22 = _isArray22 ? _iterator22 : _getIterator(_iterator22); ; ) {
-              var _ref22;
-              if (_isArray22) {
-                if (_i22 >= _iterator22.length)
-                  break;
-                _ref22 = _iterator22[_i22++];
-              } else {
-                _i22 = _iterator22.next();
-                if (_i22.done)
-                  break;
-                _ref22 = _i22.value;
-              }
-              var _segment = _ref22;
+            for (var _segment of this.table.segments) {
               if (_segment.value === classValue) {
                 res.push(_segment.glyph);
               }
@@ -143070,24 +138942,22 @@ var require_fontkit = __commonJS({
             break;
           }
           default:
-            throw new Error("Unknown lookup table format: " + this.table.version);
+            throw new Error("Unknown lookup table format: ".concat(this.table.version));
         }
         return res;
-      };
-      return AATLookupTable2;
-    }(), _applyDecoratedDescriptor$3(_class$3.prototype, "glyphsForValue", [cache], _Object$getOwnPropertyDescriptor(_class$3.prototype, "glyphsForValue"), _class$3.prototype), _class$3);
+      }
+    }, _applyDecoratedDescriptor(_class$1.prototype, "glyphsForValue", [cache], Object.getOwnPropertyDescriptor(_class$1.prototype, "glyphsForValue"), _class$1.prototype), _class$1);
     var START_OF_TEXT_STATE = 0;
     var END_OF_TEXT_CLASS = 0;
     var OUT_OF_BOUNDS_CLASS = 1;
     var DELETED_GLYPH_CLASS = 2;
     var DONT_ADVANCE = 16384;
-    var AATStateMachine = function() {
-      function AATStateMachine2(stateTable2) {
-        _classCallCheck(this, AATStateMachine2);
+    var AATStateMachine = class {
+      constructor(stateTable2) {
         this.stateTable = stateTable2;
         this.lookupTable = new AATLookupTable(stateTable2.classTable);
       }
-      AATStateMachine2.prototype.process = function process2(glyphs, reverse, processEntry) {
+      process(glyphs, reverse, processEntry) {
         var currentState = START_OF_TEXT_STATE;
         var index2 = reverse ? glyphs.length - 1 : 0;
         var dir = reverse ? -1 : 1;
@@ -143121,32 +138991,22 @@ var require_fontkit = __commonJS({
           }
         }
         return glyphs;
-      };
-      AATStateMachine2.prototype.traverse = function traverse(opts) {
-        var state = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0;
-        var visited = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : new _Set();
+      }
+      traverse(opts, state = 0, visited = new Set()) {
         if (visited.has(state)) {
           return;
         }
         visited.add(state);
-        var _stateTable = this.stateTable, nClasses = _stateTable.nClasses, stateArray = _stateTable.stateArray, entryTable = _stateTable.entryTable;
+        var {
+          nClasses,
+          stateArray,
+          entryTable
+        } = this.stateTable;
         var row = stateArray.getItem(state);
         for (var classCode = 4; classCode < nClasses; classCode++) {
           var entryIndex = row[classCode];
           var entry = entryTable.getItem(entryIndex);
-          for (var _iterator2 = this.lookupTable.glyphsForValue(classCode), _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-            var _ref2;
-            if (_isArray2) {
-              if (_i2 >= _iterator2.length)
-                break;
-              _ref2 = _iterator2[_i2++];
-            } else {
-              _i2 = _iterator2.next();
-              if (_i2.done)
-                break;
-              _ref2 = _i2.value;
-            }
-            var glyph2 = _ref2;
+          for (var glyph2 of this.lookupTable.glyphsForValue(classCode)) {
             if (opts.enter) {
               opts.enter(glyph2, entry);
             }
@@ -143158,33 +139018,9 @@ var require_fontkit = __commonJS({
             }
           }
         }
-      };
-      return AATStateMachine2;
-    }();
+      }
+    };
     var _class$2;
-    function _applyDecoratedDescriptor$2(target, property, decorators, descriptor, context) {
-      var desc = {};
-      Object["keys"](descriptor).forEach(function(key) {
-        desc[key] = descriptor[key];
-      });
-      desc.enumerable = !!desc.enumerable;
-      desc.configurable = !!desc.configurable;
-      if ("value" in desc || desc.initializer) {
-        desc.writable = true;
-      }
-      desc = decorators.slice().reverse().reduce(function(desc2, decorator) {
-        return decorator(target, property, desc2) || desc2;
-      }, desc);
-      if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = void 0;
-      }
-      if (desc.initializer === void 0) {
-        Object["defineProperty"](target, property, desc);
-        desc = null;
-      }
-      return desc;
-    }
     var MARK_FIRST = 32768;
     var MARK_LAST = 8192;
     var VERB = 15;
@@ -143199,9 +139035,8 @@ var require_fontkit = __commonJS({
     var MARKED_INSERT_BEFORE = 1024;
     var CURRENT_INSERT_COUNT = 992;
     var MARKED_INSERT_COUNT = 31;
-    var AATMorxProcessor = (_class$2 = function() {
-      function AATMorxProcessor2(font) {
-        _classCallCheck(this, AATMorxProcessor2);
+    var AATMorxProcessor = (_class$2 = class AATMorxProcessor {
+      constructor(font) {
         this.processIndicRearragement = this.processIndicRearragement.bind(this);
         this.processContextualSubstitution = this.processContextualSubstitution.bind(this);
         this.processLigature = this.processLigature.bind(this);
@@ -143211,35 +139046,10 @@ var require_fontkit = __commonJS({
         this.morx = font.morx;
         this.inputCache = null;
       }
-      AATMorxProcessor2.prototype.process = function process2(glyphs) {
-        var features2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-        for (var _iterator2 = this.morx.chains, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var chain = _ref2;
+      process(glyphs, features2 = {}) {
+        for (var chain of this.morx.chains) {
           var flags = chain.defaultFlags;
-          for (var _iterator22 = chain.features, _isArray22 = Array.isArray(_iterator22), _i22 = 0, _iterator22 = _isArray22 ? _iterator22 : _getIterator(_iterator22); ; ) {
-            var _ref22;
-            if (_isArray22) {
-              if (_i22 >= _iterator22.length)
-                break;
-              _ref22 = _iterator22[_i22++];
-            } else {
-              _i22 = _iterator22.next();
-              if (_i22.done)
-                break;
-              _ref22 = _i22.value;
-            }
-            var feature2 = _ref22;
+          for (var feature2 of chain.features) {
             var f = void 0;
             if (f = features2[feature2.featureType]) {
               if (f[feature2.featureSetting]) {
@@ -143251,19 +139061,7 @@ var require_fontkit = __commonJS({
               }
             }
           }
-          for (var _iterator3 = chain.subtables, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-            var _ref3;
-            if (_isArray3) {
-              if (_i3 >= _iterator3.length)
-                break;
-              _ref3 = _iterator3[_i3++];
-            } else {
-              _i3 = _iterator3.next();
-              if (_i3.done)
-                break;
-              _ref3 = _i3.value;
-            }
-            var subtable = _ref3;
+          for (var subtable of chain.subtables) {
             if (subtable.subFeatureFlags & flags) {
               this.processSubtable(subtable, glyphs);
             }
@@ -143277,8 +139075,8 @@ var require_fontkit = __commonJS({
           index2--;
         }
         return glyphs;
-      };
-      AATMorxProcessor2.prototype.processSubtable = function processSubtable(subtable, glyphs) {
+      }
+      processSubtable(subtable, glyphs) {
         this.subtable = subtable;
         this.glyphs = glyphs;
         if (this.subtable.type === 4) {
@@ -143294,11 +139092,11 @@ var require_fontkit = __commonJS({
         var process2 = this.getProcessor();
         var reverse = !!(this.subtable.coverage & REVERSE_DIRECTION);
         return stateMachine2.process(this.glyphs, reverse, process2);
-      };
-      AATMorxProcessor2.prototype.getStateMachine = function getStateMachine(subtable) {
+      }
+      getStateMachine(subtable) {
         return new AATStateMachine(subtable.table.stateTable);
-      };
-      AATMorxProcessor2.prototype.getProcessor = function getProcessor() {
+      }
+      getProcessor() {
         switch (this.subtable.type) {
           case 0:
             return this.processIndicRearragement;
@@ -143311,10 +139109,10 @@ var require_fontkit = __commonJS({
           case 5:
             return this.processGlyphInsertion;
           default:
-            throw new Error("Invalid morx subtable type: " + this.subtable.type);
+            throw new Error("Invalid morx subtable type: ".concat(this.subtable.type));
         }
-      };
-      AATMorxProcessor2.prototype.processIndicRearragement = function processIndicRearragement(glyph2, entry, index2) {
+      }
+      processIndicRearragement(glyph2, entry, index2) {
         if (entry.flags & MARK_FIRST) {
           this.firstGlyph = index2;
         }
@@ -143322,8 +139120,8 @@ var require_fontkit = __commonJS({
           this.lastGlyph = index2;
         }
         reorderGlyphs(this.glyphs, entry.flags & VERB, this.firstGlyph, this.lastGlyph);
-      };
-      AATMorxProcessor2.prototype.processContextualSubstitution = function processContextualSubstitution(glyph2, entry, index2) {
+      }
+      processContextualSubstitution(glyph2, entry, index2) {
         var subsitutions = this.subtable.table.substitutionTable.items;
         if (entry.markIndex !== 65535) {
           var lookup = subsitutions.getItem(entry.markIndex);
@@ -143346,13 +139144,12 @@ var require_fontkit = __commonJS({
         if (entry.flags & SET_MARK) {
           this.markedGlyph = index2;
         }
-      };
-      AATMorxProcessor2.prototype.processLigature = function processLigature(glyph2, entry, index2) {
+      }
+      processLigature(glyph2, entry, index2) {
         if (entry.flags & SET_COMPONENT) {
           this.ligatureStack.push(index2);
         }
         if (entry.flags & PERFORM_ACTION) {
-          var _ligatureStack;
           var actions = this.subtable.table.ligatureActions;
           var components = this.subtable.table.components;
           var ligatureList = this.subtable.table.ligatureList;
@@ -143362,9 +139159,8 @@ var require_fontkit = __commonJS({
           var codePoints = [];
           var ligatureGlyphs = [];
           while (!last) {
-            var _codePoints;
             var componentGlyph = this.ligatureStack.pop();
-            (_codePoints = codePoints).unshift.apply(_codePoints, this.glyphs[componentGlyph].codePoints);
+            codePoints.unshift(...this.glyphs[componentGlyph].codePoints);
             var action = actions.getItem(actionIndex++);
             last = !!(action & LAST_MASK);
             var store = !!(action & STORE_MASK);
@@ -143382,10 +139178,10 @@ var require_fontkit = __commonJS({
               this.glyphs[componentGlyph] = this.font.getGlyph(65535);
             }
           }
-          (_ligatureStack = this.ligatureStack).push.apply(_ligatureStack, ligatureGlyphs);
+          this.ligatureStack.push(...ligatureGlyphs);
         }
-      };
-      AATMorxProcessor2.prototype.processNoncontextualSubstitutions = function processNoncontextualSubstitutions(subtable, glyphs, index2) {
+      }
+      processNoncontextualSubstitutions(subtable, glyphs, index2) {
         var lookupTable = new AATLookupTable(subtable.table.lookupTable);
         for (index2 = 0; index2 < glyphs.length; index2++) {
           var glyph2 = glyphs[index2];
@@ -143396,9 +139192,8 @@ var require_fontkit = __commonJS({
             }
           }
         }
-      };
-      AATMorxProcessor2.prototype._insertGlyphs = function _insertGlyphs(glyphIndex, insertionActionIndex, count, isBefore) {
-        var _glyphs;
+      }
+      _insertGlyphs(glyphIndex, insertionActionIndex, count, isBefore) {
         var insertions = [];
         while (count--) {
           var gid = this.subtable.table.insertionActions.getItem(insertionActionIndex++);
@@ -143407,9 +139202,9 @@ var require_fontkit = __commonJS({
         if (!isBefore) {
           glyphIndex++;
         }
-        (_glyphs = this.glyphs).splice.apply(_glyphs, [glyphIndex, 0].concat(insertions));
-      };
-      AATMorxProcessor2.prototype.processGlyphInsertion = function processGlyphInsertion(glyph2, entry, index2) {
+        this.glyphs.splice(glyphIndex, 0, ...insertions);
+      }
+      processGlyphInsertion(glyph2, entry, index2) {
         if (entry.flags & SET_MARK) {
           this.markedIndex = index2;
         }
@@ -143423,83 +139218,34 @@ var require_fontkit = __commonJS({
           var _isBefore = !!(entry.flags & CURRENT_INSERT_BEFORE);
           this._insertGlyphs(index2, entry.currentInsertIndex, _count, _isBefore);
         }
-      };
-      AATMorxProcessor2.prototype.getSupportedFeatures = function getSupportedFeatures() {
+      }
+      getSupportedFeatures() {
         var features2 = [];
-        for (var _iterator4 = this.morx.chains, _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _getIterator(_iterator4); ; ) {
-          var _ref4;
-          if (_isArray4) {
-            if (_i4 >= _iterator4.length)
-              break;
-            _ref4 = _iterator4[_i4++];
-          } else {
-            _i4 = _iterator4.next();
-            if (_i4.done)
-              break;
-            _ref4 = _i4.value;
-          }
-          var chain = _ref4;
-          for (var _iterator5 = chain.features, _isArray5 = Array.isArray(_iterator5), _i5 = 0, _iterator5 = _isArray5 ? _iterator5 : _getIterator(_iterator5); ; ) {
-            var _ref5;
-            if (_isArray5) {
-              if (_i5 >= _iterator5.length)
-                break;
-              _ref5 = _iterator5[_i5++];
-            } else {
-              _i5 = _iterator5.next();
-              if (_i5.done)
-                break;
-              _ref5 = _i5.value;
-            }
-            var feature2 = _ref5;
+        for (var chain of this.morx.chains) {
+          for (var feature2 of chain.features) {
             features2.push([feature2.featureType, feature2.featureSetting]);
           }
         }
         return features2;
-      };
-      AATMorxProcessor2.prototype.generateInputs = function generateInputs(gid) {
+      }
+      generateInputs(gid) {
         if (!this.inputCache) {
           this.generateInputCache();
         }
         return this.inputCache[gid] || [];
-      };
-      AATMorxProcessor2.prototype.generateInputCache = function generateInputCache() {
+      }
+      generateInputCache() {
         this.inputCache = {};
-        for (var _iterator6 = this.morx.chains, _isArray6 = Array.isArray(_iterator6), _i62 = 0, _iterator6 = _isArray6 ? _iterator6 : _getIterator(_iterator6); ; ) {
-          var _ref6;
-          if (_isArray6) {
-            if (_i62 >= _iterator6.length)
-              break;
-            _ref6 = _iterator6[_i62++];
-          } else {
-            _i62 = _iterator6.next();
-            if (_i62.done)
-              break;
-            _ref6 = _i62.value;
-          }
-          var chain = _ref6;
+        for (var chain of this.morx.chains) {
           var flags = chain.defaultFlags;
-          for (var _iterator7 = chain.subtables, _isArray7 = Array.isArray(_iterator7), _i7 = 0, _iterator7 = _isArray7 ? _iterator7 : _getIterator(_iterator7); ; ) {
-            var _ref7;
-            if (_isArray7) {
-              if (_i7 >= _iterator7.length)
-                break;
-              _ref7 = _iterator7[_i7++];
-            } else {
-              _i7 = _iterator7.next();
-              if (_i7.done)
-                break;
-              _ref7 = _i7.value;
-            }
-            var subtable = _ref7;
+          for (var subtable of chain.subtables) {
             if (subtable.subFeatureFlags & flags) {
               this.generateInputsForSubtable(subtable);
             }
           }
         }
-      };
-      AATMorxProcessor2.prototype.generateInputsForSubtable = function generateInputsForSubtable(subtable) {
-        var _this = this;
+      }
+      generateInputsForSubtable(subtable) {
         if (subtable.type !== 2) {
           return;
         }
@@ -143515,13 +139261,13 @@ var require_fontkit = __commonJS({
         var stack = [];
         this.glyphs = [];
         stateMachine2.traverse({
-          enter: function enter(glyph2, entry) {
-            var glyphs = _this.glyphs;
+          enter: (glyph2, entry) => {
+            var glyphs = this.glyphs;
             stack.push({
               glyphs: glyphs.slice(),
-              ligatureStack: _this.ligatureStack.slice()
+              ligatureStack: this.ligatureStack.slice()
             });
-            var g = _this.font.getGlyph(glyph2);
+            var g = this.font.getGlyph(glyph2);
             input.push(g);
             glyphs.push(input[input.length - 1]);
             process2(glyphs[glyphs.length - 1], entry, glyphs.length - 1);
@@ -143534,43 +139280,38 @@ var require_fontkit = __commonJS({
               }
             }
             if (count === 1) {
-              var result = input.map(function(g2) {
-                return g2.id;
-              });
-              var _cache = _this.inputCache[found];
+              var result = input.map((g2) => g2.id);
+              var _cache = this.inputCache[found];
               if (_cache) {
                 _cache.push(result);
               } else {
-                _this.inputCache[found] = [result];
+                this.inputCache[found] = [result];
               }
             }
           },
-          exit: function exit() {
-            var _stack$pop = stack.pop();
-            _this.glyphs = _stack$pop.glyphs;
-            _this.ligatureStack = _stack$pop.ligatureStack;
+          exit: () => {
+            ({
+              glyphs: this.glyphs,
+              ligatureStack: this.ligatureStack
+            } = stack.pop());
             input.pop();
           }
         });
-      };
-      return AATMorxProcessor2;
-    }(), _applyDecoratedDescriptor$2(_class$2.prototype, "getStateMachine", [cache], _Object$getOwnPropertyDescriptor(_class$2.prototype, "getStateMachine"), _class$2.prototype), _class$2);
-    function swap(glyphs, rangeA, rangeB) {
-      var reverseA = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : false;
-      var reverseB = arguments.length > 4 && arguments[4] !== void 0 ? arguments[4] : false;
+      }
+    }, _applyDecoratedDescriptor(_class$2.prototype, "getStateMachine", [cache], Object.getOwnPropertyDescriptor(_class$2.prototype, "getStateMachine"), _class$2.prototype), _class$2);
+    function swap(glyphs, rangeA, rangeB, reverseA = false, reverseB = false) {
       var end = glyphs.splice(rangeB[0] - (rangeB[1] - 1), rangeB[1]);
       if (reverseB) {
         end.reverse();
       }
-      var start = glyphs.splice.apply(glyphs, [rangeA[0], rangeA[1]].concat(end));
+      var start = glyphs.splice(rangeA[0], rangeA[1], ...end);
       if (reverseA) {
         start.reverse();
       }
-      glyphs.splice.apply(glyphs, [rangeB[0] - (rangeA[1] - 1), 0].concat(start));
+      glyphs.splice(rangeB[0] - (rangeA[1] - 1), 0, ...start);
       return glyphs;
     }
     function reorderGlyphs(glyphs, verb, firstGlyph, lastGlyph) {
-      var length = lastGlyph - firstGlyph + 1;
       switch (verb) {
         case 0:
           return glyphs;
@@ -143605,73 +139346,46 @@ var require_fontkit = __commonJS({
         case 15:
           return swap(glyphs, [firstGlyph, 2], [lastGlyph, 2], true, true);
         default:
-          throw new Error("Unknown verb: " + verb);
+          throw new Error("Unknown verb: ".concat(verb));
       }
     }
-    var AATLayoutEngine = function() {
-      function AATLayoutEngine2(font) {
-        _classCallCheck(this, AATLayoutEngine2);
+    var AATLayoutEngine = class {
+      constructor(font) {
         this.font = font;
         this.morxProcessor = new AATMorxProcessor(font);
         this.fallbackPosition = false;
       }
-      AATLayoutEngine2.prototype.substitute = function substitute(glyphRun) {
+      substitute(glyphRun) {
         if (glyphRun.direction === "rtl") {
           glyphRun.glyphs.reverse();
         }
         this.morxProcessor.process(glyphRun.glyphs, mapOTToAAT(glyphRun.features));
-      };
-      AATLayoutEngine2.prototype.getAvailableFeatures = function getAvailableFeatures(script2, language) {
+      }
+      getAvailableFeatures(script2, language) {
         return mapAATToOT(this.morxProcessor.getSupportedFeatures());
-      };
-      AATLayoutEngine2.prototype.stringsForGlyph = function stringsForGlyph(gid) {
+      }
+      stringsForGlyph(gid) {
         var glyphStrings = this.morxProcessor.generateInputs(gid);
-        var result = new _Set();
-        for (var _iterator2 = glyphStrings, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var glyphs = _ref2;
+        var result = new Set();
+        for (var glyphs of glyphStrings) {
           this._addStrings(glyphs, 0, result, "");
         }
         return result;
-      };
-      AATLayoutEngine2.prototype._addStrings = function _addStrings(glyphs, index2, strings, string) {
+      }
+      _addStrings(glyphs, index2, strings, string) {
         var codePoints = this.font._cmapProcessor.codePointsForGlyph(glyphs[index2]);
-        for (var _iterator2 = codePoints, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var codePoint = _ref2;
-          var s2 = string + _String$fromCodePoint(codePoint);
+        for (var codePoint of codePoints) {
+          var s2 = string + String.fromCodePoint(codePoint);
           if (index2 < glyphs.length - 1) {
             this._addStrings(glyphs, index2 + 1, strings, s2);
           } else {
             strings.add(s2);
           }
         }
-      };
-      return AATLayoutEngine2;
-    }();
-    var ShapingPlan = function() {
-      function ShapingPlan2(font, script2, direction2) {
-        _classCallCheck(this, ShapingPlan2);
+      }
+    };
+    var ShapingPlan = class {
+      constructor(font, script2, direction2) {
         this.font = font;
         this.script = script2;
         this.direction = direction2;
@@ -143679,33 +139393,20 @@ var require_fontkit = __commonJS({
         this.globalFeatures = {};
         this.allFeatures = {};
       }
-      ShapingPlan2.prototype._addFeatures = function _addFeatures(features2, global2) {
+      _addFeatures(features2, global) {
         var stageIndex = this.stages.length - 1;
         var stage = this.stages[stageIndex];
-        for (var _iterator2 = features2, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var feature2 = _ref2;
+        for (var feature2 of features2) {
           if (this.allFeatures[feature2] == null) {
             stage.push(feature2);
             this.allFeatures[feature2] = stageIndex;
-            if (global2) {
+            if (global) {
               this.globalFeatures[feature2] = true;
             }
           }
         }
-      };
-      ShapingPlan2.prototype.add = function add(arg) {
-        var global2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : true;
+      }
+      add(arg, global = true) {
         if (this.stages.length === 0) {
           this.stages.push([]);
         }
@@ -143713,26 +139414,26 @@ var require_fontkit = __commonJS({
           arg = [arg];
         }
         if (Array.isArray(arg)) {
-          this._addFeatures(arg, global2);
-        } else if ((typeof arg === "undefined" ? "undefined" : _typeof(arg)) === "object") {
+          this._addFeatures(arg, global);
+        } else if (typeof arg === "object") {
           this._addFeatures(arg.global || [], true);
           this._addFeatures(arg.local || [], false);
         } else {
           throw new Error("Unsupported argument to ShapingPlan#add");
         }
-      };
-      ShapingPlan2.prototype.addStage = function addStage(arg, global2) {
+      }
+      addStage(arg, global) {
         if (typeof arg === "function") {
           this.stages.push(arg, []);
         } else {
           this.stages.push([]);
-          this.add(arg, global2);
+          this.add(arg, global);
         }
-      };
-      ShapingPlan2.prototype.setFeatureOverrides = function setFeatureOverrides(features2) {
+      }
+      setFeatureOverrides(features2) {
         if (Array.isArray(features2)) {
           this.add(features2);
-        } else if ((typeof features2 === "undefined" ? "undefined" : _typeof(features2)) === "object") {
+        } else if (typeof features2 === "object") {
           for (var tag2 in features2) {
             if (features2[tag2]) {
               this.add(tag2);
@@ -143744,40 +139445,16 @@ var require_fontkit = __commonJS({
             }
           }
         }
-      };
-      ShapingPlan2.prototype.assignGlobalFeatures = function assignGlobalFeatures(glyphs) {
-        for (var _iterator2 = glyphs, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var glyph2 = _ref2;
+      }
+      assignGlobalFeatures(glyphs) {
+        for (var glyph2 of glyphs) {
           for (var feature2 in this.globalFeatures) {
             glyph2.features[feature2] = true;
           }
         }
-      };
-      ShapingPlan2.prototype.process = function process2(processor, glyphs, positions) {
-        for (var _iterator3 = this.stages, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-          var _ref3;
-          if (_isArray3) {
-            if (_i3 >= _iterator3.length)
-              break;
-            _ref3 = _iterator3[_i3++];
-          } else {
-            _i3 = _iterator3.next();
-            if (_i3.done)
-              break;
-            _ref3 = _i3.value;
-          }
-          var stage = _ref3;
+      }
+      process(processor, glyphs, positions) {
+        for (var stage of this.stages) {
           if (typeof stage === "function") {
             if (!positions) {
               stage(this.font, glyphs, this);
@@ -143786,11 +139463,8 @@ var require_fontkit = __commonJS({
             processor.applyFeatures(stage, glyphs, positions);
           }
         }
-      };
-      return ShapingPlan2;
-    }();
-    var _class$4;
-    var _temp;
+      }
+    };
     var VARIATION_FEATURES = ["rvrn"];
     var COMMON_FEATURES = ["ccmp", "locl", "rlig", "mark", "mkmk"];
     var FRACTIONAL_FEATURES = ["frac", "numr", "dnom"];
@@ -143799,30 +139473,27 @@ var require_fontkit = __commonJS({
       ltr: ["ltra", "ltrm"],
       rtl: ["rtla", "rtlm"]
     };
-    var DefaultShaper = (_temp = _class$4 = function() {
-      function DefaultShaper2() {
-        _classCallCheck(this, DefaultShaper2);
+    var DefaultShaper = class {
+      static plan(plan, glyphs, features2) {
+        this.planPreprocessing(plan);
+        this.planFeatures(plan);
+        this.planPostprocessing(plan, features2);
+        plan.assignGlobalFeatures(glyphs);
+        this.assignFeatures(plan, glyphs);
       }
-      DefaultShaper2.plan = function plan(_plan, glyphs, features2) {
-        this.planPreprocessing(_plan);
-        this.planFeatures(_plan);
-        this.planPostprocessing(_plan, features2);
-        _plan.assignGlobalFeatures(glyphs);
-        this.assignFeatures(_plan, glyphs);
-      };
-      DefaultShaper2.planPreprocessing = function planPreprocessing(plan) {
+      static planPreprocessing(plan) {
         plan.add({
-          global: [].concat(VARIATION_FEATURES, DIRECTIONAL_FEATURES[plan.direction]),
+          global: [...VARIATION_FEATURES, ...DIRECTIONAL_FEATURES[plan.direction]],
           local: FRACTIONAL_FEATURES
         });
-      };
-      DefaultShaper2.planFeatures = function planFeatures(plan) {
-      };
-      DefaultShaper2.planPostprocessing = function planPostprocessing(plan, userFeatures) {
-        plan.add([].concat(COMMON_FEATURES, HORIZONTAL_FEATURES));
+      }
+      static planFeatures(plan) {
+      }
+      static planPostprocessing(plan, userFeatures) {
+        plan.add([...COMMON_FEATURES, ...HORIZONTAL_FEATURES]);
         plan.setFeatureOverrides(userFeatures);
-      };
-      DefaultShaper2.assignFeatures = function assignFeatures(plan, glyphs) {
+      }
+      static assignFeatures(plan, glyphs) {
         for (var i2 = 0; i2 < glyphs.length; i2++) {
           var glyph2 = glyphs[i2];
           if (glyph2.codePoints[0] === 8260) {
@@ -143842,9 +139513,9 @@ var require_fontkit = __commonJS({
             i2 = end - 1;
           }
         }
-      };
-      return DefaultShaper2;
-    }(), _class$4.zeroMarkWidths = "AFTER_GPOS", _temp);
+      }
+    };
+    _defineProperty(DefaultShaper, "zeroMarkWidths", "AFTER_GPOS");
     var trie = new UnicodeTrie(require("fs").readFileSync(__dirname + "/data.trie"));
     var FEATURES = ["isol", "fina", "fin2", "fin3", "medi", "med2", "init"];
     var ShapingClasses = {
@@ -143874,22 +139545,17 @@ var require_fontkit = __commonJS({
       [[NONE, NONE, 0], [NONE, ISOL, 2], [ISOL, ISOL, 1], [ISOL, ISOL, 2], [ISOL, FIN2, 5], [ISOL, ISOL, 6]],
       [[NONE, NONE, 0], [NONE, ISOL, 2], [NONE, ISOL, 1], [NONE, ISOL, 2], [NONE, FIN3, 5], [NONE, ISOL, 6]]
     ];
-    var ArabicShaper = function(_DefaultShaper) {
-      _inherits(ArabicShaper2, _DefaultShaper);
-      function ArabicShaper2() {
-        _classCallCheck(this, ArabicShaper2);
-        return _possibleConstructorReturn(this, _DefaultShaper.apply(this, arguments));
-      }
-      ArabicShaper2.planFeatures = function planFeatures(plan) {
+    var ArabicShaper = class extends DefaultShaper {
+      static planFeatures(plan) {
         plan.add(["ccmp", "locl"]);
         for (var i2 = 0; i2 < FEATURES.length; i2++) {
           var feature2 = FEATURES[i2];
           plan.addStage(feature2, false);
         }
         plan.addStage("mset");
-      };
-      ArabicShaper2.assignFeatures = function assignFeatures(plan, glyphs) {
-        _DefaultShaper.assignFeatures.call(this, plan, glyphs);
+      }
+      static assignFeatures(plan, glyphs) {
+        super.assignFeatures(plan, glyphs);
         var prev = -1;
         var state = 0;
         var actions = [];
@@ -143901,10 +139567,7 @@ var require_fontkit = __commonJS({
             actions[i2] = NONE;
             continue;
           }
-          var _STATE_TABLE$state$ty = STATE_TABLE[state][type];
-          prevAction = _STATE_TABLE$state$ty[0];
-          curAction = _STATE_TABLE$state$ty[1];
-          state = _STATE_TABLE$state$ty[2];
+          [prevAction, curAction, state] = STATE_TABLE[state][type];
           if (prevAction !== NONE && prev !== -1) {
             actions[prev] = prevAction;
           }
@@ -143918,9 +139581,8 @@ var require_fontkit = __commonJS({
             glyph2.features[feature2] = true;
           }
         }
-      };
-      return ArabicShaper2;
-    }(DefaultShaper);
+      }
+    };
     function getShapingClass(codePoint) {
       var res = trie.get(codePoint);
       if (res) {
@@ -143932,24 +139594,24 @@ var require_fontkit = __commonJS({
       }
       return ShapingClasses.Non_Joining;
     }
-    var GlyphIterator = function() {
-      function GlyphIterator2(glyphs, options2) {
-        _classCallCheck(this, GlyphIterator2);
+    var GlyphIterator = class {
+      constructor(glyphs, options2) {
         this.glyphs = glyphs;
         this.reset(options2);
       }
-      GlyphIterator2.prototype.reset = function reset() {
-        var options2 = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : {};
-        var index2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 0;
+      reset(options2 = {}, index2 = 0) {
         this.options = options2;
         this.flags = options2.flags || {};
         this.markAttachmentType = options2.markAttachmentType || 0;
         this.index = index2;
-      };
-      GlyphIterator2.prototype.shouldIgnore = function shouldIgnore(glyph2) {
+      }
+      get cur() {
+        return this.glyphs[this.index] || null;
+      }
+      shouldIgnore(glyph2) {
         return this.flags.ignoreMarks && glyph2.isMark || this.flags.ignoreBaseGlyphs && glyph2.isBase || this.flags.ignoreLigatures && glyph2.isLigature || this.markAttachmentType && glyph2.isMark && glyph2.markAttachmentType !== this.markAttachmentType;
-      };
-      GlyphIterator2.prototype.move = function move(dir) {
+      }
+      move(dir) {
         this.index += dir;
         while (0 <= this.index && this.index < this.glyphs.length && this.shouldIgnore(this.glyphs[this.index])) {
           this.index += dir;
@@ -143958,49 +139620,38 @@ var require_fontkit = __commonJS({
           return null;
         }
         return this.glyphs[this.index];
-      };
-      GlyphIterator2.prototype.next = function next() {
+      }
+      next() {
         return this.move(1);
-      };
-      GlyphIterator2.prototype.prev = function prev() {
+      }
+      prev() {
         return this.move(-1);
-      };
-      GlyphIterator2.prototype.peek = function peek() {
-        var count = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1;
+      }
+      peek(count = 1) {
         var idx = this.index;
         var res = this.increment(count);
         this.index = idx;
         return res;
-      };
-      GlyphIterator2.prototype.peekIndex = function peekIndex() {
-        var count = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1;
+      }
+      peekIndex(count = 1) {
         var idx = this.index;
         this.increment(count);
         var res = this.index;
         this.index = idx;
         return res;
-      };
-      GlyphIterator2.prototype.increment = function increment() {
-        var count = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 1;
+      }
+      increment(count = 1) {
         var dir = count < 0 ? -1 : 1;
         count = Math.abs(count);
         while (count--) {
           this.move(dir);
         }
         return this.glyphs[this.index];
-      };
-      _createClass(GlyphIterator2, [{
-        key: "cur",
-        get: function get() {
-          return this.glyphs[this.index] || null;
-        }
-      }]);
-      return GlyphIterator2;
-    }();
+      }
+    };
     var DEFAULT_SCRIPTS = ["DFLT", "dflt", "latn"];
-    var OTProcessor = function() {
-      function OTProcessor2(font, table) {
-        _classCallCheck(this, OTProcessor2);
+    var OTProcessor = class {
+      constructor(font, table) {
         this.font = font;
         this.table = table;
         this.script = null;
@@ -144016,49 +139667,25 @@ var require_fontkit = __commonJS({
         this.ligatureID = 1;
         this.currentFeature = null;
       }
-      OTProcessor2.prototype.findScript = function findScript(script2) {
+      findScript(script2) {
         if (this.table.scriptList == null) {
           return null;
         }
         if (!Array.isArray(script2)) {
           script2 = [script2];
         }
-        for (var _iterator2 = script2, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var s2 = _ref2;
-          for (var _iterator22 = this.table.scriptList, _isArray22 = Array.isArray(_iterator22), _i22 = 0, _iterator22 = _isArray22 ? _iterator22 : _getIterator(_iterator22); ; ) {
-            var _ref22;
-            if (_isArray22) {
-              if (_i22 >= _iterator22.length)
-                break;
-              _ref22 = _iterator22[_i22++];
-            } else {
-              _i22 = _iterator22.next();
-              if (_i22.done)
-                break;
-              _ref22 = _i22.value;
-            }
-            var entry = _ref22;
+        for (var s2 of script2) {
+          for (var entry of this.table.scriptList) {
             if (entry.tag === s2) {
               return entry;
             }
           }
         }
         return null;
-      };
-      OTProcessor2.prototype.selectScript = function selectScript(script2, language, direction$$) {
+      }
+      selectScript(script2, language, direction$1) {
         var changed = false;
-        var entry = void 0;
+        var entry;
         if (!this.script || script2 !== this.scriptTag) {
           entry = this.findScript(script2);
           if (!entry) {
@@ -144073,27 +139700,15 @@ var require_fontkit = __commonJS({
           this.languageTag = null;
           changed = true;
         }
-        if (!direction$$ || direction$$ !== this.direction) {
-          this.direction = direction$$ || direction(script2);
+        if (!direction$1 || direction$1 !== this.direction) {
+          this.direction = direction$1 || direction(script2);
         }
         if (language && language.length < 4) {
           language += " ".repeat(4 - language.length);
         }
         if (!language || language !== this.languageTag) {
           this.language = null;
-          for (var _iterator3 = this.script.langSysRecords, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-            var _ref3;
-            if (_isArray3) {
-              if (_i3 >= _iterator3.length)
-                break;
-              _ref3 = _iterator3[_i3++];
-            } else {
-              _i3 = _iterator3.next();
-              if (_i3.done)
-                break;
-              _ref3 = _i3.value;
-            }
-            var lang = _ref3;
+          for (var lang of this.script.langSysRecords) {
             if (lang.tag === language) {
               this.language = lang.langSys;
               this.languageTag = lang.tag;
@@ -144109,19 +139724,7 @@ var require_fontkit = __commonJS({
         if (changed) {
           this.features = {};
           if (this.language) {
-            for (var _iterator4 = this.language.featureIndexes, _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _getIterator(_iterator4); ; ) {
-              var _ref4;
-              if (_isArray4) {
-                if (_i4 >= _iterator4.length)
-                  break;
-                _ref4 = _iterator4[_i4++];
-              } else {
-                _i4 = _iterator4.next();
-                if (_i4.done)
-                  break;
-                _ref4 = _i4.value;
-              }
-              var featureIndex = _ref4;
+            for (var featureIndex of this.language.featureIndexes) {
               var record = this.table.featureList[featureIndex];
               var substituteFeature = this.substituteFeatureForVariations(featureIndex);
               this.features[record.tag] = substituteFeature || record.feature;
@@ -144129,41 +139732,15 @@ var require_fontkit = __commonJS({
           }
         }
         return this.scriptTag;
-      };
-      OTProcessor2.prototype.lookupsForFeatures = function lookupsForFeatures() {
-        var userFeatures = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : [];
-        var exclude = arguments[1];
+      }
+      lookupsForFeatures(userFeatures = [], exclude) {
         var lookups = [];
-        for (var _iterator5 = userFeatures, _isArray5 = Array.isArray(_iterator5), _i5 = 0, _iterator5 = _isArray5 ? _iterator5 : _getIterator(_iterator5); ; ) {
-          var _ref5;
-          if (_isArray5) {
-            if (_i5 >= _iterator5.length)
-              break;
-            _ref5 = _iterator5[_i5++];
-          } else {
-            _i5 = _iterator5.next();
-            if (_i5.done)
-              break;
-            _ref5 = _i5.value;
-          }
-          var tag2 = _ref5;
+        for (var tag2 of userFeatures) {
           var feature2 = this.features[tag2];
           if (!feature2) {
             continue;
           }
-          for (var _iterator6 = feature2.lookupListIndexes, _isArray6 = Array.isArray(_iterator6), _i62 = 0, _iterator6 = _isArray6 ? _iterator6 : _getIterator(_iterator6); ; ) {
-            var _ref6;
-            if (_isArray6) {
-              if (_i62 >= _iterator6.length)
-                break;
-              _ref6 = _iterator6[_i62++];
-            } else {
-              _i62 = _iterator6.next();
-              if (_i62.done)
-                break;
-              _ref6 = _i62.value;
-            }
-            var lookupIndex = _ref6;
+          for (var lookupIndex of feature2.lookupListIndexes) {
             if (exclude && exclude.indexOf(lookupIndex) !== -1) {
               continue;
             }
@@ -144174,37 +139751,23 @@ var require_fontkit = __commonJS({
             });
           }
         }
-        lookups.sort(function(a, b) {
-          return a.index - b.index;
-        });
+        lookups.sort((a, b) => a.index - b.index);
         return lookups;
-      };
-      OTProcessor2.prototype.substituteFeatureForVariations = function substituteFeatureForVariations(featureIndex) {
+      }
+      substituteFeatureForVariations(featureIndex) {
         if (this.variationsIndex === -1) {
           return null;
         }
         var record = this.table.featureVariations.featureVariationRecords[this.variationsIndex];
         var substitutions = record.featureTableSubstitution.substitutions;
-        for (var _iterator7 = substitutions, _isArray7 = Array.isArray(_iterator7), _i7 = 0, _iterator7 = _isArray7 ? _iterator7 : _getIterator(_iterator7); ; ) {
-          var _ref7;
-          if (_isArray7) {
-            if (_i7 >= _iterator7.length)
-              break;
-            _ref7 = _iterator7[_i7++];
-          } else {
-            _i7 = _iterator7.next();
-            if (_i7.done)
-              break;
-            _ref7 = _i7.value;
-          }
-          var substitution = _ref7;
+        for (var substitution of substitutions) {
           if (substitution.featureIndex === featureIndex) {
             return substitution.alternateFeatureTable;
           }
         }
         return null;
-      };
-      OTProcessor2.prototype.findVariationsIndex = function findVariationsIndex(coords) {
+      }
+      findVariationsIndex(coords) {
         var variations = this.table.featureVariations;
         if (!variations) {
           return -1;
@@ -144217,34 +139780,25 @@ var require_fontkit = __commonJS({
           }
         }
         return -1;
-      };
-      OTProcessor2.prototype.variationConditionsMatch = function variationConditionsMatch(conditions, coords) {
-        return conditions.every(function(condition) {
+      }
+      variationConditionsMatch(conditions, coords) {
+        return conditions.every((condition) => {
           var coord = condition.axisIndex < coords.length ? coords[condition.axisIndex] : 0;
           return condition.filterRangeMinValue <= coord && coord <= condition.filterRangeMaxValue;
         });
-      };
-      OTProcessor2.prototype.applyFeatures = function applyFeatures(userFeatures, glyphs, advances) {
+      }
+      applyFeatures(userFeatures, glyphs, advances) {
         var lookups = this.lookupsForFeatures(userFeatures);
         this.applyLookups(lookups, glyphs, advances);
-      };
-      OTProcessor2.prototype.applyLookups = function applyLookups(lookups, glyphs, positions) {
+      }
+      applyLookups(lookups, glyphs, positions) {
         this.glyphs = glyphs;
         this.positions = positions;
         this.glyphIterator = new GlyphIterator(glyphs);
-        for (var _iterator8 = lookups, _isArray8 = Array.isArray(_iterator8), _i8 = 0, _iterator8 = _isArray8 ? _iterator8 : _getIterator(_iterator8); ; ) {
-          var _ref8;
-          if (_isArray8) {
-            if (_i8 >= _iterator8.length)
-              break;
-            _ref8 = _iterator8[_i8++];
-          } else {
-            _i8 = _iterator8.next();
-            if (_i8.done)
-              break;
-            _ref8 = _i8.value;
-          }
-          var _ref9 = _ref8, feature2 = _ref9.feature, lookup = _ref9.lookup;
+        for (var {
+          feature: feature2,
+          lookup
+        } of lookups) {
           this.currentFeature = feature2;
           this.glyphIterator.reset(lookup.flags);
           while (this.glyphIterator.index < glyphs.length) {
@@ -144252,19 +139806,7 @@ var require_fontkit = __commonJS({
               this.glyphIterator.next();
               continue;
             }
-            for (var _iterator9 = lookup.subTables, _isArray9 = Array.isArray(_iterator9), _i9 = 0, _iterator9 = _isArray9 ? _iterator9 : _getIterator(_iterator9); ; ) {
-              var _ref10;
-              if (_isArray9) {
-                if (_i9 >= _iterator9.length)
-                  break;
-                _ref10 = _iterator9[_i9++];
-              } else {
-                _i9 = _iterator9.next();
-                if (_i9.done)
-                  break;
-                _ref10 = _i9.value;
-              }
-              var table = _ref10;
+            for (var table of lookup.subTables) {
               var res = this.applyLookup(lookup.lookupType, table);
               if (res) {
                 break;
@@ -144273,43 +139815,19 @@ var require_fontkit = __commonJS({
             this.glyphIterator.next();
           }
         }
-      };
-      OTProcessor2.prototype.applyLookup = function applyLookup(lookup, table) {
+      }
+      applyLookup(lookup, table) {
         throw new Error("applyLookup must be implemented by subclasses");
-      };
-      OTProcessor2.prototype.applyLookupList = function applyLookupList(lookupRecords) {
+      }
+      applyLookupList(lookupRecords) {
         var options2 = this.glyphIterator.options;
         var glyphIndex = this.glyphIterator.index;
-        for (var _iterator10 = lookupRecords, _isArray10 = Array.isArray(_iterator10), _i10 = 0, _iterator10 = _isArray10 ? _iterator10 : _getIterator(_iterator10); ; ) {
-          var _ref11;
-          if (_isArray10) {
-            if (_i10 >= _iterator10.length)
-              break;
-            _ref11 = _iterator10[_i10++];
-          } else {
-            _i10 = _iterator10.next();
-            if (_i10.done)
-              break;
-            _ref11 = _i10.value;
-          }
-          var lookupRecord = _ref11;
+        for (var lookupRecord of lookupRecords) {
           this.glyphIterator.reset(options2, glyphIndex);
           this.glyphIterator.increment(lookupRecord.sequenceIndex);
           var lookup = this.table.lookupList.get(lookupRecord.lookupListIndex);
           this.glyphIterator.reset(lookup.flags, this.glyphIterator.index);
-          for (var _iterator11 = lookup.subTables, _isArray11 = Array.isArray(_iterator11), _i11 = 0, _iterator11 = _isArray11 ? _iterator11 : _getIterator(_iterator11); ; ) {
-            var _ref12;
-            if (_isArray11) {
-              if (_i11 >= _iterator11.length)
-                break;
-              _ref12 = _iterator11[_i11++];
-            } else {
-              _i11 = _iterator11.next();
-              if (_i11.done)
-                break;
-              _ref12 = _i11.value;
-            }
-            var table = _ref12;
+          for (var table of lookup.subTables) {
             if (this.applyLookup(lookup.lookupType, table)) {
               break;
             }
@@ -144317,8 +139835,8 @@ var require_fontkit = __commonJS({
         }
         this.glyphIterator.reset(options2, glyphIndex);
         return true;
-      };
-      OTProcessor2.prototype.coverageIndex = function coverageIndex(coverage, glyph2) {
+      }
+      coverageIndex(coverage, glyph2) {
         if (glyph2 == null) {
           glyph2 = this.glyphIterator.cur.id;
         }
@@ -144326,19 +139844,7 @@ var require_fontkit = __commonJS({
           case 1:
             return coverage.glyphs.indexOf(glyph2);
           case 2:
-            for (var _iterator12 = coverage.rangeRecords, _isArray12 = Array.isArray(_iterator12), _i12 = 0, _iterator12 = _isArray12 ? _iterator12 : _getIterator(_iterator12); ; ) {
-              var _ref13;
-              if (_isArray12) {
-                if (_i12 >= _iterator12.length)
-                  break;
-                _ref13 = _iterator12[_i12++];
-              } else {
-                _i12 = _iterator12.next();
-                if (_i12.done)
-                  break;
-                _ref13 = _i12.value;
-              }
-              var range2 = _ref13;
+            for (var range2 of coverage.rangeRecords) {
               if (range2.start <= glyph2 && glyph2 <= range2.end) {
                 return range2.startCoverageIndex + glyph2 - range2.start;
               }
@@ -144346,8 +139852,8 @@ var require_fontkit = __commonJS({
             break;
         }
         return -1;
-      };
-      OTProcessor2.prototype.match = function match(sequenceIndex, sequence, fn, matched) {
+      }
+      match(sequenceIndex, sequence, fn, matched) {
         var pos = this.glyphIterator.index;
         var glyph2 = this.glyphIterator.increment(sequenceIndex);
         var idx = 0;
@@ -144363,28 +139869,22 @@ var require_fontkit = __commonJS({
           return false;
         }
         return matched || true;
-      };
-      OTProcessor2.prototype.sequenceMatches = function sequenceMatches(sequenceIndex, sequence) {
-        return this.match(sequenceIndex, sequence, function(component, glyph2) {
-          return component === glyph2.id;
-        });
-      };
-      OTProcessor2.prototype.sequenceMatchIndices = function sequenceMatchIndices(sequenceIndex, sequence) {
-        var _this = this;
-        return this.match(sequenceIndex, sequence, function(component, glyph2) {
-          if (!(_this.currentFeature in glyph2.features)) {
+      }
+      sequenceMatches(sequenceIndex, sequence) {
+        return this.match(sequenceIndex, sequence, (component, glyph2) => component === glyph2.id);
+      }
+      sequenceMatchIndices(sequenceIndex, sequence) {
+        return this.match(sequenceIndex, sequence, (component, glyph2) => {
+          if (!(this.currentFeature in glyph2.features)) {
             return false;
           }
           return component === glyph2.id;
         }, []);
-      };
-      OTProcessor2.prototype.coverageSequenceMatches = function coverageSequenceMatches(sequenceIndex, sequence) {
-        var _this2 = this;
-        return this.match(sequenceIndex, sequence, function(coverage, glyph2) {
-          return _this2.coverageIndex(coverage, glyph2.id) >= 0;
-        });
-      };
-      OTProcessor2.prototype.getClassID = function getClassID(glyph2, classDef) {
+      }
+      coverageSequenceMatches(sequenceIndex, sequence) {
+        return this.match(sequenceIndex, sequence, (coverage, glyph2) => this.coverageIndex(coverage, glyph2.id) >= 0);
+      }
+      getClassID(glyph2, classDef) {
         switch (classDef.version) {
           case 1:
             var i2 = glyph2 - classDef.startGlyph;
@@ -144393,19 +139893,7 @@ var require_fontkit = __commonJS({
             }
             break;
           case 2:
-            for (var _iterator13 = classDef.classRangeRecord, _isArray13 = Array.isArray(_iterator13), _i13 = 0, _iterator13 = _isArray13 ? _iterator13 : _getIterator(_iterator13); ; ) {
-              var _ref14;
-              if (_isArray13) {
-                if (_i13 >= _iterator13.length)
-                  break;
-                _ref14 = _iterator13[_i13++];
-              } else {
-                _i13 = _iterator13.next();
-                if (_i13.done)
-                  break;
-                _ref14 = _i13.value;
-              }
-              var range2 = _ref14;
+            for (var range2 of classDef.classRangeRecord) {
               if (range2.start <= glyph2 && glyph2 <= range2.end) {
                 return range2.class;
               }
@@ -144413,14 +139901,11 @@ var require_fontkit = __commonJS({
             break;
         }
         return 0;
-      };
-      OTProcessor2.prototype.classSequenceMatches = function classSequenceMatches(sequenceIndex, sequence, classDef) {
-        var _this3 = this;
-        return this.match(sequenceIndex, sequence, function(classID, glyph2) {
-          return classID === _this3.getClassID(glyph2.id, classDef);
-        });
-      };
-      OTProcessor2.prototype.applyContext = function applyContext(table) {
+      }
+      classSequenceMatches(sequenceIndex, sequence, classDef) {
+        return this.match(sequenceIndex, sequence, (classID, glyph2) => classID === this.getClassID(glyph2.id, classDef));
+      }
+      applyContext(table) {
         switch (table.version) {
           case 1:
             var index2 = this.coverageIndex(table.coverage);
@@ -144428,19 +139913,7 @@ var require_fontkit = __commonJS({
               return false;
             }
             var set = table.ruleSets[index2];
-            for (var _iterator14 = set, _isArray14 = Array.isArray(_iterator14), _i14 = 0, _iterator14 = _isArray14 ? _iterator14 : _getIterator(_iterator14); ; ) {
-              var _ref15;
-              if (_isArray14) {
-                if (_i14 >= _iterator14.length)
-                  break;
-                _ref15 = _iterator14[_i14++];
-              } else {
-                _i14 = _iterator14.next();
-                if (_i14.done)
-                  break;
-                _ref15 = _i14.value;
-              }
-              var rule = _ref15;
+            for (var rule of set) {
               if (this.sequenceMatches(1, rule.input)) {
                 return this.applyLookupList(rule.lookupRecords);
               }
@@ -144455,19 +139928,7 @@ var require_fontkit = __commonJS({
               return false;
             }
             set = table.classSet[index2];
-            for (var _iterator15 = set, _isArray15 = Array.isArray(_iterator15), _i15 = 0, _iterator15 = _isArray15 ? _iterator15 : _getIterator(_iterator15); ; ) {
-              var _ref16;
-              if (_isArray15) {
-                if (_i15 >= _iterator15.length)
-                  break;
-                _ref16 = _iterator15[_i15++];
-              } else {
-                _i15 = _iterator15.next();
-                if (_i15.done)
-                  break;
-                _ref16 = _i15.value;
-              }
-              var _rule = _ref16;
+            for (var _rule of set) {
               if (this.classSequenceMatches(1, _rule.classes, table.classDef)) {
                 return this.applyLookupList(_rule.lookupRecords);
               }
@@ -144480,8 +139941,8 @@ var require_fontkit = __commonJS({
             break;
         }
         return false;
-      };
-      OTProcessor2.prototype.applyChainingContext = function applyChainingContext(table) {
+      }
+      applyChainingContext(table) {
         switch (table.version) {
           case 1:
             var index2 = this.coverageIndex(table.coverage);
@@ -144489,19 +139950,7 @@ var require_fontkit = __commonJS({
               return false;
             }
             var set = table.chainRuleSets[index2];
-            for (var _iterator16 = set, _isArray16 = Array.isArray(_iterator16), _i16 = 0, _iterator16 = _isArray16 ? _iterator16 : _getIterator(_iterator16); ; ) {
-              var _ref17;
-              if (_isArray16) {
-                if (_i16 >= _iterator16.length)
-                  break;
-                _ref17 = _iterator16[_i16++];
-              } else {
-                _i16 = _iterator16.next();
-                if (_i16.done)
-                  break;
-                _ref17 = _i16.value;
-              }
-              var rule = _ref17;
+            for (var rule of set) {
               if (this.sequenceMatches(-rule.backtrack.length, rule.backtrack) && this.sequenceMatches(1, rule.input) && this.sequenceMatches(1 + rule.input.length, rule.lookahead)) {
                 return this.applyLookupList(rule.lookupRecords);
               }
@@ -144516,19 +139965,7 @@ var require_fontkit = __commonJS({
             if (!rules) {
               return false;
             }
-            for (var _iterator17 = rules, _isArray17 = Array.isArray(_iterator17), _i17 = 0, _iterator17 = _isArray17 ? _iterator17 : _getIterator(_iterator17); ; ) {
-              var _ref18;
-              if (_isArray17) {
-                if (_i17 >= _iterator17.length)
-                  break;
-                _ref18 = _iterator17[_i17++];
-              } else {
-                _i17 = _iterator17.next();
-                if (_i17.done)
-                  break;
-                _ref18 = _i17.value;
-              }
-              var _rule2 = _ref18;
+            for (var _rule2 of rules) {
               if (this.classSequenceMatches(-_rule2.backtrack.length, _rule2.backtrack, table.backtrackClassDef) && this.classSequenceMatches(1, _rule2.input, table.inputClassDef) && this.classSequenceMatches(1 + _rule2.input.length, _rule2.lookahead, table.lookaheadClassDef)) {
                 return this.applyLookupList(_rule2.lookupRecords);
               }
@@ -144541,14 +139978,10 @@ var require_fontkit = __commonJS({
             break;
         }
         return false;
-      };
-      return OTProcessor2;
-    }();
-    var GlyphInfo = function() {
-      function GlyphInfo2(font, id) {
-        var codePoints = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : [];
-        var features2 = arguments[3];
-        _classCallCheck(this, GlyphInfo2);
+      }
+    };
+    var GlyphInfo = class {
+      constructor(font, id, codePoints = [], features2) {
         this._font = font;
         this.codePoints = codePoints;
         this.id = id;
@@ -144558,8 +139991,8 @@ var require_fontkit = __commonJS({
             var feature2 = features2[i2];
             this.features[feature2] = true;
           }
-        } else if ((typeof features2 === "undefined" ? "undefined" : _typeof(features2)) === "object") {
-          _Object$assign(this.features, features2);
+        } else if (typeof features2 === "object") {
+          Object.assign(this.features, features2);
         }
         this.ligatureID = null;
         this.ligatureComponent = null;
@@ -144570,46 +140003,35 @@ var require_fontkit = __commonJS({
         this.substituted = false;
         this.isMultiplied = false;
       }
-      GlyphInfo2.prototype.copy = function copy() {
-        return new GlyphInfo2(this._font, this.id, this.codePoints, this.features);
-      };
-      _createClass(GlyphInfo2, [{
-        key: "id",
-        get: function get() {
-          return this._id;
-        },
-        set: function set(id) {
-          this._id = id;
-          this.substituted = true;
-          var GDEF2 = this._font.GDEF;
-          if (GDEF2 && GDEF2.glyphClassDef) {
-            var classID = OTProcessor.prototype.getClassID(id, GDEF2.glyphClassDef);
-            this.isBase = classID === 1;
-            this.isLigature = classID === 2;
-            this.isMark = classID === 3;
-            this.markAttachmentType = GDEF2.markAttachClassDef ? OTProcessor.prototype.getClassID(id, GDEF2.markAttachClassDef) : 0;
-          } else {
-            this.isMark = this.codePoints.length > 0 && this.codePoints.every(unicode.isMark);
-            this.isBase = !this.isMark;
-            this.isLigature = this.codePoints.length > 1;
-            this.markAttachmentType = 0;
-          }
-        }
-      }]);
-      return GlyphInfo2;
-    }();
-    var _class$5;
-    var _temp$1;
-    var HangulShaper = (_temp$1 = _class$5 = function(_DefaultShaper) {
-      _inherits(HangulShaper2, _DefaultShaper);
-      function HangulShaper2() {
-        _classCallCheck(this, HangulShaper2);
-        return _possibleConstructorReturn(this, _DefaultShaper.apply(this, arguments));
+      get id() {
+        return this._id;
       }
-      HangulShaper2.planFeatures = function planFeatures(plan) {
+      set id(id) {
+        this._id = id;
+        this.substituted = true;
+        var GDEF2 = this._font.GDEF;
+        if (GDEF2 && GDEF2.glyphClassDef) {
+          var classID = OTProcessor.prototype.getClassID(id, GDEF2.glyphClassDef);
+          this.isBase = classID === 1;
+          this.isLigature = classID === 2;
+          this.isMark = classID === 3;
+          this.markAttachmentType = GDEF2.markAttachClassDef ? OTProcessor.prototype.getClassID(id, GDEF2.markAttachClassDef) : 0;
+        } else {
+          this.isMark = this.codePoints.length > 0 && this.codePoints.every(unicode.isMark);
+          this.isBase = !this.isMark;
+          this.isLigature = this.codePoints.length > 1;
+          this.markAttachmentType = 0;
+        }
+      }
+      copy() {
+        return new GlyphInfo(this._font, this.id, this.codePoints, this.features);
+      }
+    };
+    var HangulShaper = class extends DefaultShaper {
+      static planFeatures(plan) {
         plan.add(["ljmo", "vjmo", "tjmo"], false);
-      };
-      HangulShaper2.assignFeatures = function assignFeatures(plan, glyphs) {
+      }
+      static assignFeatures(plan, glyphs) {
         var state = 0;
         var i2 = 0;
         while (i2 < glyphs.length) {
@@ -144617,9 +140039,7 @@ var require_fontkit = __commonJS({
           var glyph2 = glyphs[i2];
           var code = glyph2.codePoints[0];
           var type = getType2(code);
-          var _STATE_TABLE$state$ty = STATE_TABLE$1[state][type];
-          action = _STATE_TABLE$state$ty[0];
-          state = _STATE_TABLE$state$ty[1];
+          [action, state] = STATE_TABLE$1[state][type];
           switch (action) {
             case DECOMPOSE:
               if (!plan.font.hasGlyphForCodePoint(code)) {
@@ -144638,9 +140058,9 @@ var require_fontkit = __commonJS({
           }
           i2++;
         }
-      };
-      return HangulShaper2;
-    }(DefaultShaper), _class$5.zeroMarkWidths = "NONE", _temp$1);
+      }
+    };
+    _defineProperty(HangulShaper, "zeroMarkWidths", "NONE");
     var HANGUL_BASE = 44032;
     var HANGUL_END = 55204;
     var HANGUL_COUNT = HANGUL_END - HANGUL_BASE + 1;
@@ -144654,33 +140074,15 @@ var require_fontkit = __commonJS({
     var V_END = V_BASE + V_COUNT - 1;
     var T_END = T_BASE + T_COUNT - 1;
     var DOTTED_CIRCLE = 9676;
-    var isL = function isL2(code) {
-      return 4352 <= code && code <= 4447 || 43360 <= code && code <= 43388;
-    };
-    var isV = function isV2(code) {
-      return 4448 <= code && code <= 4519 || 55216 <= code && code <= 55238;
-    };
-    var isT = function isT2(code) {
-      return 4520 <= code && code <= 4607 || 55243 <= code && code <= 55291;
-    };
-    var isTone = function isTone2(code) {
-      return 12334 <= code && code <= 12335;
-    };
-    var isLVT = function isLVT2(code) {
-      return HANGUL_BASE <= code && code <= HANGUL_END;
-    };
-    var isLV = function isLV2(code) {
-      return code - HANGUL_BASE < HANGUL_COUNT && (code - HANGUL_BASE) % T_COUNT === 0;
-    };
-    var isCombiningL = function isCombiningL2(code) {
-      return L_BASE <= code && code <= L_END;
-    };
-    var isCombiningV = function isCombiningV2(code) {
-      return V_BASE <= code && code <= V_END;
-    };
-    var isCombiningT = function isCombiningT2(code) {
-      return T_BASE + 1 && 1 <= code && code <= T_END;
-    };
+    var isL = (code) => 4352 <= code && code <= 4447 || 43360 <= code && code <= 43388;
+    var isV = (code) => 4448 <= code && code <= 4519 || 55216 <= code && code <= 55238;
+    var isT = (code) => 4520 <= code && code <= 4607 || 55243 <= code && code <= 55291;
+    var isTone = (code) => 12334 <= code && code <= 12335;
+    var isLVT = (code) => HANGUL_BASE <= code && code <= HANGUL_END;
+    var isLV = (code) => code - HANGUL_BASE < HANGUL_COUNT && (code - HANGUL_BASE) % T_COUNT === 0;
+    var isCombiningL = (code) => L_BASE <= code && code <= L_END;
+    var isCombiningV = (code) => V_BASE <= code && code <= V_END;
+    var isCombiningT = (code) => 1 <= code && code <= T_END;
     var X = 0;
     var L = 1;
     var V = 2;
@@ -144744,7 +140146,7 @@ var require_fontkit = __commonJS({
         tjmo.features.tjmo = true;
         insert.push(tjmo);
       }
-      glyphs.splice.apply(glyphs, [i2, 1].concat(insert));
+      glyphs.splice(i2, 1, ...insert);
       return i2 + insert.length - 1;
     }
     function compose(glyphs, i2, font) {
@@ -144753,7 +140155,7 @@ var require_fontkit = __commonJS({
       var type = getType2(code);
       var prev = glyphs[i2 - 1].codePoints[0];
       var prevType = getType2(prev);
-      var lv = void 0, ljmo = void 0, vjmo = void 0, tjmo = void 0;
+      var lv, ljmo, vjmo, tjmo;
       if (prevType === LV && type === T) {
         lv = prev;
         tjmo = glyph2;
@@ -144829,22 +140231,17730 @@ var require_fontkit = __commonJS({
       }
       return i2;
     }
-    var stateTable = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10, 11, 11, 12, 13, 14, 15, 16, 17], [0, 0, 0, 18, 19, 20, 21, 22, 23, 0, 24, 0, 0, 25, 26, 0, 0, 27, 0], [0, 0, 0, 28, 29, 30, 31, 32, 33, 0, 34, 0, 0, 35, 36, 0, 0, 37, 0], [0, 0, 0, 38, 5, 7, 7, 8, 9, 0, 10, 0, 0, 0, 13, 0, 0, 16, 0], [0, 39, 0, 0, 0, 40, 41, 0, 9, 0, 10, 0, 0, 0, 42, 0, 39, 0, 0], [0, 0, 0, 0, 43, 44, 44, 8, 9, 0, 0, 0, 0, 12, 43, 0, 0, 0, 0], [0, 0, 0, 0, 43, 44, 44, 8, 9, 0, 0, 0, 0, 0, 43, 0, 0, 0, 0], [0, 0, 0, 45, 46, 47, 48, 49, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 0, 50, 0, 0, 51, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 52, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 53, 54, 55, 56, 57, 58, 0, 59, 0, 0, 60, 61, 0, 0, 62, 0], [0, 0, 0, 4, 5, 7, 7, 8, 9, 0, 10, 0, 0, 0, 13, 0, 0, 16, 0], [0, 63, 64, 0, 0, 40, 41, 0, 9, 0, 10, 0, 0, 0, 42, 0, 63, 0, 0], [0, 2, 3, 4, 5, 6, 7, 8, 9, 0, 10, 11, 11, 12, 13, 0, 2, 16, 0], [0, 0, 0, 18, 65, 20, 21, 22, 23, 0, 24, 0, 0, 25, 26, 0, 0, 27, 0], [0, 0, 0, 0, 66, 67, 67, 8, 9, 0, 10, 0, 0, 0, 68, 0, 0, 0, 0], [0, 0, 0, 69, 0, 70, 70, 0, 71, 0, 72, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 73, 19, 74, 74, 22, 23, 0, 24, 0, 0, 0, 26, 0, 0, 27, 0], [0, 75, 0, 0, 0, 76, 77, 0, 23, 0, 24, 0, 0, 0, 78, 0, 75, 0, 0], [0, 0, 0, 0, 79, 80, 80, 22, 23, 0, 0, 0, 0, 25, 79, 0, 0, 0, 0], [0, 0, 0, 18, 19, 20, 74, 22, 23, 0, 24, 0, 0, 25, 26, 0, 0, 27, 0], [0, 0, 0, 81, 82, 83, 84, 85, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 0, 86, 0, 0, 87, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 88, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 18, 19, 74, 74, 22, 23, 0, 24, 0, 0, 0, 26, 0, 0, 27, 0], [0, 89, 90, 0, 0, 76, 77, 0, 23, 0, 24, 0, 0, 0, 78, 0, 89, 0, 0], [0, 0, 0, 0, 91, 92, 92, 22, 23, 0, 24, 0, 0, 0, 93, 0, 0, 0, 0], [0, 0, 0, 94, 29, 95, 31, 32, 33, 0, 34, 0, 0, 0, 36, 0, 0, 37, 0], [0, 96, 0, 0, 0, 97, 98, 0, 33, 0, 34, 0, 0, 0, 99, 0, 96, 0, 0], [0, 0, 0, 0, 100, 101, 101, 32, 33, 0, 0, 0, 0, 35, 100, 0, 0, 0, 0], [0, 0, 0, 0, 100, 101, 101, 32, 33, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0], [0, 0, 0, 102, 103, 104, 105, 106, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 0, 107, 0, 0, 108, 0, 34, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 109, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 28, 29, 95, 31, 32, 33, 0, 34, 0, 0, 0, 36, 0, 0, 37, 0], [0, 110, 111, 0, 0, 97, 98, 0, 33, 0, 34, 0, 0, 0, 99, 0, 110, 0, 0], [0, 0, 0, 0, 112, 113, 113, 32, 33, 0, 34, 0, 0, 0, 114, 0, 0, 0, 0], [0, 0, 0, 0, 5, 7, 7, 8, 9, 0, 10, 0, 0, 0, 13, 0, 0, 16, 0], [0, 0, 0, 115, 116, 117, 118, 8, 9, 0, 10, 0, 0, 119, 120, 0, 0, 16, 0], [0, 0, 0, 0, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 39, 0, 122, 0, 123, 123, 8, 9, 0, 10, 0, 0, 0, 42, 0, 39, 0, 0], [0, 124, 64, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 124, 0, 0], [0, 39, 0, 0, 0, 121, 125, 0, 9, 0, 10, 0, 0, 0, 42, 0, 39, 0, 0], [0, 0, 0, 0, 0, 126, 126, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 46, 47, 48, 49, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 0, 47, 47, 49, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 0, 127, 127, 49, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 128, 127, 127, 49, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 129, 130, 131, 132, 133, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 50, 0, 0, 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 134, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 135, 54, 56, 56, 57, 58, 0, 59, 0, 0, 0, 61, 0, 0, 62, 0], [0, 136, 0, 0, 0, 137, 138, 0, 58, 0, 59, 0, 0, 0, 139, 0, 136, 0, 0], [0, 0, 0, 0, 140, 141, 141, 57, 58, 0, 0, 0, 0, 60, 140, 0, 0, 0, 0], [0, 0, 0, 0, 140, 141, 141, 57, 58, 0, 0, 0, 0, 0, 140, 0, 0, 0, 0], [0, 0, 0, 142, 143, 144, 145, 146, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 0, 147, 0, 0, 148, 0, 59, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 149, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 53, 54, 56, 56, 57, 58, 0, 59, 0, 0, 0, 61, 0, 0, 62, 0], [0, 150, 151, 0, 0, 137, 138, 0, 58, 0, 59, 0, 0, 0, 139, 0, 150, 0, 0], [0, 0, 0, 0, 152, 153, 153, 57, 58, 0, 59, 0, 0, 0, 154, 0, 0, 0, 0], [0, 0, 0, 155, 116, 156, 157, 8, 9, 0, 10, 0, 0, 158, 120, 0, 0, 16, 0], [0, 0, 0, 0, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0], [0, 75, 3, 4, 5, 159, 160, 8, 161, 0, 162, 0, 11, 12, 163, 0, 75, 16, 0], [0, 0, 0, 0, 0, 40, 164, 0, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 165, 44, 44, 8, 9, 0, 0, 0, 0, 0, 165, 0, 0, 0, 0], [0, 124, 64, 0, 0, 40, 164, 0, 9, 0, 10, 0, 0, 0, 42, 0, 124, 0, 0], [0, 0, 0, 0, 0, 70, 70, 0, 71, 0, 72, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 71, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 166, 0, 0, 167, 0, 72, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 168, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 19, 74, 74, 22, 23, 0, 24, 0, 0, 0, 26, 0, 0, 27, 0], [0, 0, 0, 0, 79, 80, 80, 22, 23, 0, 0, 0, 0, 0, 79, 0, 0, 0, 0], [0, 0, 0, 169, 170, 171, 172, 22, 23, 0, 24, 0, 0, 173, 174, 0, 0, 27, 0], [0, 0, 0, 0, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 75, 0, 176, 0, 177, 177, 22, 23, 0, 24, 0, 0, 0, 78, 0, 75, 0, 0], [0, 178, 90, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 178, 0, 0], [0, 75, 0, 0, 0, 175, 179, 0, 23, 0, 24, 0, 0, 0, 78, 0, 75, 0, 0], [0, 0, 0, 0, 0, 180, 180, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 82, 83, 84, 85, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 0, 83, 83, 85, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 0, 181, 181, 85, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 182, 181, 181, 85, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 183, 184, 185, 186, 187, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 86, 0, 0, 0, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 188, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 189, 170, 190, 191, 22, 23, 0, 24, 0, 0, 192, 174, 0, 0, 27, 0], [0, 0, 0, 0, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 76, 193, 0, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 194, 80, 80, 22, 23, 0, 0, 0, 0, 0, 194, 0, 0, 0, 0], [0, 178, 90, 0, 0, 76, 193, 0, 23, 0, 24, 0, 0, 0, 78, 0, 178, 0, 0], [0, 0, 0, 0, 29, 95, 31, 32, 33, 0, 34, 0, 0, 0, 36, 0, 0, 37, 0], [0, 0, 0, 0, 100, 101, 101, 32, 33, 0, 0, 0, 0, 0, 100, 0, 0, 0, 0], [0, 0, 0, 195, 196, 197, 198, 32, 33, 0, 34, 0, 0, 199, 200, 0, 0, 37, 0], [0, 0, 0, 0, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 96, 0, 202, 0, 203, 203, 32, 33, 0, 34, 0, 0, 0, 99, 0, 96, 0, 0], [0, 204, 111, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 204, 0, 0], [0, 96, 0, 0, 0, 201, 205, 0, 33, 0, 34, 0, 0, 0, 99, 0, 96, 0, 0], [0, 0, 0, 0, 0, 206, 206, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 103, 104, 105, 106, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 0, 104, 104, 106, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 0, 207, 207, 106, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 208, 207, 207, 106, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 209, 210, 211, 212, 213, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 34, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 107, 0, 0, 0, 0, 34, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 214, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 215, 196, 216, 217, 32, 33, 0, 34, 0, 0, 218, 200, 0, 0, 37, 0], [0, 0, 0, 0, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 97, 219, 0, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 220, 101, 101, 32, 33, 0, 0, 0, 0, 0, 220, 0, 0, 0, 0], [0, 204, 111, 0, 0, 97, 219, 0, 33, 0, 34, 0, 0, 0, 99, 0, 204, 0, 0], [0, 0, 0, 221, 116, 222, 222, 8, 9, 0, 10, 0, 0, 0, 120, 0, 0, 16, 0], [0, 223, 0, 0, 0, 40, 224, 0, 9, 0, 10, 0, 0, 0, 42, 0, 223, 0, 0], [0, 0, 0, 0, 225, 44, 44, 8, 9, 0, 0, 0, 0, 119, 225, 0, 0, 0, 0], [0, 0, 0, 115, 116, 117, 222, 8, 9, 0, 10, 0, 0, 119, 120, 0, 0, 16, 0], [0, 0, 0, 115, 116, 222, 222, 8, 9, 0, 10, 0, 0, 0, 120, 0, 0, 16, 0], [0, 226, 64, 0, 0, 40, 224, 0, 9, 0, 10, 0, 0, 0, 42, 0, 226, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 39, 0, 0, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 42, 0, 39, 0, 0], [0, 0, 0, 0, 0, 44, 44, 8, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 227, 0, 228, 229, 0, 9, 0, 10, 0, 0, 230, 0, 0, 0, 0, 0], [0, 39, 0, 122, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 42, 0, 39, 0, 0], [0, 0, 0, 0, 0, 0, 0, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 231, 231, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 232, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 130, 131, 132, 133, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 0, 131, 131, 133, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 0, 233, 233, 133, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 234, 233, 233, 133, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 235, 236, 237, 238, 239, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 54, 56, 56, 57, 58, 0, 59, 0, 0, 0, 61, 0, 0, 62, 0], [0, 0, 0, 240, 241, 242, 243, 57, 58, 0, 59, 0, 0, 244, 245, 0, 0, 62, 0], [0, 0, 0, 0, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 136, 0, 247, 0, 248, 248, 57, 58, 0, 59, 0, 0, 0, 139, 0, 136, 0, 0], [0, 249, 151, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 249, 0, 0], [0, 136, 0, 0, 0, 246, 250, 0, 58, 0, 59, 0, 0, 0, 139, 0, 136, 0, 0], [0, 0, 0, 0, 0, 251, 251, 57, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 143, 144, 145, 146, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 0, 144, 144, 146, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 0, 252, 252, 146, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 253, 252, 252, 146, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 254, 255, 256, 257, 258, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 59, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 147, 0, 0, 0, 0, 59, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 259, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 260, 241, 261, 262, 57, 58, 0, 59, 0, 0, 263, 245, 0, 0, 62, 0], [0, 0, 0, 0, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 137, 264, 0, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 265, 141, 141, 57, 58, 0, 0, 0, 0, 0, 265, 0, 0, 0, 0], [0, 249, 151, 0, 0, 137, 264, 0, 58, 0, 59, 0, 0, 0, 139, 0, 249, 0, 0], [0, 0, 0, 221, 116, 222, 222, 8, 9, 0, 10, 0, 0, 0, 120, 0, 0, 16, 0], [0, 0, 0, 0, 225, 44, 44, 8, 9, 0, 0, 0, 0, 158, 225, 0, 0, 0, 0], [0, 0, 0, 155, 116, 156, 222, 8, 9, 0, 10, 0, 0, 158, 120, 0, 0, 16, 0], [0, 0, 0, 155, 116, 222, 222, 8, 9, 0, 10, 0, 0, 0, 120, 0, 0, 16, 0], [0, 0, 0, 0, 43, 266, 266, 8, 161, 0, 24, 0, 0, 12, 267, 0, 0, 0, 0], [0, 75, 0, 176, 43, 268, 268, 269, 161, 0, 24, 0, 0, 0, 267, 0, 75, 0, 0], [0, 0, 0, 0, 0, 270, 0, 0, 271, 0, 162, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 272, 0, 0, 0, 0, 0, 0, 0, 0], [0, 273, 274, 0, 0, 40, 41, 0, 9, 0, 10, 0, 0, 0, 42, 0, 273, 0, 0], [0, 0, 0, 40, 0, 123, 123, 8, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 0, 121, 275, 0, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 72, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 166, 0, 0, 0, 0, 72, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 276, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 277, 170, 278, 278, 22, 23, 0, 24, 0, 0, 0, 174, 0, 0, 27, 0], [0, 279, 0, 0, 0, 76, 280, 0, 23, 0, 24, 0, 0, 0, 78, 0, 279, 0, 0], [0, 0, 0, 0, 281, 80, 80, 22, 23, 0, 0, 0, 0, 173, 281, 0, 0, 0, 0], [0, 0, 0, 169, 170, 171, 278, 22, 23, 0, 24, 0, 0, 173, 174, 0, 0, 27, 0], [0, 0, 0, 169, 170, 278, 278, 22, 23, 0, 24, 0, 0, 0, 174, 0, 0, 27, 0], [0, 282, 90, 0, 0, 76, 280, 0, 23, 0, 24, 0, 0, 0, 78, 0, 282, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 75, 0, 0, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 78, 0, 75, 0, 0], [0, 0, 0, 0, 0, 80, 80, 22, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 283, 0, 284, 285, 0, 23, 0, 24, 0, 0, 286, 0, 0, 0, 0, 0], [0, 75, 0, 176, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 78, 0, 75, 0, 0], [0, 0, 0, 0, 0, 0, 0, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 287, 287, 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 288, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 184, 185, 186, 187, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 0, 185, 185, 187, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 0, 289, 289, 187, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 290, 289, 289, 187, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 291, 292, 293, 294, 295, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 277, 170, 278, 278, 22, 23, 0, 24, 0, 0, 0, 174, 0, 0, 27, 0], [0, 0, 0, 0, 281, 80, 80, 22, 23, 0, 0, 0, 0, 192, 281, 0, 0, 0, 0], [0, 0, 0, 189, 170, 190, 278, 22, 23, 0, 24, 0, 0, 192, 174, 0, 0, 27, 0], [0, 0, 0, 189, 170, 278, 278, 22, 23, 0, 24, 0, 0, 0, 174, 0, 0, 27, 0], [0, 0, 0, 76, 0, 177, 177, 22, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 0, 175, 296, 0, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 297, 196, 298, 298, 32, 33, 0, 34, 0, 0, 0, 200, 0, 0, 37, 0], [0, 299, 0, 0, 0, 97, 300, 0, 33, 0, 34, 0, 0, 0, 99, 0, 299, 0, 0], [0, 0, 0, 0, 301, 101, 101, 32, 33, 0, 0, 0, 0, 199, 301, 0, 0, 0, 0], [0, 0, 0, 195, 196, 197, 298, 32, 33, 0, 34, 0, 0, 199, 200, 0, 0, 37, 0], [0, 0, 0, 195, 196, 298, 298, 32, 33, 0, 34, 0, 0, 0, 200, 0, 0, 37, 0], [0, 302, 111, 0, 0, 97, 300, 0, 33, 0, 34, 0, 0, 0, 99, 0, 302, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 96, 0, 0, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 99, 0, 96, 0, 0], [0, 0, 0, 0, 0, 101, 101, 32, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 303, 0, 304, 305, 0, 33, 0, 34, 0, 0, 306, 0, 0, 0, 0, 0], [0, 96, 0, 202, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 99, 0, 96, 0, 0], [0, 0, 0, 0, 0, 0, 0, 32, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 307, 307, 106, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 308, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 210, 211, 212, 213, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 0, 211, 211, 213, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 0, 309, 309, 213, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 310, 309, 309, 213, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 311, 312, 313, 314, 315, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 297, 196, 298, 298, 32, 33, 0, 34, 0, 0, 0, 200, 0, 0, 37, 0], [0, 0, 0, 0, 301, 101, 101, 32, 33, 0, 0, 0, 0, 218, 301, 0, 0, 0, 0], [0, 0, 0, 215, 196, 216, 298, 32, 33, 0, 34, 0, 0, 218, 200, 0, 0, 37, 0], [0, 0, 0, 215, 196, 298, 298, 32, 33, 0, 34, 0, 0, 0, 200, 0, 0, 37, 0], [0, 0, 0, 97, 0, 203, 203, 32, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 0, 201, 316, 0, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 116, 222, 222, 8, 9, 0, 10, 0, 0, 0, 120, 0, 0, 16, 0], [0, 0, 0, 0, 225, 44, 44, 8, 9, 0, 0, 0, 0, 0, 225, 0, 0, 0, 0], [0, 0, 0, 317, 318, 319, 320, 8, 9, 0, 10, 0, 0, 321, 322, 0, 0, 16, 0], [0, 223, 0, 323, 0, 123, 123, 8, 9, 0, 10, 0, 0, 0, 42, 0, 223, 0, 0], [0, 223, 0, 0, 0, 121, 324, 0, 9, 0, 10, 0, 0, 0, 42, 0, 223, 0, 0], [0, 0, 0, 325, 318, 326, 327, 8, 9, 0, 10, 0, 0, 328, 322, 0, 0, 16, 0], [0, 0, 0, 64, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 9, 0, 0, 0, 0, 230, 0, 0, 0, 0, 0], [0, 0, 0, 227, 0, 228, 121, 0, 9, 0, 10, 0, 0, 230, 0, 0, 0, 0, 0], [0, 0, 0, 227, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 46, 0, 0], [0, 0, 0, 0, 0, 329, 329, 133, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 330, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 236, 237, 238, 239, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 0, 237, 237, 239, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 0, 331, 331, 239, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 332, 331, 331, 239, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 333, 40, 121, 334, 0, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 335, 241, 336, 336, 57, 58, 0, 59, 0, 0, 0, 245, 0, 0, 62, 0], [0, 337, 0, 0, 0, 137, 338, 0, 58, 0, 59, 0, 0, 0, 139, 0, 337, 0, 0], [0, 0, 0, 0, 339, 141, 141, 57, 58, 0, 0, 0, 0, 244, 339, 0, 0, 0, 0], [0, 0, 0, 240, 241, 242, 336, 57, 58, 0, 59, 0, 0, 244, 245, 0, 0, 62, 0], [0, 0, 0, 240, 241, 336, 336, 57, 58, 0, 59, 0, 0, 0, 245, 0, 0, 62, 0], [0, 340, 151, 0, 0, 137, 338, 0, 58, 0, 59, 0, 0, 0, 139, 0, 340, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 136, 0, 0, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 139, 0, 136, 0, 0], [0, 0, 0, 0, 0, 141, 141, 57, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 341, 0, 342, 343, 0, 58, 0, 59, 0, 0, 344, 0, 0, 0, 0, 0], [0, 136, 0, 247, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 139, 0, 136, 0, 0], [0, 0, 0, 0, 0, 0, 0, 57, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 345, 345, 146, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 346, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 255, 256, 257, 258, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 0, 256, 256, 258, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 0, 347, 347, 258, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 348, 347, 347, 258, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 349, 350, 351, 352, 353, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 335, 241, 336, 336, 57, 58, 0, 59, 0, 0, 0, 245, 0, 0, 62, 0], [0, 0, 0, 0, 339, 141, 141, 57, 58, 0, 0, 0, 0, 263, 339, 0, 0, 0, 0], [0, 0, 0, 260, 241, 261, 336, 57, 58, 0, 59, 0, 0, 263, 245, 0, 0, 62, 0], [0, 0, 0, 260, 241, 336, 336, 57, 58, 0, 59, 0, 0, 0, 245, 0, 0, 62, 0], [0, 0, 0, 137, 0, 248, 248, 57, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 0, 246, 354, 0, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 0, 126, 126, 8, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 355, 90, 0, 0, 121, 125, 0, 9, 0, 10, 0, 0, 0, 42, 0, 355, 0, 0], [0, 0, 0, 0, 0, 356, 356, 269, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 357, 358, 359, 360, 361, 161, 0, 162, 0, 0, 0, 362, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 162, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 270, 0, 0, 0, 0, 162, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 363, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 364, 116, 365, 366, 8, 161, 0, 162, 0, 0, 367, 120, 0, 0, 16, 0], [0, 0, 0, 0, 0, 368, 368, 0, 161, 0, 162, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 40, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 170, 278, 278, 22, 23, 0, 24, 0, 0, 0, 174, 0, 0, 27, 0], [0, 0, 0, 0, 281, 80, 80, 22, 23, 0, 0, 0, 0, 0, 281, 0, 0, 0, 0], [0, 0, 0, 369, 370, 371, 372, 22, 23, 0, 24, 0, 0, 373, 374, 0, 0, 27, 0], [0, 279, 0, 375, 0, 177, 177, 22, 23, 0, 24, 0, 0, 0, 78, 0, 279, 0, 0], [0, 279, 0, 0, 0, 175, 376, 0, 23, 0, 24, 0, 0, 0, 78, 0, 279, 0, 0], [0, 0, 0, 377, 370, 378, 379, 22, 23, 0, 24, 0, 0, 380, 374, 0, 0, 27, 0], [0, 0, 0, 90, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 23, 0, 0, 0, 0, 286, 0, 0, 0, 0, 0], [0, 0, 0, 283, 0, 284, 175, 0, 23, 0, 24, 0, 0, 286, 0, 0, 0, 0, 0], [0, 0, 0, 283, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 82, 0, 0], [0, 0, 0, 0, 0, 381, 381, 187, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 382, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 292, 293, 294, 295, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 0, 293, 293, 295, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 0, 383, 383, 295, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 384, 383, 383, 295, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 385, 76, 175, 386, 0, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 76, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 196, 298, 298, 32, 33, 0, 34, 0, 0, 0, 200, 0, 0, 37, 0], [0, 0, 0, 0, 301, 101, 101, 32, 33, 0, 0, 0, 0, 0, 301, 0, 0, 0, 0], [0, 0, 0, 387, 388, 389, 390, 32, 33, 0, 34, 0, 0, 391, 392, 0, 0, 37, 0], [0, 299, 0, 393, 0, 203, 203, 32, 33, 0, 34, 0, 0, 0, 99, 0, 299, 0, 0], [0, 299, 0, 0, 0, 201, 394, 0, 33, 0, 34, 0, 0, 0, 99, 0, 299, 0, 0], [0, 0, 0, 395, 388, 396, 397, 32, 33, 0, 34, 0, 0, 398, 392, 0, 0, 37, 0], [0, 0, 0, 111, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0, 0, 0, 306, 0, 0, 0, 0, 0], [0, 0, 0, 303, 0, 304, 201, 0, 33, 0, 34, 0, 0, 306, 0, 0, 0, 0, 0], [0, 0, 0, 303, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 106, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 103, 0, 0], [0, 0, 0, 0, 0, 399, 399, 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 400, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 312, 313, 314, 315, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 0, 313, 313, 315, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 0, 401, 401, 315, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 402, 401, 401, 315, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 403, 97, 201, 404, 0, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 97, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 405, 318, 406, 406, 8, 9, 0, 10, 0, 0, 0, 322, 0, 0, 16, 0], [0, 407, 0, 0, 0, 40, 408, 0, 9, 0, 10, 0, 0, 0, 42, 0, 407, 0, 0], [0, 0, 0, 0, 409, 44, 44, 8, 9, 0, 0, 0, 0, 321, 409, 0, 0, 0, 0], [0, 0, 0, 317, 318, 319, 406, 8, 9, 0, 10, 0, 0, 321, 322, 0, 0, 16, 0], [0, 0, 0, 317, 318, 406, 406, 8, 9, 0, 10, 0, 0, 0, 322, 0, 0, 16, 0], [0, 410, 64, 0, 0, 40, 408, 0, 9, 0, 10, 0, 0, 0, 42, 0, 410, 0, 0], [0, 223, 0, 0, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 42, 0, 223, 0, 0], [0, 223, 0, 323, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 42, 0, 223, 0, 0], [0, 0, 0, 405, 318, 406, 406, 8, 9, 0, 10, 0, 0, 0, 322, 0, 0, 16, 0], [0, 0, 0, 0, 409, 44, 44, 8, 9, 0, 0, 0, 0, 328, 409, 0, 0, 0, 0], [0, 0, 0, 325, 318, 326, 406, 8, 9, 0, 10, 0, 0, 328, 322, 0, 0, 16, 0], [0, 0, 0, 325, 318, 406, 406, 8, 9, 0, 10, 0, 0, 0, 322, 0, 0, 16, 0], [0, 0, 0, 0, 0, 0, 0, 133, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 130, 0, 0], [0, 0, 0, 0, 0, 411, 411, 239, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 412, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 40, 121, 334, 0, 9, 0, 10, 0, 0, 0, 42, 0, 0, 0, 0], [0, 0, 0, 0, 413, 0, 0, 0, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 241, 336, 336, 57, 58, 0, 59, 0, 0, 0, 245, 0, 0, 62, 0], [0, 0, 0, 0, 339, 141, 141, 57, 58, 0, 0, 0, 0, 0, 339, 0, 0, 0, 0], [0, 0, 0, 414, 415, 416, 417, 57, 58, 0, 59, 0, 0, 418, 419, 0, 0, 62, 0], [0, 337, 0, 420, 0, 248, 248, 57, 58, 0, 59, 0, 0, 0, 139, 0, 337, 0, 0], [0, 337, 0, 0, 0, 246, 421, 0, 58, 0, 59, 0, 0, 0, 139, 0, 337, 0, 0], [0, 0, 0, 422, 415, 423, 424, 57, 58, 0, 59, 0, 0, 425, 419, 0, 0, 62, 0], [0, 0, 0, 151, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 58, 0, 0, 0, 0, 344, 0, 0, 0, 0, 0], [0, 0, 0, 341, 0, 342, 246, 0, 58, 0, 59, 0, 0, 344, 0, 0, 0, 0, 0], [0, 0, 0, 341, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 146, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 143, 0, 0], [0, 0, 0, 0, 0, 426, 426, 258, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 427, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 350, 351, 352, 353, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 0, 351, 351, 353, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 0, 428, 428, 353, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 429, 428, 428, 353, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 430, 137, 246, 431, 0, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 137, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 432, 116, 433, 434, 8, 161, 0, 162, 0, 0, 435, 120, 0, 0, 16, 0], [0, 0, 0, 0, 0, 180, 180, 269, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 358, 359, 360, 361, 161, 0, 162, 0, 0, 0, 362, 0, 0, 0, 0], [0, 0, 0, 0, 0, 359, 359, 361, 161, 0, 162, 0, 0, 0, 362, 0, 0, 0, 0], [0, 0, 0, 0, 0, 436, 436, 361, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 437, 436, 436, 361, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 438, 439, 440, 441, 442, 161, 0, 162, 0, 0, 0, 362, 0, 0, 0, 0], [0, 443, 274, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 443, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 444, 116, 445, 445, 8, 161, 0, 162, 0, 0, 0, 120, 0, 0, 16, 0], [0, 0, 0, 0, 225, 44, 44, 8, 161, 0, 0, 0, 0, 367, 225, 0, 0, 0, 0], [0, 0, 0, 364, 116, 365, 445, 8, 161, 0, 162, 0, 0, 367, 120, 0, 0, 16, 0], [0, 0, 0, 364, 116, 445, 445, 8, 161, 0, 162, 0, 0, 0, 120, 0, 0, 16, 0], [0, 0, 0, 0, 0, 0, 0, 0, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 446, 370, 447, 447, 22, 23, 0, 24, 0, 0, 0, 374, 0, 0, 27, 0], [0, 448, 0, 0, 0, 76, 449, 0, 23, 0, 24, 0, 0, 0, 78, 0, 448, 0, 0], [0, 0, 0, 0, 450, 80, 80, 22, 23, 0, 0, 0, 0, 373, 450, 0, 0, 0, 0], [0, 0, 0, 369, 370, 371, 447, 22, 23, 0, 24, 0, 0, 373, 374, 0, 0, 27, 0], [0, 0, 0, 369, 370, 447, 447, 22, 23, 0, 24, 0, 0, 0, 374, 0, 0, 27, 0], [0, 451, 90, 0, 0, 76, 449, 0, 23, 0, 24, 0, 0, 0, 78, 0, 451, 0, 0], [0, 279, 0, 0, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 78, 0, 279, 0, 0], [0, 279, 0, 375, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 78, 0, 279, 0, 0], [0, 0, 0, 446, 370, 447, 447, 22, 23, 0, 24, 0, 0, 0, 374, 0, 0, 27, 0], [0, 0, 0, 0, 450, 80, 80, 22, 23, 0, 0, 0, 0, 380, 450, 0, 0, 0, 0], [0, 0, 0, 377, 370, 378, 447, 22, 23, 0, 24, 0, 0, 380, 374, 0, 0, 27, 0], [0, 0, 0, 377, 370, 447, 447, 22, 23, 0, 24, 0, 0, 0, 374, 0, 0, 27, 0], [0, 0, 0, 0, 0, 0, 0, 187, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 184, 0, 0], [0, 0, 0, 0, 0, 452, 452, 295, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 453, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 76, 175, 386, 0, 23, 0, 24, 0, 0, 0, 78, 0, 0, 0, 0], [0, 0, 0, 0, 454, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 455, 388, 456, 456, 32, 33, 0, 34, 0, 0, 0, 392, 0, 0, 37, 0], [0, 457, 0, 0, 0, 97, 458, 0, 33, 0, 34, 0, 0, 0, 99, 0, 457, 0, 0], [0, 0, 0, 0, 459, 101, 101, 32, 33, 0, 0, 0, 0, 391, 459, 0, 0, 0, 0], [0, 0, 0, 387, 388, 389, 456, 32, 33, 0, 34, 0, 0, 391, 392, 0, 0, 37, 0], [0, 0, 0, 387, 388, 456, 456, 32, 33, 0, 34, 0, 0, 0, 392, 0, 0, 37, 0], [0, 460, 111, 0, 0, 97, 458, 0, 33, 0, 34, 0, 0, 0, 99, 0, 460, 0, 0], [0, 299, 0, 0, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 99, 0, 299, 0, 0], [0, 299, 0, 393, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 99, 0, 299, 0, 0], [0, 0, 0, 455, 388, 456, 456, 32, 33, 0, 34, 0, 0, 0, 392, 0, 0, 37, 0], [0, 0, 0, 0, 459, 101, 101, 32, 33, 0, 0, 0, 0, 398, 459, 0, 0, 0, 0], [0, 0, 0, 395, 388, 396, 456, 32, 33, 0, 34, 0, 0, 398, 392, 0, 0, 37, 0], [0, 0, 0, 395, 388, 456, 456, 32, 33, 0, 34, 0, 0, 0, 392, 0, 0, 37, 0], [0, 0, 0, 0, 0, 0, 0, 213, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 210, 0, 0], [0, 0, 0, 0, 0, 461, 461, 315, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 462, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 97, 201, 404, 0, 33, 0, 34, 0, 0, 0, 99, 0, 0, 0, 0], [0, 0, 0, 0, 463, 0, 0, 0, 33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 318, 406, 406, 8, 9, 0, 10, 0, 0, 0, 322, 0, 0, 16, 0], [0, 0, 0, 0, 409, 44, 44, 8, 9, 0, 0, 0, 0, 0, 409, 0, 0, 0, 0], [0, 0, 0, 464, 465, 466, 467, 8, 9, 0, 10, 0, 0, 468, 469, 0, 0, 16, 0], [0, 407, 0, 470, 0, 123, 123, 8, 9, 0, 10, 0, 0, 0, 42, 0, 407, 0, 0], [0, 407, 0, 0, 0, 121, 471, 0, 9, 0, 10, 0, 0, 0, 42, 0, 407, 0, 0], [0, 0, 0, 472, 465, 473, 474, 8, 9, 0, 10, 0, 0, 475, 469, 0, 0, 16, 0], [0, 0, 0, 0, 0, 0, 0, 239, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 236, 0, 0], [0, 0, 0, 0, 0, 0, 476, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 477, 415, 478, 478, 57, 58, 0, 59, 0, 0, 0, 419, 0, 0, 62, 0], [0, 479, 0, 0, 0, 137, 480, 0, 58, 0, 59, 0, 0, 0, 139, 0, 479, 0, 0], [0, 0, 0, 0, 481, 141, 141, 57, 58, 0, 0, 0, 0, 418, 481, 0, 0, 0, 0], [0, 0, 0, 414, 415, 416, 478, 57, 58, 0, 59, 0, 0, 418, 419, 0, 0, 62, 0], [0, 0, 0, 414, 415, 478, 478, 57, 58, 0, 59, 0, 0, 0, 419, 0, 0, 62, 0], [0, 482, 151, 0, 0, 137, 480, 0, 58, 0, 59, 0, 0, 0, 139, 0, 482, 0, 0], [0, 337, 0, 0, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 139, 0, 337, 0, 0], [0, 337, 0, 420, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 139, 0, 337, 0, 0], [0, 0, 0, 477, 415, 478, 478, 57, 58, 0, 59, 0, 0, 0, 419, 0, 0, 62, 0], [0, 0, 0, 0, 481, 141, 141, 57, 58, 0, 0, 0, 0, 425, 481, 0, 0, 0, 0], [0, 0, 0, 422, 415, 423, 478, 57, 58, 0, 59, 0, 0, 425, 419, 0, 0, 62, 0], [0, 0, 0, 422, 415, 478, 478, 57, 58, 0, 59, 0, 0, 0, 419, 0, 0, 62, 0], [0, 0, 0, 0, 0, 0, 0, 258, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 0, 0], [0, 0, 0, 0, 0, 483, 483, 353, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 484, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 137, 246, 431, 0, 58, 0, 59, 0, 0, 0, 139, 0, 0, 0, 0], [0, 0, 0, 0, 485, 0, 0, 0, 58, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 444, 116, 445, 445, 8, 161, 0, 162, 0, 0, 0, 120, 0, 0, 16, 0], [0, 0, 0, 0, 225, 44, 44, 8, 161, 0, 0, 0, 0, 435, 225, 0, 0, 0, 0], [0, 0, 0, 432, 116, 433, 445, 8, 161, 0, 162, 0, 0, 435, 120, 0, 0, 16, 0], [0, 0, 0, 432, 116, 445, 445, 8, 161, 0, 162, 0, 0, 0, 120, 0, 0, 16, 0], [0, 0, 0, 0, 0, 486, 486, 361, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 487, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 439, 440, 441, 442, 161, 0, 162, 0, 0, 0, 362, 0, 0, 0, 0], [0, 0, 0, 0, 0, 440, 440, 442, 161, 0, 162, 0, 0, 0, 362, 0, 0, 0, 0], [0, 0, 0, 0, 0, 488, 488, 442, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 489, 488, 488, 442, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 490, 491, 492, 493, 494, 161, 0, 162, 0, 0, 0, 362, 0, 0, 0, 0], [0, 0, 0, 495, 0, 496, 497, 0, 161, 0, 162, 0, 0, 498, 0, 0, 0, 0, 0], [0, 0, 0, 0, 116, 445, 445, 8, 161, 0, 162, 0, 0, 0, 120, 0, 0, 16, 0], [0, 0, 0, 0, 225, 44, 44, 8, 161, 0, 0, 0, 0, 0, 225, 0, 0, 0, 0], [0, 0, 0, 0, 370, 447, 447, 22, 23, 0, 24, 0, 0, 0, 374, 0, 0, 27, 0], [0, 0, 0, 0, 450, 80, 80, 22, 23, 0, 0, 0, 0, 0, 450, 0, 0, 0, 0], [0, 0, 0, 499, 500, 501, 502, 22, 23, 0, 24, 0, 0, 503, 504, 0, 0, 27, 0], [0, 448, 0, 505, 0, 177, 177, 22, 23, 0, 24, 0, 0, 0, 78, 0, 448, 0, 0], [0, 448, 0, 0, 0, 175, 506, 0, 23, 0, 24, 0, 0, 0, 78, 0, 448, 0, 0], [0, 0, 0, 507, 500, 508, 509, 22, 23, 0, 24, 0, 0, 510, 504, 0, 0, 27, 0], [0, 0, 0, 0, 0, 0, 0, 295, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 292, 0, 0], [0, 0, 0, 0, 0, 0, 511, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 388, 456, 456, 32, 33, 0, 34, 0, 0, 0, 392, 0, 0, 37, 0], [0, 0, 0, 0, 459, 101, 101, 32, 33, 0, 0, 0, 0, 0, 459, 0, 0, 0, 0], [0, 0, 0, 512, 513, 514, 515, 32, 33, 0, 34, 0, 0, 516, 517, 0, 0, 37, 0], [0, 457, 0, 518, 0, 203, 203, 32, 33, 0, 34, 0, 0, 0, 99, 0, 457, 0, 0], [0, 457, 0, 0, 0, 201, 519, 0, 33, 0, 34, 0, 0, 0, 99, 0, 457, 0, 0], [0, 0, 0, 520, 513, 521, 522, 32, 33, 0, 34, 0, 0, 523, 517, 0, 0, 37, 0], [0, 0, 0, 0, 0, 0, 0, 315, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 312, 0, 0], [0, 0, 0, 0, 0, 0, 524, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 525, 465, 526, 526, 8, 9, 0, 10, 0, 0, 0, 469, 0, 0, 16, 0], [0, 527, 0, 0, 0, 40, 528, 0, 9, 0, 10, 0, 0, 0, 42, 0, 527, 0, 0], [0, 0, 0, 0, 529, 44, 44, 8, 9, 0, 0, 0, 0, 468, 529, 0, 0, 0, 0], [0, 0, 0, 464, 465, 466, 526, 8, 9, 0, 10, 0, 0, 468, 469, 0, 0, 16, 0], [0, 0, 0, 464, 465, 526, 526, 8, 9, 0, 10, 0, 0, 0, 469, 0, 0, 16, 0], [0, 530, 64, 0, 0, 40, 528, 0, 9, 0, 10, 0, 0, 0, 42, 0, 530, 0, 0], [0, 407, 0, 0, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 42, 0, 407, 0, 0], [0, 407, 0, 470, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 42, 0, 407, 0, 0], [0, 0, 0, 525, 465, 526, 526, 8, 9, 0, 10, 0, 0, 0, 469, 0, 0, 16, 0], [0, 0, 0, 0, 529, 44, 44, 8, 9, 0, 0, 0, 0, 475, 529, 0, 0, 0, 0], [0, 0, 0, 472, 465, 473, 526, 8, 9, 0, 10, 0, 0, 475, 469, 0, 0, 16, 0], [0, 0, 0, 472, 465, 526, 526, 8, 9, 0, 10, 0, 0, 0, 469, 0, 0, 16, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 40, 0, 0], [0, 0, 0, 0, 415, 478, 478, 57, 58, 0, 59, 0, 0, 0, 419, 0, 0, 62, 0], [0, 0, 0, 0, 481, 141, 141, 57, 58, 0, 0, 0, 0, 0, 481, 0, 0, 0, 0], [0, 0, 0, 531, 532, 533, 534, 57, 58, 0, 59, 0, 0, 535, 536, 0, 0, 62, 0], [0, 479, 0, 537, 0, 248, 248, 57, 58, 0, 59, 0, 0, 0, 139, 0, 479, 0, 0], [0, 479, 0, 0, 0, 246, 538, 0, 58, 0, 59, 0, 0, 0, 139, 0, 479, 0, 0], [0, 0, 0, 539, 532, 540, 541, 57, 58, 0, 59, 0, 0, 542, 536, 0, 0, 62, 0], [0, 0, 0, 0, 0, 0, 0, 353, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 350, 0, 0], [0, 0, 0, 0, 0, 0, 543, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 361, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 358, 0, 0], [0, 0, 0, 0, 0, 544, 544, 442, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 545, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 491, 492, 493, 494, 161, 0, 162, 0, 0, 0, 362, 0, 0, 0, 0], [0, 0, 0, 0, 0, 492, 492, 494, 161, 0, 162, 0, 0, 0, 362, 0, 0, 0, 0], [0, 0, 0, 0, 0, 546, 546, 494, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 547, 546, 546, 494, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 548, 549, 368, 550, 0, 161, 0, 162, 0, 0, 0, 362, 0, 0, 0, 0], [0, 0, 0, 274, 0, 368, 368, 0, 161, 0, 162, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 161, 0, 0, 0, 0, 498, 0, 0, 0, 0, 0], [0, 0, 0, 495, 0, 496, 368, 0, 161, 0, 162, 0, 0, 498, 0, 0, 0, 0, 0], [0, 0, 0, 495, 0, 368, 368, 0, 161, 0, 162, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 551, 500, 552, 552, 22, 23, 0, 24, 0, 0, 0, 504, 0, 0, 27, 0], [0, 553, 0, 0, 0, 76, 554, 0, 23, 0, 24, 0, 0, 0, 78, 0, 553, 0, 0], [0, 0, 0, 0, 555, 80, 80, 22, 23, 0, 0, 0, 0, 503, 555, 0, 0, 0, 0], [0, 0, 0, 499, 500, 501, 552, 22, 23, 0, 24, 0, 0, 503, 504, 0, 0, 27, 0], [0, 0, 0, 499, 500, 552, 552, 22, 23, 0, 24, 0, 0, 0, 504, 0, 0, 27, 0], [0, 556, 90, 0, 0, 76, 554, 0, 23, 0, 24, 0, 0, 0, 78, 0, 556, 0, 0], [0, 448, 0, 0, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 78, 0, 448, 0, 0], [0, 448, 0, 505, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 78, 0, 448, 0, 0], [0, 0, 0, 551, 500, 552, 552, 22, 23, 0, 24, 0, 0, 0, 504, 0, 0, 27, 0], [0, 0, 0, 0, 555, 80, 80, 22, 23, 0, 0, 0, 0, 510, 555, 0, 0, 0, 0], [0, 0, 0, 507, 500, 508, 552, 22, 23, 0, 24, 0, 0, 510, 504, 0, 0, 27, 0], [0, 0, 0, 507, 500, 552, 552, 22, 23, 0, 24, 0, 0, 0, 504, 0, 0, 27, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 76, 0, 0], [0, 0, 0, 557, 513, 558, 558, 32, 33, 0, 34, 0, 0, 0, 517, 0, 0, 37, 0], [0, 559, 0, 0, 0, 97, 560, 0, 33, 0, 34, 0, 0, 0, 99, 0, 559, 0, 0], [0, 0, 0, 0, 561, 101, 101, 32, 33, 0, 0, 0, 0, 516, 561, 0, 0, 0, 0], [0, 0, 0, 512, 513, 514, 558, 32, 33, 0, 34, 0, 0, 516, 517, 0, 0, 37, 0], [0, 0, 0, 512, 513, 558, 558, 32, 33, 0, 34, 0, 0, 0, 517, 0, 0, 37, 0], [0, 562, 111, 0, 0, 97, 560, 0, 33, 0, 34, 0, 0, 0, 99, 0, 562, 0, 0], [0, 457, 0, 0, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 99, 0, 457, 0, 0], [0, 457, 0, 518, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 99, 0, 457, 0, 0], [0, 0, 0, 557, 513, 558, 558, 32, 33, 0, 34, 0, 0, 0, 517, 0, 0, 37, 0], [0, 0, 0, 0, 561, 101, 101, 32, 33, 0, 0, 0, 0, 523, 561, 0, 0, 0, 0], [0, 0, 0, 520, 513, 521, 558, 32, 33, 0, 34, 0, 0, 523, 517, 0, 0, 37, 0], [0, 0, 0, 520, 513, 558, 558, 32, 33, 0, 34, 0, 0, 0, 517, 0, 0, 37, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 97, 0, 0], [0, 0, 0, 0, 465, 526, 526, 8, 9, 0, 10, 0, 0, 0, 469, 0, 0, 16, 0], [0, 0, 0, 0, 529, 44, 44, 8, 9, 0, 0, 0, 0, 0, 529, 0, 0, 0, 0], [0, 0, 0, 563, 66, 564, 565, 8, 9, 0, 10, 0, 0, 566, 68, 0, 0, 16, 0], [0, 527, 0, 567, 0, 123, 123, 8, 9, 0, 10, 0, 0, 0, 42, 0, 527, 0, 0], [0, 527, 0, 0, 0, 121, 568, 0, 9, 0, 10, 0, 0, 0, 42, 0, 527, 0, 0], [0, 0, 0, 569, 66, 570, 571, 8, 9, 0, 10, 0, 0, 572, 68, 0, 0, 16, 0], [0, 0, 0, 573, 532, 574, 574, 57, 58, 0, 59, 0, 0, 0, 536, 0, 0, 62, 0], [0, 575, 0, 0, 0, 137, 576, 0, 58, 0, 59, 0, 0, 0, 139, 0, 575, 0, 0], [0, 0, 0, 0, 577, 141, 141, 57, 58, 0, 0, 0, 0, 535, 577, 0, 0, 0, 0], [0, 0, 0, 531, 532, 533, 574, 57, 58, 0, 59, 0, 0, 535, 536, 0, 0, 62, 0], [0, 0, 0, 531, 532, 574, 574, 57, 58, 0, 59, 0, 0, 0, 536, 0, 0, 62, 0], [0, 578, 151, 0, 0, 137, 576, 0, 58, 0, 59, 0, 0, 0, 139, 0, 578, 0, 0], [0, 479, 0, 0, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 139, 0, 479, 0, 0], [0, 479, 0, 537, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 139, 0, 479, 0, 0], [0, 0, 0, 573, 532, 574, 574, 57, 58, 0, 59, 0, 0, 0, 536, 0, 0, 62, 0], [0, 0, 0, 0, 577, 141, 141, 57, 58, 0, 0, 0, 0, 542, 577, 0, 0, 0, 0], [0, 0, 0, 539, 532, 540, 574, 57, 58, 0, 59, 0, 0, 542, 536, 0, 0, 62, 0], [0, 0, 0, 539, 532, 574, 574, 57, 58, 0, 59, 0, 0, 0, 536, 0, 0, 62, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 137, 0, 0], [0, 0, 0, 0, 0, 0, 0, 442, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 439, 0, 0], [0, 0, 0, 0, 0, 579, 579, 494, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 580, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 549, 368, 550, 0, 161, 0, 162, 0, 0, 0, 362, 0, 0, 0, 0], [0, 0, 0, 0, 0, 368, 368, 0, 161, 0, 162, 0, 0, 0, 362, 0, 0, 0, 0], [0, 0, 0, 0, 581, 0, 0, 0, 161, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 500, 552, 552, 22, 23, 0, 24, 0, 0, 0, 504, 0, 0, 27, 0], [0, 0, 0, 0, 555, 80, 80, 22, 23, 0, 0, 0, 0, 0, 555, 0, 0, 0, 0], [0, 0, 0, 582, 91, 583, 584, 22, 23, 0, 24, 0, 0, 585, 93, 0, 0, 27, 0], [0, 553, 0, 586, 0, 177, 177, 22, 23, 0, 24, 0, 0, 0, 78, 0, 553, 0, 0], [0, 553, 0, 0, 0, 175, 587, 0, 23, 0, 24, 0, 0, 0, 78, 0, 553, 0, 0], [0, 0, 0, 588, 91, 589, 590, 22, 23, 0, 24, 0, 0, 591, 93, 0, 0, 27, 0], [0, 0, 0, 0, 513, 558, 558, 32, 33, 0, 34, 0, 0, 0, 517, 0, 0, 37, 0], [0, 0, 0, 0, 561, 101, 101, 32, 33, 0, 0, 0, 0, 0, 561, 0, 0, 0, 0], [0, 0, 0, 592, 112, 593, 594, 32, 33, 0, 34, 0, 0, 595, 114, 0, 0, 37, 0], [0, 559, 0, 596, 0, 203, 203, 32, 33, 0, 34, 0, 0, 0, 99, 0, 559, 0, 0], [0, 559, 0, 0, 0, 201, 597, 0, 33, 0, 34, 0, 0, 0, 99, 0, 559, 0, 0], [0, 0, 0, 598, 112, 599, 600, 32, 33, 0, 34, 0, 0, 601, 114, 0, 0, 37, 0], [0, 0, 0, 602, 66, 67, 67, 8, 9, 0, 10, 0, 0, 0, 68, 0, 0, 16, 0], [0, 0, 0, 0, 165, 44, 44, 8, 9, 0, 0, 0, 0, 566, 165, 0, 0, 0, 0], [0, 0, 0, 563, 66, 564, 67, 8, 9, 0, 10, 0, 0, 566, 68, 0, 0, 16, 0], [0, 0, 0, 563, 66, 67, 67, 8, 9, 0, 10, 0, 0, 0, 68, 0, 0, 16, 0], [0, 527, 0, 0, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 42, 0, 527, 0, 0], [0, 527, 0, 567, 0, 121, 121, 0, 9, 0, 10, 0, 0, 0, 42, 0, 527, 0, 0], [0, 0, 0, 602, 66, 67, 67, 8, 9, 0, 10, 0, 0, 0, 68, 0, 0, 16, 0], [0, 0, 0, 0, 165, 44, 44, 8, 9, 0, 0, 0, 0, 572, 165, 0, 0, 0, 0], [0, 0, 0, 569, 66, 570, 67, 8, 9, 0, 10, 0, 0, 572, 68, 0, 0, 16, 0], [0, 0, 0, 569, 66, 67, 67, 8, 9, 0, 10, 0, 0, 0, 68, 0, 0, 16, 0], [0, 0, 0, 0, 532, 574, 574, 57, 58, 0, 59, 0, 0, 0, 536, 0, 0, 62, 0], [0, 0, 0, 0, 577, 141, 141, 57, 58, 0, 0, 0, 0, 0, 577, 0, 0, 0, 0], [0, 0, 0, 603, 152, 604, 605, 57, 58, 0, 59, 0, 0, 606, 154, 0, 0, 62, 0], [0, 575, 0, 607, 0, 248, 248, 57, 58, 0, 59, 0, 0, 0, 139, 0, 575, 0, 0], [0, 575, 0, 0, 0, 246, 608, 0, 58, 0, 59, 0, 0, 0, 139, 0, 575, 0, 0], [0, 0, 0, 609, 152, 610, 611, 57, 58, 0, 59, 0, 0, 612, 154, 0, 0, 62, 0], [0, 0, 0, 0, 0, 0, 0, 494, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 491, 0, 0], [0, 0, 0, 0, 0, 0, 613, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 614, 91, 92, 92, 22, 23, 0, 24, 0, 0, 0, 93, 0, 0, 27, 0], [0, 0, 0, 0, 194, 80, 80, 22, 23, 0, 0, 0, 0, 585, 194, 0, 0, 0, 0], [0, 0, 0, 582, 91, 583, 92, 22, 23, 0, 24, 0, 0, 585, 93, 0, 0, 27, 0], [0, 0, 0, 582, 91, 92, 92, 22, 23, 0, 24, 0, 0, 0, 93, 0, 0, 27, 0], [0, 553, 0, 0, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 78, 0, 553, 0, 0], [0, 553, 0, 586, 0, 175, 175, 0, 23, 0, 24, 0, 0, 0, 78, 0, 553, 0, 0], [0, 0, 0, 614, 91, 92, 92, 22, 23, 0, 24, 0, 0, 0, 93, 0, 0, 27, 0], [0, 0, 0, 0, 194, 80, 80, 22, 23, 0, 0, 0, 0, 591, 194, 0, 0, 0, 0], [0, 0, 0, 588, 91, 589, 92, 22, 23, 0, 24, 0, 0, 591, 93, 0, 0, 27, 0], [0, 0, 0, 588, 91, 92, 92, 22, 23, 0, 24, 0, 0, 0, 93, 0, 0, 27, 0], [0, 0, 0, 615, 112, 113, 113, 32, 33, 0, 34, 0, 0, 0, 114, 0, 0, 37, 0], [0, 0, 0, 0, 220, 101, 101, 32, 33, 0, 0, 0, 0, 595, 220, 0, 0, 0, 0], [0, 0, 0, 592, 112, 593, 113, 32, 33, 0, 34, 0, 0, 595, 114, 0, 0, 37, 0], [0, 0, 0, 592, 112, 113, 113, 32, 33, 0, 34, 0, 0, 0, 114, 0, 0, 37, 0], [0, 559, 0, 0, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 99, 0, 559, 0, 0], [0, 559, 0, 596, 0, 201, 201, 0, 33, 0, 34, 0, 0, 0, 99, 0, 559, 0, 0], [0, 0, 0, 615, 112, 113, 113, 32, 33, 0, 34, 0, 0, 0, 114, 0, 0, 37, 0], [0, 0, 0, 0, 220, 101, 101, 32, 33, 0, 0, 0, 0, 601, 220, 0, 0, 0, 0], [0, 0, 0, 598, 112, 599, 113, 32, 33, 0, 34, 0, 0, 601, 114, 0, 0, 37, 0], [0, 0, 0, 598, 112, 113, 113, 32, 33, 0, 34, 0, 0, 0, 114, 0, 0, 37, 0], [0, 0, 0, 0, 66, 67, 67, 8, 9, 0, 10, 0, 0, 0, 68, 0, 0, 16, 0], [0, 0, 0, 616, 152, 153, 153, 57, 58, 0, 59, 0, 0, 0, 154, 0, 0, 62, 0], [0, 0, 0, 0, 265, 141, 141, 57, 58, 0, 0, 0, 0, 606, 265, 0, 0, 0, 0], [0, 0, 0, 603, 152, 604, 153, 57, 58, 0, 59, 0, 0, 606, 154, 0, 0, 62, 0], [0, 0, 0, 603, 152, 153, 153, 57, 58, 0, 59, 0, 0, 0, 154, 0, 0, 62, 0], [0, 575, 0, 0, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 139, 0, 575, 0, 0], [0, 575, 0, 607, 0, 246, 246, 0, 58, 0, 59, 0, 0, 0, 139, 0, 575, 0, 0], [0, 0, 0, 616, 152, 153, 153, 57, 58, 0, 59, 0, 0, 0, 154, 0, 0, 62, 0], [0, 0, 0, 0, 265, 141, 141, 57, 58, 0, 0, 0, 0, 612, 265, 0, 0, 0, 0], [0, 0, 0, 609, 152, 610, 153, 57, 58, 0, 59, 0, 0, 612, 154, 0, 0, 62, 0], [0, 0, 0, 609, 152, 153, 153, 57, 58, 0, 59, 0, 0, 0, 154, 0, 0, 62, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 549, 0, 0], [0, 0, 0, 0, 91, 92, 92, 22, 23, 0, 24, 0, 0, 0, 93, 0, 0, 27, 0], [0, 0, 0, 0, 112, 113, 113, 32, 33, 0, 34, 0, 0, 0, 114, 0, 0, 37, 0], [0, 0, 0, 0, 152, 153, 153, 57, 58, 0, 59, 0, 0, 0, 154, 0, 0, 62, 0]];
-    var accepting = [false, true, true, true, true, true, false, false, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, true, true, true, true, true, true, true, false, true, true, true, true, true, true, true, true, true, true, true, false, true, false, true, true, false, false, true, true, true, true, true, true, false, false, true, true, true, true, true, true, true, true, true, true, false, true, true, false, true, true, true, false, true, true, true, false, true, false, true, true, false, false, true, true, true, true, true, true, true, false, true, true, false, true, true, true, false, true, false, true, true, false, false, true, true, true, true, true, true, true, false, true, true, true, false, true, true, true, false, true, false, true, true, false, false, false, true, true, false, false, true, true, true, true, true, true, false, true, false, true, true, false, false, true, true, true, true, true, true, true, false, true, true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, true, false, true, false, true, true, false, false, false, true, true, false, false, true, true, true, false, true, true, true, true, true, true, false, true, true, true, false, true, false, true, true, false, false, false, true, true, false, false, true, true, true, false, true, true, true, true, true, false, true, true, true, true, true, false, true, true, false, false, false, false, true, true, false, false, true, true, true, false, true, true, true, false, true, false, true, true, false, false, false, true, true, false, false, true, true, true, false, true, true, true, true, false, true, false, true, true, true, true, true, true, true, true, true, false, true, true, true, true, true, false, true, true, false, false, false, false, true, true, false, false, true, true, true, false, true, true, true, true, true, false, true, true, false, false, false, false, true, true, false, false, true, true, true, true, false, true, true, true, true, true, true, false, true, true, false, false, false, false, true, false, true, false, true, true, true, true, true, false, true, true, false, false, false, false, true, true, false, false, true, true, true, false, true, true, false, false, true, false, true, true, false, true, true, false, true, true, false, true, true, true, true, true, true, false, true, true, false, false, false, false, true, false, true, true, false, true, true, true, true, true, true, false, true, true, false, false, false, false, true, false, true, false, true, true, true, true, false, false, false, true, true, false, true, true, true, true, true, true, false, true, true, false, false, false, false, true, false, true, false, true, true, false, false, true, true, false, false, true, true, true, false, true, false, true, true, true, true, false, false, false, true, false, true, true, true, true, false, false, false, true, true, false, true, true, true, true, true, true, false, true, true, false, true, false, true, true, true, true, false, false, false, false, false, false, false, true, true, false, false, true, true, false, true, true, true, true, false, true, true, true, true, true, true, false, true, true, false, true, true, false, true, true, true, true, true, true, false, true, true, false, true, false, true, true, true, true, true, true, false, true, true, true, true, true, true, false, true, true, false, false, false, false, false, true, true, false, true, false, true, true, true, true, true, false, true, true, true, true, true, false, true, true, true, true, true, false, true, true, true, false, true, true, true, true, false, false, false, true, false, true, true, true, true, true, false, true, true, true, false, true, true, true, true, true, false, true, true, true, true, false, true, true, true, true, true, false, true, true, false, true, true, true];
-    var tags = [[], ["broken_cluster"], ["consonant_syllable"], ["vowel_syllable"], ["broken_cluster"], ["broken_cluster"], [], [], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["standalone_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["consonant_syllable"], ["broken_cluster"], ["symbol_cluster"], ["consonant_syllable"], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["vowel_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], [], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], [], [], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], [], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["broken_cluster"], ["broken_cluster"], ["consonant_syllable", "broken_cluster"], ["broken_cluster"], [], ["broken_cluster"], ["symbol_cluster"], [], ["symbol_cluster"], ["symbol_cluster"], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], [], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], [], [], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], [], ["consonant_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], [], [], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["broken_cluster"], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], [], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], [], [], [], ["broken_cluster"], ["broken_cluster"], [], [], ["broken_cluster"], ["broken_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], [], [], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["symbol_cluster"], ["symbol_cluster"], ["symbol_cluster"], ["consonant_syllable"], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], [], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], [], [], [], ["consonant_syllable"], ["consonant_syllable"], [], [], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["vowel_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], [], [], [], ["vowel_syllable"], ["vowel_syllable"], [], [], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], [], [], [], [], ["broken_cluster"], ["broken_cluster"], [], [], ["broken_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], [], [], [], ["standalone_cluster"], ["standalone_cluster"], [], [], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], ["broken_cluster"], [], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], ["broken_cluster"], ["symbol_cluster"], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], [], [], [], [], ["consonant_syllable"], ["consonant_syllable"], [], [], ["consonant_syllable"], ["consonant_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], [], [], [], [], ["vowel_syllable"], ["vowel_syllable"], [], [], ["vowel_syllable"], ["vowel_syllable"], ["broken_cluster"], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], [], [], [], [], ["broken_cluster"], [], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], [], [], [], [], ["standalone_cluster"], ["standalone_cluster"], [], [], ["standalone_cluster"], ["standalone_cluster"], ["consonant_syllable", "broken_cluster"], [], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], [], [], ["consonant_syllable", "broken_cluster"], [], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], [], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], [], ["consonant_syllable"], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], [], [], [], [], ["consonant_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], [], [], [], [], ["vowel_syllable"], [], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], [], [], [], ["standalone_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], [], [], [], [], ["standalone_cluster"], [], ["consonant_syllable", "broken_cluster"], [], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], [], [], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], [], [], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], [], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], [], [], [], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], [], [], [], ["broken_cluster"], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], [], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], [], [], [], [], [], [], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], [], [], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], [], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], ["consonant_syllable"], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], [], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], [], [], [], [], [], ["consonant_syllable", "broken_cluster"], ["consonant_syllable", "broken_cluster"], [], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], [], [], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], ["consonant_syllable"], [], ["consonant_syllable"], ["consonant_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], ["vowel_syllable"], [], ["vowel_syllable"], ["vowel_syllable"], ["broken_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], ["standalone_cluster"], [], ["standalone_cluster"], ["standalone_cluster"], [], ["consonant_syllable"], ["vowel_syllable"], ["standalone_cluster"]];
+    var stateTable = [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        0,
+        10,
+        11,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      [
+        0,
+        0,
+        0,
+        18,
+        19,
+        20,
+        21,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        25,
+        26,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        28,
+        29,
+        30,
+        31,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        35,
+        36,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        38,
+        5,
+        7,
+        7,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        13,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        39,
+        0,
+        0,
+        0,
+        40,
+        41,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        39,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        43,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        12,
+        43,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        43,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        43,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        45,
+        46,
+        47,
+        48,
+        49,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        50,
+        0,
+        0,
+        51,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        52,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        53,
+        54,
+        55,
+        56,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        60,
+        61,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        4,
+        5,
+        7,
+        7,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        13,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        63,
+        64,
+        0,
+        0,
+        40,
+        41,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        63,
+        0,
+        0
+      ],
+      [
+        0,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        0,
+        10,
+        11,
+        11,
+        12,
+        13,
+        0,
+        2,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        18,
+        65,
+        20,
+        21,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        25,
+        26,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        66,
+        67,
+        67,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        68,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        69,
+        0,
+        70,
+        70,
+        0,
+        71,
+        0,
+        72,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        73,
+        19,
+        74,
+        74,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        26,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        0,
+        0,
+        76,
+        77,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        75,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        79,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        25,
+        79,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        18,
+        19,
+        20,
+        74,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        25,
+        26,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        81,
+        82,
+        83,
+        84,
+        85,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        86,
+        0,
+        0,
+        87,
+        0,
+        24,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        88,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        18,
+        19,
+        74,
+        74,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        26,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        89,
+        90,
+        0,
+        0,
+        76,
+        77,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        89,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        91,
+        92,
+        92,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        93,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        94,
+        29,
+        95,
+        31,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        36,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        96,
+        0,
+        0,
+        0,
+        97,
+        98,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        96,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        100,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        35,
+        100,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        100,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        100,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        102,
+        103,
+        104,
+        105,
+        106,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        107,
+        0,
+        0,
+        108,
+        0,
+        34,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        109,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        28,
+        29,
+        95,
+        31,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        36,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        110,
+        111,
+        0,
+        0,
+        97,
+        98,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        110,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        112,
+        113,
+        113,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        114,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        5,
+        7,
+        7,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        13,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        115,
+        116,
+        117,
+        118,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        119,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        39,
+        0,
+        122,
+        0,
+        123,
+        123,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        39,
+        0,
+        0
+      ],
+      [
+        0,
+        124,
+        64,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        124,
+        0,
+        0
+      ],
+      [
+        0,
+        39,
+        0,
+        0,
+        0,
+        121,
+        125,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        39,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        126,
+        126,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        46,
+        47,
+        48,
+        49,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        47,
+        47,
+        49,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        127,
+        127,
+        49,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        128,
+        127,
+        127,
+        49,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        129,
+        130,
+        131,
+        132,
+        133,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        50,
+        0,
+        0,
+        0,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        134,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        135,
+        54,
+        56,
+        56,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        61,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        136,
+        0,
+        0,
+        0,
+        137,
+        138,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        136,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        140,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        60,
+        140,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        140,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        140,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        142,
+        143,
+        144,
+        145,
+        146,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        147,
+        0,
+        0,
+        148,
+        0,
+        59,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        149,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        53,
+        54,
+        56,
+        56,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        61,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        150,
+        151,
+        0,
+        0,
+        137,
+        138,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        150,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        152,
+        153,
+        153,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        154,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        155,
+        116,
+        156,
+        157,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        158,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        3,
+        4,
+        5,
+        159,
+        160,
+        8,
+        161,
+        0,
+        162,
+        0,
+        11,
+        12,
+        163,
+        0,
+        75,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        40,
+        164,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        165,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        165,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        124,
+        64,
+        0,
+        0,
+        40,
+        164,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        124,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        70,
+        70,
+        0,
+        71,
+        0,
+        72,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        71,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        166,
+        0,
+        0,
+        167,
+        0,
+        72,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        168,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        19,
+        74,
+        74,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        26,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        79,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        79,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        169,
+        170,
+        171,
+        172,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        173,
+        174,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        176,
+        0,
+        177,
+        177,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        75,
+        0,
+        0
+      ],
+      [
+        0,
+        178,
+        90,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        178,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        0,
+        0,
+        175,
+        179,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        75,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        180,
+        180,
+        22,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        82,
+        83,
+        84,
+        85,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        83,
+        83,
+        85,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        181,
+        181,
+        85,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        182,
+        181,
+        181,
+        85,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        183,
+        184,
+        185,
+        186,
+        187,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        24,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        86,
+        0,
+        0,
+        0,
+        0,
+        24,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        188,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        189,
+        170,
+        190,
+        191,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        192,
+        174,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        76,
+        193,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        194,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        194,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        178,
+        90,
+        0,
+        0,
+        76,
+        193,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        178,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        29,
+        95,
+        31,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        36,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        100,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        100,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        195,
+        196,
+        197,
+        198,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        199,
+        200,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        96,
+        0,
+        202,
+        0,
+        203,
+        203,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        96,
+        0,
+        0
+      ],
+      [
+        0,
+        204,
+        111,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        204,
+        0,
+        0
+      ],
+      [
+        0,
+        96,
+        0,
+        0,
+        0,
+        201,
+        205,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        96,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        206,
+        206,
+        32,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        103,
+        104,
+        105,
+        106,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        104,
+        104,
+        106,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        207,
+        207,
+        106,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        208,
+        207,
+        207,
+        106,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        209,
+        210,
+        211,
+        212,
+        213,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        34,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        107,
+        0,
+        0,
+        0,
+        0,
+        34,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        214,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        215,
+        196,
+        216,
+        217,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        218,
+        200,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        97,
+        219,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        220,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        220,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        204,
+        111,
+        0,
+        0,
+        97,
+        219,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        204,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        221,
+        116,
+        222,
+        222,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        223,
+        0,
+        0,
+        0,
+        40,
+        224,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        223,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        225,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        119,
+        225,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        115,
+        116,
+        117,
+        222,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        119,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        115,
+        116,
+        222,
+        222,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        226,
+        64,
+        0,
+        0,
+        40,
+        224,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        226,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        39,
+        0,
+        0,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        39,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        227,
+        0,
+        228,
+        229,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        230,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        39,
+        0,
+        122,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        39,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        8,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        231,
+        231,
+        49,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        232,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        130,
+        131,
+        132,
+        133,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        131,
+        131,
+        133,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        233,
+        233,
+        133,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        234,
+        233,
+        233,
+        133,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        235,
+        236,
+        237,
+        238,
+        239,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        54,
+        56,
+        56,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        61,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        240,
+        241,
+        242,
+        243,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        244,
+        245,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        136,
+        0,
+        247,
+        0,
+        248,
+        248,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        136,
+        0,
+        0
+      ],
+      [
+        0,
+        249,
+        151,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        249,
+        0,
+        0
+      ],
+      [
+        0,
+        136,
+        0,
+        0,
+        0,
+        246,
+        250,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        136,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        251,
+        251,
+        57,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        143,
+        144,
+        145,
+        146,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        144,
+        144,
+        146,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        252,
+        252,
+        146,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        253,
+        252,
+        252,
+        146,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        254,
+        255,
+        256,
+        257,
+        258,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        59,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        147,
+        0,
+        0,
+        0,
+        0,
+        59,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        259,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        260,
+        241,
+        261,
+        262,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        263,
+        245,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        137,
+        264,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        265,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        265,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        249,
+        151,
+        0,
+        0,
+        137,
+        264,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        249,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        221,
+        116,
+        222,
+        222,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        225,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        158,
+        225,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        155,
+        116,
+        156,
+        222,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        158,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        155,
+        116,
+        222,
+        222,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        43,
+        266,
+        266,
+        8,
+        161,
+        0,
+        24,
+        0,
+        0,
+        12,
+        267,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        176,
+        43,
+        268,
+        268,
+        269,
+        161,
+        0,
+        24,
+        0,
+        0,
+        0,
+        267,
+        0,
+        75,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        270,
+        0,
+        0,
+        271,
+        0,
+        162,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        272,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        273,
+        274,
+        0,
+        0,
+        40,
+        41,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        273,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        40,
+        0,
+        123,
+        123,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        121,
+        275,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        72,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        166,
+        0,
+        0,
+        0,
+        0,
+        72,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        276,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        277,
+        170,
+        278,
+        278,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        174,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        279,
+        0,
+        0,
+        0,
+        76,
+        280,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        279,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        281,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        173,
+        281,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        169,
+        170,
+        171,
+        278,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        173,
+        174,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        169,
+        170,
+        278,
+        278,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        174,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        282,
+        90,
+        0,
+        0,
+        76,
+        280,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        282,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        0,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        75,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        283,
+        0,
+        284,
+        285,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        286,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        75,
+        0,
+        176,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        75,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        22,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        287,
+        287,
+        85,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        288,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        184,
+        185,
+        186,
+        187,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        185,
+        185,
+        187,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        289,
+        289,
+        187,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        290,
+        289,
+        289,
+        187,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        291,
+        292,
+        293,
+        294,
+        295,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        277,
+        170,
+        278,
+        278,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        174,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        281,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        192,
+        281,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        189,
+        170,
+        190,
+        278,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        192,
+        174,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        189,
+        170,
+        278,
+        278,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        174,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        76,
+        0,
+        177,
+        177,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        175,
+        296,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        297,
+        196,
+        298,
+        298,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        200,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        299,
+        0,
+        0,
+        0,
+        97,
+        300,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        299,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        301,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        199,
+        301,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        195,
+        196,
+        197,
+        298,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        199,
+        200,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        195,
+        196,
+        298,
+        298,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        200,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        302,
+        111,
+        0,
+        0,
+        97,
+        300,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        302,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        96,
+        0,
+        0,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        96,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        303,
+        0,
+        304,
+        305,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        306,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        96,
+        0,
+        202,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        96,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        32,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        307,
+        307,
+        106,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        308,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        210,
+        211,
+        212,
+        213,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        211,
+        211,
+        213,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        309,
+        309,
+        213,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        310,
+        309,
+        309,
+        213,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        311,
+        312,
+        313,
+        314,
+        315,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        297,
+        196,
+        298,
+        298,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        200,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        301,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        218,
+        301,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        215,
+        196,
+        216,
+        298,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        218,
+        200,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        215,
+        196,
+        298,
+        298,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        200,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        97,
+        0,
+        203,
+        203,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        201,
+        316,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        116,
+        222,
+        222,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        225,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        225,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        317,
+        318,
+        319,
+        320,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        321,
+        322,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        223,
+        0,
+        323,
+        0,
+        123,
+        123,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        223,
+        0,
+        0
+      ],
+      [
+        0,
+        223,
+        0,
+        0,
+        0,
+        121,
+        324,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        223,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        325,
+        318,
+        326,
+        327,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        328,
+        322,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        64,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        9,
+        0,
+        0,
+        0,
+        0,
+        230,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        227,
+        0,
+        228,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        230,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        227,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        49,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        329,
+        329,
+        133,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        330,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        236,
+        237,
+        238,
+        239,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        237,
+        237,
+        239,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        331,
+        331,
+        239,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        332,
+        331,
+        331,
+        239,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        333,
+        40,
+        121,
+        334,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        335,
+        241,
+        336,
+        336,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        245,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        337,
+        0,
+        0,
+        0,
+        137,
+        338,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        337,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        339,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        244,
+        339,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        240,
+        241,
+        242,
+        336,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        244,
+        245,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        240,
+        241,
+        336,
+        336,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        245,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        340,
+        151,
+        0,
+        0,
+        137,
+        338,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        340,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        136,
+        0,
+        0,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        136,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        341,
+        0,
+        342,
+        343,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        344,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        136,
+        0,
+        247,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        136,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        57,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        345,
+        345,
+        146,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        346,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        255,
+        256,
+        257,
+        258,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        256,
+        256,
+        258,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        347,
+        347,
+        258,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        348,
+        347,
+        347,
+        258,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        349,
+        350,
+        351,
+        352,
+        353,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        335,
+        241,
+        336,
+        336,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        245,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        339,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        263,
+        339,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        260,
+        241,
+        261,
+        336,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        263,
+        245,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        260,
+        241,
+        336,
+        336,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        245,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        137,
+        0,
+        248,
+        248,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        246,
+        354,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        126,
+        126,
+        8,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        355,
+        90,
+        0,
+        0,
+        121,
+        125,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        355,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        356,
+        356,
+        269,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        357,
+        358,
+        359,
+        360,
+        361,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        362,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        162,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        270,
+        0,
+        0,
+        0,
+        0,
+        162,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        363,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        364,
+        116,
+        365,
+        366,
+        8,
+        161,
+        0,
+        162,
+        0,
+        0,
+        367,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        368,
+        368,
+        0,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        40,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        170,
+        278,
+        278,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        174,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        281,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        281,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        369,
+        370,
+        371,
+        372,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        373,
+        374,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        279,
+        0,
+        375,
+        0,
+        177,
+        177,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        279,
+        0,
+        0
+      ],
+      [
+        0,
+        279,
+        0,
+        0,
+        0,
+        175,
+        376,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        279,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        377,
+        370,
+        378,
+        379,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        380,
+        374,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        90,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        286,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        283,
+        0,
+        284,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        286,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        283,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        85,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        82,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        381,
+        381,
+        187,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        382,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        292,
+        293,
+        294,
+        295,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        293,
+        293,
+        295,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        383,
+        383,
+        295,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        384,
+        383,
+        383,
+        295,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        385,
+        76,
+        175,
+        386,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        76,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        196,
+        298,
+        298,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        200,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        301,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        301,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        387,
+        388,
+        389,
+        390,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        391,
+        392,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        299,
+        0,
+        393,
+        0,
+        203,
+        203,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        299,
+        0,
+        0
+      ],
+      [
+        0,
+        299,
+        0,
+        0,
+        0,
+        201,
+        394,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        299,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        395,
+        388,
+        396,
+        397,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        398,
+        392,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        111,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        33,
+        0,
+        0,
+        0,
+        0,
+        306,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        303,
+        0,
+        304,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        306,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        303,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        106,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        103,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        399,
+        399,
+        213,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        400,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        312,
+        313,
+        314,
+        315,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        313,
+        313,
+        315,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        401,
+        401,
+        315,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        402,
+        401,
+        401,
+        315,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        403,
+        97,
+        201,
+        404,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        97,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        405,
+        318,
+        406,
+        406,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        322,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        407,
+        0,
+        0,
+        0,
+        40,
+        408,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        407,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        409,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        321,
+        409,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        317,
+        318,
+        319,
+        406,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        321,
+        322,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        317,
+        318,
+        406,
+        406,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        322,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        410,
+        64,
+        0,
+        0,
+        40,
+        408,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        410,
+        0,
+        0
+      ],
+      [
+        0,
+        223,
+        0,
+        0,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        223,
+        0,
+        0
+      ],
+      [
+        0,
+        223,
+        0,
+        323,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        223,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        405,
+        318,
+        406,
+        406,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        322,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        409,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        328,
+        409,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        325,
+        318,
+        326,
+        406,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        328,
+        322,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        325,
+        318,
+        406,
+        406,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        322,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        133,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        130,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        411,
+        411,
+        239,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        412,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        40,
+        121,
+        334,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        413,
+        0,
+        0,
+        0,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        241,
+        336,
+        336,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        245,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        339,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        339,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        414,
+        415,
+        416,
+        417,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        418,
+        419,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        337,
+        0,
+        420,
+        0,
+        248,
+        248,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        337,
+        0,
+        0
+      ],
+      [
+        0,
+        337,
+        0,
+        0,
+        0,
+        246,
+        421,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        337,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        422,
+        415,
+        423,
+        424,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        425,
+        419,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        151,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        58,
+        0,
+        0,
+        0,
+        0,
+        344,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        341,
+        0,
+        342,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        344,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        341,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        146,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        143,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        426,
+        426,
+        258,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        427,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        350,
+        351,
+        352,
+        353,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        351,
+        351,
+        353,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        428,
+        428,
+        353,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        429,
+        428,
+        428,
+        353,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        430,
+        137,
+        246,
+        431,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        137,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        432,
+        116,
+        433,
+        434,
+        8,
+        161,
+        0,
+        162,
+        0,
+        0,
+        435,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        180,
+        180,
+        269,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        358,
+        359,
+        360,
+        361,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        362,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        359,
+        359,
+        361,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        362,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        436,
+        436,
+        361,
+        161,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        437,
+        436,
+        436,
+        361,
+        161,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        438,
+        439,
+        440,
+        441,
+        442,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        362,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        443,
+        274,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        443,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        444,
+        116,
+        445,
+        445,
+        8,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        225,
+        44,
+        44,
+        8,
+        161,
+        0,
+        0,
+        0,
+        0,
+        367,
+        225,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        364,
+        116,
+        365,
+        445,
+        8,
+        161,
+        0,
+        162,
+        0,
+        0,
+        367,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        364,
+        116,
+        445,
+        445,
+        8,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        161,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        446,
+        370,
+        447,
+        447,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        374,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        448,
+        0,
+        0,
+        0,
+        76,
+        449,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        448,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        450,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        373,
+        450,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        369,
+        370,
+        371,
+        447,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        373,
+        374,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        369,
+        370,
+        447,
+        447,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        374,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        451,
+        90,
+        0,
+        0,
+        76,
+        449,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        451,
+        0,
+        0
+      ],
+      [
+        0,
+        279,
+        0,
+        0,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        279,
+        0,
+        0
+      ],
+      [
+        0,
+        279,
+        0,
+        375,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        279,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        446,
+        370,
+        447,
+        447,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        374,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        450,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        380,
+        450,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        377,
+        370,
+        378,
+        447,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        380,
+        374,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        377,
+        370,
+        447,
+        447,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        374,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        187,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        184,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        452,
+        452,
+        295,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        453,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        76,
+        175,
+        386,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        454,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        455,
+        388,
+        456,
+        456,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        392,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        457,
+        0,
+        0,
+        0,
+        97,
+        458,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        457,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        459,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        391,
+        459,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        387,
+        388,
+        389,
+        456,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        391,
+        392,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        387,
+        388,
+        456,
+        456,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        392,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        460,
+        111,
+        0,
+        0,
+        97,
+        458,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        460,
+        0,
+        0
+      ],
+      [
+        0,
+        299,
+        0,
+        0,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        299,
+        0,
+        0
+      ],
+      [
+        0,
+        299,
+        0,
+        393,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        299,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        455,
+        388,
+        456,
+        456,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        392,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        459,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        398,
+        459,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        395,
+        388,
+        396,
+        456,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        398,
+        392,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        395,
+        388,
+        456,
+        456,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        392,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        213,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        210,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        461,
+        461,
+        315,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        462,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        97,
+        201,
+        404,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        463,
+        0,
+        0,
+        0,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        318,
+        406,
+        406,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        322,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        409,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        409,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        464,
+        465,
+        466,
+        467,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        468,
+        469,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        407,
+        0,
+        470,
+        0,
+        123,
+        123,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        407,
+        0,
+        0
+      ],
+      [
+        0,
+        407,
+        0,
+        0,
+        0,
+        121,
+        471,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        407,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        472,
+        465,
+        473,
+        474,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        475,
+        469,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        239,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        236,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        476,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        477,
+        415,
+        478,
+        478,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        419,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        479,
+        0,
+        0,
+        0,
+        137,
+        480,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        479,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        481,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        418,
+        481,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        414,
+        415,
+        416,
+        478,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        418,
+        419,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        414,
+        415,
+        478,
+        478,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        419,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        482,
+        151,
+        0,
+        0,
+        137,
+        480,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        482,
+        0,
+        0
+      ],
+      [
+        0,
+        337,
+        0,
+        0,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        337,
+        0,
+        0
+      ],
+      [
+        0,
+        337,
+        0,
+        420,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        337,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        477,
+        415,
+        478,
+        478,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        419,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        481,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        425,
+        481,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        422,
+        415,
+        423,
+        478,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        425,
+        419,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        422,
+        415,
+        478,
+        478,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        419,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        258,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        255,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        483,
+        483,
+        353,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        484,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        137,
+        246,
+        431,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        485,
+        0,
+        0,
+        0,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        444,
+        116,
+        445,
+        445,
+        8,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        225,
+        44,
+        44,
+        8,
+        161,
+        0,
+        0,
+        0,
+        0,
+        435,
+        225,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        432,
+        116,
+        433,
+        445,
+        8,
+        161,
+        0,
+        162,
+        0,
+        0,
+        435,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        432,
+        116,
+        445,
+        445,
+        8,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        486,
+        486,
+        361,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        487,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        439,
+        440,
+        441,
+        442,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        362,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        440,
+        440,
+        442,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        362,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        488,
+        488,
+        442,
+        161,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        489,
+        488,
+        488,
+        442,
+        161,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        490,
+        491,
+        492,
+        493,
+        494,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        362,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        495,
+        0,
+        496,
+        497,
+        0,
+        161,
+        0,
+        162,
+        0,
+        0,
+        498,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        116,
+        445,
+        445,
+        8,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        120,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        225,
+        44,
+        44,
+        8,
+        161,
+        0,
+        0,
+        0,
+        0,
+        0,
+        225,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        370,
+        447,
+        447,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        374,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        450,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        450,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        499,
+        500,
+        501,
+        502,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        503,
+        504,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        448,
+        0,
+        505,
+        0,
+        177,
+        177,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        448,
+        0,
+        0
+      ],
+      [
+        0,
+        448,
+        0,
+        0,
+        0,
+        175,
+        506,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        448,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        507,
+        500,
+        508,
+        509,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        510,
+        504,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        295,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        292,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        511,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        388,
+        456,
+        456,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        392,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        459,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        459,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        512,
+        513,
+        514,
+        515,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        516,
+        517,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        457,
+        0,
+        518,
+        0,
+        203,
+        203,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        457,
+        0,
+        0
+      ],
+      [
+        0,
+        457,
+        0,
+        0,
+        0,
+        201,
+        519,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        457,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        520,
+        513,
+        521,
+        522,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        523,
+        517,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        315,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        312,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        524,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        525,
+        465,
+        526,
+        526,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        469,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        527,
+        0,
+        0,
+        0,
+        40,
+        528,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        527,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        529,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        468,
+        529,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        464,
+        465,
+        466,
+        526,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        468,
+        469,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        464,
+        465,
+        526,
+        526,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        469,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        530,
+        64,
+        0,
+        0,
+        40,
+        528,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        530,
+        0,
+        0
+      ],
+      [
+        0,
+        407,
+        0,
+        0,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        407,
+        0,
+        0
+      ],
+      [
+        0,
+        407,
+        0,
+        470,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        407,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        525,
+        465,
+        526,
+        526,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        469,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        529,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        475,
+        529,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        472,
+        465,
+        473,
+        526,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        475,
+        469,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        472,
+        465,
+        526,
+        526,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        469,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        40,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        415,
+        478,
+        478,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        419,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        481,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        481,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        531,
+        532,
+        533,
+        534,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        535,
+        536,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        479,
+        0,
+        537,
+        0,
+        248,
+        248,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        479,
+        0,
+        0
+      ],
+      [
+        0,
+        479,
+        0,
+        0,
+        0,
+        246,
+        538,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        479,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        539,
+        532,
+        540,
+        541,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        542,
+        536,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        353,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        350,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        543,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        361,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        358,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        544,
+        544,
+        442,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        545,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        491,
+        492,
+        493,
+        494,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        362,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        492,
+        492,
+        494,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        362,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        546,
+        546,
+        494,
+        161,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        547,
+        546,
+        546,
+        494,
+        161,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        548,
+        549,
+        368,
+        550,
+        0,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        362,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        274,
+        0,
+        368,
+        368,
+        0,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        161,
+        0,
+        0,
+        0,
+        0,
+        498,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        495,
+        0,
+        496,
+        368,
+        0,
+        161,
+        0,
+        162,
+        0,
+        0,
+        498,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        495,
+        0,
+        368,
+        368,
+        0,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        551,
+        500,
+        552,
+        552,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        504,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        553,
+        0,
+        0,
+        0,
+        76,
+        554,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        553,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        555,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        503,
+        555,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        499,
+        500,
+        501,
+        552,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        503,
+        504,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        499,
+        500,
+        552,
+        552,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        504,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        556,
+        90,
+        0,
+        0,
+        76,
+        554,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        556,
+        0,
+        0
+      ],
+      [
+        0,
+        448,
+        0,
+        0,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        448,
+        0,
+        0
+      ],
+      [
+        0,
+        448,
+        0,
+        505,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        448,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        551,
+        500,
+        552,
+        552,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        504,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        555,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        510,
+        555,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        507,
+        500,
+        508,
+        552,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        510,
+        504,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        507,
+        500,
+        552,
+        552,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        504,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        76,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        557,
+        513,
+        558,
+        558,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        517,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        559,
+        0,
+        0,
+        0,
+        97,
+        560,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        559,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        561,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        516,
+        561,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        512,
+        513,
+        514,
+        558,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        516,
+        517,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        512,
+        513,
+        558,
+        558,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        517,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        562,
+        111,
+        0,
+        0,
+        97,
+        560,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        562,
+        0,
+        0
+      ],
+      [
+        0,
+        457,
+        0,
+        0,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        457,
+        0,
+        0
+      ],
+      [
+        0,
+        457,
+        0,
+        518,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        457,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        557,
+        513,
+        558,
+        558,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        517,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        561,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        523,
+        561,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        520,
+        513,
+        521,
+        558,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        523,
+        517,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        520,
+        513,
+        558,
+        558,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        517,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        97,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        465,
+        526,
+        526,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        469,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        529,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        0,
+        529,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        563,
+        66,
+        564,
+        565,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        566,
+        68,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        527,
+        0,
+        567,
+        0,
+        123,
+        123,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        527,
+        0,
+        0
+      ],
+      [
+        0,
+        527,
+        0,
+        0,
+        0,
+        121,
+        568,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        527,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        569,
+        66,
+        570,
+        571,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        572,
+        68,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        573,
+        532,
+        574,
+        574,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        536,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        575,
+        0,
+        0,
+        0,
+        137,
+        576,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        575,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        577,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        535,
+        577,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        531,
+        532,
+        533,
+        574,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        535,
+        536,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        531,
+        532,
+        574,
+        574,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        536,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        578,
+        151,
+        0,
+        0,
+        137,
+        576,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        578,
+        0,
+        0
+      ],
+      [
+        0,
+        479,
+        0,
+        0,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        479,
+        0,
+        0
+      ],
+      [
+        0,
+        479,
+        0,
+        537,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        479,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        573,
+        532,
+        574,
+        574,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        536,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        577,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        542,
+        577,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        539,
+        532,
+        540,
+        574,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        542,
+        536,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        539,
+        532,
+        574,
+        574,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        536,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        137,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        442,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        439,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        579,
+        579,
+        494,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        580,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        549,
+        368,
+        550,
+        0,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        362,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        368,
+        368,
+        0,
+        161,
+        0,
+        162,
+        0,
+        0,
+        0,
+        362,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        581,
+        0,
+        0,
+        0,
+        161,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        500,
+        552,
+        552,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        504,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        555,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        555,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        582,
+        91,
+        583,
+        584,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        585,
+        93,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        553,
+        0,
+        586,
+        0,
+        177,
+        177,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        553,
+        0,
+        0
+      ],
+      [
+        0,
+        553,
+        0,
+        0,
+        0,
+        175,
+        587,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        553,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        588,
+        91,
+        589,
+        590,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        591,
+        93,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        513,
+        558,
+        558,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        517,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        561,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        0,
+        561,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        592,
+        112,
+        593,
+        594,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        595,
+        114,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        559,
+        0,
+        596,
+        0,
+        203,
+        203,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        559,
+        0,
+        0
+      ],
+      [
+        0,
+        559,
+        0,
+        0,
+        0,
+        201,
+        597,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        559,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        598,
+        112,
+        599,
+        600,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        601,
+        114,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        602,
+        66,
+        67,
+        67,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        68,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        165,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        566,
+        165,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        563,
+        66,
+        564,
+        67,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        566,
+        68,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        563,
+        66,
+        67,
+        67,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        68,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        527,
+        0,
+        0,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        527,
+        0,
+        0
+      ],
+      [
+        0,
+        527,
+        0,
+        567,
+        0,
+        121,
+        121,
+        0,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        42,
+        0,
+        527,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        602,
+        66,
+        67,
+        67,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        68,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        165,
+        44,
+        44,
+        8,
+        9,
+        0,
+        0,
+        0,
+        0,
+        572,
+        165,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        569,
+        66,
+        570,
+        67,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        572,
+        68,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        569,
+        66,
+        67,
+        67,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        68,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        532,
+        574,
+        574,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        536,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        577,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        0,
+        577,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        603,
+        152,
+        604,
+        605,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        606,
+        154,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        575,
+        0,
+        607,
+        0,
+        248,
+        248,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        575,
+        0,
+        0
+      ],
+      [
+        0,
+        575,
+        0,
+        0,
+        0,
+        246,
+        608,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        575,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        609,
+        152,
+        610,
+        611,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        612,
+        154,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        494,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        491,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        613,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        614,
+        91,
+        92,
+        92,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        93,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        194,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        585,
+        194,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        582,
+        91,
+        583,
+        92,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        585,
+        93,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        582,
+        91,
+        92,
+        92,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        93,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        553,
+        0,
+        0,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        553,
+        0,
+        0
+      ],
+      [
+        0,
+        553,
+        0,
+        586,
+        0,
+        175,
+        175,
+        0,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        78,
+        0,
+        553,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        614,
+        91,
+        92,
+        92,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        93,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        194,
+        80,
+        80,
+        22,
+        23,
+        0,
+        0,
+        0,
+        0,
+        591,
+        194,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        588,
+        91,
+        589,
+        92,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        591,
+        93,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        588,
+        91,
+        92,
+        92,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        93,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        615,
+        112,
+        113,
+        113,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        114,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        220,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        595,
+        220,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        592,
+        112,
+        593,
+        113,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        595,
+        114,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        592,
+        112,
+        113,
+        113,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        114,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        559,
+        0,
+        0,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        559,
+        0,
+        0
+      ],
+      [
+        0,
+        559,
+        0,
+        596,
+        0,
+        201,
+        201,
+        0,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        99,
+        0,
+        559,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        615,
+        112,
+        113,
+        113,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        114,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        220,
+        101,
+        101,
+        32,
+        33,
+        0,
+        0,
+        0,
+        0,
+        601,
+        220,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        598,
+        112,
+        599,
+        113,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        601,
+        114,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        598,
+        112,
+        113,
+        113,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        114,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        66,
+        67,
+        67,
+        8,
+        9,
+        0,
+        10,
+        0,
+        0,
+        0,
+        68,
+        0,
+        0,
+        16,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        616,
+        152,
+        153,
+        153,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        154,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        265,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        606,
+        265,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        603,
+        152,
+        604,
+        153,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        606,
+        154,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        603,
+        152,
+        153,
+        153,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        154,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        575,
+        0,
+        0,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        575,
+        0,
+        0
+      ],
+      [
+        0,
+        575,
+        0,
+        607,
+        0,
+        246,
+        246,
+        0,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        139,
+        0,
+        575,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        616,
+        152,
+        153,
+        153,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        154,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        265,
+        141,
+        141,
+        57,
+        58,
+        0,
+        0,
+        0,
+        0,
+        612,
+        265,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        609,
+        152,
+        610,
+        153,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        612,
+        154,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        609,
+        152,
+        153,
+        153,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        154,
+        0,
+        0,
+        62,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        549,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        91,
+        92,
+        92,
+        22,
+        23,
+        0,
+        24,
+        0,
+        0,
+        0,
+        93,
+        0,
+        0,
+        27,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        112,
+        113,
+        113,
+        32,
+        33,
+        0,
+        34,
+        0,
+        0,
+        0,
+        114,
+        0,
+        0,
+        37,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        152,
+        153,
+        153,
+        57,
+        58,
+        0,
+        59,
+        0,
+        0,
+        0,
+        154,
+        0,
+        0,
+        62,
+        0
+      ]
+    ];
+    var accepting = [
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      false,
+      false,
+      false,
+      false,
+      true,
+      true,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      false,
+      false,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true
+    ];
+    var tags = [
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "symbol_cluster"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "symbol_cluster"
+      ],
+      [],
+      [
+        "symbol_cluster"
+      ],
+      [
+        "symbol_cluster"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "symbol_cluster"
+      ],
+      [
+        "symbol_cluster"
+      ],
+      [
+        "symbol_cluster"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "symbol_cluster"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [],
+      [],
+      [],
+      [],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [
+        "consonant_syllable",
+        "broken_cluster"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "standalone_cluster"
+      ],
+      [
+        "standalone_cluster"
+      ],
+      [],
+      [
+        "consonant_syllable"
+      ],
+      [
+        "vowel_syllable"
+      ],
+      [
+        "standalone_cluster"
+      ]
+    ];
     var indicMachine = {
       stateTable,
       accepting,
       tags
     };
-    var categories = ["O", "IND", "S", "GB", "B", "FM", "CGJ", "VMAbv", "VMPst", "VAbv", "VPst", "CMBlw", "VPre", "VBlw", "H", "VMBlw", "CMAbv", "MBlw", "CS", "R", "SUB", "MPst", "MPre", "FAbv", "FPst", "FBlw", "null", "SMAbv", "SMBlw", "VMPre", "ZWNJ", "ZWJ", "WJ", "M", "VS", "N", "HN", "MAbv"];
-    var decompositions$1 = { "2507": [2503, 2494], "2508": [2503, 2519], "2888": [2887, 2902], "2891": [2887, 2878], "2892": [2887, 2903], "3018": [3014, 3006], "3019": [3015, 3006], "3020": [3014, 3031], "3144": [3142, 3158], "3264": [3263, 3285], "3271": [3270, 3285], "3272": [3270, 3286], "3274": [3270, 3266], "3275": [3270, 3266, 3285], "3402": [3398, 3390], "3403": [3399, 3390], "3404": [3398, 3415], "3546": [3545, 3530], "3548": [3545, 3535], "3549": [3545, 3535, 3530], "3550": [3545, 3551], "3635": [3661, 3634], "3763": [3789, 3762], "3955": [3953, 3954], "3957": [3953, 3956], "3958": [4018, 3968], "3959": [4018, 3953, 3968], "3960": [4019, 3968], "3961": [4019, 3953, 3968], "3969": [3953, 3968], "6971": [6970, 6965], "6973": [6972, 6965], "6976": [6974, 6965], "6977": [6975, 6965], "6979": [6978, 6965], "69934": [69937, 69927], "69935": [69938, 69927], "70475": [70471, 70462], "70476": [70471, 70487], "70843": [70841, 70842], "70844": [70841, 70832], "70846": [70841, 70845], "71098": [71096, 71087], "71099": [71097, 71087] };
-    var stateTable$1 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [2, 2, 3, 4, 4, 5, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 17, 18, 11, 19, 20, 21, 22, 0, 0, 0, 23, 0, 0, 2, 0, 0, 24, 0, 25], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 26, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 27, 28, 0, 0, 0, 0, 0, 27, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 0, 0, 41, 35, 42, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 39, 0, 0, 47], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 5, 0, 6, 7, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 5, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 5, 0, 6, 7, 8, 9, 0, 0, 12, 0, 14, 0, 0, 0, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 5, 0, 6, 7, 0, 9, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 5, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 0, 16, 0, 0, 18, 11, 19, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 25], [0, 0, 0, 0, 0, 5, 0, 6, 7, 8, 9, 0, 11, 12, 0, 14, 0, 0, 0, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 5, 0, 6, 7, 0, 9, 0, 0, 12, 0, 14, 0, 0, 0, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 5, 0, 0, 7, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 5, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 0, 18, 11, 19, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 25], [0, 0, 0, 0, 0, 5, 0, 6, 7, 8, 9, 0, 11, 12, 0, 14, 0, 0, 0, 0, 0, 11, 0, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 4, 4, 5, 0, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 0, 0, 18, 11, 19, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 25], [0, 0, 0, 0, 0, 5, 0, 6, 7, 8, 9, 48, 11, 12, 13, 14, 48, 16, 0, 0, 18, 11, 19, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 49, 0, 0, 25], [0, 0, 0, 0, 0, 5, 0, 6, 7, 8, 9, 0, 11, 12, 0, 14, 0, 16, 0, 0, 0, 11, 0, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 25], [0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 21, 22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 5, 0, 6, 7, 0, 0, 0, 0, 0, 0, 14, 0, 0, 0, 0, 0, 0, 0, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 51, 0], [0, 0, 0, 0, 0, 5, 0, 6, 7, 8, 9, 0, 11, 12, 0, 14, 0, 16, 0, 0, 0, 11, 0, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 27, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 30, 31, 0, 0, 0, 0, 0, 0, 38, 0, 0, 0, 0, 0, 0, 0, 43, 44, 45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 0, 31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 43, 44, 45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 30, 31, 32, 33, 0, 0, 36, 0, 38, 0, 0, 0, 0, 0, 0, 0, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 30, 31, 0, 33, 0, 0, 0, 0, 38, 0, 0, 0, 0, 0, 0, 0, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 30, 31, 32, 33, 34, 35, 36, 37, 38, 0, 40, 0, 0, 41, 35, 42, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 47], [0, 0, 0, 0, 0, 29, 0, 30, 31, 32, 33, 0, 35, 36, 0, 38, 0, 0, 0, 0, 0, 0, 0, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 30, 31, 0, 33, 0, 0, 36, 0, 38, 0, 0, 0, 0, 0, 0, 0, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 41, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 0, 31, 0, 0, 0, 0, 0, 0, 38, 0, 0, 0, 0, 0, 0, 0, 43, 44, 45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 0, 0, 41, 35, 42, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 47], [0, 0, 0, 0, 0, 29, 0, 30, 31, 32, 33, 0, 35, 36, 0, 38, 0, 0, 0, 0, 0, 35, 0, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 30, 31, 32, 33, 52, 35, 36, 37, 38, 52, 40, 0, 0, 41, 35, 42, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 53, 0, 0, 47], [0, 0, 0, 0, 0, 29, 0, 30, 31, 32, 33, 0, 35, 36, 0, 38, 0, 40, 0, 0, 0, 35, 0, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 47], [0, 0, 0, 0, 0, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 43, 44, 45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 44, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 44, 45, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 30, 31, 0, 0, 0, 0, 0, 0, 38, 0, 0, 0, 0, 0, 0, 0, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 29, 0, 30, 31, 32, 33, 0, 35, 36, 0, 38, 0, 40, 0, 0, 0, 35, 0, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 5, 0, 6, 7, 8, 9, 48, 11, 12, 13, 14, 0, 16, 0, 0, 18, 11, 19, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 25], [0, 0, 0, 0, 0, 5, 0, 6, 7, 8, 9, 48, 11, 12, 13, 14, 48, 16, 0, 0, 18, 11, 19, 20, 21, 22, 0, 0, 0, 23, 0, 0, 0, 0, 0, 0, 0, 25], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 51, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 54, 0, 0], [0, 0, 0, 0, 0, 29, 0, 30, 31, 32, 33, 52, 35, 36, 37, 38, 0, 40, 0, 0, 41, 35, 42, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 47], [0, 0, 0, 0, 0, 29, 0, 30, 31, 32, 33, 52, 35, 36, 37, 38, 52, 40, 0, 0, 41, 35, 42, 43, 44, 45, 0, 0, 0, 46, 0, 0, 0, 0, 0, 0, 0, 47], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 51, 0]];
-    var accepting$1 = [false, true, true, true, true, true, true, true, true, true, true, true, true, false, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true, true];
-    var tags$1 = [[], ["broken_cluster"], ["independent_cluster"], ["symbol_cluster"], ["standard_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], [], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["broken_cluster"], ["numeral_cluster"], ["broken_cluster"], ["independent_cluster"], ["symbol_cluster"], ["symbol_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["virama_terminated_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["standard_cluster"], ["broken_cluster"], ["broken_cluster"], ["numeral_cluster"], ["number_joiner_terminated_cluster"], ["standard_cluster"], ["standard_cluster"], ["numeral_cluster"]];
+    var categories = [
+      "O",
+      "IND",
+      "S",
+      "GB",
+      "B",
+      "FM",
+      "CGJ",
+      "VMAbv",
+      "VMPst",
+      "VAbv",
+      "VPst",
+      "CMBlw",
+      "VPre",
+      "VBlw",
+      "H",
+      "VMBlw",
+      "CMAbv",
+      "MBlw",
+      "CS",
+      "R",
+      "SUB",
+      "MPst",
+      "MPre",
+      "FAbv",
+      "FPst",
+      "FBlw",
+      "null",
+      "SMAbv",
+      "SMBlw",
+      "VMPre",
+      "ZWNJ",
+      "ZWJ",
+      "WJ",
+      "M",
+      "VS",
+      "N",
+      "HN",
+      "MAbv"
+    ];
+    var decompositions = {
+      "2507": [
+        2503,
+        2494
+      ],
+      "2508": [
+        2503,
+        2519
+      ],
+      "2888": [
+        2887,
+        2902
+      ],
+      "2891": [
+        2887,
+        2878
+      ],
+      "2892": [
+        2887,
+        2903
+      ],
+      "3018": [
+        3014,
+        3006
+      ],
+      "3019": [
+        3015,
+        3006
+      ],
+      "3020": [
+        3014,
+        3031
+      ],
+      "3144": [
+        3142,
+        3158
+      ],
+      "3264": [
+        3263,
+        3285
+      ],
+      "3271": [
+        3270,
+        3285
+      ],
+      "3272": [
+        3270,
+        3286
+      ],
+      "3274": [
+        3270,
+        3266
+      ],
+      "3275": [
+        3270,
+        3266,
+        3285
+      ],
+      "3402": [
+        3398,
+        3390
+      ],
+      "3403": [
+        3399,
+        3390
+      ],
+      "3404": [
+        3398,
+        3415
+      ],
+      "3546": [
+        3545,
+        3530
+      ],
+      "3548": [
+        3545,
+        3535
+      ],
+      "3549": [
+        3545,
+        3535,
+        3530
+      ],
+      "3550": [
+        3545,
+        3551
+      ],
+      "3635": [
+        3661,
+        3634
+      ],
+      "3763": [
+        3789,
+        3762
+      ],
+      "3955": [
+        3953,
+        3954
+      ],
+      "3957": [
+        3953,
+        3956
+      ],
+      "3958": [
+        4018,
+        3968
+      ],
+      "3959": [
+        4018,
+        3953,
+        3968
+      ],
+      "3960": [
+        4019,
+        3968
+      ],
+      "3961": [
+        4019,
+        3953,
+        3968
+      ],
+      "3969": [
+        3953,
+        3968
+      ],
+      "6971": [
+        6970,
+        6965
+      ],
+      "6973": [
+        6972,
+        6965
+      ],
+      "6976": [
+        6974,
+        6965
+      ],
+      "6977": [
+        6975,
+        6965
+      ],
+      "6979": [
+        6978,
+        6965
+      ],
+      "69934": [
+        69937,
+        69927
+      ],
+      "69935": [
+        69938,
+        69927
+      ],
+      "70475": [
+        70471,
+        70462
+      ],
+      "70476": [
+        70471,
+        70487
+      ],
+      "70843": [
+        70841,
+        70842
+      ],
+      "70844": [
+        70841,
+        70832
+      ],
+      "70846": [
+        70841,
+        70845
+      ],
+      "71098": [
+        71096,
+        71087
+      ],
+      "71099": [
+        71097,
+        71087
+      ]
+    };
+    var stateTable$1 = [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        2,
+        2,
+        3,
+        4,
+        4,
+        5,
+        0,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        0,
+        17,
+        18,
+        11,
+        19,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        2,
+        0,
+        0,
+        24,
+        0,
+        25
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        26,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        27,
+        28,
+        0,
+        0,
+        0,
+        0,
+        0,
+        27,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        0,
+        0,
+        41,
+        35,
+        42,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        39,
+        0,
+        0,
+        47
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        14,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        8,
+        9,
+        0,
+        0,
+        12,
+        0,
+        14,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        0,
+        9,
+        0,
+        0,
+        0,
+        0,
+        14,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        0,
+        16,
+        0,
+        0,
+        18,
+        11,
+        19,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        25
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        8,
+        9,
+        0,
+        11,
+        12,
+        0,
+        14,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        0,
+        9,
+        0,
+        0,
+        12,
+        0,
+        14,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        18,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        14,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        0,
+        0,
+        18,
+        11,
+        19,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        25
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        8,
+        9,
+        0,
+        11,
+        12,
+        0,
+        14,
+        0,
+        0,
+        0,
+        0,
+        0,
+        11,
+        0,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        4,
+        4,
+        5,
+        0,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        0,
+        0,
+        18,
+        11,
+        19,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        25
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        8,
+        9,
+        48,
+        11,
+        12,
+        13,
+        14,
+        48,
+        16,
+        0,
+        0,
+        18,
+        11,
+        19,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        49,
+        0,
+        0,
+        25
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        8,
+        9,
+        0,
+        11,
+        12,
+        0,
+        14,
+        0,
+        16,
+        0,
+        0,
+        0,
+        11,
+        0,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        25
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        21,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        21,
+        22,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        14,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        50,
+        0,
+        51,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        8,
+        9,
+        0,
+        11,
+        12,
+        0,
+        14,
+        0,
+        16,
+        0,
+        0,
+        0,
+        11,
+        0,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        27,
+        28,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        28,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        38,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        0,
+        31,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        32,
+        33,
+        0,
+        0,
+        36,
+        0,
+        38,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        0,
+        33,
+        0,
+        0,
+        0,
+        0,
+        38,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        0,
+        40,
+        0,
+        0,
+        41,
+        35,
+        42,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        47
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        32,
+        33,
+        0,
+        35,
+        36,
+        0,
+        38,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        0,
+        33,
+        0,
+        0,
+        36,
+        0,
+        38,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        41,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        0,
+        31,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        38,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        32,
+        33,
+        34,
+        35,
+        36,
+        37,
+        38,
+        39,
+        40,
+        0,
+        0,
+        41,
+        35,
+        42,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        47
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        32,
+        33,
+        0,
+        35,
+        36,
+        0,
+        38,
+        0,
+        0,
+        0,
+        0,
+        0,
+        35,
+        0,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        32,
+        33,
+        52,
+        35,
+        36,
+        37,
+        38,
+        52,
+        40,
+        0,
+        0,
+        41,
+        35,
+        42,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        53,
+        0,
+        0,
+        47
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        32,
+        33,
+        0,
+        35,
+        36,
+        0,
+        38,
+        0,
+        40,
+        0,
+        0,
+        0,
+        35,
+        0,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        47
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        44,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        44,
+        45,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        38,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        32,
+        33,
+        0,
+        35,
+        36,
+        0,
+        38,
+        0,
+        40,
+        0,
+        0,
+        0,
+        35,
+        0,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        8,
+        9,
+        48,
+        11,
+        12,
+        13,
+        14,
+        0,
+        16,
+        0,
+        0,
+        18,
+        11,
+        19,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        25
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        5,
+        0,
+        6,
+        7,
+        8,
+        9,
+        48,
+        11,
+        12,
+        13,
+        14,
+        48,
+        16,
+        0,
+        0,
+        18,
+        11,
+        19,
+        20,
+        21,
+        22,
+        0,
+        0,
+        0,
+        23,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        25
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        51,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        54,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        32,
+        33,
+        52,
+        35,
+        36,
+        37,
+        38,
+        0,
+        40,
+        0,
+        0,
+        41,
+        35,
+        42,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        47
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        29,
+        0,
+        30,
+        31,
+        32,
+        33,
+        52,
+        35,
+        36,
+        37,
+        38,
+        52,
+        40,
+        0,
+        0,
+        41,
+        35,
+        42,
+        43,
+        44,
+        45,
+        0,
+        0,
+        0,
+        46,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        47
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        50,
+        0,
+        51,
+        0
+      ]
+    ];
+    var accepting$1 = [
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      false,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true,
+      true
+    ];
+    var tags$1 = [
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "independent_cluster"
+      ],
+      [
+        "symbol_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "numeral_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "independent_cluster"
+      ],
+      [
+        "symbol_cluster"
+      ],
+      [
+        "symbol_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "virama_terminated_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "broken_cluster"
+      ],
+      [
+        "numeral_cluster"
+      ],
+      [
+        "number_joiner_terminated_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "standard_cluster"
+      ],
+      [
+        "numeral_cluster"
+      ]
+    ];
     var useData = {
       categories,
-      decompositions: decompositions$1,
+      decompositions,
       stateTable: stateTable$1,
       accepting: accepting$1,
       tags: tags$1
@@ -144988,18 +158098,13 @@ var require_fontkit = __commonJS({
       6084: [6081, 6084],
       6085: [6081, 6085]
     };
-    var _class$6;
-    var _temp$2;
-    var decompositions = useData.decompositions;
+    var {
+      decompositions: decompositions$1
+    } = useData;
     var trie$1 = new UnicodeTrie(require("fs").readFileSync(__dirname + "/indic.trie"));
     var stateMachine = new StateMachine(indicMachine);
-    var IndicShaper = (_temp$2 = _class$6 = function(_DefaultShaper) {
-      _inherits(IndicShaper2, _DefaultShaper);
-      function IndicShaper2() {
-        _classCallCheck(this, IndicShaper2);
-        return _possibleConstructorReturn(this, _DefaultShaper.apply(this, arguments));
-      }
-      IndicShaper2.planFeatures = function planFeatures(plan) {
+    var IndicShaper = class extends DefaultShaper {
+      static planFeatures(plan) {
         plan.addStage(setupSyllables);
         plan.addStage(["locl", "ccmp"]);
         plan.addStage(initialReordering);
@@ -145023,70 +158128,59 @@ var require_fontkit = __commonJS({
         plan.unicodeScript = fromOpenType(plan.script);
         plan.indicConfig = INDIC_CONFIGS[plan.unicodeScript] || INDIC_CONFIGS.Default;
         plan.isOldSpec = plan.indicConfig.hasOldSpec && plan.script[plan.script.length - 1] !== "2";
-      };
-      IndicShaper2.assignFeatures = function assignFeatures(plan, glyphs) {
-        var _loop2 = function _loop3(i3) {
+      }
+      static assignFeatures(plan, glyphs) {
+        var _loop2 = function(i3) {
           var codepoint = glyphs[i3].codePoints[0];
-          var d2 = INDIC_DECOMPOSITIONS[codepoint] || decompositions[codepoint];
+          var d2 = INDIC_DECOMPOSITIONS[codepoint] || decompositions$1[codepoint];
           if (d2) {
-            var decomposed = d2.map(function(c) {
+            var decomposed = d2.map((c) => {
               var g = plan.font.glyphForCodePoint(c);
               return new GlyphInfo(plan.font, g.id, [c], glyphs[i3].features);
             });
-            glyphs.splice.apply(glyphs, [i3, 1].concat(decomposed));
+            glyphs.splice(i3, 1, ...decomposed);
           }
         };
         for (var i2 = glyphs.length - 1; i2 >= 0; i2--) {
           _loop2(i2);
         }
-      };
-      return IndicShaper2;
-    }(DefaultShaper), _class$6.zeroMarkWidths = "NONE", _temp$2);
+      }
+    };
+    _defineProperty(IndicShaper, "zeroMarkWidths", "NONE");
     function indicCategory(glyph2) {
       return trie$1.get(glyph2.codePoints[0]) >> 8;
     }
     function indicPosition(glyph2) {
       return 1 << (trie$1.get(glyph2.codePoints[0]) & 255);
     }
-    var IndicInfo = function IndicInfo2(category, position, syllableType, syllable) {
-      _classCallCheck(this, IndicInfo2);
-      this.category = category;
-      this.position = position;
-      this.syllableType = syllableType;
-      this.syllable = syllable;
+    var IndicInfo = class {
+      constructor(category, position, syllableType, syllable) {
+        this.category = category;
+        this.position = position;
+        this.syllableType = syllableType;
+        this.syllable = syllable;
+      }
     };
     function setupSyllables(font, glyphs) {
       var syllable = 0;
       var last = 0;
-      for (var _iterator2 = stateMachine.match(glyphs.map(indicCategory)), _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-        var _ref2;
-        if (_isArray2) {
-          if (_i2 >= _iterator2.length)
-            break;
-          _ref2 = _iterator2[_i2++];
-        } else {
-          _i2 = _iterator2.next();
-          if (_i2.done)
-            break;
-          _ref2 = _i2.value;
-        }
-        var _ref22 = _ref2, start = _ref22[0], end = _ref22[1], tags2 = _ref22[2];
+      for (var [start, end, tags2] of stateMachine.match(glyphs.map(indicCategory))) {
         if (start > last) {
           ++syllable;
-          for (var _i22 = last; _i22 < start; _i22++) {
-            glyphs[_i22].shaperInfo = new IndicInfo(CATEGORIES.X, POSITIONS.End, "non_indic_cluster", syllable);
+          for (var i2 = last; i2 < start; i2++) {
+            glyphs[i2].shaperInfo = new IndicInfo(CATEGORIES.X, POSITIONS.End, "non_indic_cluster", syllable);
           }
         }
         ++syllable;
-        for (var _i3 = start; _i3 <= end; _i3++) {
-          glyphs[_i3].shaperInfo = new IndicInfo(1 << indicCategory(glyphs[_i3]), indicPosition(glyphs[_i3]), tags2[0], syllable);
+        for (var _i = start; _i <= end; _i++) {
+          glyphs[_i].shaperInfo = new IndicInfo(1 << indicCategory(glyphs[_i]), indicPosition(glyphs[_i]), tags2[0], syllable);
         }
         last = end + 1;
       }
       if (last < glyphs.length) {
         ++syllable;
-        for (var i2 = last; i2 < glyphs.length; i2++) {
-          glyphs[i2].shaperInfo = new IndicInfo(CATEGORIES.X, POSITIONS.End, "non_indic_cluster", syllable);
+        for (var _i2 = last; _i2 < glyphs.length; _i2++) {
+          glyphs[_i2].shaperInfo = new IndicInfo(CATEGORIES.X, POSITIONS.End, "non_indic_cluster", syllable);
         }
       }
     }
@@ -145100,21 +158194,10 @@ var require_fontkit = __commonJS({
       return glyph2.shaperInfo.category & HALANT_OR_COENG_FLAGS;
     }
     function wouldSubstitute(glyphs, feature2) {
-      for (var _iterator2 = glyphs, _isArray2 = Array.isArray(_iterator2), _i4 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-        var _glyph$features;
-        var _ref3;
-        if (_isArray2) {
-          if (_i4 >= _iterator2.length)
-            break;
-          _ref3 = _iterator2[_i4++];
-        } else {
-          _i4 = _iterator2.next();
-          if (_i4.done)
-            break;
-          _ref3 = _i4.value;
-        }
-        var glyph2 = _ref3;
-        glyph2.features = (_glyph$features = {}, _glyph$features[feature2] = true, _glyph$features);
+      for (var glyph2 of glyphs) {
+        glyph2.features = {
+          [feature2]: true
+        };
       }
       var GSUB2 = glyphs[0]._font._layoutEngine.engine.GSUBProcessor;
       GSUB2.applyFeatures([feature2], glyphs);
@@ -145145,18 +158228,21 @@ var require_fontkit = __commonJS({
         }
       }
       for (var start = 0, end = nextSyllable(glyphs, 0); start < glyphs.length; start = end, end = nextSyllable(glyphs, start)) {
-        var _glyphs$start$shaperI = glyphs[start].shaperInfo, category = _glyphs$start$shaperI.category, syllableType = _glyphs$start$shaperI.syllableType;
+        var {
+          category,
+          syllableType
+        } = glyphs[start].shaperInfo;
         if (syllableType === "symbol_cluster" || syllableType === "non_indic_cluster") {
           continue;
         }
         if (syllableType === "broken_cluster" && dottedCircle) {
           var g = new GlyphInfo(font, dottedCircle, [9676]);
           g.shaperInfo = new IndicInfo(1 << indicCategory(g), indicPosition(g), glyphs[start].shaperInfo.syllableType, glyphs[start].shaperInfo.syllable);
-          var _i5 = start;
-          while (_i5 < end && glyphs[_i5].shaperInfo.category === CATEGORIES.Repha) {
-            _i5++;
+          var _i3 = start;
+          while (_i3 < end && glyphs[_i3].shaperInfo.category === CATEGORIES.Repha) {
+            _i3++;
           }
-          glyphs.splice(_i5++, 0, g);
+          glyphs.splice(_i3++, 0, g);
           end++;
         }
         var base2 = end;
@@ -145182,30 +158268,30 @@ var require_fontkit = __commonJS({
         }
         switch (indicConfig.basePos) {
           case "Last": {
-            var _i62 = end;
+            var _i4 = end;
             var seenBelow = false;
             do {
-              var _info = glyphs[--_i62].shaperInfo;
-              if (isConsonant(glyphs[_i62])) {
+              var _info = glyphs[--_i4].shaperInfo;
+              if (isConsonant(glyphs[_i4])) {
                 if (_info.position !== POSITIONS.Below_C && (_info.position !== POSITIONS.Post_C || seenBelow)) {
-                  base2 = _i62;
+                  base2 = _i4;
                   break;
                 }
                 if (_info.position === POSITIONS.Below_C) {
                   seenBelow = true;
                 }
-                base2 = _i62;
-              } else if (start < _i62 && _info.category === CATEGORIES.ZWJ && glyphs[_i62 - 1].shaperInfo.category === CATEGORIES.H) {
+                base2 = _i4;
+              } else if (start < _i4 && _info.category === CATEGORIES.ZWJ && glyphs[_i4 - 1].shaperInfo.category === CATEGORIES.H) {
                 break;
               }
-            } while (_i62 > limit);
+            } while (_i4 > limit);
             break;
           }
           case "First": {
             base2 = start;
-            for (var _i7 = base2 + 1; _i7 < end; _i7++) {
-              if (isConsonant(glyphs[_i7])) {
-                glyphs[_i7].shaperInfo.position = POSITIONS.Below_C;
+            for (var _i5 = base2 + 1; _i5 < end; _i5++) {
+              if (isConsonant(glyphs[_i5])) {
+                glyphs[_i5].shaperInfo.position = POSITIONS.Below_C;
               }
             }
           }
@@ -145213,16 +158299,16 @@ var require_fontkit = __commonJS({
         if (hasReph && base2 === start && limit - base2 <= 2) {
           hasReph = false;
         }
-        for (var _i8 = start; _i8 < base2; _i8++) {
-          var _info2 = glyphs[_i8].shaperInfo;
+        for (var _i6 = start; _i6 < base2; _i6++) {
+          var _info2 = glyphs[_i6].shaperInfo;
           _info2.position = Math.min(POSITIONS.Pre_C, _info2.position);
         }
         if (base2 < end) {
           glyphs[base2].shaperInfo.position = POSITIONS.Base_C;
         }
-        for (var _i9 = base2 + 1; _i9 < end; _i9++) {
-          if (glyphs[_i9].shaperInfo.category === CATEGORIES.M) {
-            for (var j = _i9 + 1; j < end; j++) {
+        for (var _i7 = base2 + 1; _i7 < end; _i7++) {
+          if (glyphs[_i7].shaperInfo.category === CATEGORIES.M) {
+            for (var j = _i7 + 1; j < end; j++) {
               if (isConsonant(glyphs[j])) {
                 glyphs[j].shaperInfo.position = POSITIONS.Final_C;
                 break;
@@ -145236,17 +158322,17 @@ var require_fontkit = __commonJS({
         }
         if (plan.isOldSpec) {
           var disallowDoubleHalants = plan.unicodeScript !== "Malayalam";
-          for (var _i10 = base2 + 1; _i10 < end; _i10++) {
-            if (glyphs[_i10].shaperInfo.category === CATEGORIES.H) {
+          for (var _i8 = base2 + 1; _i8 < end; _i8++) {
+            if (glyphs[_i8].shaperInfo.category === CATEGORIES.H) {
               var _j = void 0;
-              for (_j = end - 1; _j > _i10; _j--) {
+              for (_j = end - 1; _j > _i8; _j--) {
                 if (isConsonant(glyphs[_j]) || disallowDoubleHalants && glyphs[_j].shaperInfo.category === CATEGORIES.H) {
                   break;
                 }
               }
-              if (glyphs[_j].shaperInfo.category !== CATEGORIES.H && _j > _i10) {
-                var t2 = glyphs[_i10];
-                glyphs.splice.apply(glyphs, [_i10, 0].concat(glyphs.splice(_i10 + 1, _j - _i10)));
+              if (glyphs[_j].shaperInfo.category !== CATEGORIES.H && _j > _i8) {
+                var t2 = glyphs[_i8];
+                glyphs.splice(_i8, 0, ...glyphs.splice(_i8 + 1, _j - _i8));
                 glyphs[_j] = t2;
               }
               break;
@@ -145254,12 +158340,12 @@ var require_fontkit = __commonJS({
           }
         }
         var lastPos = POSITIONS.Start;
-        for (var _i11 = start; _i11 < end; _i11++) {
-          var _info3 = glyphs[_i11].shaperInfo;
+        for (var _i9 = start; _i9 < end; _i9++) {
+          var _info3 = glyphs[_i9].shaperInfo;
           if (_info3.category & (JOINER_FLAGS | CATEGORIES.N | CATEGORIES.RS | CATEGORIES.CM | HALANT_OR_COENG_FLAGS & _info3.category)) {
             _info3.position = lastPos;
             if (_info3.category === CATEGORIES.H && _info3.position === POSITIONS.Pre_M) {
-              for (var _j2 = _i11; _j2 > start; _j2--) {
+              for (var _j2 = _i9; _j2 > start; _j2--) {
                 if (glyphs[_j2 - 1].shaperInfo.position !== POSITIONS.Pre_M) {
                   _info3.position = glyphs[_j2 - 1].shaperInfo.position;
                   break;
@@ -145271,73 +158357,71 @@ var require_fontkit = __commonJS({
           }
         }
         var last = base2;
-        for (var _i12 = base2 + 1; _i12 < end; _i12++) {
-          if (isConsonant(glyphs[_i12])) {
-            for (var _j3 = last + 1; _j3 < _i12; _j3++) {
+        for (var _i10 = base2 + 1; _i10 < end; _i10++) {
+          if (isConsonant(glyphs[_i10])) {
+            for (var _j3 = last + 1; _j3 < _i10; _j3++) {
               if (glyphs[_j3].shaperInfo.position < POSITIONS.SMVD) {
-                glyphs[_j3].shaperInfo.position = glyphs[_i12].shaperInfo.position;
+                glyphs[_j3].shaperInfo.position = glyphs[_i10].shaperInfo.position;
               }
             }
-            last = _i12;
-          } else if (glyphs[_i12].shaperInfo.category === CATEGORIES.M) {
-            last = _i12;
+            last = _i10;
+          } else if (glyphs[_i10].shaperInfo.category === CATEGORIES.M) {
+            last = _i10;
           }
         }
         var arr = glyphs.slice(start, end);
-        arr.sort(function(a, b) {
-          return a.shaperInfo.position - b.shaperInfo.position;
-        });
-        glyphs.splice.apply(glyphs, [start, arr.length].concat(arr));
-        for (var _i13 = start; _i13 < end; _i13++) {
-          if (glyphs[_i13].shaperInfo.position === POSITIONS.Base_C) {
-            base2 = _i13;
+        arr.sort((a, b) => a.shaperInfo.position - b.shaperInfo.position);
+        glyphs.splice(start, arr.length, ...arr);
+        for (var _i11 = start; _i11 < end; _i11++) {
+          if (glyphs[_i11].shaperInfo.position === POSITIONS.Base_C) {
+            base2 = _i11;
             break;
           }
         }
-        for (var _i14 = start; _i14 < end && glyphs[_i14].shaperInfo.position === POSITIONS.Ra_To_Become_Reph; _i14++) {
-          glyphs[_i14].features.rphf = true;
+        for (var _i12 = start; _i12 < end && glyphs[_i12].shaperInfo.position === POSITIONS.Ra_To_Become_Reph; _i12++) {
+          glyphs[_i12].features.rphf = true;
         }
         var blwf = !plan.isOldSpec && indicConfig.blwfMode === "Pre_And_Post";
-        for (var _i15 = start; _i15 < base2; _i15++) {
-          glyphs[_i15].features.half = true;
+        for (var _i13 = start; _i13 < base2; _i13++) {
+          glyphs[_i13].features.half = true;
           if (blwf) {
-            glyphs[_i15].features.blwf = true;
+            glyphs[_i13].features.blwf = true;
           }
         }
-        for (var _i16 = base2 + 1; _i16 < end; _i16++) {
-          glyphs[_i16].features.abvf = true;
-          glyphs[_i16].features.pstf = true;
-          glyphs[_i16].features.blwf = true;
+        for (var _i14 = base2 + 1; _i14 < end; _i14++) {
+          glyphs[_i14].features.abvf = true;
+          glyphs[_i14].features.pstf = true;
+          glyphs[_i14].features.blwf = true;
         }
         if (plan.isOldSpec && plan.unicodeScript === "Devanagari") {
-          for (var _i17 = start; _i17 + 1 < base2; _i17++) {
-            if (glyphs[_i17].shaperInfo.category === CATEGORIES.Ra && glyphs[_i17 + 1].shaperInfo.category === CATEGORIES.H && (_i17 + 1 === base2 || glyphs[_i17 + 2].shaperInfo.category === CATEGORIES.ZWJ)) {
-              glyphs[_i17].features.blwf = true;
-              glyphs[_i17 + 1].features.blwf = true;
+          for (var _i15 = start; _i15 + 1 < base2; _i15++) {
+            if (glyphs[_i15].shaperInfo.category === CATEGORIES.Ra && glyphs[_i15 + 1].shaperInfo.category === CATEGORIES.H && (_i15 + 1 === base2 || glyphs[_i15 + 2].shaperInfo.category === CATEGORIES.ZWJ)) {
+              glyphs[_i15].features.blwf = true;
+              glyphs[_i15 + 1].features.blwf = true;
             }
           }
         }
         var prefLen = 2;
         if (features2.pref && base2 + prefLen < end) {
-          for (var _i18 = base2 + 1; _i18 + prefLen - 1 < end; _i18++) {
-            var _g2 = [glyphs[_i18].copy(), glyphs[_i18 + 1].copy()];
+          for (var _i16 = base2 + 1; _i16 + prefLen - 1 < end; _i16++) {
+            var _g2 = [glyphs[_i16].copy(), glyphs[_i16 + 1].copy()];
             if (wouldSubstitute(_g2, "pref")) {
               for (var _j4 = 0; _j4 < prefLen; _j4++) {
-                glyphs[_i18++].features.pref = true;
+                glyphs[_i16++].features.pref = true;
               }
               if (features2.cfar) {
-                for (; _i18 < end; _i18++) {
-                  glyphs[_i18].features.cfar = true;
+                for (; _i16 < end; _i16++) {
+                  glyphs[_i16].features.cfar = true;
                 }
               }
               break;
             }
           }
         }
-        for (var _i19 = start + 1; _i19 < end; _i19++) {
-          if (isJoiner(glyphs[_i19])) {
-            var nonJoiner = glyphs[_i19].shaperInfo.category === CATEGORIES.ZWNJ;
-            var _j5 = _i19;
+        for (var _i17 = start + 1; _i17 < end; _i17++) {
+          if (isJoiner(glyphs[_i17])) {
+            var nonJoiner = glyphs[_i17].shaperInfo.category === CATEGORIES.ZWNJ;
+            var _j5 = _i17;
             do {
               _j5--;
               if (nonJoiner) {
@@ -145372,19 +158456,19 @@ var require_fontkit = __commonJS({
               }
             }
             if (plan.unicodeScript === "Malayalam") {
-              for (var _i20 = base2 + 1; _i20 < end; _i20++) {
-                while (_i20 < end && isJoiner(glyphs[_i20])) {
-                  _i20++;
+              for (var _i18 = base2 + 1; _i18 < end; _i18++) {
+                while (_i18 < end && isJoiner(glyphs[_i18])) {
+                  _i18++;
                 }
-                if (_i20 === end || !isHalantOrCoeng(glyphs[_i20])) {
+                if (_i18 === end || !isHalantOrCoeng(glyphs[_i18])) {
                   break;
                 }
-                _i20++;
-                while (_i20 < end && isJoiner(glyphs[_i20])) {
-                  _i20++;
+                _i18++;
+                while (_i18 < end && isJoiner(glyphs[_i18])) {
+                  _i18++;
                 }
-                if (_i20 < end && isConsonant(glyphs[_i20]) && glyphs[_i20].shaperInfo.position === POSITIONS.Below_C) {
-                  base2 = _i20;
+                if (_i18 < end && isConsonant(glyphs[_i18]) && glyphs[_i18].shaperInfo.position === POSITIONS.Below_C) {
+                  base2 = _i18;
                   glyphs[base2].shaperInfo.position = POSITIONS.Base_C;
                 }
               }
@@ -145418,14 +158502,14 @@ var require_fontkit = __commonJS({
             }
           }
           if (start < newPos && glyphs[newPos].shaperInfo.position !== POSITIONS.Pre_M) {
-            for (var _i21 = newPos; _i21 > start; _i21--) {
-              if (glyphs[_i21 - 1].shaperInfo.position === POSITIONS.Pre_M) {
-                var oldPos = _i21 - 1;
+            for (var _i19 = newPos; _i19 > start; _i19--) {
+              if (glyphs[_i19 - 1].shaperInfo.position === POSITIONS.Pre_M) {
+                var oldPos = _i19 - 1;
                 if (oldPos < base2 && base2 <= newPos) {
                   base2--;
                 }
                 var tmp = glyphs[oldPos];
-                glyphs.splice.apply(glyphs, [oldPos, 0].concat(glyphs.splice(oldPos + 1, newPos - oldPos)));
+                glyphs.splice(oldPos, 0, ...glyphs.splice(oldPos + 1, newPos - oldPos));
                 glyphs[newPos] = tmp;
                 newPos--;
               }
@@ -145480,31 +158564,31 @@ var require_fontkit = __commonJS({
               newRephPos--;
             }
             if (isHalantOrCoeng(glyphs[newRephPos])) {
-              for (var _i22 = base2 + 1; _i22 < newRephPos; _i22++) {
-                if (glyphs[_i22].shaperInfo.category === CATEGORIES.M) {
+              for (var _i20 = base2 + 1; _i20 < newRephPos; _i20++) {
+                if (glyphs[_i20].shaperInfo.category === CATEGORIES.M) {
                   newRephPos--;
                 }
               }
             }
           }
           var reph = glyphs[start];
-          glyphs.splice.apply(glyphs, [start, 0].concat(glyphs.splice(start + 1, newRephPos - start)));
+          glyphs.splice(start, 0, ...glyphs.splice(start + 1, newRephPos - start));
           glyphs[newRephPos] = reph;
           if (start < base2 && base2 <= newRephPos) {
             base2--;
           }
         }
         if (tryPref && base2 + 1 < end) {
-          for (var _i23 = base2 + 1; _i23 < end; _i23++) {
-            if (glyphs[_i23].features.pref) {
-              if (glyphs[_i23].isLigated && !glyphs[_i23].isMultiplied) {
+          for (var _i21 = base2 + 1; _i21 < end; _i21++) {
+            if (glyphs[_i21].features.pref) {
+              if (glyphs[_i21].isLigated && !glyphs[_i21].isMultiplied) {
                 var _newPos = base2;
                 if (plan.unicodeScript !== "Malayalam" && plan.unicodeScript !== "Tamil") {
                   while (_newPos > start && !(glyphs[_newPos - 1].shaperInfo.category & (CATEGORIES.M | HALANT_OR_COENG_FLAGS))) {
                     _newPos--;
                   }
                   if (_newPos > start && glyphs[_newPos - 1].shaperInfo.category === CATEGORIES.M) {
-                    var _oldPos2 = _i23;
+                    var _oldPos2 = _i21;
                     for (var j = base2 + 1; j < _oldPos2; j++) {
                       if (glyphs[j].shaperInfo.category === CATEGORIES.M) {
                         _newPos--;
@@ -145518,9 +158602,9 @@ var require_fontkit = __commonJS({
                     _newPos++;
                   }
                 }
-                var _oldPos = _i23;
+                var _oldPos = _i21;
                 var _tmp = glyphs[_oldPos];
-                glyphs.splice.apply(glyphs, [_newPos + 1, 0].concat(glyphs.splice(_newPos, _oldPos - _newPos)));
+                glyphs.splice(_newPos + 1, 0, ...glyphs.splice(_newPos, _oldPos - _newPos));
                 glyphs[_newPos] = _tmp;
                 if (_newPos <= base2 && base2 < _oldPos) {
                   base2++;
@@ -145543,19 +158627,14 @@ var require_fontkit = __commonJS({
       }
       return start;
     }
-    var _class$7;
-    var _temp$3;
-    var categories$1 = useData.categories;
-    var decompositions$2 = useData.decompositions;
+    var {
+      categories: categories$1,
+      decompositions: decompositions$2
+    } = useData;
     var trie$2 = new UnicodeTrie(require("fs").readFileSync(__dirname + "/use.trie"));
     var stateMachine$1 = new StateMachine(useData);
-    var UniversalShaper = (_temp$3 = _class$7 = function(_DefaultShaper) {
-      _inherits(UniversalShaper2, _DefaultShaper);
-      function UniversalShaper2() {
-        _classCallCheck(this, UniversalShaper2);
-        return _possibleConstructorReturn(this, _DefaultShaper.apply(this, arguments));
-      }
-      UniversalShaper2.planFeatures = function planFeatures(plan) {
+    var UniversalShaper = class extends DefaultShaper {
+      static planFeatures(plan) {
         plan.addStage(setupSyllables$1);
         plan.addStage(["locl", "ccmp", "nukt", "akhn"]);
         plan.addStage(clearSubstitutionFlags);
@@ -145567,108 +158646,61 @@ var require_fontkit = __commonJS({
         plan.addStage(["rkrf", "abvf", "blwf", "half", "pstf", "vatu", "cjct"]);
         plan.addStage(reorder);
         plan.addStage(["abvs", "blws", "pres", "psts", "dist", "abvm", "blwm"]);
-      };
-      UniversalShaper2.assignFeatures = function assignFeatures(plan, glyphs) {
-        var _loop2 = function _loop3(i3) {
+      }
+      static assignFeatures(plan, glyphs) {
+        var _loop2 = function(i3) {
           var codepoint = glyphs[i3].codePoints[0];
           if (decompositions$2[codepoint]) {
-            var decomposed = decompositions$2[codepoint].map(function(c) {
+            var decomposed = decompositions$2[codepoint].map((c) => {
               var g = plan.font.glyphForCodePoint(c);
               return new GlyphInfo(plan.font, g.id, [c], glyphs[i3].features);
             });
-            glyphs.splice.apply(glyphs, [i3, 1].concat(decomposed));
+            glyphs.splice(i3, 1, ...decomposed);
           }
         };
         for (var i2 = glyphs.length - 1; i2 >= 0; i2--) {
           _loop2(i2);
         }
-      };
-      return UniversalShaper2;
-    }(DefaultShaper), _class$7.zeroMarkWidths = "BEFORE_GPOS", _temp$3);
+      }
+    };
+    _defineProperty(UniversalShaper, "zeroMarkWidths", "BEFORE_GPOS");
     function useCategory(glyph2) {
       return trie$2.get(glyph2.codePoints[0]);
     }
-    var USEInfo = function USEInfo2(category, syllableType, syllable) {
-      _classCallCheck(this, USEInfo2);
-      this.category = category;
-      this.syllableType = syllableType;
-      this.syllable = syllable;
+    var USEInfo = class {
+      constructor(category, syllableType, syllable) {
+        this.category = category;
+        this.syllableType = syllableType;
+        this.syllable = syllable;
+      }
     };
     function setupSyllables$1(font, glyphs) {
       var syllable = 0;
-      for (var _iterator2 = stateMachine$1.match(glyphs.map(useCategory)), _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-        var _ref2;
-        if (_isArray2) {
-          if (_i2 >= _iterator2.length)
-            break;
-          _ref2 = _iterator2[_i2++];
-        } else {
-          _i2 = _iterator2.next();
-          if (_i2.done)
-            break;
-          _ref2 = _i2.value;
-        }
-        var _ref22 = _ref2, start = _ref22[0], end = _ref22[1], tags2 = _ref22[2];
+      for (var [start, end, tags2] of stateMachine$1.match(glyphs.map(useCategory))) {
         ++syllable;
         for (var i2 = start; i2 <= end; i2++) {
           glyphs[i2].shaperInfo = new USEInfo(categories$1[useCategory(glyphs[i2])], tags2[0], syllable);
         }
         var limit = glyphs[start].shaperInfo.category === "R" ? 1 : Math.min(3, end - start);
-        for (var _i22 = start; _i22 < start + limit; _i22++) {
-          glyphs[_i22].features.rphf = true;
+        for (var _i = start; _i < start + limit; _i++) {
+          glyphs[_i].features.rphf = true;
         }
       }
     }
     function clearSubstitutionFlags(font, glyphs) {
-      for (var _iterator2 = glyphs, _isArray2 = Array.isArray(_iterator2), _i3 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-        var _ref3;
-        if (_isArray2) {
-          if (_i3 >= _iterator2.length)
-            break;
-          _ref3 = _iterator2[_i3++];
-        } else {
-          _i3 = _iterator2.next();
-          if (_i3.done)
-            break;
-          _ref3 = _i3.value;
-        }
-        var glyph2 = _ref3;
+      for (var glyph2 of glyphs) {
         glyph2.substituted = false;
       }
     }
     function recordRphf(font, glyphs) {
-      for (var _iterator3 = glyphs, _isArray3 = Array.isArray(_iterator3), _i4 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-        var _ref4;
-        if (_isArray3) {
-          if (_i4 >= _iterator3.length)
-            break;
-          _ref4 = _iterator3[_i4++];
-        } else {
-          _i4 = _iterator3.next();
-          if (_i4.done)
-            break;
-          _ref4 = _i4.value;
-        }
-        var glyph2 = _ref4;
+      for (var glyph2 of glyphs) {
         if (glyph2.substituted && glyph2.features.rphf) {
           glyph2.shaperInfo.category = "R";
         }
       }
     }
     function recordPref(font, glyphs) {
-      for (var _iterator4 = glyphs, _isArray4 = Array.isArray(_iterator4), _i5 = 0, _iterator4 = _isArray4 ? _iterator4 : _getIterator(_iterator4); ; ) {
-        var _ref5;
-        if (_isArray4) {
-          if (_i5 >= _iterator4.length)
-            break;
-          _ref5 = _iterator4[_i5++];
-        } else {
-          _i5 = _iterator4.next();
-          if (_i5.done)
-            break;
-          _ref5 = _i5.value;
-        }
-        var glyph2 = _ref5;
+      for (var glyph2 of glyphs) {
         if (glyph2.substituted) {
           glyph2.shaperInfo.category = "VPre";
         }
@@ -145698,7 +158730,7 @@ var require_fontkit = __commonJS({
               if (isHalant(glyphs[i2])) {
                 i2--;
               }
-              glyphs.splice.apply(glyphs, [start, 0].concat(glyphs.splice(start + 1, i2 - start), [glyphs[i2]]));
+              glyphs.splice(start, 0, ...glyphs.splice(start + 1, i2 - start), glyphs[i2]);
               break;
             }
           }
@@ -145708,7 +158740,7 @@ var require_fontkit = __commonJS({
           if (isBase(info) || isHalant(glyphs[i2])) {
             j = isHalant(glyphs[i2]) ? i2 + 1 : i2;
           } else if ((info.category === "VPre" || info.category === "VMPre") && j < i2) {
-            glyphs.splice.apply(glyphs, [j, 1, glyphs[i2]].concat(glyphs.splice(j, i2 - j)));
+            glyphs.splice(j, 1, glyphs[i2], ...glyphs.splice(j, i2 - j));
           }
         }
       }
@@ -145802,19 +158834,7 @@ var require_fontkit = __commonJS({
       if (!Array.isArray(script2)) {
         script2 = [script2];
       }
-      for (var _iterator2 = script2, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-        var _ref2;
-        if (_isArray2) {
-          if (_i2 >= _iterator2.length)
-            break;
-          _ref2 = _iterator2[_i2++];
-        } else {
-          _i2 = _iterator2.next();
-          if (_i2.done)
-            break;
-          _ref2 = _i2.value;
-        }
-        var s2 = _ref2;
+      for (var s2 of script2) {
         var shaper = SHAPERS[s2];
         if (shaper) {
           return shaper;
@@ -145822,14 +158842,8 @@ var require_fontkit = __commonJS({
       }
       return DefaultShaper;
     }
-    var GSUBProcessor = function(_OTProcessor) {
-      _inherits(GSUBProcessor2, _OTProcessor);
-      function GSUBProcessor2() {
-        _classCallCheck(this, GSUBProcessor2);
-        return _possibleConstructorReturn(this, _OTProcessor.apply(this, arguments));
-      }
-      GSUBProcessor2.prototype.applyLookup = function applyLookup(lookupType, table) {
-        var _this2 = this;
+    var GSUBProcessor = class extends OTProcessor {
+      applyLookup(lookupType, table) {
         switch (lookupType) {
           case 1: {
             var index2 = this.coverageIndex(table.coverage);
@@ -145850,7 +158864,6 @@ var require_fontkit = __commonJS({
           case 2: {
             var _index = this.coverageIndex(table.coverage);
             if (_index !== -1) {
-              var _glyphs;
               var sequence = table.sequences.get(_index);
               if (sequence.length === 0) {
                 this.glyphs.splice(this.glyphIterator.index, 1);
@@ -145860,8 +158873,8 @@ var require_fontkit = __commonJS({
               this.glyphIterator.cur.ligatureComponent = 0;
               var features2 = this.glyphIterator.cur.features;
               var curGlyph = this.glyphIterator.cur;
-              var replacement = sequence.slice(1).map(function(gid, i3) {
-                var glyph3 = new GlyphInfo(_this2.font, gid, void 0, features2);
+              var replacement = sequence.slice(1).map((gid, i3) => {
+                var glyph3 = new GlyphInfo(this.font, gid, void 0, features2);
                 glyph3.shaperInfo = curGlyph.shaperInfo;
                 glyph3.isLigated = curGlyph.isLigated;
                 glyph3.ligatureComponent = i3 + 1;
@@ -145869,7 +158882,7 @@ var require_fontkit = __commonJS({
                 glyph3.isMultiplied = true;
                 return glyph3;
               });
-              (_glyphs = this.glyphs).splice.apply(_glyphs, [this.glyphIterator.index + 1, 0].concat(replacement));
+              this.glyphs.splice(this.glyphIterator.index + 1, 0, ...replacement);
               return true;
             }
             return false;
@@ -145888,39 +158901,15 @@ var require_fontkit = __commonJS({
             if (_index3 === -1) {
               return false;
             }
-            for (var _iterator2 = table.ligatureSets.get(_index3), _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-              var _ref2;
-              if (_isArray2) {
-                if (_i2 >= _iterator2.length)
-                  break;
-                _ref2 = _iterator2[_i2++];
-              } else {
-                _i2 = _iterator2.next();
-                if (_i2.done)
-                  break;
-                _ref2 = _i2.value;
-              }
-              var ligature = _ref2;
+            for (var ligature of table.ligatureSets.get(_index3)) {
               var matched = this.sequenceMatchIndices(1, ligature.components);
               if (!matched) {
                 continue;
               }
               var _curGlyph = this.glyphIterator.cur;
               var characters = _curGlyph.codePoints.slice();
-              for (var _iterator22 = matched, _isArray22 = Array.isArray(_iterator22), _i22 = 0, _iterator22 = _isArray22 ? _iterator22 : _getIterator(_iterator22); ; ) {
-                var _ref22;
-                if (_isArray22) {
-                  if (_i22 >= _iterator22.length)
-                    break;
-                  _ref22 = _iterator22[_i22++];
-                } else {
-                  _i22 = _iterator22.next();
-                  if (_i22.done)
-                    break;
-                  _ref22 = _i22.value;
-                }
-                var _index4 = _ref22;
-                characters.push.apply(characters, this.glyphs[_index4].codePoints);
+              for (var _index4 of matched) {
+                characters.push(...this.glyphs[_index4].codePoints);
               }
               var ligatureGlyph = new GlyphInfo(this.font, ligature.glyph, characters, _curGlyph.features);
               ligatureGlyph.shaperInfo = _curGlyph.shaperInfo;
@@ -145935,19 +158924,7 @@ var require_fontkit = __commonJS({
               var lastNumComps = _curGlyph.codePoints.length;
               var curComps = lastNumComps;
               var idx = this.glyphIterator.index + 1;
-              for (var _iterator3 = matched, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-                var _ref3;
-                if (_isArray3) {
-                  if (_i3 >= _iterator3.length)
-                    break;
-                  _ref3 = _iterator3[_i3++];
-                } else {
-                  _i3 = _iterator3.next();
-                  if (_i3.done)
-                    break;
-                  _ref3 = _i3.value;
-                }
-                var matchIndex = _ref3;
+              for (var matchIndex of matched) {
                 if (isMarkLigature) {
                   idx = matchIndex;
                 } else {
@@ -145964,17 +158941,17 @@ var require_fontkit = __commonJS({
                 idx++;
               }
               if (lastLigID && !isMarkLigature) {
-                for (var _i4 = idx; _i4 < this.glyphs.length; _i4++) {
-                  if (this.glyphs[_i4].ligatureID === lastLigID) {
-                    var ligatureComponent = curComps - lastNumComps + Math.min(this.glyphs[_i4].ligatureComponent || 1, lastNumComps);
-                    this.glyphs[_i4].ligatureComponent = ligatureComponent;
+                for (var _i = idx; _i < this.glyphs.length; _i++) {
+                  if (this.glyphs[_i].ligatureID === lastLigID) {
+                    var ligatureComponent = curComps - lastNumComps + Math.min(this.glyphs[_i].ligatureComponent || 1, lastNumComps);
+                    this.glyphs[_i].ligatureComponent = ligatureComponent;
                   } else {
                     break;
                   }
                 }
               }
-              for (var _i5 = matched.length - 1; _i5 >= 0; _i5--) {
-                this.glyphs.splice(matched[_i5], 1);
+              for (var _i2 = matched.length - 1; _i2 >= 0; _i2--) {
+                this.glyphs.splice(matched[_i2], 1);
               }
               this.glyphs[this.glyphIterator.index] = ligatureGlyph;
               return true;
@@ -145988,18 +158965,12 @@ var require_fontkit = __commonJS({
           case 7:
             return this.applyLookup(table.lookupType, table.extension);
           default:
-            throw new Error("GSUB lookupType " + lookupType + " is not supported");
+            throw new Error("GSUB lookupType ".concat(lookupType, " is not supported"));
         }
-      };
-      return GSUBProcessor2;
-    }(OTProcessor);
-    var GPOSProcessor = function(_OTProcessor) {
-      _inherits(GPOSProcessor2, _OTProcessor);
-      function GPOSProcessor2() {
-        _classCallCheck(this, GPOSProcessor2);
-        return _possibleConstructorReturn(this, _OTProcessor.apply(this, arguments));
       }
-      GPOSProcessor2.prototype.applyPositionValue = function applyPositionValue(sequenceIndex, value) {
+    };
+    var GPOSProcessor = class extends OTProcessor {
+      applyPositionValue(sequenceIndex, value) {
         var position = this.positions[this.glyphIterator.peekIndex(sequenceIndex)];
         if (value.xAdvance != null) {
           position.xAdvance += value.xAdvance;
@@ -146029,8 +159000,8 @@ var require_fontkit = __commonJS({
             position.yAdvance += variationProcessor.getDelta(variationStore, value.yAdvDevice.a, value.yAdvDevice.b);
           }
         }
-      };
-      GPOSProcessor2.prototype.applyLookup = function applyLookup(lookupType, table) {
+      }
+      applyLookup(lookupType, table) {
         switch (lookupType) {
           case 1: {
             var index2 = this.coverageIndex(table.coverage);
@@ -146059,19 +159030,7 @@ var require_fontkit = __commonJS({
             switch (table.version) {
               case 1:
                 var set = table.pairSets.get(_index);
-                for (var _iterator2 = set, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-                  var _ref2;
-                  if (_isArray2) {
-                    if (_i2 >= _iterator2.length)
-                      break;
-                    _ref2 = _iterator2[_i2++];
-                  } else {
-                    _i2 = _iterator2.next();
-                    if (_i2.done)
-                      break;
-                    _ref2 = _i2.value;
-                  }
-                  var _pair = _ref2;
+                for (var _pair of set) {
                   if (_pair.secondGlyph === nextGlyph.id) {
                     this.applyPositionValue(0, _pair.value1);
                     this.applyPositionValue(1, _pair.value2);
@@ -146218,10 +159177,10 @@ var require_fontkit = __commonJS({
           case 9:
             return this.applyLookup(table.lookupType, table.extension);
           default:
-            throw new Error("Unsupported GPOS table: " + lookupType);
+            throw new Error("Unsupported GPOS table: ".concat(lookupType));
         }
-      };
-      GPOSProcessor2.prototype.applyAnchor = function applyAnchor(markRecord, baseAnchor, baseGlyphIndex) {
+      }
+      applyAnchor(markRecord, baseAnchor, baseGlyphIndex) {
         var baseCoords = this.getAnchor(baseAnchor);
         var markCoords = this.getAnchor(markRecord.markAnchor);
         var basePos = this.positions[baseGlyphIndex];
@@ -146229,8 +159188,8 @@ var require_fontkit = __commonJS({
         markPos.xOffset = baseCoords.x - markCoords.x;
         markPos.yOffset = baseCoords.y - markCoords.y;
         this.glyphIterator.cur.markAttachment = baseGlyphIndex;
-      };
-      GPOSProcessor2.prototype.getAnchor = function getAnchor(anchor) {
+      }
+      getAnchor(anchor) {
         var x = anchor.xCoordinate;
         var y = anchor.yCoordinate;
         var variationProcessor = this.font._variationProcessor;
@@ -146243,16 +159202,19 @@ var require_fontkit = __commonJS({
             y += variationProcessor.getDelta(variationStore, anchor.yDeviceTable.a, anchor.yDeviceTable.b);
           }
         }
-        return { x, y };
-      };
-      GPOSProcessor2.prototype.applyFeatures = function applyFeatures(userFeatures, glyphs, advances) {
-        _OTProcessor.prototype.applyFeatures.call(this, userFeatures, glyphs, advances);
+        return {
+          x,
+          y
+        };
+      }
+      applyFeatures(userFeatures, glyphs, advances) {
+        super.applyFeatures(userFeatures, glyphs, advances);
         for (var i2 = 0; i2 < this.glyphs.length; i2++) {
           this.fixCursiveAttachment(i2);
         }
         this.fixMarkAttachment();
-      };
-      GPOSProcessor2.prototype.fixCursiveAttachment = function fixCursiveAttachment(i2) {
+      }
+      fixCursiveAttachment(i2) {
         var glyph2 = this.glyphs[i2];
         if (glyph2.cursiveAttachment != null) {
           var j = glyph2.cursiveAttachment;
@@ -146260,8 +159222,8 @@ var require_fontkit = __commonJS({
           this.fixCursiveAttachment(j);
           this.positions[i2].yOffset += this.positions[j].yOffset;
         }
-      };
-      GPOSProcessor2.prototype.fixMarkAttachment = function fixMarkAttachment() {
+      }
+      fixMarkAttachment() {
         for (var i2 = 0; i2 < this.glyphs.length; i2++) {
           var glyph2 = this.glyphs[i2];
           if (glyph2.markAttachment != null) {
@@ -146281,12 +159243,10 @@ var require_fontkit = __commonJS({
             }
           }
         }
-      };
-      return GPOSProcessor2;
-    }(OTProcessor);
-    var OTLayoutEngine = function() {
-      function OTLayoutEngine2(font) {
-        _classCallCheck(this, OTLayoutEngine2);
+      }
+    };
+    var OTLayoutEngine = class {
+      constructor(font) {
         this.font = font;
         this.glyphInfos = null;
         this.plan = null;
@@ -146300,11 +159260,8 @@ var require_fontkit = __commonJS({
           this.GPOSProcessor = new GPOSProcessor(font, font.GPOS);
         }
       }
-      OTLayoutEngine2.prototype.setup = function setup(glyphRun) {
-        var _this = this;
-        this.glyphInfos = glyphRun.glyphs.map(function(glyph2) {
-          return new GlyphInfo(_this.font, glyph2.id, [].concat(glyph2.codePoints));
-        });
+      setup(glyphRun) {
+        this.glyphInfos = glyphRun.glyphs.map((glyph2) => new GlyphInfo(this.font, glyph2.id, [...glyph2.codePoints]));
         var script2 = null;
         if (this.GPOSProcessor) {
           script2 = this.GPOSProcessor.selectScript(glyphRun.script, glyphRun.language, glyphRun.direction);
@@ -146318,17 +159275,14 @@ var require_fontkit = __commonJS({
         for (var key in this.plan.allFeatures) {
           glyphRun.features[key] = true;
         }
-      };
-      OTLayoutEngine2.prototype.substitute = function substitute(glyphRun) {
-        var _this2 = this;
+      }
+      substitute(glyphRun) {
         if (this.GSUBProcessor) {
           this.plan.process(this.GSUBProcessor, this.glyphInfos);
-          glyphRun.glyphs = this.glyphInfos.map(function(glyphInfo) {
-            return _this2.font.getGlyph(glyphInfo.id, glyphInfo.codePoints);
-          });
+          glyphRun.glyphs = this.glyphInfos.map((glyphInfo) => this.font.getGlyph(glyphInfo.id, glyphInfo.codePoints));
         }
-      };
-      OTLayoutEngine2.prototype.position = function position(glyphRun) {
+      }
+      position(glyphRun) {
         if (this.shaper.zeroMarkWidths === "BEFORE_GPOS") {
           this.zeroMarkAdvances(glyphRun.positions);
         }
@@ -146343,37 +159297,35 @@ var require_fontkit = __commonJS({
           glyphRun.positions.reverse();
         }
         return this.GPOSProcessor && this.GPOSProcessor.features;
-      };
-      OTLayoutEngine2.prototype.zeroMarkAdvances = function zeroMarkAdvances(positions) {
+      }
+      zeroMarkAdvances(positions) {
         for (var i2 = 0; i2 < this.glyphInfos.length; i2++) {
           if (this.glyphInfos[i2].isMark) {
             positions[i2].xAdvance = 0;
             positions[i2].yAdvance = 0;
           }
         }
-      };
-      OTLayoutEngine2.prototype.cleanup = function cleanup() {
+      }
+      cleanup() {
         this.glyphInfos = null;
         this.plan = null;
         this.shaper = null;
-      };
-      OTLayoutEngine2.prototype.getAvailableFeatures = function getAvailableFeatures(script2, language) {
+      }
+      getAvailableFeatures(script2, language) {
         var features2 = [];
         if (this.GSUBProcessor) {
           this.GSUBProcessor.selectScript(script2, language);
-          features2.push.apply(features2, _Object$keys(this.GSUBProcessor.features));
+          features2.push(...Object.keys(this.GSUBProcessor.features));
         }
         if (this.GPOSProcessor) {
           this.GPOSProcessor.selectScript(script2, language);
-          features2.push.apply(features2, _Object$keys(this.GPOSProcessor.features));
+          features2.push(...Object.keys(this.GPOSProcessor.features));
         }
         return features2;
-      };
-      return OTLayoutEngine2;
-    }();
-    var LayoutEngine = function() {
-      function LayoutEngine2(font) {
-        _classCallCheck(this, LayoutEngine2);
+      }
+    };
+    var LayoutEngine = class {
+      constructor(font) {
         this.font = font;
         this.unicodeLayoutEngine = null;
         this.kernProcessor = null;
@@ -146383,7 +159335,7 @@ var require_fontkit = __commonJS({
           this.engine = new OTLayoutEngine(this.font);
         }
       }
-      LayoutEngine2.prototype.layout = function layout(string, features2, script2, language, direction2) {
+      layout(string, features2, script2, language, direction2) {
         if (typeof features2 === "string") {
           direction2 = language;
           language = script2;
@@ -146398,20 +159350,8 @@ var require_fontkit = __commonJS({
         } else {
           if (script2 == null) {
             var codePoints = [];
-            for (var _iterator2 = string, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-              var _ref2;
-              if (_isArray2) {
-                if (_i2 >= _iterator2.length)
-                  break;
-                _ref2 = _iterator2[_i2++];
-              } else {
-                _i2 = _iterator2.next();
-                if (_i2.done)
-                  break;
-                _ref2 = _i2.value;
-              }
-              var glyph2 = _ref2;
-              codePoints.push.apply(codePoints, glyph2.codePoints);
+            for (var glyph2 of string) {
+              codePoints.push(...glyph2.codePoints);
             }
             script2 = forCodePoints(codePoints);
           }
@@ -146432,16 +159372,14 @@ var require_fontkit = __commonJS({
           this.engine.cleanup();
         }
         return glyphRun;
-      };
-      LayoutEngine2.prototype.substitute = function substitute(glyphRun) {
+      }
+      substitute(glyphRun) {
         if (this.engine && this.engine.substitute) {
           this.engine.substitute(glyphRun);
         }
-      };
-      LayoutEngine2.prototype.position = function position(glyphRun) {
-        glyphRun.positions = glyphRun.glyphs.map(function(glyph2) {
-          return new GlyphPosition(glyph2.advanceWidth);
-        });
+      }
+      position(glyphRun) {
+        glyphRun.positions = glyphRun.glyphs.map((glyph2) => new GlyphPosition(glyph2.advanceWidth));
         var positioned = null;
         if (this.engine && this.engine.position) {
           positioned = this.engine.position(glyphRun);
@@ -146459,8 +159397,8 @@ var require_fontkit = __commonJS({
           this.kernProcessor.process(glyphRun.glyphs, glyphRun.positions);
           glyphRun.features.kern = true;
         }
-      };
-      LayoutEngine2.prototype.hideDefaultIgnorables = function hideDefaultIgnorables(glyphs, positions) {
+      }
+      hideDefaultIgnorables(glyphs, positions) {
         var space = this.font.glyphForCodePoint(32);
         for (var i2 = 0; i2 < glyphs.length; i2++) {
           if (this.isDefaultIgnorable(glyphs[i2].codePoints[0])) {
@@ -146469,8 +159407,8 @@ var require_fontkit = __commonJS({
             positions[i2].yAdvance = 0;
           }
         }
-      };
-      LayoutEngine2.prototype.isDefaultIgnorable = function isDefaultIgnorable(ch) {
+      }
+      isDefaultIgnorable(ch) {
         var plane = ch >> 16;
         if (plane === 0) {
           switch (ch >> 8) {
@@ -146503,56 +159441,31 @@ var require_fontkit = __commonJS({
               return false;
           }
         }
-      };
-      LayoutEngine2.prototype.getAvailableFeatures = function getAvailableFeatures(script2, language) {
+      }
+      getAvailableFeatures(script2, language) {
         var features2 = [];
         if (this.engine) {
-          features2.push.apply(features2, this.engine.getAvailableFeatures(script2, language));
+          features2.push(...this.engine.getAvailableFeatures(script2, language));
         }
         if (this.font.kern && features2.indexOf("kern") === -1) {
           features2.push("kern");
         }
         return features2;
-      };
-      LayoutEngine2.prototype.stringsForGlyph = function stringsForGlyph(gid) {
-        var result = new _Set();
+      }
+      stringsForGlyph(gid) {
+        var result = new Set();
         var codePoints = this.font._cmapProcessor.codePointsForGlyph(gid);
-        for (var _iterator2 = codePoints, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var codePoint = _ref2;
-          result.add(_String$fromCodePoint(codePoint));
+        for (var codePoint of codePoints) {
+          result.add(String.fromCodePoint(codePoint));
         }
         if (this.engine && this.engine.stringsForGlyph) {
-          for (var _iterator3 = this.engine.stringsForGlyph(gid), _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-            var _ref3;
-            if (_isArray3) {
-              if (_i3 >= _iterator3.length)
-                break;
-              _ref3 = _iterator3[_i3++];
-            } else {
-              _i3 = _iterator3.next();
-              if (_i3.done)
-                break;
-              _ref3 = _i3.value;
-            }
-            var string = _ref3;
+          for (var string of this.engine.stringsForGlyph(gid)) {
             result.add(string);
           }
         }
-        return _Array$from(result);
-      };
-      return LayoutEngine2;
-    }();
+        return Array.from(result);
+      }
+    };
     var SVG_COMMANDS = {
       moveTo: "M",
       lineTo: "L",
@@ -146560,259 +159473,181 @@ var require_fontkit = __commonJS({
       bezierCurveTo: "C",
       closePath: "Z"
     };
-    var Path = function() {
-      function Path2() {
-        _classCallCheck(this, Path2);
+    var Path = class {
+      constructor() {
         this.commands = [];
         this._bbox = null;
         this._cbox = null;
       }
-      Path2.prototype.toFunction = function toFunction() {
-        var _this = this;
-        return function(ctx) {
-          _this.commands.forEach(function(c) {
+      toFunction() {
+        return (ctx) => {
+          this.commands.forEach((c) => {
             return ctx[c.command].apply(ctx, c.args);
           });
         };
-      };
-      Path2.prototype.toSVG = function toSVG() {
-        var cmds = this.commands.map(function(c) {
-          var args = c.args.map(function(arg) {
-            return Math.round(arg * 100) / 100;
-          });
-          return "" + SVG_COMMANDS[c.command] + args.join(" ");
+      }
+      toSVG() {
+        var cmds = this.commands.map((c) => {
+          var args = c.args.map((arg) => Math.round(arg * 100) / 100);
+          return "".concat(SVG_COMMANDS[c.command]).concat(args.join(" "));
         });
         return cmds.join("");
-      };
-      Path2.prototype.mapPoints = function mapPoints(fn) {
-        var path = new Path2();
-        for (var _iterator2 = this.commands, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
+      }
+      get cbox() {
+        if (!this._cbox) {
+          var cbox = new BBox();
+          for (var command2 of this.commands) {
+            for (var i2 = 0; i2 < command2.args.length; i2 += 2) {
+              cbox.addPoint(command2.args[i2], command2.args[i2 + 1]);
+            }
           }
-          var c = _ref2;
+          this._cbox = Object.freeze(cbox);
+        }
+        return this._cbox;
+      }
+      get bbox() {
+        if (this._bbox) {
+          return this._bbox;
+        }
+        var bbox = new BBox();
+        var cx = 0, cy = 0;
+        var f = (t3) => Math.pow(1 - t3, 3) * p0[i2] + 3 * Math.pow(1 - t3, 2) * t3 * p1[i2] + 3 * (1 - t3) * Math.pow(t3, 2) * p2[i2] + Math.pow(t3, 3) * p3[i2];
+        for (var c of this.commands) {
+          switch (c.command) {
+            case "moveTo":
+            case "lineTo":
+              var [x, y] = c.args;
+              bbox.addPoint(x, y);
+              cx = x;
+              cy = y;
+              break;
+            case "quadraticCurveTo":
+            case "bezierCurveTo":
+              if (c.command === "quadraticCurveTo") {
+                var [qp1x, qp1y, p3x, p3y] = c.args;
+                var cp1x = cx + 2 / 3 * (qp1x - cx);
+                var cp1y = cy + 2 / 3 * (qp1y - cy);
+                var cp2x = p3x + 2 / 3 * (qp1x - p3x);
+                var cp2y = p3y + 2 / 3 * (qp1y - p3y);
+              } else {
+                var [cp1x, cp1y, cp2x, cp2y, p3x, p3y] = c.args;
+              }
+              bbox.addPoint(p3x, p3y);
+              var p0 = [cx, cy];
+              var p1 = [cp1x, cp1y];
+              var p2 = [cp2x, cp2y];
+              var p3 = [p3x, p3y];
+              for (var i2 = 0; i2 <= 1; i2++) {
+                var b = 6 * p0[i2] - 12 * p1[i2] + 6 * p2[i2];
+                var a = -3 * p0[i2] + 9 * p1[i2] - 9 * p2[i2] + 3 * p3[i2];
+                c = 3 * p1[i2] - 3 * p0[i2];
+                if (a === 0) {
+                  if (b === 0) {
+                    continue;
+                  }
+                  var t2 = -c / b;
+                  if (0 < t2 && t2 < 1) {
+                    if (i2 === 0) {
+                      bbox.addPoint(f(t2), bbox.maxY);
+                    } else if (i2 === 1) {
+                      bbox.addPoint(bbox.maxX, f(t2));
+                    }
+                  }
+                  continue;
+                }
+                var b2ac = Math.pow(b, 2) - 4 * c * a;
+                if (b2ac < 0) {
+                  continue;
+                }
+                var t1 = (-b + Math.sqrt(b2ac)) / (2 * a);
+                if (0 < t1 && t1 < 1) {
+                  if (i2 === 0) {
+                    bbox.addPoint(f(t1), bbox.maxY);
+                  } else if (i2 === 1) {
+                    bbox.addPoint(bbox.maxX, f(t1));
+                  }
+                }
+                var t22 = (-b - Math.sqrt(b2ac)) / (2 * a);
+                if (0 < t22 && t22 < 1) {
+                  if (i2 === 0) {
+                    bbox.addPoint(f(t22), bbox.maxY);
+                  } else if (i2 === 1) {
+                    bbox.addPoint(bbox.maxX, f(t22));
+                  }
+                }
+              }
+              cx = p3x;
+              cy = p3y;
+              break;
+          }
+        }
+        return this._bbox = Object.freeze(bbox);
+      }
+      mapPoints(fn) {
+        var path = new Path();
+        for (var c of this.commands) {
           var args = [];
-          for (var _i22 = 0; _i22 < c.args.length; _i22 += 2) {
-            var _fn = fn(c.args[_i22], c.args[_i22 + 1]), x = _fn[0], y = _fn[1];
+          for (var i2 = 0; i2 < c.args.length; i2 += 2) {
+            var [x, y] = fn(c.args[i2], c.args[i2 + 1]);
             args.push(x, y);
           }
-          path[c.command].apply(path, args);
+          path[c.command](...args);
         }
         return path;
-      };
-      Path2.prototype.transform = function transform(m0, m1, m2, m3, m4, m5) {
-        return this.mapPoints(function(x, y) {
+      }
+      transform(m0, m1, m2, m3, m4, m5) {
+        return this.mapPoints((x, y) => {
           x = m0 * x + m2 * y + m4;
           y = m1 * x + m3 * y + m5;
           return [x, y];
         });
-      };
-      Path2.prototype.translate = function translate(x, y) {
+      }
+      translate(x, y) {
         return this.transform(1, 0, 0, 1, x, y);
-      };
-      Path2.prototype.rotate = function rotate(angle) {
+      }
+      rotate(angle) {
         var cos = Math.cos(angle);
         var sin = Math.sin(angle);
         return this.transform(cos, sin, -sin, cos, 0, 0);
-      };
-      Path2.prototype.scale = function scale(scaleX) {
-        var scaleY = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : scaleX;
+      }
+      scale(scaleX, scaleY = scaleX) {
         return this.transform(scaleX, 0, 0, scaleY, 0, 0);
-      };
-      _createClass(Path2, [{
-        key: "cbox",
-        get: function get() {
-          if (!this._cbox) {
-            var cbox = new BBox();
-            for (var _iterator2 = this.commands, _isArray2 = Array.isArray(_iterator2), _i3 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-              var _ref2;
-              if (_isArray2) {
-                if (_i3 >= _iterator2.length)
-                  break;
-                _ref2 = _iterator2[_i3++];
-              } else {
-                _i3 = _iterator2.next();
-                if (_i3.done)
-                  break;
-                _ref2 = _i3.value;
-              }
-              var command = _ref2;
-              for (var _i4 = 0; _i4 < command.args.length; _i4 += 2) {
-                cbox.addPoint(command.args[_i4], command.args[_i4 + 1]);
-              }
-            }
-            this._cbox = _Object$freeze(cbox);
-          }
-          return this._cbox;
-        }
-      }, {
-        key: "bbox",
-        get: function get() {
-          if (this._bbox) {
-            return this._bbox;
-          }
-          var bbox = new BBox();
-          var cx = 0, cy = 0;
-          var f = function f2(t3) {
-            return Math.pow(1 - t3, 3) * p0[i2] + 3 * Math.pow(1 - t3, 2) * t3 * p1[i2] + 3 * (1 - t3) * Math.pow(t3, 2) * p2[i2] + Math.pow(t3, 3) * p3[i2];
-          };
-          for (var _iterator3 = this.commands, _isArray3 = Array.isArray(_iterator3), _i5 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-            var _ref3;
-            if (_isArray3) {
-              if (_i5 >= _iterator3.length)
-                break;
-              _ref3 = _iterator3[_i5++];
-            } else {
-              _i5 = _iterator3.next();
-              if (_i5.done)
-                break;
-              _ref3 = _i5.value;
-            }
-            var c = _ref3;
-            switch (c.command) {
-              case "moveTo":
-              case "lineTo":
-                var _c$args = c.args, x = _c$args[0], y = _c$args[1];
-                bbox.addPoint(x, y);
-                cx = x;
-                cy = y;
-                break;
-              case "quadraticCurveTo":
-              case "bezierCurveTo":
-                if (c.command === "quadraticCurveTo") {
-                  var _c$args2 = c.args, qp1x = _c$args2[0], qp1y = _c$args2[1], p3x = _c$args2[2], p3y = _c$args2[3];
-                  var cp1x = cx + 2 / 3 * (qp1x - cx);
-                  var cp1y = cy + 2 / 3 * (qp1y - cy);
-                  var cp2x = p3x + 2 / 3 * (qp1x - p3x);
-                  var cp2y = p3y + 2 / 3 * (qp1y - p3y);
-                } else {
-                  var _c$args3 = c.args, cp1x = _c$args3[0], cp1y = _c$args3[1], cp2x = _c$args3[2], cp2y = _c$args3[3], p3x = _c$args3[4], p3y = _c$args3[5];
-                }
-                bbox.addPoint(p3x, p3y);
-                var p0 = [cx, cy];
-                var p1 = [cp1x, cp1y];
-                var p2 = [cp2x, cp2y];
-                var p3 = [p3x, p3y];
-                for (var i2 = 0; i2 <= 1; i2++) {
-                  var b = 6 * p0[i2] - 12 * p1[i2] + 6 * p2[i2];
-                  var a = -3 * p0[i2] + 9 * p1[i2] - 9 * p2[i2] + 3 * p3[i2];
-                  c = 3 * p1[i2] - 3 * p0[i2];
-                  if (a === 0) {
-                    if (b === 0) {
-                      continue;
-                    }
-                    var t2 = -c / b;
-                    if (0 < t2 && t2 < 1) {
-                      if (i2 === 0) {
-                        bbox.addPoint(f(t2), bbox.maxY);
-                      } else if (i2 === 1) {
-                        bbox.addPoint(bbox.maxX, f(t2));
-                      }
-                    }
-                    continue;
-                  }
-                  var b2ac = Math.pow(b, 2) - 4 * c * a;
-                  if (b2ac < 0) {
-                    continue;
-                  }
-                  var t1 = (-b + Math.sqrt(b2ac)) / (2 * a);
-                  if (0 < t1 && t1 < 1) {
-                    if (i2 === 0) {
-                      bbox.addPoint(f(t1), bbox.maxY);
-                    } else if (i2 === 1) {
-                      bbox.addPoint(bbox.maxX, f(t1));
-                    }
-                  }
-                  var t22 = (-b - Math.sqrt(b2ac)) / (2 * a);
-                  if (0 < t22 && t22 < 1) {
-                    if (i2 === 0) {
-                      bbox.addPoint(f(t22), bbox.maxY);
-                    } else if (i2 === 1) {
-                      bbox.addPoint(bbox.maxX, f(t22));
-                    }
-                  }
-                }
-                cx = p3x;
-                cy = p3y;
-                break;
-            }
-          }
-          return this._bbox = _Object$freeze(bbox);
-        }
-      }]);
-      return Path2;
-    }();
-    var _arr = ["moveTo", "lineTo", "quadraticCurveTo", "bezierCurveTo", "closePath"];
-    var _loop = function _loop2() {
-      var command = _arr[_i6];
-      Path.prototype[command] = function() {
-        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-          args[_key] = arguments[_key];
-        }
+      }
+    };
+    var _loop = function(command2) {
+      Path.prototype[command2] = function(...args) {
         this._bbox = this._cbox = null;
         this.commands.push({
-          command,
+          command: command2,
           args
         });
         return this;
       };
     };
-    for (_i6 = 0; _i6 < _arr.length; _i6++) {
-      _loop();
+    for (command of ["moveTo", "lineTo", "quadraticCurveTo", "bezierCurveTo", "closePath"]) {
+      _loop(command);
     }
-    var _i6;
+    var command;
     var StandardNames = [".notdef", ".null", "nonmarkingreturn", "space", "exclam", "quotedbl", "numbersign", "dollar", "percent", "ampersand", "quotesingle", "parenleft", "parenright", "asterisk", "plus", "comma", "hyphen", "period", "slash", "zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "colon", "semicolon", "less", "equal", "greater", "question", "at", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "bracketleft", "backslash", "bracketright", "asciicircum", "underscore", "grave", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "braceleft", "bar", "braceright", "asciitilde", "Adieresis", "Aring", "Ccedilla", "Eacute", "Ntilde", "Odieresis", "Udieresis", "aacute", "agrave", "acircumflex", "adieresis", "atilde", "aring", "ccedilla", "eacute", "egrave", "ecircumflex", "edieresis", "iacute", "igrave", "icircumflex", "idieresis", "ntilde", "oacute", "ograve", "ocircumflex", "odieresis", "otilde", "uacute", "ugrave", "ucircumflex", "udieresis", "dagger", "degree", "cent", "sterling", "section", "bullet", "paragraph", "germandbls", "registered", "copyright", "trademark", "acute", "dieresis", "notequal", "AE", "Oslash", "infinity", "plusminus", "lessequal", "greaterequal", "yen", "mu", "partialdiff", "summation", "product", "pi", "integral", "ordfeminine", "ordmasculine", "Omega", "ae", "oslash", "questiondown", "exclamdown", "logicalnot", "radical", "florin", "approxequal", "Delta", "guillemotleft", "guillemotright", "ellipsis", "nonbreakingspace", "Agrave", "Atilde", "Otilde", "OE", "oe", "endash", "emdash", "quotedblleft", "quotedblright", "quoteleft", "quoteright", "divide", "lozenge", "ydieresis", "Ydieresis", "fraction", "currency", "guilsinglleft", "guilsinglright", "fi", "fl", "daggerdbl", "periodcentered", "quotesinglbase", "quotedblbase", "perthousand", "Acircumflex", "Ecircumflex", "Aacute", "Edieresis", "Egrave", "Iacute", "Icircumflex", "Idieresis", "Igrave", "Oacute", "Ocircumflex", "apple", "Ograve", "Uacute", "Ucircumflex", "Ugrave", "dotlessi", "circumflex", "tilde", "macron", "breve", "dotaccent", "ring", "cedilla", "hungarumlaut", "ogonek", "caron", "Lslash", "lslash", "Scaron", "scaron", "Zcaron", "zcaron", "brokenbar", "Eth", "eth", "Yacute", "yacute", "Thorn", "thorn", "minus", "multiply", "onesuperior", "twosuperior", "threesuperior", "onehalf", "onequarter", "threequarters", "franc", "Gbreve", "gbreve", "Idotaccent", "Scedilla", "scedilla", "Cacute", "cacute", "Ccaron", "ccaron", "dcroat"];
-    var _class$8;
-    function _applyDecoratedDescriptor$4(target, property, decorators, descriptor, context) {
-      var desc = {};
-      Object["keys"](descriptor).forEach(function(key) {
-        desc[key] = descriptor[key];
-      });
-      desc.enumerable = !!desc.enumerable;
-      desc.configurable = !!desc.configurable;
-      if ("value" in desc || desc.initializer) {
-        desc.writable = true;
-      }
-      desc = decorators.slice().reverse().reduce(function(desc2, decorator) {
-        return decorator(target, property, desc2) || desc2;
-      }, desc);
-      if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = void 0;
-      }
-      if (desc.initializer === void 0) {
-        Object["defineProperty"](target, property, desc);
-        desc = null;
-      }
-      return desc;
-    }
-    var Glyph = (_class$8 = function() {
-      function Glyph2(id, codePoints, font) {
-        _classCallCheck(this, Glyph2);
+    var _class$3;
+    var Glyph = (_class$3 = class Glyph {
+      constructor(id, codePoints, font) {
         this.id = id;
         this.codePoints = codePoints;
         this._font = font;
         this.isMark = this.codePoints.length > 0 && this.codePoints.every(unicode.isMark);
         this.isLigature = this.codePoints.length > 1;
       }
-      Glyph2.prototype._getPath = function _getPath() {
+      _getPath() {
         return new Path();
-      };
-      Glyph2.prototype._getCBox = function _getCBox() {
+      }
+      _getCBox() {
         return this.path.cbox;
-      };
-      Glyph2.prototype._getBBox = function _getBBox() {
+      }
+      _getBBox() {
         return this.path.bbox;
-      };
-      Glyph2.prototype._getTableMetrics = function _getTableMetrics(table) {
+      }
+      _getTableMetrics(table) {
         if (this.id < table.metrics.length) {
           return table.metrics.get(this.id);
         }
@@ -146822,24 +159657,34 @@ var require_fontkit = __commonJS({
           bearing: table.bearings.get(this.id - table.metrics.length) || 0
         };
         return res;
-      };
-      Glyph2.prototype._getMetrics = function _getMetrics(cbox) {
+      }
+      _getMetrics(cbox) {
         if (this._metrics) {
           return this._metrics;
         }
-        var _getTableMetrics2 = this._getTableMetrics(this._font.hmtx), advanceWidth = _getTableMetrics2.advance, leftBearing = _getTableMetrics2.bearing;
+        var {
+          advance: advanceWidth,
+          bearing: leftBearing
+        } = this._getTableMetrics(this._font.hmtx);
         if (this._font.vmtx) {
-          var _getTableMetrics3 = this._getTableMetrics(this._font.vmtx), advanceHeight = _getTableMetrics3.advance, topBearing = _getTableMetrics3.bearing;
+          var {
+            advance: advanceHeight,
+            bearing: topBearing
+          } = this._getTableMetrics(this._font.vmtx);
         } else {
-          var os2 = void 0;
+          var os2;
           if (typeof cbox === "undefined" || cbox === null) {
-            cbox = this.cbox;
+            ({
+              cbox
+            } = this);
           }
           if ((os2 = this._font["OS/2"]) && os2.version > 0) {
             var advanceHeight = Math.abs(os2.typoAscender - os2.typoDescender);
             var topBearing = os2.typoAscender - cbox.maxY;
           } else {
-            var hhea2 = this._font.hhea;
+            var {
+              hhea: hhea2
+            } = this._font;
             var advanceHeight = Math.abs(hhea2.ascent - hhea2.descent);
             var topBearing = hhea2.ascent - cbox.maxY;
           }
@@ -146847,14 +159692,38 @@ var require_fontkit = __commonJS({
         if (this._font._variationProcessor && this._font.HVAR) {
           advanceWidth += this._font._variationProcessor.getAdvanceAdjustment(this.id, this._font.HVAR);
         }
-        return this._metrics = { advanceWidth, advanceHeight, leftBearing, topBearing };
-      };
-      Glyph2.prototype.getScaledPath = function getScaledPath(size) {
+        return this._metrics = {
+          advanceWidth,
+          advanceHeight,
+          leftBearing,
+          topBearing
+        };
+      }
+      get cbox() {
+        return this._getCBox();
+      }
+      get bbox() {
+        return this._getBBox();
+      }
+      get path() {
+        return this._getPath();
+      }
+      getScaledPath(size) {
         var scale = 1 / this._font.unitsPerEm * size;
         return this.path.scale(scale);
-      };
-      Glyph2.prototype._getName = function _getName() {
-        var post3 = this._font.post;
+      }
+      get advanceWidth() {
+        return this._getMetrics().advanceWidth;
+      }
+      get advanceHeight() {
+        return this._getMetrics().advanceHeight;
+      }
+      get ligatureCaretPositions() {
+      }
+      _getName() {
+        var {
+          post: post3
+        } = this._font;
         if (!post3) {
           return null;
         }
@@ -146872,8 +159741,11 @@ var require_fontkit = __commonJS({
           case 4:
             return String.fromCharCode(post3.map[this.id]);
         }
-      };
-      Glyph2.prototype.render = function render2(ctx, size) {
+      }
+      get name() {
+        return this._getName();
+      }
+      render(ctx, size) {
         ctx.save();
         var scale = 1 / this._font.head.unitsPerEm * size;
         ctx.scale(scale, scale);
@@ -146881,44 +159753,8 @@ var require_fontkit = __commonJS({
         fn(ctx);
         ctx.fill();
         ctx.restore();
-      };
-      _createClass(Glyph2, [{
-        key: "cbox",
-        get: function get() {
-          return this._getCBox();
-        }
-      }, {
-        key: "bbox",
-        get: function get() {
-          return this._getBBox();
-        }
-      }, {
-        key: "path",
-        get: function get() {
-          return this._getPath();
-        }
-      }, {
-        key: "advanceWidth",
-        get: function get() {
-          return this._getMetrics().advanceWidth;
-        }
-      }, {
-        key: "advanceHeight",
-        get: function get() {
-          return this._getMetrics().advanceHeight;
-        }
-      }, {
-        key: "ligatureCaretPositions",
-        get: function get() {
-        }
-      }, {
-        key: "name",
-        get: function get() {
-          return this._getName();
-        }
-      }]);
-      return Glyph2;
-    }(), _applyDecoratedDescriptor$4(_class$8.prototype, "cbox", [cache], _Object$getOwnPropertyDescriptor(_class$8.prototype, "cbox"), _class$8.prototype), _applyDecoratedDescriptor$4(_class$8.prototype, "bbox", [cache], _Object$getOwnPropertyDescriptor(_class$8.prototype, "bbox"), _class$8.prototype), _applyDecoratedDescriptor$4(_class$8.prototype, "path", [cache], _Object$getOwnPropertyDescriptor(_class$8.prototype, "path"), _class$8.prototype), _applyDecoratedDescriptor$4(_class$8.prototype, "advanceWidth", [cache], _Object$getOwnPropertyDescriptor(_class$8.prototype, "advanceWidth"), _class$8.prototype), _applyDecoratedDescriptor$4(_class$8.prototype, "advanceHeight", [cache], _Object$getOwnPropertyDescriptor(_class$8.prototype, "advanceHeight"), _class$8.prototype), _applyDecoratedDescriptor$4(_class$8.prototype, "name", [cache], _Object$getOwnPropertyDescriptor(_class$8.prototype, "name"), _class$8.prototype), _class$8);
+      }
+    }, _applyDecoratedDescriptor(_class$3.prototype, "cbox", [cache], Object.getOwnPropertyDescriptor(_class$3.prototype, "cbox"), _class$3.prototype), _applyDecoratedDescriptor(_class$3.prototype, "bbox", [cache], Object.getOwnPropertyDescriptor(_class$3.prototype, "bbox"), _class$3.prototype), _applyDecoratedDescriptor(_class$3.prototype, "path", [cache], Object.getOwnPropertyDescriptor(_class$3.prototype, "path"), _class$3.prototype), _applyDecoratedDescriptor(_class$3.prototype, "advanceWidth", [cache], Object.getOwnPropertyDescriptor(_class$3.prototype, "advanceWidth"), _class$3.prototype), _applyDecoratedDescriptor(_class$3.prototype, "advanceHeight", [cache], Object.getOwnPropertyDescriptor(_class$3.prototype, "advanceHeight"), _class$3.prototype), _applyDecoratedDescriptor(_class$3.prototype, "name", [cache], Object.getOwnPropertyDescriptor(_class$3.prototype, "name"), _class$3.prototype), _class$3);
     var GlyfHeader = new r.Struct({
       numberOfContours: r.int16,
       xMin: r.int16,
@@ -146938,37 +159774,29 @@ var require_fontkit = __commonJS({
     var WE_HAVE_AN_X_AND_Y_SCALE = 1 << 6;
     var WE_HAVE_A_TWO_BY_TWO = 1 << 7;
     var WE_HAVE_INSTRUCTIONS = 1 << 8;
-    var Point = function() {
-      function Point2(onCurve, endContour) {
-        var x = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 0;
-        var y = arguments.length > 3 && arguments[3] !== void 0 ? arguments[3] : 0;
-        _classCallCheck(this, Point2);
+    var Point = class {
+      constructor(onCurve, endContour, x = 0, y = 0) {
         this.onCurve = onCurve;
         this.endContour = endContour;
         this.x = x;
         this.y = y;
       }
-      Point2.prototype.copy = function copy() {
-        return new Point2(this.onCurve, this.endContour, this.x, this.y);
-      };
-      return Point2;
-    }();
-    var Component = function Component2(glyphID, dx, dy) {
-      _classCallCheck(this, Component2);
-      this.glyphID = glyphID;
-      this.dx = dx;
-      this.dy = dy;
-      this.pos = 0;
-      this.scaleX = this.scaleY = 1;
-      this.scale01 = this.scale10 = 0;
-    };
-    var TTFGlyph = function(_Glyph) {
-      _inherits(TTFGlyph2, _Glyph);
-      function TTFGlyph2() {
-        _classCallCheck(this, TTFGlyph2);
-        return _possibleConstructorReturn(this, _Glyph.apply(this, arguments));
+      copy() {
+        return new Point(this.onCurve, this.endContour, this.x, this.y);
       }
-      TTFGlyph2.prototype._getCBox = function _getCBox(internal) {
+    };
+    var Component = class {
+      constructor(glyphID, dx, dy) {
+        this.glyphID = glyphID;
+        this.dx = dx;
+        this.dy = dy;
+        this.pos = 0;
+        this.scaleX = this.scaleY = 1;
+        this.scale01 = this.scale10 = 0;
+      }
+    };
+    var TTFGlyph = class extends Glyph {
+      _getCBox(internal) {
         if (this._font._variationProcessor && !internal) {
           return this.path.cbox;
         }
@@ -146976,9 +159804,9 @@ var require_fontkit = __commonJS({
         stream.pos += this._font.loca.offsets[this.id];
         var glyph2 = GlyfHeader.decode(stream);
         var cbox = new BBox(glyph2.xMin, glyph2.yMin, glyph2.xMax, glyph2.yMax);
-        return _Object$freeze(cbox);
-      };
-      TTFGlyph2.prototype._parseGlyphCoord = function _parseGlyphCoord(stream, prev, short, same) {
+        return Object.freeze(cbox);
+      }
+      _parseGlyphCoord(stream, prev, short, same) {
         if (short) {
           var val = stream.readUInt8();
           if (!same) {
@@ -146993,8 +159821,8 @@ var require_fontkit = __commonJS({
           }
         }
         return val;
-      };
-      TTFGlyph2.prototype._decode = function _decode() {
+      }
+      _decode() {
         var glyfPos = this._font.loca.offsets[this.id];
         var nextPos = this._font.loca.offsets[this.id + 1];
         if (glyfPos === nextPos) {
@@ -147010,8 +159838,8 @@ var require_fontkit = __commonJS({
           this._decodeComposite(glyph2, stream, startPos);
         }
         return glyph2;
-      };
-      TTFGlyph2.prototype._decodeSimple = function _decodeSimple(glyph2, stream) {
+      }
+      _decodeSimple(glyph2, stream) {
         glyph2.points = [];
         var endPtsOfContours = new r.Array(r.uint16, glyph2.numberOfContours).decode(stream);
         glyph2.instructions = new r.Array(r.uint8, r.uint16).decode(stream);
@@ -147044,14 +159872,13 @@ var require_fontkit = __commonJS({
         }
         if (this._font._variationProcessor) {
           var points = glyph2.points.slice();
-          points.push.apply(points, this._getPhantomPoints(glyph2));
+          points.push(...this._getPhantomPoints(glyph2));
           this._font._variationProcessor.transformPoints(this.id, points);
           glyph2.phantomPoints = points.slice(-4);
         }
         return;
-      };
-      TTFGlyph2.prototype._decodeComposite = function _decodeComposite(glyph2, stream) {
-        var offset = arguments.length > 2 && arguments[2] !== void 0 ? arguments[2] : 0;
+      }
+      _decodeComposite(glyph2, stream, offset = 0) {
         glyph2.components = [];
         var haveInstructions = false;
         var flags = MORE_COMPONENTS;
@@ -147090,7 +159917,7 @@ var require_fontkit = __commonJS({
             var component = glyph2.components[j];
             points.push(new Point(true, true, component.dx, component.dy));
           }
-          points.push.apply(points, this._getPhantomPoints(glyph2));
+          points.push(...this._getPhantomPoints(glyph2));
           this._font._variationProcessor.transformPoints(this.id, points);
           glyph2.phantomPoints = points.splice(-4, 4);
           for (var i2 = 0; i2 < points.length; i2++) {
@@ -147100,35 +159927,28 @@ var require_fontkit = __commonJS({
           }
         }
         return haveInstructions;
-      };
-      TTFGlyph2.prototype._getPhantomPoints = function _getPhantomPoints(glyph2) {
+      }
+      _getPhantomPoints(glyph2) {
         var cbox = this._getCBox(true);
         if (this._metrics == null) {
           this._metrics = Glyph.prototype._getMetrics.call(this, cbox);
         }
-        var _metrics = this._metrics, advanceWidth = _metrics.advanceWidth, advanceHeight = _metrics.advanceHeight, leftBearing = _metrics.leftBearing, topBearing = _metrics.topBearing;
+        var {
+          advanceWidth,
+          advanceHeight,
+          leftBearing,
+          topBearing
+        } = this._metrics;
         return [new Point(false, true, glyph2.xMin - leftBearing, 0), new Point(false, true, glyph2.xMin - leftBearing + advanceWidth, 0), new Point(false, true, 0, glyph2.yMax + topBearing), new Point(false, true, 0, glyph2.yMax + topBearing + advanceHeight)];
-      };
-      TTFGlyph2.prototype._getContours = function _getContours() {
+      }
+      _getContours() {
         var glyph2 = this._decode();
         if (!glyph2) {
           return [];
         }
         var points = [];
         if (glyph2.numberOfContours < 0) {
-          for (var _iterator2 = glyph2.components, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-            var _ref2;
-            if (_isArray2) {
-              if (_i2 >= _iterator2.length)
-                break;
-              _ref2 = _iterator2[_i2++];
-            } else {
-              _i2 = _iterator2.next();
-              if (_i2.done)
-                break;
-              _ref2 = _i2.value;
-            }
-            var component = _ref2;
+          for (var component of glyph2.components) {
             var _contours = this._font.getGlyph(component.glyphID)._getContours();
             for (var i2 = 0; i2 < _contours.length; i2++) {
               var contour = _contours[i2];
@@ -147160,19 +159980,19 @@ var require_fontkit = __commonJS({
           }
         }
         return contours;
-      };
-      TTFGlyph2.prototype._getMetrics = function _getMetrics() {
+      }
+      _getMetrics() {
         if (this._metrics) {
           return this._metrics;
         }
         var cbox = this._getCBox(true);
-        _Glyph.prototype._getMetrics.call(this, cbox);
+        super._getMetrics(cbox);
         if (this._font._variationProcessor && !this._font.HVAR) {
           this.path;
         }
         return this._metrics;
-      };
-      TTFGlyph2.prototype._getPath = function _getPath() {
+      }
+      _getPath() {
         var contours = this._getContours();
         var path = new Path();
         for (var i2 = 0; i2 < contours.length; i2++) {
@@ -147217,22 +160037,16 @@ var require_fontkit = __commonJS({
           path.closePath();
         }
         return path;
-      };
-      return TTFGlyph2;
-    }(Glyph);
-    var CFFGlyph = function(_Glyph) {
-      _inherits(CFFGlyph2, _Glyph);
-      function CFFGlyph2() {
-        _classCallCheck(this, CFFGlyph2);
-        return _possibleConstructorReturn(this, _Glyph.apply(this, arguments));
       }
-      CFFGlyph2.prototype._getName = function _getName() {
+    };
+    var CFFGlyph = class extends Glyph {
+      _getName() {
         if (this._font.CFF2) {
-          return _Glyph.prototype._getName.call(this);
+          return super._getName();
         }
         return this._font["CFF "].getGlyphName(this.id);
-      };
-      CFFGlyph2.prototype.bias = function bias(s2) {
+      }
+      bias(s2) {
         if (s2.length < 1240) {
           return 107;
         } else if (s2.length < 33900) {
@@ -147240,10 +160054,12 @@ var require_fontkit = __commonJS({
         } else {
           return 32768;
         }
-      };
-      CFFGlyph2.prototype._getPath = function _getPath() {
+      }
+      _getPath() {
         var cff = this._font.CFF2 || this._font["CFF "];
-        var stream = cff.stream;
+        var {
+          stream
+        } = cff;
         var str = cff.topDict.CharStrings[this.id];
         var end = str.offset + str.length;
         stream.pos = str.offset;
@@ -147253,8 +160069,8 @@ var require_fontkit = __commonJS({
         var width = null;
         var nStems = 0;
         var x = 0, y = 0;
-        var usedGsubrs = void 0;
-        var usedSubrs = void 0;
+        var usedGsubrs;
+        var usedSubrs;
         var open = false;
         this._usedGsubrs = usedGsubrs = {};
         this._usedSubrs = usedSubrs = {};
@@ -147285,7 +160101,7 @@ var require_fontkit = __commonJS({
           path.moveTo(x2, y2);
           open = true;
         }
-        var parse = function parse2() {
+        var parse = function() {
           while (stream.pos < end) {
             var op = stream.readUInt8();
             if (op < 32) {
@@ -147343,7 +160159,7 @@ var require_fontkit = __commonJS({
                     var e = end;
                     stream.pos = subr.offset;
                     end = subr.offset + subr.length;
-                    parse2();
+                    parse();
                     stream.pos = p;
                     end = e;
                   }
@@ -147484,7 +160300,7 @@ var require_fontkit = __commonJS({
                     var e = end;
                     stream.pos = subr.offset;
                     end = subr.offset + subr.length;
-                    parse2();
+                    parse();
                     stream.pos = p;
                     end = e;
                   }
@@ -147612,8 +160428,8 @@ var require_fontkit = __commonJS({
                       if (_j >= 0) {
                         while (_j > 0) {
                           var t2 = stack[n - 1];
-                          for (var _i2 = n - 2; _i2 >= 0; _i2--) {
-                            stack[_i2 + 1] = stack[_i2];
+                          for (var _i = n - 2; _i >= 0; _i--) {
+                            stack[_i + 1] = stack[_i];
                           }
                           stack[0] = t2;
                           _j--;
@@ -147621,8 +160437,8 @@ var require_fontkit = __commonJS({
                       } else {
                         while (_j < 0) {
                           var t2 = stack[0];
-                          for (var _i22 = 0; _i22 <= n; _i22++) {
-                            stack[_i22] = stack[_i22 + 1];
+                          for (var _i2 = 0; _i2 <= n; _i2++) {
+                            stack[_i2] = stack[_i2 + 1];
                           }
                           stack[n - 1] = t2;
                           _j++;
@@ -147654,8 +160470,8 @@ var require_fontkit = __commonJS({
                         y += stack.shift();
                         pts.push(x, y);
                       }
-                      path.bezierCurveTo.apply(path, pts.slice(0, 6));
-                      path.bezierCurveTo.apply(path, pts.slice(6));
+                      path.bezierCurveTo(...pts.slice(0, 6));
+                      path.bezierCurveTo(...pts.slice(6));
                       stack.shift();
                       break;
                     case 36:
@@ -147693,15 +160509,15 @@ var require_fontkit = __commonJS({
                         y += stack.shift();
                       }
                       pts.push(x, y);
-                      path.bezierCurveTo.apply(path, pts.slice(0, 6));
-                      path.bezierCurveTo.apply(path, pts.slice(6));
+                      path.bezierCurveTo(...pts.slice(0, 6));
+                      path.bezierCurveTo(...pts.slice(6));
                       break;
                     default:
-                      throw new Error("Unknown op: 12 " + op);
+                      throw new Error("Unknown op: 12 ".concat(op));
                   }
                   break;
                 default:
-                  throw new Error("Unknown op: " + op);
+                  throw new Error("Unknown op: ".concat(op));
               }
             } else if (op < 247) {
               stack.push(op - 139);
@@ -147721,24 +160537,16 @@ var require_fontkit = __commonJS({
           path.closePath();
         }
         return path;
-      };
-      return CFFGlyph2;
-    }(Glyph);
+      }
+    };
     var SBIXImage = new r.Struct({
       originX: r.uint16,
       originY: r.uint16,
       type: new r.String(4),
-      data: new r.Buffer(function(t2) {
-        return t2.parent.buflen - t2._currentOffset;
-      })
+      data: new r.Buffer((t2) => t2.parent.buflen - t2._currentOffset)
     });
-    var SBIXGlyph = function(_TTFGlyph) {
-      _inherits(SBIXGlyph2, _TTFGlyph);
-      function SBIXGlyph2() {
-        _classCallCheck(this, SBIXGlyph2);
-        return _possibleConstructorReturn(this, _TTFGlyph.apply(this, arguments));
-      }
-      SBIXGlyph2.prototype.getImageForSize = function getImageForSize(size) {
+    var SBIXGlyph = class extends TTFGlyph {
+      getImageForSize(size) {
         for (var i2 = 0; i2 < this._font.sbix.imageTables.length; i2++) {
           var table = this._font.sbix.imageTables[i2];
           if (table.ppem >= size) {
@@ -147752,32 +160560,33 @@ var require_fontkit = __commonJS({
           return null;
         }
         this._font.stream.pos = start;
-        return SBIXImage.decode(this._font.stream, { buflen: end - start });
-      };
-      SBIXGlyph2.prototype.render = function render2(ctx, size) {
+        return SBIXImage.decode(this._font.stream, {
+          buflen: end - start
+        });
+      }
+      render(ctx, size) {
         var img = this.getImageForSize(size);
         if (img != null) {
           var scale = size / this._font.unitsPerEm;
-          ctx.image(img.data, { height: size, x: img.originX, y: (this.bbox.minY - img.originY) * scale });
+          ctx.image(img.data, {
+            height: size,
+            x: img.originX,
+            y: (this.bbox.minY - img.originY) * scale
+          });
         }
         if (this._font.sbix.flags.renderOutlines) {
-          _TTFGlyph.prototype.render.call(this, ctx, size);
+          super.render(ctx, size);
         }
-      };
-      return SBIXGlyph2;
-    }(TTFGlyph);
-    var COLRLayer = function COLRLayer2(glyph2, color) {
-      _classCallCheck(this, COLRLayer2);
-      this.glyph = glyph2;
-      this.color = color;
-    };
-    var COLRGlyph = function(_Glyph) {
-      _inherits(COLRGlyph2, _Glyph);
-      function COLRGlyph2() {
-        _classCallCheck(this, COLRGlyph2);
-        return _possibleConstructorReturn(this, _Glyph.apply(this, arguments));
       }
-      COLRGlyph2.prototype._getBBox = function _getBBox() {
+    };
+    var COLRLayer = class {
+      constructor(glyph2, color) {
+        this.glyph = glyph2;
+        this.color = color;
+      }
+    };
+    var COLRGlyph = class extends Glyph {
+      _getBBox() {
         var bbox = new BBox();
         for (var i2 = 0; i2 < this.layers.length; i2++) {
           var layer = this.layers[i2];
@@ -147786,67 +160595,54 @@ var require_fontkit = __commonJS({
           bbox.addPoint(b.maxX, b.maxY);
         }
         return bbox;
-      };
-      COLRGlyph2.prototype.render = function render2(ctx, size) {
-        for (var _iterator2 = this.layers, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
+      }
+      get layers() {
+        var cpal = this._font.CPAL;
+        var colr = this._font.COLR;
+        var low = 0;
+        var high = colr.baseGlyphRecord.length - 1;
+        while (low <= high) {
+          var mid = low + high >> 1;
+          var rec = colr.baseGlyphRecord[mid];
+          if (this.id < rec.gid) {
+            high = mid - 1;
+          } else if (this.id > rec.gid) {
+            low = mid + 1;
           } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
+            var baseLayer = rec;
+            break;
           }
-          var _ref22 = _ref2, glyph2 = _ref22.glyph, color = _ref22.color;
+        }
+        if (baseLayer == null) {
+          var g = this._font._getBaseGlyph(this.id);
+          var color = {
+            red: 0,
+            green: 0,
+            blue: 0,
+            alpha: 255
+          };
+          return [new COLRLayer(g, color)];
+        }
+        var layers = [];
+        for (var i2 = baseLayer.firstLayerIndex; i2 < baseLayer.firstLayerIndex + baseLayer.numLayers; i2++) {
+          var rec = colr.layerRecords[i2];
+          var color = cpal.colorRecords[rec.paletteIndex];
+          var g = this._font._getBaseGlyph(rec.gid);
+          layers.push(new COLRLayer(g, color));
+        }
+        return layers;
+      }
+      render(ctx, size) {
+        for (var {
+          glyph: glyph2,
+          color
+        } of this.layers) {
           ctx.fillColor([color.red, color.green, color.blue], color.alpha / 255 * 100);
           glyph2.render(ctx, size);
         }
         return;
-      };
-      _createClass(COLRGlyph2, [{
-        key: "layers",
-        get: function get() {
-          var cpal = this._font.CPAL;
-          var colr = this._font.COLR;
-          var low = 0;
-          var high = colr.baseGlyphRecord.length - 1;
-          while (low <= high) {
-            var mid = low + high >> 1;
-            var rec = colr.baseGlyphRecord[mid];
-            if (this.id < rec.gid) {
-              high = mid - 1;
-            } else if (this.id > rec.gid) {
-              low = mid + 1;
-            } else {
-              var baseLayer = rec;
-              break;
-            }
-          }
-          if (baseLayer == null) {
-            var g = this._font._getBaseGlyph(this.id);
-            var color = {
-              red: 0,
-              green: 0,
-              blue: 0,
-              alpha: 255
-            };
-            return [new COLRLayer(g, color)];
-          }
-          var layers = [];
-          for (var i2 = baseLayer.firstLayerIndex; i2 < baseLayer.firstLayerIndex + baseLayer.numLayers; i2++) {
-            var rec = colr.layerRecords[i2];
-            var color = cpal.colorRecords[rec.paletteIndex];
-            var g = this._font._getBaseGlyph(rec.gid);
-            layers.push(new COLRLayer(g, color));
-          }
-          return layers;
-        }
-      }]);
-      return COLRGlyph2;
-    }(Glyph);
+      }
+    };
     var TUPLES_SHARE_POINT_NUMBERS = 32768;
     var TUPLE_COUNT_MASK = 4095;
     var EMBEDDED_TUPLE_COORD = 32768;
@@ -147858,21 +160654,20 @@ var require_fontkit = __commonJS({
     var DELTAS_ARE_ZERO = 128;
     var DELTAS_ARE_WORDS = 64;
     var DELTA_RUN_COUNT_MASK = 63;
-    var GlyphVariationProcessor = function() {
-      function GlyphVariationProcessor2(font, coords) {
-        _classCallCheck(this, GlyphVariationProcessor2);
+    var GlyphVariationProcessor = class {
+      constructor(font, coords) {
         this.font = font;
         this.normalizedCoords = this.normalizeCoords(coords);
-        this.blendVectors = new _Map();
+        this.blendVectors = new Map();
       }
-      GlyphVariationProcessor2.prototype.normalizeCoords = function normalizeCoords(coords) {
+      normalizeCoords(coords) {
         var normalized = [];
         for (var i2 = 0; i2 < this.font.fvar.axis.length; i2++) {
           var axis = this.font.fvar.axis[i2];
           if (coords[i2] < axis.defaultValue) {
-            normalized.push((coords[i2] - axis.defaultValue + _Number$EPSILON) / (axis.defaultValue - axis.minValue + _Number$EPSILON));
+            normalized.push((coords[i2] - axis.defaultValue + Number.EPSILON) / (axis.defaultValue - axis.minValue + Number.EPSILON));
           } else {
-            normalized.push((coords[i2] - axis.defaultValue + _Number$EPSILON) / (axis.maxValue - axis.defaultValue + _Number$EPSILON));
+            normalized.push((coords[i2] - axis.defaultValue + Number.EPSILON) / (axis.maxValue - axis.defaultValue + Number.EPSILON));
           }
         }
         if (this.font.avar) {
@@ -147882,19 +160677,21 @@ var require_fontkit = __commonJS({
               var pair = segment.correspondence[j];
               if (j >= 1 && normalized[i2] < pair.fromCoord) {
                 var prev = segment.correspondence[j - 1];
-                normalized[i2] = ((normalized[i2] - prev.fromCoord) * (pair.toCoord - prev.toCoord) + _Number$EPSILON) / (pair.fromCoord - prev.fromCoord + _Number$EPSILON) + prev.toCoord;
+                normalized[i2] = ((normalized[i2] - prev.fromCoord) * (pair.toCoord - prev.toCoord) + Number.EPSILON) / (pair.fromCoord - prev.fromCoord + Number.EPSILON) + prev.toCoord;
                 break;
               }
             }
           }
         }
         return normalized;
-      };
-      GlyphVariationProcessor2.prototype.transformPoints = function transformPoints(gid, glyphPoints) {
+      }
+      transformPoints(gid, glyphPoints) {
         if (!this.font.fvar || !this.font.gvar) {
           return;
         }
-        var gvar2 = this.font.gvar;
+        var {
+          gvar: gvar2
+        } = this.font;
         if (gid >= gvar2.glyphCount) {
           return;
         }
@@ -147902,7 +160699,9 @@ var require_fontkit = __commonJS({
         if (offset === gvar2.offsets[gid + 1]) {
           return;
         }
-        var stream = this.font.stream;
+        var {
+          stream
+        } = this.font;
         stream.pos = offset;
         if (stream.pos >= stream.length) {
           return;
@@ -147916,9 +160715,7 @@ var require_fontkit = __commonJS({
           offsetToData = stream.pos;
           stream.pos = here;
         }
-        var origPoints = glyphPoints.map(function(pt) {
-          return pt.copy();
-        });
+        var origPoints = glyphPoints.map((pt) => pt.copy());
         tupleCount &= TUPLE_COUNT_MASK;
         for (var i2 = 0; i2 < tupleCount; i2++) {
           var tupleDataSize = stream.readUInt16BE();
@@ -147960,25 +160757,21 @@ var require_fontkit = __commonJS({
           var xDeltas = this.decodeDeltas(nPoints);
           var yDeltas = this.decodeDeltas(nPoints);
           if (points.length === 0) {
-            for (var _i2 = 0; _i2 < glyphPoints.length; _i2++) {
-              var point = glyphPoints[_i2];
-              point.x += Math.round(xDeltas[_i2] * factor);
-              point.y += Math.round(yDeltas[_i2] * factor);
+            for (var _i = 0; _i < glyphPoints.length; _i++) {
+              var point = glyphPoints[_i];
+              point.x += Math.round(xDeltas[_i] * factor);
+              point.y += Math.round(yDeltas[_i] * factor);
             }
           } else {
-            var outPoints = origPoints.map(function(pt) {
-              return pt.copy();
-            });
-            var hasDelta = glyphPoints.map(function() {
-              return false;
-            });
-            for (var _i22 = 0; _i22 < points.length; _i22++) {
-              var idx = points[_i22];
+            var outPoints = origPoints.map((pt) => pt.copy());
+            var hasDelta = glyphPoints.map(() => false);
+            for (var _i2 = 0; _i2 < points.length; _i2++) {
+              var idx = points[_i2];
               if (idx < glyphPoints.length) {
                 var _point = outPoints[idx];
                 hasDelta[idx] = true;
-                _point.x += Math.round(xDeltas[_i22] * factor);
-                _point.y += Math.round(yDeltas[_i22] * factor);
+                _point.x += Math.round(xDeltas[_i2] * factor);
+                _point.y += Math.round(yDeltas[_i2] * factor);
               }
             }
             this.interpolateMissingDeltas(outPoints, origPoints, hasDelta);
@@ -147992,8 +160785,8 @@ var require_fontkit = __commonJS({
           offsetToData += tupleDataSize;
           stream.pos = here;
         }
-      };
-      GlyphVariationProcessor2.prototype.decodePoints = function decodePoints() {
+      }
+      decodePoints() {
         var stream = this.font.stream;
         var count = stream.readUInt8();
         if (count & POINTS_ARE_WORDS) {
@@ -148012,8 +160805,8 @@ var require_fontkit = __commonJS({
           }
         }
         return points;
-      };
-      GlyphVariationProcessor2.prototype.decodeDeltas = function decodeDeltas(count) {
+      }
+      decodeDeltas(count) {
         var stream = this.font.stream;
         var i2 = 0;
         var deltas = new Int16Array(count);
@@ -148030,10 +160823,12 @@ var require_fontkit = __commonJS({
           }
         }
         return deltas;
-      };
-      GlyphVariationProcessor2.prototype.tupleFactor = function tupleFactor(tupleIndex, tupleCoords, startCoords, endCoords) {
+      }
+      tupleFactor(tupleIndex, tupleCoords, startCoords, endCoords) {
         var normalized = this.normalizedCoords;
-        var gvar2 = this.font.gvar;
+        var {
+          gvar: gvar2
+        } = this.font;
         var factor = 1;
         for (var i2 = 0; i2 < gvar2.axisCount; i2++) {
           if (tupleCoords[i2] === 0) {
@@ -148046,20 +160841,20 @@ var require_fontkit = __commonJS({
             if (normalized[i2] < Math.min(0, tupleCoords[i2]) || normalized[i2] > Math.max(0, tupleCoords[i2])) {
               return 0;
             }
-            factor = (factor * normalized[i2] + _Number$EPSILON) / (tupleCoords[i2] + _Number$EPSILON);
+            factor = (factor * normalized[i2] + Number.EPSILON) / (tupleCoords[i2] + Number.EPSILON);
           } else {
             if (normalized[i2] < startCoords[i2] || normalized[i2] > endCoords[i2]) {
               return 0;
             } else if (normalized[i2] < tupleCoords[i2]) {
-              factor = factor * (normalized[i2] - startCoords[i2] + _Number$EPSILON) / (tupleCoords[i2] - startCoords[i2] + _Number$EPSILON);
+              factor = factor * (normalized[i2] - startCoords[i2] + Number.EPSILON) / (tupleCoords[i2] - startCoords[i2] + Number.EPSILON);
             } else {
-              factor = factor * (endCoords[i2] - normalized[i2] + _Number$EPSILON) / (endCoords[i2] - tupleCoords[i2] + _Number$EPSILON);
+              factor = factor * (endCoords[i2] - normalized[i2] + Number.EPSILON) / (endCoords[i2] - tupleCoords[i2] + Number.EPSILON);
             }
           }
         }
         return factor;
-      };
-      GlyphVariationProcessor2.prototype.interpolateMissingDeltas = function interpolateMissingDeltas(points, inPoints, hasDelta) {
+      }
+      interpolateMissingDeltas(points, inPoints, hasDelta) {
         if (points.length === 0) {
           return;
         }
@@ -148097,8 +160892,8 @@ var require_fontkit = __commonJS({
           }
           point = endPoint + 1;
         }
-      };
-      GlyphVariationProcessor2.prototype.deltaInterpolate = function deltaInterpolate(p1, p2, ref1, ref2, inPoints, outPoints) {
+      }
+      deltaInterpolate(p1, p2, ref1, ref2, inPoints, outPoints) {
         if (p1 > p2) {
           return;
         }
@@ -148129,8 +160924,8 @@ var require_fontkit = __commonJS({
             }
           }
         }
-      };
-      GlyphVariationProcessor2.prototype.deltaShift = function deltaShift(p1, p2, ref, inPoints, outPoints) {
+      }
+      deltaShift(p1, p2, ref, inPoints, outPoints) {
         var deltaX = outPoints[ref].x - inPoints[ref].x;
         var deltaY = outPoints[ref].y - inPoints[ref].y;
         if (deltaX === 0 && deltaY === 0) {
@@ -148142,25 +160937,26 @@ var require_fontkit = __commonJS({
             outPoints[p].y += deltaY;
           }
         }
-      };
-      GlyphVariationProcessor2.prototype.getAdvanceAdjustment = function getAdvanceAdjustment(gid, table) {
-        var outerIndex = void 0, innerIndex = void 0;
+      }
+      getAdvanceAdjustment(gid, table) {
+        var outerIndex, innerIndex;
         if (table.advanceWidthMapping) {
           var idx = gid;
           if (idx >= table.advanceWidthMapping.mapCount) {
             idx = table.advanceWidthMapping.mapCount - 1;
           }
           var entryFormat = table.advanceWidthMapping.entryFormat;
-          var _table$advanceWidthMa = table.advanceWidthMapping.mapData[idx];
-          outerIndex = _table$advanceWidthMa.outerIndex;
-          innerIndex = _table$advanceWidthMa.innerIndex;
+          ({
+            outerIndex,
+            innerIndex
+          } = table.advanceWidthMapping.mapData[idx]);
         } else {
           outerIndex = 0;
           innerIndex = gid;
         }
         return this.getDelta(table.itemVariationStore, outerIndex, innerIndex);
-      };
-      GlyphVariationProcessor2.prototype.getDelta = function getDelta(itemStore, outerIndex, innerIndex) {
+      }
+      getDelta(itemStore, outerIndex, innerIndex) {
         if (outerIndex >= itemStore.itemVariationData.length) {
           return 0;
         }
@@ -148175,8 +160971,8 @@ var require_fontkit = __commonJS({
           netAdjustment += deltaSet.deltas[master] * blendVector[master];
         }
         return netAdjustment;
-      };
-      GlyphVariationProcessor2.prototype.getBlendVector = function getBlendVector(itemStore, outerIndex) {
+      }
+      getBlendVector(itemStore, outerIndex) {
         var varData = itemStore.itemVariationData[outerIndex];
         if (this.blendVectors.has(varData)) {
           return this.blendVectors.get(varData);
@@ -148202,9 +160998,9 @@ var require_fontkit = __commonJS({
               if (normalizedCoords[j] === axis.peakCoord) {
                 axisScalar = 1;
               } else if (normalizedCoords[j] < axis.peakCoord) {
-                axisScalar = (normalizedCoords[j] - axis.startCoord + _Number$EPSILON) / (axis.peakCoord - axis.startCoord + _Number$EPSILON);
+                axisScalar = (normalizedCoords[j] - axis.startCoord + Number.EPSILON) / (axis.peakCoord - axis.startCoord + Number.EPSILON);
               } else {
-                axisScalar = (axis.endCoord - normalizedCoords[j] + _Number$EPSILON) / (axis.endCoord - axis.peakCoord + _Number$EPSILON);
+                axisScalar = (axis.endCoord - normalizedCoords[j] + Number.EPSILON) / (axis.endCoord - axis.peakCoord + Number.EPSILON);
               }
             }
             scalar *= axisScalar;
@@ -148213,20 +161009,18 @@ var require_fontkit = __commonJS({
         }
         this.blendVectors.set(varData, blendVector);
         return blendVector;
-      };
-      return GlyphVariationProcessor2;
-    }();
-    var resolved = _Promise.resolve();
-    var Subset = function() {
-      function Subset2(font) {
-        _classCallCheck(this, Subset2);
+      }
+    };
+    var resolved = Promise.resolve();
+    var Subset = class {
+      constructor(font) {
         this.font = font;
         this.glyphs = [];
         this.mapping = {};
         this.includeGlyph(0);
       }
-      Subset2.prototype.includeGlyph = function includeGlyph(glyph2) {
-        if ((typeof glyph2 === "undefined" ? "undefined" : _typeof(glyph2)) === "object") {
+      includeGlyph(glyph2) {
+        if (typeof glyph2 === "object") {
           glyph2 = glyph2.id;
         }
         if (this.mapping[glyph2] == null) {
@@ -148234,40 +161028,34 @@ var require_fontkit = __commonJS({
           this.mapping[glyph2] = this.glyphs.length - 1;
         }
         return this.mapping[glyph2];
-      };
-      Subset2.prototype.encodeStream = function encodeStream() {
-        var _this = this;
+      }
+      encodeStream() {
         var s2 = new r.EncodeStream();
-        resolved.then(function() {
-          _this.encode(s2);
+        resolved.then(() => {
+          this.encode(s2);
           return s2.end();
         });
         return s2;
-      };
-      return Subset2;
-    }();
+      }
+    };
     var ON_CURVE$1 = 1 << 0;
     var X_SHORT_VECTOR$1 = 1 << 1;
     var Y_SHORT_VECTOR$1 = 1 << 2;
     var REPEAT$1 = 1 << 3;
     var SAME_X$1 = 1 << 4;
     var SAME_Y$1 = 1 << 5;
-    var Point$1 = function() {
-      function Point2() {
-        _classCallCheck(this, Point2);
-      }
-      Point2.size = function size(val) {
+    var Point$1 = class {
+      static size(val) {
         return val >= 0 && val <= 255 ? 1 : 2;
-      };
-      Point2.encode = function encode(stream, value) {
+      }
+      static encode(stream, value) {
         if (value >= 0 && value <= 255) {
           stream.writeUInt8(value);
         } else {
           stream.writeInt16BE(value);
         }
-      };
-      return Point2;
-    }();
+      }
+    };
     var Glyf = new r.Struct({
       numberOfContours: r.int16,
       xMin: r.int16,
@@ -148280,12 +161068,8 @@ var require_fontkit = __commonJS({
       xPoints: new r.Array(Point$1, 0),
       yPoints: new r.Array(Point$1, 0)
     });
-    var TTFGlyphEncoder = function() {
-      function TTFGlyphEncoder2() {
-        _classCallCheck(this, TTFGlyphEncoder2);
-      }
-      TTFGlyphEncoder2.prototype.encodeSimple = function encodeSimple(path) {
-        var instructions = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
+    var TTFGlyphEncoder = class {
+      encodeSimple(path, instructions = []) {
         var endPtsOfContours = [];
         var xPoints = [];
         var yPoints = [];
@@ -148357,8 +161141,8 @@ var require_fontkit = __commonJS({
           stream.fill(0, tail);
         }
         return stream.buffer;
-      };
-      TTFGlyphEncoder2.prototype._encodePoint = function _encodePoint(value, last, points, flag, shortFlag, sameFlag) {
+      }
+      _encodePoint(value, last, points, flag, shortFlag, sameFlag) {
         var diff = value - last;
         if (value === last) {
           flag |= sameFlag;
@@ -148374,18 +161158,14 @@ var require_fontkit = __commonJS({
           points.push(diff);
         }
         return flag;
-      };
-      return TTFGlyphEncoder2;
-    }();
-    var TTFSubset = function(_Subset) {
-      _inherits(TTFSubset2, _Subset);
-      function TTFSubset2(font) {
-        _classCallCheck(this, TTFSubset2);
-        var _this = _possibleConstructorReturn(this, _Subset.call(this, font));
-        _this.glyphEncoder = new TTFGlyphEncoder();
-        return _this;
       }
-      TTFSubset2.prototype._addGlyph = function _addGlyph(gid) {
+    };
+    var TTFSubset = class extends Subset {
+      constructor(font) {
+        super(font);
+        this.glyphEncoder = new TTFGlyphEncoder();
+      }
+      _addGlyph(gid) {
         var glyph2 = this.font.getGlyph(gid);
         var glyf2 = glyph2._decode();
         var curOffset = this.font.loca.offsets[gid];
@@ -148394,20 +161174,8 @@ var require_fontkit = __commonJS({
         stream.pos += curOffset;
         var buffer = stream.readBuffer(nextOffset - curOffset);
         if (glyf2 && glyf2.numberOfContours < 0) {
-          buffer = new Buffer(buffer);
-          for (var _iterator2 = glyf2.components, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-            var _ref2;
-            if (_isArray2) {
-              if (_i2 >= _iterator2.length)
-                break;
-              _ref2 = _iterator2[_i2++];
-            } else {
-              _i2 = _iterator2.next();
-              if (_i2.done)
-                break;
-              _ref2 = _i2.value;
-            }
-            var component = _ref2;
+          buffer = Buffer.from(buffer);
+          for (var component of glyf2.components) {
             gid = this.includeGlyph(component.glyphID);
             buffer.writeUInt16BE(gid, component.pos);
           }
@@ -148422,8 +161190,8 @@ var require_fontkit = __commonJS({
         });
         this.offset += buffer.length;
         return this.glyf.length - 1;
-      };
-      TTFSubset2.prototype.encode = function encode(stream) {
+      }
+      encode(stream) {
         this.glyf = [];
         this.offset = 0;
         this.loca = {
@@ -148458,36 +161226,20 @@ var require_fontkit = __commonJS({
             fpgm: this.font.fpgm
           }
         });
-      };
-      return TTFSubset2;
-    }(Subset);
-    var CFFSubset = function(_Subset) {
-      _inherits(CFFSubset2, _Subset);
-      function CFFSubset2(font) {
-        _classCallCheck(this, CFFSubset2);
-        var _this = _possibleConstructorReturn(this, _Subset.call(this, font));
-        _this.cff = _this.font["CFF "];
-        if (!_this.cff) {
+      }
+    };
+    var CFFSubset = class extends Subset {
+      constructor(font) {
+        super(font);
+        this.cff = this.font["CFF "];
+        if (!this.cff) {
           throw new Error("Not a CFF Font");
         }
-        return _this;
       }
-      CFFSubset2.prototype.subsetCharstrings = function subsetCharstrings() {
+      subsetCharstrings() {
         this.charstrings = [];
         var gsubrs = {};
-        for (var _iterator2 = this.glyphs, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var gid = _ref2;
+        for (var gid of this.glyphs) {
           this.charstrings.push(this.cff.getCharString(gid));
           var glyph2 = this.font.getGlyph(gid);
           var path = glyph2.path;
@@ -148496,8 +161248,8 @@ var require_fontkit = __commonJS({
           }
         }
         this.gsubrs = this.subsetSubrs(this.cff.globalSubrIndex, gsubrs);
-      };
-      CFFSubset2.prototype.subsetSubrs = function subsetSubrs(subrs, used) {
+      }
+      subsetSubrs(subrs, used) {
         var res = [];
         for (var i2 = 0; i2 < subrs.length; i2++) {
           var subr = subrs[i2];
@@ -148505,12 +161257,12 @@ var require_fontkit = __commonJS({
             this.cff.stream.pos = subr.offset;
             res.push(this.cff.stream.readBuffer(subr.length));
           } else {
-            res.push(new Buffer([11]));
+            res.push(Buffer.from([11]));
           }
         }
         return res;
-      };
-      CFFSubset2.prototype.subsetFontdict = function subsetFontdict(topDict) {
+      }
+      subsetFontdict(topDict) {
         topDict.FDArray = [];
         topDict.FDSelect = {
           version: 0,
@@ -148518,79 +161270,62 @@ var require_fontkit = __commonJS({
         };
         var used_fds = {};
         var used_subrs = [];
-        for (var _iterator2 = this.glyphs, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var gid = _ref2;
+        var fd_select = {};
+        for (var gid of this.glyphs) {
           var fd = this.cff.fdForGlyph(gid);
           if (fd == null) {
             continue;
           }
           if (!used_fds[fd]) {
-            topDict.FDArray.push(_Object$assign({}, this.cff.topDict.FDArray[fd]));
+            topDict.FDArray.push(Object.assign({}, this.cff.topDict.FDArray[fd]));
             used_subrs.push({});
+            fd_select[fd] = topDict.FDArray.length - 1;
           }
           used_fds[fd] = true;
-          topDict.FDSelect.fds.push(topDict.FDArray.length - 1);
+          topDict.FDSelect.fds.push(fd_select[fd]);
           var glyph2 = this.font.getGlyph(gid);
           var path = glyph2.path;
           for (var subr in glyph2._usedSubrs) {
-            used_subrs[used_subrs.length - 1][subr] = true;
+            used_subrs[fd_select[fd]][subr] = true;
           }
         }
         for (var i2 = 0; i2 < topDict.FDArray.length; i2++) {
           var dict = topDict.FDArray[i2];
           delete dict.FontName;
           if (dict.Private && dict.Private.Subrs) {
-            dict.Private = _Object$assign({}, dict.Private);
+            dict.Private = Object.assign({}, dict.Private);
             dict.Private.Subrs = this.subsetSubrs(dict.Private.Subrs, used_subrs[i2]);
           }
         }
         return;
-      };
-      CFFSubset2.prototype.createCIDFontdict = function createCIDFontdict(topDict) {
+      }
+      createCIDFontdict(topDict) {
         var used_subrs = {};
-        for (var _iterator3 = this.glyphs, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-          var _ref3;
-          if (_isArray3) {
-            if (_i3 >= _iterator3.length)
-              break;
-            _ref3 = _iterator3[_i3++];
-          } else {
-            _i3 = _iterator3.next();
-            if (_i3.done)
-              break;
-            _ref3 = _i3.value;
-          }
-          var gid = _ref3;
+        for (var gid of this.glyphs) {
           var glyph2 = this.font.getGlyph(gid);
           var path = glyph2.path;
           for (var subr in glyph2._usedSubrs) {
             used_subrs[subr] = true;
           }
         }
-        var privateDict = _Object$assign({}, this.cff.topDict.Private);
+        var privateDict = Object.assign({}, this.cff.topDict.Private);
         if (this.cff.topDict.Private && this.cff.topDict.Private.Subrs) {
           privateDict.Subrs = this.subsetSubrs(this.cff.topDict.Private.Subrs, used_subrs);
         }
-        topDict.FDArray = [{ Private: privateDict }];
+        topDict.FDArray = [{
+          Private: privateDict
+        }];
         return topDict.FDSelect = {
           version: 3,
           nRanges: 1,
-          ranges: [{ first: 0, fd: 0 }],
+          ranges: [{
+            first: 0,
+            fd: 0
+          }],
           sentinel: this.charstrings.length
         };
-      };
-      CFFSubset2.prototype.addString = function addString(string) {
+      }
+      addString(string) {
         if (!string) {
           return null;
         }
@@ -148599,21 +161334,22 @@ var require_fontkit = __commonJS({
         }
         this.strings.push(string);
         return standardStrings.length + this.strings.length - 1;
-      };
-      CFFSubset2.prototype.encode = function encode(stream) {
+      }
+      encode(stream) {
         this.subsetCharstrings();
         var charset = {
           version: this.charstrings.length > 255 ? 2 : 1,
-          ranges: [{ first: 1, nLeft: this.charstrings.length - 2 }]
+          ranges: [{
+            first: 1,
+            nLeft: this.charstrings.length - 2
+          }]
         };
-        var topDict = _Object$assign({}, this.cff.topDict);
+        var topDict = Object.assign({}, this.cff.topDict);
         topDict.Private = null;
         topDict.charset = charset;
         topDict.Encoding = null;
         topDict.CharStrings = this.charstrings;
-        var _arr2 = ["version", "Notice", "Copyright", "FullName", "FamilyName", "Weight", "PostScript", "BaseFontName", "FontName"];
-        for (var _i4 = 0; _i4 < _arr2.length; _i4++) {
-          var key = _arr2[_i4];
+        for (var key of ["version", "Notice", "Copyright", "FullName", "FamilyName", "Weight", "PostScript", "BaseFontName", "FontName"]) {
           topDict[key] = this.addString(this.cff.string(topDict[key]));
         }
         topDict.ROS = [this.addString("Adobe"), this.addString("Identity"), 0];
@@ -148634,41 +161370,15 @@ var require_fontkit = __commonJS({
           globalSubrIndex: this.gsubrs
         };
         CFFTop.encode(stream, top);
-      };
-      return CFFSubset2;
-    }(Subset);
-    var _class;
-    function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
-      var desc = {};
-      Object["keys"](descriptor).forEach(function(key) {
-        desc[key] = descriptor[key];
-      });
-      desc.enumerable = !!desc.enumerable;
-      desc.configurable = !!desc.configurable;
-      if ("value" in desc || desc.initializer) {
-        desc.writable = true;
       }
-      desc = decorators.slice().reverse().reduce(function(desc2, decorator) {
-        return decorator(target, property, desc2) || desc2;
-      }, desc);
-      if (context && desc.initializer !== void 0) {
-        desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
-        desc.initializer = void 0;
-      }
-      if (desc.initializer === void 0) {
-        Object["defineProperty"](target, property, desc);
-        desc = null;
-      }
-      return desc;
-    }
-    var TTFFont = (_class = function() {
-      TTFFont2.probe = function probe(buffer) {
+    };
+    var _class$4;
+    var TTFFont = (_class$4 = class TTFFont2 {
+      static probe(buffer) {
         var format2 = buffer.toString("ascii", 0, 4);
         return format2 === "true" || format2 === "OTTO" || format2 === String.fromCharCode(0, 1, 0, 0);
-      };
-      function TTFFont2(stream) {
-        var variationCoords = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : null;
-        _classCallCheck(this, TTFFont2);
+      }
+      constructor(stream, variationCoords = null) {
         this.defaultLanguage = null;
         this.stream = stream;
         this.variationCoords = variationCoords;
@@ -148679,62 +161389,121 @@ var require_fontkit = __commonJS({
         for (var tag2 in this.directory.tables) {
           var table = this.directory.tables[tag2];
           if (tables[tag2] && table.length > 0) {
-            _Object$defineProperty(this, tag2, {
+            Object.defineProperty(this, tag2, {
               get: this._getTable.bind(this, table)
             });
           }
         }
       }
-      TTFFont2.prototype.setDefaultLanguage = function setDefaultLanguage() {
-        var lang = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : null;
+      setDefaultLanguage(lang = null) {
         this.defaultLanguage = lang;
-      };
-      TTFFont2.prototype._getTable = function _getTable(table) {
+      }
+      _getTable(table) {
         if (!(table.tag in this._tables)) {
           try {
             this._tables[table.tag] = this._decodeTable(table);
           } catch (e) {
             if (fontkit.logErrors) {
-              console.error("Error decoding table " + table.tag);
+              console.error("Error decoding table ".concat(table.tag));
               console.error(e.stack);
             }
           }
         }
         return this._tables[table.tag];
-      };
-      TTFFont2.prototype._getTableStream = function _getTableStream(tag2) {
+      }
+      _getTableStream(tag2) {
         var table = this.directory.tables[tag2];
         if (table) {
           this.stream.pos = table.offset;
           return this.stream;
         }
         return null;
-      };
-      TTFFont2.prototype._decodeDirectory = function _decodeDirectory() {
-        return this.directory = Directory.decode(this.stream, { _startOffset: 0 });
-      };
-      TTFFont2.prototype._decodeTable = function _decodeTable(table) {
+      }
+      _decodeDirectory() {
+        return this.directory = Directory.decode(this.stream, {
+          _startOffset: 0
+        });
+      }
+      _decodeTable(table) {
         var pos = this.stream.pos;
         var stream = this._getTableStream(table.tag);
         var result = tables[table.tag].decode(stream, this, table.length);
         this.stream.pos = pos;
         return result;
-      };
-      TTFFont2.prototype.getName = function getName2(key) {
-        var lang = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : this.defaultLanguage || fontkit.defaultLanguage;
+      }
+      getName(key, lang = this.defaultLanguage || fontkit.defaultLanguage) {
         var record = this.name && this.name.records[key];
         if (record) {
-          return record[lang] || record[this.defaultLanguage] || record[fontkit.defaultLanguage] || record["en"] || record[_Object$keys(record)[0]] || null;
+          return record[lang] || record[this.defaultLanguage] || record[fontkit.defaultLanguage] || record["en"] || record[Object.keys(record)[0]] || null;
         }
         return null;
-      };
-      TTFFont2.prototype.hasGlyphForCodePoint = function hasGlyphForCodePoint(codePoint) {
+      }
+      get postscriptName() {
+        return this.getName("postscriptName");
+      }
+      get fullName() {
+        return this.getName("fullName");
+      }
+      get familyName() {
+        return this.getName("fontFamily");
+      }
+      get subfamilyName() {
+        return this.getName("fontSubfamily");
+      }
+      get copyright() {
+        return this.getName("copyright");
+      }
+      get version() {
+        return this.getName("version");
+      }
+      get ascent() {
+        return this.hhea.ascent;
+      }
+      get descent() {
+        return this.hhea.descent;
+      }
+      get lineGap() {
+        return this.hhea.lineGap;
+      }
+      get underlinePosition() {
+        return this.post.underlinePosition;
+      }
+      get underlineThickness() {
+        return this.post.underlineThickness;
+      }
+      get italicAngle() {
+        return this.post.italicAngle;
+      }
+      get capHeight() {
+        var os2 = this["OS/2"];
+        return os2 ? os2.capHeight : this.ascent;
+      }
+      get xHeight() {
+        var os2 = this["OS/2"];
+        return os2 ? os2.xHeight : 0;
+      }
+      get numGlyphs() {
+        return this.maxp.numGlyphs;
+      }
+      get unitsPerEm() {
+        return this.head.unitsPerEm;
+      }
+      get bbox() {
+        return Object.freeze(new BBox(this.head.xMin, this.head.yMin, this.head.xMax, this.head.yMax));
+      }
+      get _cmapProcessor() {
+        return new CmapProcessor(this.cmap);
+      }
+      get characterSet() {
+        return this._cmapProcessor.getCharacterSet();
+      }
+      hasGlyphForCodePoint(codePoint) {
         return !!this._cmapProcessor.lookup(codePoint);
-      };
-      TTFFont2.prototype.glyphForCodePoint = function glyphForCodePoint(codePoint) {
+      }
+      glyphForCodePoint(codePoint) {
         return this.getGlyph(this._cmapProcessor.lookup(codePoint), [codePoint]);
-      };
-      TTFFont2.prototype.glyphsForString = function glyphsForString(string) {
+      }
+      glyphsForString(string) {
         var glyphs = [];
         var len = string.length;
         var idx = 0;
@@ -148765,18 +161534,23 @@ var require_fontkit = __commonJS({
           state = nextState;
         }
         return glyphs;
-      };
-      TTFFont2.prototype.layout = function layout(string, userFeatures, script2, language, direction2) {
+      }
+      get _layoutEngine() {
+        return new LayoutEngine(this);
+      }
+      layout(string, userFeatures, script2, language, direction2) {
         return this._layoutEngine.layout(string, userFeatures, script2, language, direction2);
-      };
-      TTFFont2.prototype.stringsForGlyph = function stringsForGlyph(gid) {
+      }
+      stringsForGlyph(gid) {
         return this._layoutEngine.stringsForGlyph(gid);
-      };
-      TTFFont2.prototype.getAvailableFeatures = function getAvailableFeatures(script2, language) {
+      }
+      get availableFeatures() {
+        return this._layoutEngine.getAvailableFeatures();
+      }
+      getAvailableFeatures(script2, language) {
         return this._layoutEngine.getAvailableFeatures(script2, language);
-      };
-      TTFFont2.prototype._getBaseGlyph = function _getBaseGlyph(glyph2) {
-        var characters = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
+      }
+      _getBaseGlyph(glyph2, characters = []) {
         if (!this._glyphs[glyph2]) {
           if (this.directory.tables.glyf) {
             this._glyphs[glyph2] = new TTFGlyph(glyph2, characters, this);
@@ -148785,9 +161559,8 @@ var require_fontkit = __commonJS({
           }
         }
         return this._glyphs[glyph2] || null;
-      };
-      TTFFont2.prototype.getGlyph = function getGlyph2(glyph2) {
-        var characters = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
+      }
+      getGlyph(glyph2, characters = []) {
         if (!this._glyphs[glyph2]) {
           if (this.directory.tables.sbix) {
             this._glyphs[glyph2] = new SBIXGlyph(glyph2, characters, this);
@@ -148798,24 +161571,54 @@ var require_fontkit = __commonJS({
           }
         }
         return this._glyphs[glyph2] || null;
-      };
-      TTFFont2.prototype.createSubset = function createSubset() {
+      }
+      createSubset() {
         if (this.directory.tables["CFF "]) {
           return new CFFSubset(this);
         }
         return new TTFSubset(this);
-      };
-      TTFFont2.prototype.getVariation = function getVariation(settings) {
+      }
+      get variationAxes() {
+        var res = {};
+        if (!this.fvar) {
+          return res;
+        }
+        for (var axis of this.fvar.axis) {
+          res[axis.axisTag.trim()] = {
+            name: axis.name.en,
+            min: axis.minValue,
+            default: axis.defaultValue,
+            max: axis.maxValue
+          };
+        }
+        return res;
+      }
+      get namedVariations() {
+        var res = {};
+        if (!this.fvar) {
+          return res;
+        }
+        for (var instance of this.fvar.instance) {
+          var settings = {};
+          for (var i2 = 0; i2 < this.fvar.axis.length; i2++) {
+            var axis = this.fvar.axis[i2];
+            settings[axis.axisTag.trim()] = instance.coord[i2];
+          }
+          res[instance.name.en] = settings;
+        }
+        return res;
+      }
+      getVariation(settings) {
         if (!(this.directory.tables.fvar && (this.directory.tables.gvar && this.directory.tables.glyf || this.directory.tables.CFF2))) {
           throw new Error("Variations require a font with the fvar, gvar and glyf, or CFF2 tables.");
         }
         if (typeof settings === "string") {
           settings = this.namedVariations[settings];
         }
-        if ((typeof settings === "undefined" ? "undefined" : _typeof(settings)) !== "object") {
+        if (typeof settings !== "object") {
           throw new Error("Variation settings must be either a variation name or settings object.");
         }
-        var coords = this.fvar.axis.map(function(axis, i2) {
+        var coords = this.fvar.axis.map((axis, i2) => {
           var axisTag = axis.axisTag.trim();
           if (axisTag in settings) {
             return Math.max(axis.minValue, Math.min(axis.maxValue, settings[axisTag]));
@@ -148828,198 +161631,29 @@ var require_fontkit = __commonJS({
         var font = new TTFFont2(stream, coords);
         font._tables = this._tables;
         return font;
-      };
-      TTFFont2.prototype.getFont = function getFont(name) {
+      }
+      get _variationProcessor() {
+        if (!this.fvar) {
+          return null;
+        }
+        var variationCoords = this.variationCoords;
+        if (!variationCoords && !this.CFF2) {
+          return null;
+        }
+        if (!variationCoords) {
+          variationCoords = this.fvar.axis.map((axis) => axis.defaultValue);
+        }
+        return new GlyphVariationProcessor(this, variationCoords);
+      }
+      getFont(name) {
         return this.getVariation(name);
-      };
-      _createClass(TTFFont2, [{
-        key: "postscriptName",
-        get: function get() {
-          return this.getName("postscriptName");
-        }
-      }, {
-        key: "fullName",
-        get: function get() {
-          return this.getName("fullName");
-        }
-      }, {
-        key: "familyName",
-        get: function get() {
-          return this.getName("fontFamily");
-        }
-      }, {
-        key: "subfamilyName",
-        get: function get() {
-          return this.getName("fontSubfamily");
-        }
-      }, {
-        key: "copyright",
-        get: function get() {
-          return this.getName("copyright");
-        }
-      }, {
-        key: "version",
-        get: function get() {
-          return this.getName("version");
-        }
-      }, {
-        key: "ascent",
-        get: function get() {
-          return this.hhea.ascent;
-        }
-      }, {
-        key: "descent",
-        get: function get() {
-          return this.hhea.descent;
-        }
-      }, {
-        key: "lineGap",
-        get: function get() {
-          return this.hhea.lineGap;
-        }
-      }, {
-        key: "underlinePosition",
-        get: function get() {
-          return this.post.underlinePosition;
-        }
-      }, {
-        key: "underlineThickness",
-        get: function get() {
-          return this.post.underlineThickness;
-        }
-      }, {
-        key: "italicAngle",
-        get: function get() {
-          return this.post.italicAngle;
-        }
-      }, {
-        key: "capHeight",
-        get: function get() {
-          var os2 = this["OS/2"];
-          return os2 ? os2.capHeight : this.ascent;
-        }
-      }, {
-        key: "xHeight",
-        get: function get() {
-          var os2 = this["OS/2"];
-          return os2 ? os2.xHeight : 0;
-        }
-      }, {
-        key: "numGlyphs",
-        get: function get() {
-          return this.maxp.numGlyphs;
-        }
-      }, {
-        key: "unitsPerEm",
-        get: function get() {
-          return this.head.unitsPerEm;
-        }
-      }, {
-        key: "bbox",
-        get: function get() {
-          return _Object$freeze(new BBox(this.head.xMin, this.head.yMin, this.head.xMax, this.head.yMax));
-        }
-      }, {
-        key: "_cmapProcessor",
-        get: function get() {
-          return new CmapProcessor(this.cmap);
-        }
-      }, {
-        key: "characterSet",
-        get: function get() {
-          return this._cmapProcessor.getCharacterSet();
-        }
-      }, {
-        key: "_layoutEngine",
-        get: function get() {
-          return new LayoutEngine(this);
-        }
-      }, {
-        key: "availableFeatures",
-        get: function get() {
-          return this._layoutEngine.getAvailableFeatures();
-        }
-      }, {
-        key: "variationAxes",
-        get: function get() {
-          var res = {};
-          if (!this.fvar) {
-            return res;
-          }
-          for (var _iterator2 = this.fvar.axis, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-            var _ref2;
-            if (_isArray2) {
-              if (_i2 >= _iterator2.length)
-                break;
-              _ref2 = _iterator2[_i2++];
-            } else {
-              _i2 = _iterator2.next();
-              if (_i2.done)
-                break;
-              _ref2 = _i2.value;
-            }
-            var axis = _ref2;
-            res[axis.axisTag.trim()] = {
-              name: axis.name.en,
-              min: axis.minValue,
-              default: axis.defaultValue,
-              max: axis.maxValue
-            };
-          }
-          return res;
-        }
-      }, {
-        key: "namedVariations",
-        get: function get() {
-          var res = {};
-          if (!this.fvar) {
-            return res;
-          }
-          for (var _iterator2 = this.fvar.instance, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-            var _ref2;
-            if (_isArray2) {
-              if (_i2 >= _iterator2.length)
-                break;
-              _ref2 = _iterator2[_i2++];
-            } else {
-              _i2 = _iterator2.next();
-              if (_i2.done)
-                break;
-              _ref2 = _i2.value;
-            }
-            var instance = _ref2;
-            var settings = {};
-            for (var i2 = 0; i2 < this.fvar.axis.length; i2++) {
-              var axis = this.fvar.axis[i2];
-              settings[axis.axisTag.trim()] = instance.coord[i2];
-            }
-            res[instance.name.en] = settings;
-          }
-          return res;
-        }
-      }, {
-        key: "_variationProcessor",
-        get: function get() {
-          if (!this.fvar) {
-            return null;
-          }
-          var variationCoords = this.variationCoords;
-          if (!variationCoords && !this.CFF2) {
-            return null;
-          }
-          if (!variationCoords) {
-            variationCoords = this.fvar.axis.map(function(axis) {
-              return axis.defaultValue;
-            });
-          }
-          return new GlyphVariationProcessor(this, variationCoords);
-        }
-      }]);
-      return TTFFont2;
-    }(), _applyDecoratedDescriptor(_class.prototype, "bbox", [cache], _Object$getOwnPropertyDescriptor(_class.prototype, "bbox"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_cmapProcessor", [cache], _Object$getOwnPropertyDescriptor(_class.prototype, "_cmapProcessor"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "characterSet", [cache], _Object$getOwnPropertyDescriptor(_class.prototype, "characterSet"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_layoutEngine", [cache], _Object$getOwnPropertyDescriptor(_class.prototype, "_layoutEngine"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "variationAxes", [cache], _Object$getOwnPropertyDescriptor(_class.prototype, "variationAxes"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "namedVariations", [cache], _Object$getOwnPropertyDescriptor(_class.prototype, "namedVariations"), _class.prototype), _applyDecoratedDescriptor(_class.prototype, "_variationProcessor", [cache], _Object$getOwnPropertyDescriptor(_class.prototype, "_variationProcessor"), _class.prototype), _class);
+      }
+    }, _applyDecoratedDescriptor(_class$4.prototype, "bbox", [cache], Object.getOwnPropertyDescriptor(_class$4.prototype, "bbox"), _class$4.prototype), _applyDecoratedDescriptor(_class$4.prototype, "_cmapProcessor", [cache], Object.getOwnPropertyDescriptor(_class$4.prototype, "_cmapProcessor"), _class$4.prototype), _applyDecoratedDescriptor(_class$4.prototype, "characterSet", [cache], Object.getOwnPropertyDescriptor(_class$4.prototype, "characterSet"), _class$4.prototype), _applyDecoratedDescriptor(_class$4.prototype, "_layoutEngine", [cache], Object.getOwnPropertyDescriptor(_class$4.prototype, "_layoutEngine"), _class$4.prototype), _applyDecoratedDescriptor(_class$4.prototype, "variationAxes", [cache], Object.getOwnPropertyDescriptor(_class$4.prototype, "variationAxes"), _class$4.prototype), _applyDecoratedDescriptor(_class$4.prototype, "namedVariations", [cache], Object.getOwnPropertyDescriptor(_class$4.prototype, "namedVariations"), _class$4.prototype), _applyDecoratedDescriptor(_class$4.prototype, "_variationProcessor", [cache], Object.getOwnPropertyDescriptor(_class$4.prototype, "_variationProcessor"), _class$4.prototype), _class$4);
     var WOFFDirectoryEntry = new r.Struct({
       tag: new r.String(4),
-      offset: new r.Pointer(r.uint32, "void", { type: "global" }),
+      offset: new r.Pointer(r.uint32, "void", {
+        type: "global"
+      }),
       compLength: r.uint32,
       length: r.uint32,
       origChecksum: r.uint32
@@ -149042,42 +161676,27 @@ var require_fontkit = __commonJS({
     });
     WOFFDirectory.process = function() {
       var tables2 = {};
-      for (var _iterator2 = this.tables, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-        var _ref2;
-        if (_isArray2) {
-          if (_i2 >= _iterator2.length)
-            break;
-          _ref2 = _iterator2[_i2++];
-        } else {
-          _i2 = _iterator2.next();
-          if (_i2.done)
-            break;
-          _ref2 = _i2.value;
-        }
-        var table = _ref2;
+      for (var table of this.tables) {
         tables2[table.tag] = table;
       }
       this.tables = tables2;
     };
-    var WOFFFont = function(_TTFFont) {
-      _inherits(WOFFFont2, _TTFFont);
-      function WOFFFont2() {
-        _classCallCheck(this, WOFFFont2);
-        return _possibleConstructorReturn(this, _TTFFont.apply(this, arguments));
-      }
-      WOFFFont2.probe = function probe(buffer) {
+    var WOFFFont = class extends TTFFont {
+      static probe(buffer) {
         return buffer.toString("ascii", 0, 4) === "wOFF";
-      };
-      WOFFFont2.prototype._decodeDirectory = function _decodeDirectory() {
-        this.directory = WOFFDirectory.decode(this.stream, { _startOffset: 0 });
-      };
-      WOFFFont2.prototype._getTableStream = function _getTableStream(tag2) {
+      }
+      _decodeDirectory() {
+        this.directory = WOFFDirectory.decode(this.stream, {
+          _startOffset: 0
+        });
+      }
+      _getTableStream(tag2) {
         var table = this.directory.tables[tag2];
         if (table) {
           this.stream.pos = table.offset;
           if (table.compLength < table.length) {
             this.stream.pos += 2;
-            var outBuffer = new Buffer(table.length);
+            var outBuffer = Buffer.alloc(table.length);
             var buf = inflate(this.stream.readBuffer(table.compLength - 2), outBuffer);
             return new r.DecodeStream(buf);
           } else {
@@ -149085,29 +161704,21 @@ var require_fontkit = __commonJS({
           }
         }
         return null;
-      };
-      return WOFFFont2;
-    }(TTFFont);
-    var WOFF2Glyph = function(_TTFGlyph) {
-      _inherits(WOFF2Glyph2, _TTFGlyph);
-      function WOFF2Glyph2() {
-        _classCallCheck(this, WOFF2Glyph2);
-        return _possibleConstructorReturn(this, _TTFGlyph.apply(this, arguments));
       }
-      WOFF2Glyph2.prototype._decode = function _decode() {
+    };
+    var WOFF2Glyph = class extends TTFGlyph {
+      _decode() {
         return this._font._transformedGlyphs[this.id];
-      };
-      WOFF2Glyph2.prototype._getCBox = function _getCBox() {
+      }
+      _getCBox() {
         return this.path.bbox;
-      };
-      return WOFF2Glyph2;
-    }(TTFGlyph);
+      }
+    };
     var Base128 = {
-      decode: function decode(stream) {
+      decode(stream) {
         var result = 0;
         var iterable = [0, 1, 2, 3, 4];
         for (var j = 0; j < iterable.length; j++) {
-          var i2 = iterable[j];
           var code = stream.readUInt8();
           if (result & 3758096384) {
             throw new Error("Overflow");
@@ -149123,22 +161734,12 @@ var require_fontkit = __commonJS({
     var knownTags = ["cmap", "head", "hhea", "hmtx", "maxp", "name", "OS/2", "post", "cvt ", "fpgm", "glyf", "loca", "prep", "CFF ", "VORG", "EBDT", "EBLC", "gasp", "hdmx", "kern", "LTSH", "PCLT", "VDMX", "vhea", "vmtx", "BASE", "GDEF", "GPOS", "GSUB", "EBSC", "JSTF", "MATH", "CBDT", "CBLC", "COLR", "CPAL", "SVG ", "sbix", "acnt", "avar", "bdat", "bloc", "bsln", "cvar", "fdsc", "feat", "fmtx", "fvar", "gvar", "hsty", "just", "lcar", "mort", "morx", "opbd", "prop", "trak", "Zapf", "Silf", "Glat", "Gloc", "Feat", "Sill"];
     var WOFF2DirectoryEntry = new r.Struct({
       flags: r.uint8,
-      customTag: new r.Optional(new r.String(4), function(t2) {
-        return (t2.flags & 63) === 63;
-      }),
-      tag: function tag2(t2) {
-        return t2.customTag || knownTags[t2.flags & 63];
-      },
+      customTag: new r.Optional(new r.String(4), (t2) => (t2.flags & 63) === 63),
+      tag: (t2) => t2.customTag || knownTags[t2.flags & 63],
       length: Base128,
-      transformVersion: function transformVersion(t2) {
-        return t2.flags >>> 6 & 3;
-      },
-      transformed: function transformed(t2) {
-        return t2.tag === "glyf" || t2.tag === "loca" ? t2.transformVersion === 0 : t2.transformVersion !== 0;
-      },
-      transformLength: new r.Optional(Base128, function(t2) {
-        return t2.transformed;
-      })
+      transformVersion: (t2) => t2.flags >>> 6 & 3,
+      transformed: (t2) => t2.tag === "glyf" || t2.tag === "loca" ? t2.transformVersion === 0 : t2.transformVersion !== 0,
+      transformLength: new r.Optional(Base128, (t2) => t2.transformed)
     });
     var WOFF2Directory = new r.Struct({
       tag: new r.String(4),
@@ -149165,20 +161766,15 @@ var require_fontkit = __commonJS({
       }
       return this.tables = tables2;
     };
-    var WOFF2Font = function(_TTFFont) {
-      _inherits(WOFF2Font2, _TTFFont);
-      function WOFF2Font2() {
-        _classCallCheck(this, WOFF2Font2);
-        return _possibleConstructorReturn(this, _TTFFont.apply(this, arguments));
-      }
-      WOFF2Font2.probe = function probe(buffer) {
+    var WOFF2Font = class extends TTFFont {
+      static probe(buffer) {
         return buffer.toString("ascii", 0, 4) === "wOF2";
-      };
-      WOFF2Font2.prototype._decodeDirectory = function _decodeDirectory() {
+      }
+      _decodeDirectory() {
         this.directory = WOFF2Directory.decode(this.stream);
         this._dataPos = this.stream.pos;
-      };
-      WOFF2Font2.prototype._decompress = function _decompress() {
+      }
+      _decompress() {
         if (!this._decompressed) {
           this.stream.pos = this._dataPos;
           var buffer = this.stream.readBuffer(this.directory.totalCompressedSize);
@@ -149192,16 +161788,15 @@ var require_fontkit = __commonJS({
           if (!decompressed) {
             throw new Error("Error decoding compressed data in WOFF2");
           }
-          this.stream = new r.DecodeStream(new Buffer(decompressed));
+          this.stream = new r.DecodeStream(Buffer.from(decompressed));
           this._decompressed = true;
         }
-      };
-      WOFF2Font2.prototype._decodeTable = function _decodeTable(table) {
+      }
+      _decodeTable(table) {
         this._decompress();
-        return _TTFFont.prototype._decodeTable.call(this, table);
-      };
-      WOFF2Font2.prototype._getBaseGlyph = function _getBaseGlyph(glyph2) {
-        var characters = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : [];
+        return super._decodeTable(table);
+      }
+      _getBaseGlyph(glyph2, characters = []) {
         if (!this._glyphs[glyph2]) {
           if (this.directory.tables.glyf && this.directory.tables.glyf.transformed) {
             if (!this._transformedGlyphs) {
@@ -149209,11 +161804,11 @@ var require_fontkit = __commonJS({
             }
             return this._glyphs[glyph2] = new WOFF2Glyph(glyph2, characters, this);
           } else {
-            return _TTFFont.prototype._getBaseGlyph.call(this, glyph2, characters);
+            return super._getBaseGlyph(glyph2, characters);
           }
         }
-      };
-      WOFF2Font2.prototype._transformGlyfTable = function _transformGlyfTable() {
+      }
+      _transformGlyfTable() {
         this._decompress();
         this.stream.pos = this.directory.tables.glyf.offset;
         var table = GlyfTable.decode(this.stream);
@@ -149231,12 +161826,14 @@ var require_fontkit = __commonJS({
               nPoints.push(totalPoints);
             }
             glyph2.points = decodeTriplet(table.flags, table.glyphs, totalPoints);
-            for (var _i2 = 0; _i2 < nContours; _i2++) {
-              glyph2.points[nPoints[_i2] - 1].endContour = true;
+            for (var _i = 0; _i < nContours; _i++) {
+              glyph2.points[nPoints[_i] - 1].endContour = true;
             }
             var instructionSize = read255UInt16(table.glyphs);
           } else if (nContours < 0) {
-            var haveInstructions = TTFGlyph.prototype._decodeComposite.call({ _font: this }, glyph2, table.composites);
+            var haveInstructions = TTFGlyph.prototype._decodeComposite.call({
+              _font: this
+            }, glyph2, table.composites);
             if (haveInstructions) {
               var instructionSize = read255UInt16(table.glyphs);
             }
@@ -149244,20 +161841,17 @@ var require_fontkit = __commonJS({
           glyphs.push(glyph2);
         }
         this._transformedGlyphs = glyphs;
-      };
-      return WOFF2Font2;
-    }(TTFFont);
-    var Substream = function() {
-      function Substream2(length) {
-        _classCallCheck(this, Substream2);
+      }
+    };
+    var Substream = class {
+      constructor(length) {
         this.length = length;
         this._buf = new r.Buffer(length);
       }
-      Substream2.prototype.decode = function decode(stream, parent) {
+      decode(stream, parent) {
         return new r.DecodeStream(this._buf.decode(stream, parent));
-      };
-      return Substream2;
-    }();
+      }
+    };
     var GlyfTable = new r.Struct({
       version: r.uint32,
       numGlyphs: r.uint16,
@@ -149298,7 +161892,7 @@ var require_fontkit = __commonJS({
       return flag & 1 ? baseval : -baseval;
     }
     function decodeTriplet(flags, glyphs, nPoints) {
-      var y = void 0;
+      var y;
       var x = y = 0;
       var res = [];
       for (var i2 = 0; i2 < nPoints; i2++) {
@@ -149349,32 +161943,19 @@ var require_fontkit = __commonJS({
         dsigOffset: r.uint32
       }
     });
-    var TrueTypeCollection = function() {
-      TrueTypeCollection2.probe = function probe(buffer) {
+    var TrueTypeCollection = class {
+      static probe(buffer) {
         return buffer.toString("ascii", 0, 4) === "ttcf";
-      };
-      function TrueTypeCollection2(stream) {
-        _classCallCheck(this, TrueTypeCollection2);
+      }
+      constructor(stream) {
         this.stream = stream;
         if (stream.readString(4) !== "ttcf") {
           throw new Error("Not a TrueType collection");
         }
         this.header = TTCHeader.decode(stream);
       }
-      TrueTypeCollection2.prototype.getFont = function getFont(name) {
-        for (var _iterator2 = this.header.offsets, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var offset = _ref2;
+      getFont(name) {
+        for (var offset of this.header.offsets) {
           var stream = new r.DecodeStream(this.stream.buffer);
           stream.pos = offset;
           var font = new TTFFont(stream);
@@ -149383,33 +161964,17 @@ var require_fontkit = __commonJS({
           }
         }
         return null;
-      };
-      _createClass(TrueTypeCollection2, [{
-        key: "fonts",
-        get: function get() {
-          var fonts = [];
-          for (var _iterator2 = this.header.offsets, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-            var _ref2;
-            if (_isArray2) {
-              if (_i2 >= _iterator2.length)
-                break;
-              _ref2 = _iterator2[_i2++];
-            } else {
-              _i2 = _iterator2.next();
-              if (_i2.done)
-                break;
-              _ref2 = _i2.value;
-            }
-            var offset = _ref2;
-            var stream = new r.DecodeStream(this.stream.buffer);
-            stream.pos = offset;
-            fonts.push(new TTFFont(stream));
-          }
-          return fonts;
+      }
+      get fonts() {
+        var fonts = [];
+        for (var offset of this.header.offsets) {
+          var stream = new r.DecodeStream(this.stream.buffer);
+          stream.pos = offset;
+          fonts.push(new TTFFont(stream));
         }
-      }]);
-      return TrueTypeCollection2;
-    }();
+        return fonts;
+      }
+    };
     var DFontName = new r.String(r.uint8);
     var DFontData = new r.Struct({
       len: r.uint32,
@@ -149425,15 +161990,13 @@ var require_fontkit = __commonJS({
     var Type = new r.Struct({
       name: new r.String(4),
       maxTypeIndex: r.uint16,
-      refList: new r.Pointer(r.uint16, new r.Array(Ref, function(t2) {
-        return t2.maxTypeIndex + 1;
-      }), { type: "parent" })
+      refList: new r.Pointer(r.uint16, new r.Array(Ref, (t2) => t2.maxTypeIndex + 1), {
+        type: "parent"
+      })
     });
     var TypeList = new r.Struct({
       length: r.uint16,
-      types: new r.Array(Type, function(t2) {
-        return t2.length + 1;
-      })
+      types: new r.Array(Type, (t2) => t2.length + 1)
     });
     var DFontMap = new r.Struct({
       reserved: new r.Reserved(r.uint8, 24),
@@ -149446,63 +162009,26 @@ var require_fontkit = __commonJS({
       dataLength: r.uint32,
       mapLength: r.uint32
     });
-    var DFont = function() {
-      DFont2.probe = function probe(buffer) {
+    var DFont = class {
+      static probe(buffer) {
         var stream = new r.DecodeStream(buffer);
         try {
           var header = DFontHeader.decode(stream);
         } catch (e) {
           return false;
         }
-        for (var _iterator2 = header.map.typeList.types, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var type = _ref2;
+        for (var type of header.map.typeList.types) {
           if (type.name === "sfnt") {
             return true;
           }
         }
         return false;
-      };
-      function DFont2(stream) {
-        _classCallCheck(this, DFont2);
+      }
+      constructor(stream) {
         this.stream = stream;
         this.header = DFontHeader.decode(this.stream);
-        for (var _iterator2 = this.header.map.typeList.types, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : _getIterator(_iterator2); ; ) {
-          var _ref2;
-          if (_isArray2) {
-            if (_i2 >= _iterator2.length)
-              break;
-            _ref2 = _iterator2[_i2++];
-          } else {
-            _i2 = _iterator2.next();
-            if (_i2.done)
-              break;
-            _ref2 = _i2.value;
-          }
-          var type = _ref2;
-          for (var _iterator3 = type.refList, _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : _getIterator(_iterator3); ; ) {
-            var _ref3;
-            if (_isArray3) {
-              if (_i3 >= _iterator3.length)
-                break;
-              _ref3 = _iterator3[_i3++];
-            } else {
-              _i3 = _iterator3.next();
-              if (_i3.done)
-                break;
-              _ref3 = _i3.value;
-            }
-            var ref = _ref3;
+        for (var type of this.header.map.typeList.types) {
+          for (var ref of type.refList) {
             if (ref.nameOffset >= 0) {
               this.stream.pos = ref.nameOffset + this.header.map.nameListOffset;
               ref.name = DFontName.decode(this.stream);
@@ -149515,23 +162041,11 @@ var require_fontkit = __commonJS({
           }
         }
       }
-      DFont2.prototype.getFont = function getFont(name) {
+      getFont(name) {
         if (!this.sfnt) {
           return null;
         }
-        for (var _iterator4 = this.sfnt.refList, _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : _getIterator(_iterator4); ; ) {
-          var _ref4;
-          if (_isArray4) {
-            if (_i4 >= _iterator4.length)
-              break;
-            _ref4 = _iterator4[_i4++];
-          } else {
-            _i4 = _iterator4.next();
-            if (_i4.done)
-              break;
-            _ref4 = _i4.value;
-          }
-          var ref = _ref4;
+        for (var ref of this.sfnt.refList) {
           var pos = this.header.dataOffset + ref.dataOffset + 4;
           var stream = new r.DecodeStream(this.stream.buffer.slice(pos));
           var font = new TTFFont(stream);
@@ -149540,33 +162054,17 @@ var require_fontkit = __commonJS({
           }
         }
         return null;
-      };
-      _createClass(DFont2, [{
-        key: "fonts",
-        get: function get() {
-          var fonts = [];
-          for (var _iterator5 = this.sfnt.refList, _isArray5 = Array.isArray(_iterator5), _i5 = 0, _iterator5 = _isArray5 ? _iterator5 : _getIterator(_iterator5); ; ) {
-            var _ref5;
-            if (_isArray5) {
-              if (_i5 >= _iterator5.length)
-                break;
-              _ref5 = _iterator5[_i5++];
-            } else {
-              _i5 = _iterator5.next();
-              if (_i5.done)
-                break;
-              _ref5 = _i5.value;
-            }
-            var ref = _ref5;
-            var pos = this.header.dataOffset + ref.dataOffset + 4;
-            var stream = new r.DecodeStream(this.stream.buffer.slice(pos));
-            fonts.push(new TTFFont(stream));
-          }
-          return fonts;
+      }
+      get fonts() {
+        var fonts = [];
+        for (var ref of this.sfnt.refList) {
+          var pos = this.header.dataOffset + ref.dataOffset + 4;
+          var stream = new r.DecodeStream(this.stream.buffer.slice(pos));
+          fonts.push(new TTFFont(stream));
         }
-      }]);
-      return DFont2;
-    }();
+        return fonts;
+      }
+    };
     fontkit.registerFormat(TTFFont);
     fontkit.registerFormat(WOFFFont);
     fontkit.registerFormat(WOFF2Font);
@@ -149576,9 +162074,9 @@ var require_fontkit = __commonJS({
   }
 });
 
-// node_modules/linebreak/node_modules/unicode-trie/index.js
+// node_modules/linebreak-next/node_modules/unicode-trie/index.js
 var require_unicode_trie3 = __commonJS({
-  "node_modules/linebreak/node_modules/unicode-trie/index.js"(exports, module2) {
+  "node_modules/linebreak-next/node_modules/unicode-trie/index.js"(exports, module2) {
     init_shims();
     var inflate = require_tiny_inflate();
     var SHIFT_1 = 6 + 5;
@@ -149647,103 +162145,9 @@ var require_unicode_trie3 = __commonJS({
   }
 });
 
-// node_modules/linebreak/node_modules/base64-js/lib/b64.js
-var require_b64 = __commonJS({
-  "node_modules/linebreak/node_modules/base64-js/lib/b64.js"(exports) {
-    init_shims();
-    var lookup = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-    (function(exports2) {
-      "use strict";
-      var Arr = typeof Uint8Array !== "undefined" ? Uint8Array : Array;
-      var PLUS = "+".charCodeAt(0);
-      var SLASH = "/".charCodeAt(0);
-      var NUMBER = "0".charCodeAt(0);
-      var LOWER = "a".charCodeAt(0);
-      var UPPER = "A".charCodeAt(0);
-      var PLUS_URL_SAFE = "-".charCodeAt(0);
-      var SLASH_URL_SAFE = "_".charCodeAt(0);
-      function decode(elt) {
-        var code = elt.charCodeAt(0);
-        if (code === PLUS || code === PLUS_URL_SAFE)
-          return 62;
-        if (code === SLASH || code === SLASH_URL_SAFE)
-          return 63;
-        if (code < NUMBER)
-          return -1;
-        if (code < NUMBER + 10)
-          return code - NUMBER + 26 + 26;
-        if (code < UPPER + 26)
-          return code - UPPER;
-        if (code < LOWER + 26)
-          return code - LOWER + 26;
-      }
-      function b64ToByteArray(b64) {
-        var i, j, l, tmp, placeHolders, arr;
-        if (b64.length % 4 > 0) {
-          throw new Error("Invalid string. Length must be a multiple of 4");
-        }
-        var len = b64.length;
-        placeHolders = b64.charAt(len - 2) === "=" ? 2 : b64.charAt(len - 1) === "=" ? 1 : 0;
-        arr = new Arr(b64.length * 3 / 4 - placeHolders);
-        l = placeHolders > 0 ? b64.length - 4 : b64.length;
-        var L = 0;
-        function push(v) {
-          arr[L++] = v;
-        }
-        for (i = 0, j = 0; i < l; i += 4, j += 3) {
-          tmp = decode(b64.charAt(i)) << 18 | decode(b64.charAt(i + 1)) << 12 | decode(b64.charAt(i + 2)) << 6 | decode(b64.charAt(i + 3));
-          push((tmp & 16711680) >> 16);
-          push((tmp & 65280) >> 8);
-          push(tmp & 255);
-        }
-        if (placeHolders === 2) {
-          tmp = decode(b64.charAt(i)) << 2 | decode(b64.charAt(i + 1)) >> 4;
-          push(tmp & 255);
-        } else if (placeHolders === 1) {
-          tmp = decode(b64.charAt(i)) << 10 | decode(b64.charAt(i + 1)) << 4 | decode(b64.charAt(i + 2)) >> 2;
-          push(tmp >> 8 & 255);
-          push(tmp & 255);
-        }
-        return arr;
-      }
-      function uint8ToBase64(uint8) {
-        var i, extraBytes = uint8.length % 3, output = "", temp, length;
-        function encode(num) {
-          return lookup.charAt(num);
-        }
-        function tripletToBase64(num) {
-          return encode(num >> 18 & 63) + encode(num >> 12 & 63) + encode(num >> 6 & 63) + encode(num & 63);
-        }
-        for (i = 0, length = uint8.length - extraBytes; i < length; i += 3) {
-          temp = (uint8[i] << 16) + (uint8[i + 1] << 8) + uint8[i + 2];
-          output += tripletToBase64(temp);
-        }
-        switch (extraBytes) {
-          case 1:
-            temp = uint8[uint8.length - 1];
-            output += encode(temp >> 2);
-            output += encode(temp << 4 & 63);
-            output += "==";
-            break;
-          case 2:
-            temp = (uint8[uint8.length - 2] << 8) + uint8[uint8.length - 1];
-            output += encode(temp >> 10);
-            output += encode(temp >> 4 & 63);
-            output += encode(temp << 2 & 63);
-            output += "=";
-            break;
-        }
-        return output;
-      }
-      exports2.toByteArray = b64ToByteArray;
-      exports2.fromByteArray = uint8ToBase64;
-    })(typeof exports === "undefined" ? exports.base64js = {} : exports);
-  }
-});
-
-// node_modules/linebreak/src/classes.js
+// node_modules/linebreak-next/src/classes.js
 var require_classes = __commonJS({
-  "node_modules/linebreak/src/classes.js"(exports) {
+  "node_modules/linebreak-next/src/classes.js"(exports) {
     init_shims();
     exports.OP = 0;
     exports.CL = 1;
@@ -149788,9 +162192,9 @@ var require_classes = __commonJS({
   }
 });
 
-// node_modules/linebreak/src/pairs.js
+// node_modules/linebreak-next/src/pairs.js
 var require_pairs = __commonJS({
-  "node_modules/linebreak/src/pairs.js"(exports) {
+  "node_modules/linebreak-next/src/pairs.js"(exports) {
     init_shims();
     var CI_BRK;
     var CP_BRK;
@@ -149836,32 +162240,15 @@ var require_pairs = __commonJS({
   }
 });
 
-// node_modules/linebreak/src/linebreaker.js
+// node_modules/linebreak-next/src/linebreaker.js
 var require_linebreaker = __commonJS({
-  "node_modules/linebreak/src/linebreaker.js"(exports, module2) {
+  "node_modules/linebreak-next/src/linebreaker.js"(exports, module2) {
     init_shims();
-    var AI;
-    var AL;
-    var BA;
-    var BK;
-    var CB;
-    var CJ;
-    var CR;
-    var ID;
-    var LF;
-    var NL;
-    var NS;
-    var SA;
-    var SG;
-    var SP;
-    var WJ;
-    var XX;
     var UnicodeTrie = require_unicode_trie3();
     var fs = require("fs");
-    var base64 = require_b64();
-    ({ BK, CR, LF, NL, CB, BA, SP, WJ, SP, BK, LF, NL, AI, AL, SA, SG, XX, CJ, ID, NS } = require_classes());
+    var { BK, CR, LF, NL, SG, WJ, CB, SP, BA, NS, AI, AL, CJ, ID, SA, XX } = require_classes();
     var { DI_BRK, IN_BRK, CI_BRK, CP_BRK, PR_BRK, pairTable } = require_pairs();
-    var data = base64.toByteArray(fs.readFileSync(__dirname + "/classes.trie", "base64"));
+    var data = fs.readFileSync(__dirname + "/classes.trie");
     var classTrie = new UnicodeTrie(data);
     var mapClass = function(c) {
       switch (c) {
@@ -150286,16 +162673,16 @@ var require_png_node = __commonJS({
   }
 });
 
-// node_modules/pdfkit/js/pdfkit.js
+// node_modules/pdfkit-next/js/pdfkit.js
 var require_pdfkit = __commonJS({
-  "node_modules/pdfkit/js/pdfkit.js"(exports, module2) {
+  "node_modules/pdfkit-next/js/pdfkit.js"(exports, module2) {
     init_shims();
     "use strict";
     var stream = require("stream");
     var fs = require("fs");
     var zlib2 = require("zlib");
     var CryptoJS = require_crypto_js();
-    var fontkit = require_fontkit();
+    var fontkit = require_fontkit_next();
     var events = require("events");
     var LineBreaker = require_linebreaker();
     var PNG = require_png_node();
@@ -150304,10 +162691,9 @@ var require_pdfkit = __commonJS({
         throw new Error("Must be implemented by subclasses");
       }
     };
-    var PDFTree = class {
-      constructor(options2 = {}) {
+    var PDFNameTree = class {
+      constructor() {
         this._items = {};
-        this.limits = typeof options2.limits === "boolean" ? options2.limits : true;
       }
       add(key, val) {
         return this._items[key] = val;
@@ -150316,32 +162702,23 @@ var require_pdfkit = __commonJS({
         return this._items[key];
       }
       toString() {
-        const sortedKeys = Object.keys(this._items).sort((a, b) => this._compareKeys(a, b));
+        const sortedKeys = Object.keys(this._items).sort((a, b) => a.localeCompare(b));
         const out = ["<<"];
-        if (this.limits && sortedKeys.length > 1) {
+        if (sortedKeys.length > 1) {
           const first2 = sortedKeys[0], last2 = sortedKeys[sortedKeys.length - 1];
-          out.push(`  /Limits ${PDFObject.convert([this._dataForKey(first2), this._dataForKey(last2)])}`);
+          out.push(`  /Limits ${PDFObject.convert([new String(first2), new String(last2)])}`);
         }
-        out.push(`  /${this._keysName()} [`);
+        out.push("  /Names [");
         for (let key of sortedKeys) {
-          out.push(`    ${PDFObject.convert(this._dataForKey(key))} ${PDFObject.convert(this._items[key])}`);
+          out.push(`    ${PDFObject.convert(new String(key))} ${PDFObject.convert(this._items[key])}`);
         }
         out.push("]");
         out.push(">>");
         return out.join("\n");
       }
-      _compareKeys() {
-        throw new Error("Must be implemented by subclasses");
-      }
-      _keysName() {
-        throw new Error("Must be implemented by subclasses");
-      }
-      _dataForKey() {
-        throw new Error("Must be implemented by subclasses");
-      }
     };
     var pad = (str, length) => (Array(length + 1).join("0") + str).slice(-length);
-    var escapableRe = /[\n\r\t\b\f()\\]/g;
+    var escapableRe = /[\n\r\t\b\f\(\)\\]/g;
     var escapable = {
       "\n": "\\n",
       "\r": "\\r",
@@ -150393,12 +162770,12 @@ var require_pdfkit = __commonJS({
           return `(${string})`;
         } else if (Buffer.isBuffer(object)) {
           return `<${object.toString("hex")}>`;
-        } else if (object instanceof PDFAbstractReference || object instanceof PDFTree) {
+        } else if (object instanceof PDFAbstractReference || object instanceof PDFNameTree) {
           return object.toString();
         } else if (object instanceof Date) {
           let string = `D:${pad(object.getUTCFullYear(), 4)}` + pad(object.getUTCMonth() + 1, 2) + pad(object.getUTCDate(), 2) + pad(object.getUTCHours(), 2) + pad(object.getUTCMinutes(), 2) + pad(object.getUTCSeconds(), 2) + "Z";
           if (encryptFn) {
-            string = encryptFn(Buffer.from(string, "ascii")).toString("binary");
+            string = encryptFn(new Buffer(string, "ascii")).toString("binary");
             string = string.replace(escapableRe, (c) => escapable[c]);
           }
           return `(${string})`;
@@ -150427,9 +162804,9 @@ var require_pdfkit = __commonJS({
       }
     };
     var PDFReference = class extends PDFAbstractReference {
-      constructor(document2, id, data = {}) {
+      constructor(document, id, data = {}) {
         super();
-        this.document = document2;
+        this.document = document;
         this.id = id;
         this.data = data;
         this.gen = 0;
@@ -150439,7 +162816,7 @@ var require_pdfkit = __commonJS({
       }
       write(chunk) {
         if (!Buffer.isBuffer(chunk)) {
-          chunk = Buffer.from(chunk + "\n", "binary");
+          chunk = new Buffer(chunk + "\n", "binary");
         }
         this.uncompressedLength += chunk.length;
         if (this.data.Length == null) {
@@ -150544,8 +162921,8 @@ var require_pdfkit = __commonJS({
       TABLOID: [792, 1224]
     };
     var PDFPage = class {
-      constructor(document2, options2 = {}) {
-        this.document = document2;
+      constructor(document, options2 = {}) {
+        this.document = document;
         this.size = options2.size || "letter";
         this.layout = options2.layout || "portrait";
         if (typeof options2.margin === "number") {
@@ -150572,7 +162949,6 @@ var require_pdfkit = __commonJS({
           Contents: this.content,
           Resources: this.resources
         });
-        this.markings = [];
       }
       get fonts() {
         const data = this.resources.data;
@@ -150594,10 +162970,6 @@ var require_pdfkit = __commonJS({
         const data = this.dictionary.data;
         return data.Annots != null ? data.Annots : data.Annots = [];
       }
-      get structParentTreeKey() {
-        const data = this.dictionary.data;
-        return data.StructParents != null ? data.StructParents : data.StructParents = this.document.createStructParentTreeNextKey();
-      }
       maxY() {
         return this.height - this.margins.bottom;
       }
@@ -150608,17 +162980,6 @@ var require_pdfkit = __commonJS({
         this.dictionary.end();
         this.resources.end();
         return this.content.end();
-      }
-    };
-    var PDFNameTree = class extends PDFTree {
-      _compareKeys(a, b) {
-        return a.localeCompare(b);
-      }
-      _keysName() {
-        return "Names";
-      }
-      _dataForKey(k) {
-        return new String(k);
       }
     };
     function inRange(value, rangeGroup) {
@@ -150886,17 +163247,17 @@ var require_pdfkit = __commonJS({
       static generateRandomWordArray(bytes) {
         return CryptoJS.lib.WordArray.random(bytes);
       }
-      static create(document2, options2 = {}) {
+      static create(document, options2 = {}) {
         if (!options2.ownerPassword && !options2.userPassword) {
           return null;
         }
-        return new PDFSecurity(document2, options2);
+        return new PDFSecurity(document, options2);
       }
-      constructor(document2, options2 = {}) {
+      constructor(document, options2 = {}) {
         if (!options2.ownerPassword && !options2.userPassword) {
           throw new Error("None of owner password and user password is defined.");
         }
-        this.document = document2;
+        this.document = document;
         this._setupEncryption(options2);
       }
       _setupEncryption(options2) {
@@ -150982,7 +163343,7 @@ var require_pdfkit = __commonJS({
       }
       _setupEncryptionV5(encDict, options2) {
         this.keyBits = 256;
-        const permissions = getPermissionsR3(options2.permissions);
+        const permissions = getPermissionsR3(options2);
         const processedUserPassword = processPasswordR5(options2.userPassword);
         const processedOwnerPassword = options2.ownerPassword ? processPasswordR5(options2.ownerPassword) : processedUserPassword;
         this.encryptionKey = getEncryptionKeyR5(PDFSecurity.generateRandomWordArray);
@@ -151167,7 +163528,7 @@ var require_pdfkit = __commonJS({
       return CryptoJS.AES.encrypt(cipher, encryptionKey, options2).ciphertext;
     }
     function processPasswordR2R3R4(password = "") {
-      const out = Buffer.alloc(32);
+      const out = new Buffer(32);
       const length = password.length;
       let index2 = 0;
       while (index2 < length && index2 < 32) {
@@ -151187,7 +163548,7 @@ var require_pdfkit = __commonJS({
     function processPasswordR5(password = "") {
       password = unescape(encodeURIComponent(saslprep(password)));
       const length = Math.min(127, password.length);
-      const out = Buffer.alloc(length);
+      const out = new Buffer(length);
       for (let i = 0; i < length; i++) {
         out[i] = password.charCodeAt(i);
       }
@@ -152557,9 +164918,9 @@ udieresis     yacute         thorn          ydieresis`.split(/\s+/);
       }
     };
     var StandardFont = class extends PDFFont {
-      constructor(document2, name, id) {
+      constructor(document, name, id) {
         super();
-        this.document = document2;
+        this.document = document;
         this.name = name;
         this.id = id;
         this.font = new AFMFont(STANDARD_FONTS[this.name]());
@@ -152616,9 +164977,9 @@ udieresis     yacute         thorn          ydieresis`.split(/\s+/);
       return `0000${num.toString(16)}`.slice(-4);
     };
     var EmbeddedFont = class extends PDFFont {
-      constructor(document2, font, id) {
+      constructor(document, font, id) {
         super();
-        this.document = document2;
+        this.document = document;
         this.font = font;
         this.id = id;
         this.subset = this.font.createSubset();
@@ -152632,7 +164993,7 @@ udieresis     yacute         thorn          ydieresis`.split(/\s+/);
         this.capHeight = this.font.capHeight * this.scale;
         this.lineGap = this.font.lineGap * this.scale;
         this.bbox = this.font.bbox;
-        if (document2.options.fontLayoutCache !== false) {
+        if (document.options.fontLayoutCache !== false) {
           this.layoutCache = Object.create(null);
         }
       }
@@ -152734,7 +165095,7 @@ udieresis     yacute         thorn          ydieresis`.split(/\s+/);
         if (this.font.head.macStyle.italic) {
           flags |= 1 << 6;
         }
-        const tag = [1, 2, 3, 4, 5, 6].map((i) => String.fromCharCode((this.id.charCodeAt(i) || 73) + 17)).join("");
+        const tag = [1, 2, 3, 4, 5, 6].map((i) => String.fromCharCode((this.id.charCodeAt(i) || 74) + 16)).join("");
         const name = tag + "+" + this.font.postscriptName;
         const {
           bbox
@@ -152824,25 +165185,25 @@ end`);
       }
     };
     var PDFFontFactory = class {
-      static open(document2, src2, family, id) {
+      static open(document, src2, family, id) {
         let font;
         if (typeof src2 === "string") {
           if (StandardFont.isStandardFont(src2)) {
-            return new StandardFont(document2, src2, id);
+            return new StandardFont(document, src2, id);
           }
           src2 = fs.readFileSync(src2);
         }
         if (Buffer.isBuffer(src2)) {
           font = fontkit.create(src2, family);
         } else if (src2 instanceof Uint8Array) {
-          font = fontkit.create(Buffer.from(src2), family);
+          font = fontkit.create(new Buffer(src2), family);
         } else if (src2 instanceof ArrayBuffer) {
-          font = fontkit.create(Buffer.from(new Uint8Array(src2)), family);
+          font = fontkit.create(new Buffer(new Uint8Array(src2)), family);
         }
         if (font == null) {
           throw new Error("Not a supported font format or standard PDF font.");
         }
-        return new EmbeddedFont(document2, font, id);
+        return new EmbeddedFont(document, font, id);
       }
     };
     var FontsMixin = {
@@ -152914,9 +165275,9 @@ end`);
       }
     };
     var LineWrapper = class extends events.EventEmitter {
-      constructor(document2, options2) {
+      constructor(document, options2) {
         super();
-        this.document = document2;
+        this.document = document;
         this.indent = options2.indent || 0;
         this.characterSpacing = options2.characterSpacing || 0;
         this.wordSpacing = options2.wordSpacing === 0;
@@ -153140,7 +165501,7 @@ end`);
           if (this.height != null) {
             return false;
           }
-          this.document.continueOnNewPage();
+          this.document.addPage();
           this.column = 1;
           this.startY = this.document.page.margins.top;
           this.maxY = this.document.page.maxY();
@@ -153192,24 +165553,17 @@ end`);
         if (options2.wordSpacing) {
           text = text.replace(/\s{2,}/g, " ");
         }
-        const addStructure = () => {
-          if (options2.structParent) {
-            options2.structParent.add(this.struct(options2.structType || "P", [this.markStructureContent(options2.structType || "P")]));
-          }
-        };
         if (options2.width) {
           let wrapper = this._wrapper;
           if (!wrapper) {
             wrapper = new LineWrapper(this, options2);
             wrapper.on("line", lineCallback);
-            wrapper.on("firstLine", addStructure);
           }
           this._wrapper = options2.continued ? wrapper : null;
           this._textOptions = options2.continued ? options2 : null;
           wrapper.wrap(text, options2);
         } else {
           for (let line of text.split("\n")) {
-            addStructure();
             lineCallback(line, options2);
           }
         }
@@ -153283,20 +165637,6 @@ end`);
         level = 1;
         let i = 0;
         wrapper.on("firstLine", () => {
-          let item, itemType, labelType, bodyType;
-          if (options2.structParent) {
-            if (options2.structTypes) {
-              [itemType, labelType, bodyType] = options2.structTypes;
-            } else {
-              [itemType, labelType, bodyType] = ["LI", "Lbl", "LBody"];
-            }
-          }
-          if (itemType) {
-            item = this.struct(itemType);
-            options2.structParent.add(item);
-          } else if (options2.structParent) {
-            item = options2.structParent;
-          }
           let l;
           if ((l = levels[i++]) !== level) {
             const diff = itemIndent * (l - level);
@@ -153304,25 +165644,14 @@ end`);
             wrapper.lineWidth -= diff;
             level = l;
           }
-          if (item && (labelType || bodyType)) {
-            item.add(this.struct(labelType || bodyType, [this.markStructureContent(labelType || bodyType)]));
-          }
           switch (listType) {
             case "bullet":
               this.circle(this.x - indent + r, this.y + midLine, r);
-              this.fill();
-              break;
+              return this.fill();
             case "numbered":
             case "lettered":
               var text = label(numbers[i - 1]);
-              this._fragment(text, this.x - indent, this.y, options2);
-              break;
-          }
-          if (item && labelType && bodyType) {
-            item.add(this.struct(bodyType, [this.markStructureContent(bodyType)]));
-          }
-          if (item && item !== options2.structParent) {
-            item.end();
+              return this._fragment(text, this.x - indent, this.y, options2);
           }
         });
         wrapper.on("sectionStart", () => {
@@ -153451,27 +165780,18 @@ end`);
         if (options2.destination != null) {
           this.addNamedDestination(options2.destination, "XYZ", x, y, null);
         }
-        if (options2.underline) {
+        if (options2.underline || options2.strike) {
           this.save();
           if (!options2.stroke) {
             this.strokeColor(...this._fillColor || []);
           }
           const lineWidth = this._fontSize < 10 ? 0.5 : Math.floor(this._fontSize / 10);
           this.lineWidth(lineWidth);
-          let lineY = y + this.currentLineHeight() - lineWidth;
-          this.moveTo(x, lineY);
-          this.lineTo(x + renderedWidth, lineY);
-          this.stroke();
-          this.restore();
-        }
-        if (options2.strike) {
-          this.save();
-          if (!options2.stroke) {
-            this.strokeColor(...this._fillColor || []);
+          const d2 = options2.underline ? 1 : 2;
+          let lineY = y + this.currentLineHeight() / d2;
+          if (options2.underline) {
+            lineY -= lineWidth;
           }
-          const lineWidth = this._fontSize < 10 ? 0.5 : Math.floor(this._fontSize / 10);
-          this.lineWidth(lineWidth);
-          let lineY = y + this.currentLineHeight() / 2;
           this.moveTo(x, lineY);
           this.lineTo(x + renderedWidth, lineY);
           this.stroke();
@@ -153604,11 +165924,11 @@ end`);
         this.colorSpace = COLOR_SPACE_MAP[channels];
         this.obj = null;
       }
-      embed(document2) {
+      embed(document) {
         if (this.obj) {
           return;
         }
-        this.obj = document2.ref({
+        this.obj = document.ref({
           Type: "XObject",
           Subtype: "Image",
           BitsPerComponent: this.bits,
@@ -153633,9 +165953,9 @@ end`);
         this.imgData = this.image.imgData;
         this.obj = null;
       }
-      embed(document2) {
+      embed(document) {
         let dataDecoded = false;
-        this.document = document2;
+        this.document = document;
         if (this.obj) {
           return;
         }
@@ -153663,7 +165983,7 @@ end`);
           this.obj.data["ColorSpace"] = this.image.colorSpace;
         } else {
           const palette = this.document.ref();
-          palette.end(Buffer.from(this.image.palette));
+          palette.end(new Buffer(this.image.palette));
           this.obj.data["ColorSpace"] = ["Indexed", "DeviceRGB", this.image.palette.length / 3 - 1, palette];
         }
         if (this.image.transparency.grayscale != null) {
@@ -153714,8 +166034,8 @@ end`);
           let a, p;
           const colorCount = this.image.colors;
           const pixelCount = this.width * this.height;
-          const imgData = Buffer.alloc(pixelCount * colorCount);
-          const alphaChannel = Buffer.alloc(pixelCount);
+          const imgData = new Buffer(pixelCount * colorCount);
+          const alphaChannel = new Buffer(pixelCount);
           let i = p = a = 0;
           const len = pixels.length;
           const skipByteCount = this.image.bits === 16 ? 1 : 0;
@@ -153735,7 +166055,7 @@ end`);
       loadIndexedAlphaChannel() {
         const transparency = this.image.transparency.indexed;
         return this.image.decodePixels((pixels) => {
-          const alphaChannel = Buffer.alloc(this.width * this.height);
+          const alphaChannel = new Buffer(this.width * this.height);
           let i = 0;
           for (let j = 0, end = pixels.length; j < end; j++) {
             alphaChannel[i++] = transparency[pixels[j]];
@@ -153757,11 +166077,11 @@ end`);
         if (Buffer.isBuffer(src2)) {
           data = src2;
         } else if (src2 instanceof ArrayBuffer) {
-          data = Buffer.from(new Uint8Array(src2));
+          data = new Buffer(new Uint8Array(src2));
         } else {
           let match;
           if (match = /^data:.+;base64,(.*)$/.exec(src2)) {
-            data = Buffer.from(match[1], "base64");
+            data = new Buffer(match[1], "base64");
           } else {
             data = fs.readFileSync(src2);
             if (!data) {
@@ -153996,19 +166316,6 @@ end`);
         options2.DA = new String();
         return this.annotate(x, y, w, h, options2);
       },
-      fileAnnotation(x, y, w, h, file = {}, options2 = {}) {
-        const filespec = this.file(file.src, Object.assign({
-          hidden: true
-        }, file));
-        options2.Subtype = "FileAttachment";
-        options2.FS = filespec;
-        if (options2.Contents) {
-          options2.Contents = new String(options2.Contents);
-        } else if (filespec.data.Desc) {
-          options2.Contents = filespec.data.Desc;
-        }
-        return this.annotate(x, y, w, h, options2);
-      },
       _convertRect(x1, y1, w, h) {
         let y2 = y1;
         y1 += h;
@@ -154022,10 +166329,10 @@ end`);
       }
     };
     var PDFOutline = class {
-      constructor(document2, parent, title, dest, options2 = {
+      constructor(document, parent, title, dest, options2 = {
         expanded: false
       }) {
-        this.document = document2;
+        this.document = document;
         this.options = options2;
         this.outlineData = {};
         if (dest !== null) {
@@ -154078,377 +166385,6 @@ end`);
         if (this.outline.children.length > 0) {
           this._root.data.Outlines = this.outline.dictionary;
           return this._root.data.PageMode = "UseOutlines";
-        }
-      }
-    };
-    function _defineProperty(obj, key, value) {
-      if (key in obj) {
-        Object.defineProperty(obj, key, {
-          value,
-          enumerable: true,
-          configurable: true,
-          writable: true
-        });
-      } else {
-        obj[key] = value;
-      }
-      return obj;
-    }
-    function ownKeys(object, enumerableOnly) {
-      var keys = Object.keys(object);
-      if (Object.getOwnPropertySymbols) {
-        var symbols = Object.getOwnPropertySymbols(object);
-        if (enumerableOnly)
-          symbols = symbols.filter(function(sym) {
-            return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-          });
-        keys.push.apply(keys, symbols);
-      }
-      return keys;
-    }
-    function _objectSpread2(target) {
-      for (var i = 1; i < arguments.length; i++) {
-        var source = arguments[i] != null ? arguments[i] : {};
-        if (i % 2) {
-          ownKeys(Object(source), true).forEach(function(key) {
-            _defineProperty(target, key, source[key]);
-          });
-        } else if (Object.getOwnPropertyDescriptors) {
-          Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
-        } else {
-          ownKeys(Object(source)).forEach(function(key) {
-            Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-          });
-        }
-      }
-      return target;
-    }
-    var PDFStructureContent = class {
-      constructor(pageRef, mcid) {
-        this.refs = [{
-          pageRef,
-          mcid
-        }];
-      }
-      push(structContent) {
-        structContent.refs.forEach((ref) => this.refs.push(ref));
-      }
-    };
-    var PDFStructureElement = class {
-      constructor(document2, type, options2 = {}, children = null) {
-        this.document = document2;
-        this._attached = false;
-        this._ended = false;
-        this._flushed = false;
-        this.dictionary = document2.ref({
-          S: type
-        });
-        const data = this.dictionary.data;
-        if (Array.isArray(options2) || this._isValidChild(options2)) {
-          children = options2;
-          options2 = {};
-        }
-        if (typeof options2.title !== "undefined") {
-          data.T = new String(options2.title);
-        }
-        if (typeof options2.lang !== "undefined") {
-          data.Lang = new String(options2.lang);
-        }
-        if (typeof options2.alt !== "undefined") {
-          data.Alt = new String(options2.alt);
-        }
-        if (typeof options2.expanded !== "undefined") {
-          data.E = new String(options2.expanded);
-        }
-        if (typeof options2.actual !== "undefined") {
-          data.ActualText = new String(options2.actual);
-        }
-        this._children = [];
-        if (children) {
-          if (!Array.isArray(children)) {
-            children = [children];
-          }
-          children.forEach((child) => this.add(child));
-          this.end();
-        }
-      }
-      add(child) {
-        if (this._ended) {
-          throw new Error(`Cannot add child to already-ended structure element`);
-        }
-        if (!this._isValidChild(child)) {
-          throw new Error(`Invalid structure element child`);
-        }
-        if (child instanceof PDFStructureElement) {
-          child.setParent(this.dictionary);
-          if (this._attached) {
-            child.setAttached();
-          }
-        }
-        if (child instanceof PDFStructureContent) {
-          this._addContentToParentTree(child);
-        }
-        if (typeof child === "function" && this._attached) {
-          child = this._contentForClosure(child);
-        }
-        this._children.push(child);
-        return this;
-      }
-      _addContentToParentTree(content) {
-        content.refs.forEach(({
-          pageRef,
-          mcid
-        }) => {
-          const pageStructParents = this.document.getStructParentTree().get(pageRef.data.StructParents);
-          pageStructParents[mcid] = this.dictionary;
-        });
-      }
-      setParent(parentRef) {
-        if (this.dictionary.data.P) {
-          throw new Error(`Structure element added to more than one parent`);
-        }
-        this.dictionary.data.P = parentRef;
-        this._flush();
-      }
-      setAttached() {
-        if (this._attached) {
-          return;
-        }
-        this._children.forEach((child, index2) => {
-          if (child instanceof PDFStructureElement) {
-            child.setAttached();
-          }
-          if (typeof child === "function") {
-            this._children[index2] = this._contentForClosure(child);
-          }
-        });
-        this._attached = true;
-        this._flush();
-      }
-      end() {
-        if (this._ended) {
-          return;
-        }
-        this._children.filter((child) => child instanceof PDFStructureElement).forEach((child) => child.end());
-        this._ended = true;
-        this._flush();
-      }
-      _isValidChild(child) {
-        return child instanceof PDFStructureElement || child instanceof PDFStructureContent || typeof child === "function";
-      }
-      _contentForClosure(closure) {
-        const content = this.document.markStructureContent(this.dictionary.data.S);
-        closure();
-        this.document.endMarkedContent();
-        this._addContentToParentTree(content);
-        return content;
-      }
-      _isFlushable() {
-        if (!this.dictionary.data.P || !this._ended) {
-          return false;
-        }
-        return this._children.every((child) => {
-          if (typeof child === "function") {
-            return false;
-          }
-          if (child instanceof PDFStructureElement) {
-            return child._isFlushable();
-          }
-          return true;
-        });
-      }
-      _flush() {
-        if (this._flushed || !this._isFlushable()) {
-          return;
-        }
-        this.dictionary.data.K = [];
-        this._children.forEach((child) => this._flushChild(child));
-        this.dictionary.end();
-        this._children = [];
-        this.dictionary.data.K = null;
-        this._flushed = true;
-      }
-      _flushChild(child) {
-        if (child instanceof PDFStructureElement) {
-          this.dictionary.data.K.push(child.dictionary);
-        }
-        if (child instanceof PDFStructureContent) {
-          child.refs.forEach(({
-            pageRef,
-            mcid
-          }) => {
-            if (!this.dictionary.data.Pg) {
-              this.dictionary.data.Pg = pageRef;
-            }
-            if (this.dictionary.data.Pg === pageRef) {
-              this.dictionary.data.K.push(mcid);
-            } else {
-              this.dictionary.data.K.push({
-                Type: "MCR",
-                Pg: pageRef,
-                MCID: mcid
-              });
-            }
-          });
-        }
-      }
-    };
-    var PDFNumberTree = class extends PDFTree {
-      _compareKeys(a, b) {
-        return parseInt(a) - parseInt(b);
-      }
-      _keysName() {
-        return "Nums";
-      }
-      _dataForKey(k) {
-        return parseInt(k);
-      }
-    };
-    var MarkingsMixin = {
-      initMarkings(options2) {
-        this.structChildren = [];
-        if (options2.tagged) {
-          this.getMarkInfoDictionary().data.Marked = true;
-          this.getStructTreeRoot();
-        }
-      },
-      markContent(tag, options2 = null) {
-        if (tag === "Artifact" || options2 && options2.mcid) {
-          let toClose = 0;
-          this.page.markings.forEach((marking) => {
-            if (toClose || marking.structContent || marking.tag === "Artifact") {
-              toClose++;
-            }
-          });
-          while (toClose--) {
-            this.endMarkedContent();
-          }
-        }
-        if (!options2) {
-          this.page.markings.push({
-            tag
-          });
-          this.addContent(`/${tag} BMC`);
-          return this;
-        }
-        this.page.markings.push({
-          tag,
-          options: options2
-        });
-        const dictionary = {};
-        if (typeof options2.mcid !== "undefined") {
-          dictionary.MCID = options2.mcid;
-        }
-        if (tag === "Artifact") {
-          if (typeof options2.type === "string") {
-            dictionary.Type = options2.type;
-          }
-          if (Array.isArray(options2.bbox)) {
-            dictionary.BBox = [options2.bbox[0], this.page.height - options2.bbox[3], options2.bbox[2], this.page.height - options2.bbox[1]];
-          }
-          if (Array.isArray(options2.attached) && options2.attached.every((val) => typeof val === "string")) {
-            dictionary.Attached = options2.attached;
-          }
-        }
-        if (tag === "Span") {
-          if (options2.lang) {
-            dictionary.Lang = new String(options2.lang);
-          }
-          if (options2.alt) {
-            dictionary.Alt = new String(options2.alt);
-          }
-          if (options2.expanded) {
-            dictionary.E = new String(options2.expanded);
-          }
-          if (options2.actual) {
-            dictionary.ActualText = new String(options2.actual);
-          }
-        }
-        this.addContent(`/${tag} ${PDFObject.convert(dictionary)} BDC`);
-        return this;
-      },
-      markStructureContent(tag, options2 = {}) {
-        const pageStructParents = this.getStructParentTree().get(this.page.structParentTreeKey);
-        const mcid = pageStructParents.length;
-        pageStructParents.push(null);
-        this.markContent(tag, _objectSpread2(_objectSpread2({}, options2), {}, {
-          mcid
-        }));
-        const structContent = new PDFStructureContent(this.page.dictionary, mcid);
-        this.page.markings.slice(-1)[0].structContent = structContent;
-        return structContent;
-      },
-      endMarkedContent() {
-        this.page.markings.pop();
-        this.addContent("EMC");
-        return this;
-      },
-      struct(type, options2 = {}, children = null) {
-        return new PDFStructureElement(this, type, options2, children);
-      },
-      addStructure(structElem) {
-        const structTreeRoot = this.getStructTreeRoot();
-        structElem.setParent(structTreeRoot);
-        structElem.setAttached();
-        this.structChildren.push(structElem);
-        if (!structTreeRoot.data.K) {
-          structTreeRoot.data.K = [];
-        }
-        structTreeRoot.data.K.push(structElem.dictionary);
-        return this;
-      },
-      initPageMarkings(pageMarkings) {
-        pageMarkings.forEach((marking) => {
-          if (marking.structContent) {
-            const structContent = marking.structContent;
-            const newStructContent = this.markStructureContent(marking.tag, marking.options);
-            structContent.push(newStructContent);
-            this.page.markings.slice(-1)[0].structContent = structContent;
-          } else {
-            this.markContent(marking.tag, marking.options);
-          }
-        });
-      },
-      endPageMarkings(page2) {
-        const pageMarkings = page2.markings;
-        pageMarkings.forEach(() => page2.write("EMC"));
-        page2.markings = [];
-        return pageMarkings;
-      },
-      getMarkInfoDictionary() {
-        if (!this._root.data.MarkInfo) {
-          this._root.data.MarkInfo = this.ref({});
-        }
-        return this._root.data.MarkInfo;
-      },
-      getStructTreeRoot() {
-        if (!this._root.data.StructTreeRoot) {
-          this._root.data.StructTreeRoot = this.ref({
-            Type: "StructTreeRoot",
-            ParentTree: new PDFNumberTree(),
-            ParentTreeNextKey: 0
-          });
-        }
-        return this._root.data.StructTreeRoot;
-      },
-      getStructParentTree() {
-        return this.getStructTreeRoot().data.ParentTree;
-      },
-      createStructParentTreeNextKey() {
-        this.getMarkInfoDictionary();
-        const structTreeRoot = this.getStructTreeRoot();
-        const key = structTreeRoot.data.ParentTreeNextKey++;
-        structTreeRoot.data.ParentTree.add(key, []);
-        return key;
-      },
-      endMarkings() {
-        const structTreeRoot = this._root.data.StructTreeRoot;
-        if (structTreeRoot) {
-          structTreeRoot.end();
-          this.structChildren.forEach((structElem) => structElem.end());
-        }
-        if (this._root.data.MarkInfo) {
-          this._root.data.MarkInfo.end();
         }
       }
     };
@@ -154726,9 +166662,8 @@ end`);
           options2.DR = {
             Font: {}
           };
-          const fontSize = options2.fontSize || 0;
           options2.DR.Font[this._font.id] = this._font.ref();
-          options2.DA = new String(`/${this._font.id} ${fontSize} Tf 0 g`);
+          options2.DA = new String(`/${this._font.id} 0 Tf 0 g`);
         }
         return options2;
       },
@@ -154753,6 +166688,8 @@ end`);
         if (select.length) {
           options2.Opt = select;
         }
+        if (options2.value || options2.defaultValue)
+          ;
         Object.keys(VALUE_MAP).forEach((key) => {
           if (options2[key] !== void 0) {
             options2[VALUE_MAP[key]] = options2[key];
@@ -154775,88 +166712,6 @@ end`);
         return options2;
       }
     };
-    var AttachmentsMixin = {
-      file(src2, options2 = {}) {
-        options2.name = options2.name || src2;
-        const refBody = {
-          Type: "EmbeddedFile",
-          Params: {}
-        };
-        let data;
-        if (!src2) {
-          throw new Error("No src specified");
-        }
-        if (Buffer.isBuffer(src2)) {
-          data = src2;
-        } else if (src2 instanceof ArrayBuffer) {
-          data = Buffer.from(new Uint8Array(src2));
-        } else {
-          let match;
-          if (match = /^data:(.*);base64,(.*)$/.exec(src2)) {
-            if (match[1]) {
-              refBody.Subtype = match[1].replace("/", "#2F");
-            }
-            data = Buffer.from(match[2], "base64");
-          } else {
-            data = fs.readFileSync(src2);
-            if (!data) {
-              throw new Error(`Could not read contents of file at filepath ${src2}`);
-            }
-            const {
-              birthtime,
-              ctime
-            } = fs.statSync(src2);
-            refBody.Params.CreationDate = birthtime;
-            refBody.Params.ModDate = ctime;
-          }
-        }
-        if (options2.creationDate instanceof Date) {
-          refBody.Params.CreationDate = options2.creationDate;
-        }
-        if (options2.modifiedDate instanceof Date) {
-          refBody.Params.ModDate = options2.modifiedDate;
-        }
-        if (options2.type) {
-          refBody.Subtype = options2.type.replace("/", "#2F");
-        }
-        const checksum = CryptoJS.MD5(CryptoJS.lib.WordArray.create(new Uint8Array(data)));
-        refBody.Params.CheckSum = new String(checksum);
-        refBody.Params.Size = data.byteLength;
-        let ref;
-        if (!this._fileRegistry)
-          this._fileRegistry = {};
-        let file = this._fileRegistry[options2.name];
-        if (file && isEqual(refBody, file)) {
-          ref = file.ref;
-        } else {
-          ref = this.ref(refBody);
-          ref.end(data);
-          this._fileRegistry[options2.name] = _objectSpread2(_objectSpread2({}, refBody), {}, {
-            ref
-          });
-        }
-        const fileSpecBody = {
-          Type: "Filespec",
-          F: new String(options2.name),
-          EF: {
-            F: ref
-          },
-          UF: new String(options2.name)
-        };
-        if (options2.description) {
-          fileSpecBody.Desc = new String(options2.description);
-        }
-        const filespec = this.ref(fileSpecBody);
-        filespec.end();
-        if (!options2.hidden) {
-          this.addNamedEmbeddedFile(options2.name, filespec);
-        }
-        return filespec;
-      }
-    };
-    function isEqual(a, b) {
-      return a.Subtype === b.Subtype && a.Params.CheckSum.toString() === b.Params.CheckSum.toString() && a.Params.Size === b.Params.Size && a.Params.CreationDate === b.Params.CreationDate && a.Params.ModDate === b.Params.ModDate;
-    }
     var PDFDocument2 = class extends stream.Readable {
       constructor(options2 = {}) {
         super(options2);
@@ -154899,9 +166754,6 @@ end`);
           Pages,
           Names
         });
-        if (this.options.lang) {
-          this._root.data.Lang = new String(this.options.lang);
-        }
         this.page = null;
         this.initColor();
         this.initVector();
@@ -154909,7 +166761,6 @@ end`);
         this.initText();
         this.initImages();
         this.initOutline();
-        this.initMarkings(options2);
         this.info = {
           Producer: "PDFKit",
           Creator: "PDFKit",
@@ -154920,11 +166771,6 @@ end`);
             const val = this.options.info[key];
             this.info[key] = val;
           }
-        }
-        if (this.options.displayTitle) {
-          this._root.data.ViewerPreferences = this.ref({
-            DisplayDocTitle: true
-          });
         }
         this._id = PDFSecurity.generateFileID(this.info);
         this._security = PDFSecurity.create(this, options2);
@@ -154955,12 +166801,6 @@ end`);
         this.emit("pageAdded");
         return this;
       }
-      continueOnNewPage(options2) {
-        const pageMarkings = this.endPageMarkings(this.page);
-        this.addPage(options2);
-        this.initPageMarkings(pageMarkings);
-        return this;
-      }
       bufferedPageRange() {
         return {
           start: this._pageBufferStart,
@@ -154979,7 +166819,6 @@ end`);
         this._pageBuffer = [];
         this._pageBufferStart += pages.length;
         for (let page2 of pages) {
-          this.endPageMarkings(page2);
           page2.end();
         }
       }
@@ -154992,14 +166831,6 @@ end`);
         }
         args.unshift(this.page.dictionary);
         this._root.data.Names.data.Dests.add(name, args);
-      }
-      addNamedEmbeddedFile(name, ref) {
-        if (!this._root.data.Names.data.EmbeddedFiles) {
-          this._root.data.Names.data.EmbeddedFiles = new PDFNameTree({
-            limits: false
-          });
-        }
-        this._root.data.Names.data.EmbeddedFiles.add(name, ref);
       }
       addNamedJavaScript(name, js) {
         if (!this._root.data.Names.data.JavaScript) {
@@ -155021,7 +166852,7 @@ end`);
       }
       _write(data) {
         if (!Buffer.isBuffer(data)) {
-          data = Buffer.from(data + "\n", "binary");
+          data = new Buffer(data + "\n", "binary");
         }
         this.push(data);
         return this._offset += data.length;
@@ -155062,14 +166893,10 @@ end`);
           font.finalize();
         }
         this.endOutline();
-        this.endMarkings();
         this._root.end();
         this._root.data.Pages.end();
         this._root.data.Names.end();
         this.endAcroForm();
-        if (this._root.data.ViewerPreferences) {
-          this._root.data.ViewerPreferences.end();
-        }
         if (this._security) {
           this._security.end();
         }
@@ -155079,7 +166906,7 @@ end`);
           return this._ended = true;
         }
       }
-      _finalize() {
+      _finalize(fn) {
         const xRefOffset = this._offset;
         this._write("xref");
         this._write(`0 ${this._offsets.length + 1}`);
@@ -155118,9 +166945,7 @@ end`);
     mixin(ImagesMixin);
     mixin(AnnotationsMixin);
     mixin(OutlineMixin);
-    mixin(MarkingsMixin);
     mixin(AcroFormMixin);
-    mixin(AttachmentsMixin);
     PDFDocument2.LineWrapper = LineWrapper;
     module2.exports = PDFDocument2;
   }
@@ -158280,7 +170105,7 @@ function v4() {
 }
 
 // .svelte-kit/output/server/app.js
-var import_pdfkit = __toModule(require_pdfkit());
+var import_pdfkit_next = __toModule(require_pdfkit());
 var import_svg_to_pdfkit = __toModule(require_source());
 var __accessCheck = (obj, member, msg) => {
   if (!member.has(obj))
@@ -159892,7 +171717,7 @@ var module_lookup = {
     return index;
   })
 };
-var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-038ea989.js", "css": ["assets/pages/__layout.svelte-31d00bb1.css"], "js": ["pages/__layout.svelte-038ea989.js", "chunks/vendor-1bb6e2c0.js", "chunks/stores-a06af009.js", "chunks/stores-dc0795db.js", "chunks/utils-004f515d.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-167e92dc.js", "css": [], "js": ["error.svelte-167e92dc.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-8cdad0cd.js", "css": ["assets/pages/index.svelte-e9dc129a.css"], "js": ["pages/index.svelte-8cdad0cd.js", "chunks/vendor-1bb6e2c0.js", "chunks/utils-004f515d.js"], "styles": [] }, "src/routes/productos-servicios/index.svelte": { "entry": "pages/productos-servicios/index.svelte-093de710.js", "css": ["assets/pages/proveedores/index.svelte-919025b0.css"], "js": ["pages/productos-servicios/index.svelte-093de710.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/presupuestos/index.svelte": { "entry": "pages/presupuestos/index.svelte-6c014205.js", "css": ["assets/pages/proveedores/index.svelte-919025b0.css"], "js": ["pages/presupuestos/index.svelte-6c014205.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/proveedores/index.svelte": { "entry": "pages/proveedores/index.svelte-02acc2b5.js", "css": ["assets/pages/proveedores/index.svelte-919025b0.css"], "js": ["pages/proveedores/index.svelte-02acc2b5.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/albaranes/index.svelte": { "entry": "pages/albaranes/index.svelte-2d2e6d3a.js", "css": ["assets/pages/proveedores/index.svelte-919025b0.css"], "js": ["pages/albaranes/index.svelte-2d2e6d3a.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/clientes/index.svelte": { "entry": "pages/clientes/index.svelte-dfdd26fd.js", "css": ["assets/pages/proveedores/index.svelte-919025b0.css"], "js": ["pages/clientes/index.svelte-dfdd26fd.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/facturas/index.svelte": { "entry": "pages/facturas/index.svelte-93623797.js", "css": ["assets/pages/facturas/index.svelte-2f2c6601.css"], "js": ["pages/facturas/index.svelte-93623797.js", "chunks/vendor-1bb6e2c0.js", "chunks/stores-dc0795db.js", "chunks/utils-004f515d.js"], "styles": [] }, "src/routes/facturas/nueva.svelte": { "entry": "pages/facturas/nueva.svelte-f90edce0.js", "css": ["assets/pages/facturas/nueva.svelte-c6afd4d2.css"], "js": ["pages/facturas/nueva.svelte-f90edce0.js", "chunks/vendor-1bb6e2c0.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-dc0795db.js"], "styles": [] }, "src/routes/facturas/[id].svelte": { "entry": "pages/facturas/[id].svelte-5bc5aa8f.js", "css": ["assets/pages/facturas/[id].svelte-b8f50f51.css"], "js": ["pages/facturas/[id].svelte-5bc5aa8f.js", "chunks/vendor-1bb6e2c0.js", "chunks/stores-a06af009.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-dc0795db.js"], "styles": [] }, "src/routes/ajustes/index.svelte": { "entry": "pages/ajustes/index.svelte-021303a4.js", "css": ["assets/pages/ajustes/index.svelte-4d04a9e9.css"], "js": ["pages/ajustes/index.svelte-021303a4.js", "chunks/vendor-1bb6e2c0.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-dc0795db.js"], "styles": [] } };
+var metadata_lookup = { "src/routes/__layout.svelte": { "entry": "pages/__layout.svelte-038ea989.js", "css": ["assets/pages/__layout.svelte-31d00bb1.css"], "js": ["pages/__layout.svelte-038ea989.js", "chunks/vendor-1bb6e2c0.js", "chunks/stores-a06af009.js", "chunks/stores-dc0795db.js", "chunks/utils-004f515d.js"], "styles": [] }, ".svelte-kit/build/components/error.svelte": { "entry": "error.svelte-167e92dc.js", "css": [], "js": ["error.svelte-167e92dc.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/index.svelte": { "entry": "pages/index.svelte-8cdad0cd.js", "css": ["assets/pages/index.svelte-e9dc129a.css"], "js": ["pages/index.svelte-8cdad0cd.js", "chunks/vendor-1bb6e2c0.js", "chunks/utils-004f515d.js"], "styles": [] }, "src/routes/productos-servicios/index.svelte": { "entry": "pages/productos-servicios/index.svelte-093de710.js", "css": ["assets/pages/presupuestos/index.svelte-d2b189f4.css"], "js": ["pages/productos-servicios/index.svelte-093de710.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/presupuestos/index.svelte": { "entry": "pages/presupuestos/index.svelte-6c014205.js", "css": ["assets/pages/presupuestos/index.svelte-d2b189f4.css"], "js": ["pages/presupuestos/index.svelte-6c014205.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/proveedores/index.svelte": { "entry": "pages/proveedores/index.svelte-02acc2b5.js", "css": ["assets/pages/presupuestos/index.svelte-d2b189f4.css"], "js": ["pages/proveedores/index.svelte-02acc2b5.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/albaranes/index.svelte": { "entry": "pages/albaranes/index.svelte-2d2e6d3a.js", "css": ["assets/pages/presupuestos/index.svelte-d2b189f4.css"], "js": ["pages/albaranes/index.svelte-2d2e6d3a.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/clientes/index.svelte": { "entry": "pages/clientes/index.svelte-dfdd26fd.js", "css": ["assets/pages/presupuestos/index.svelte-d2b189f4.css"], "js": ["pages/clientes/index.svelte-dfdd26fd.js", "chunks/vendor-1bb6e2c0.js"], "styles": [] }, "src/routes/facturas/index.svelte": { "entry": "pages/facturas/index.svelte-93623797.js", "css": ["assets/pages/facturas/index.svelte-2f2c6601.css"], "js": ["pages/facturas/index.svelte-93623797.js", "chunks/vendor-1bb6e2c0.js", "chunks/stores-dc0795db.js", "chunks/utils-004f515d.js"], "styles": [] }, "src/routes/facturas/nueva.svelte": { "entry": "pages/facturas/nueva.svelte-f90edce0.js", "css": ["assets/pages/facturas/nueva.svelte-c6afd4d2.css"], "js": ["pages/facturas/nueva.svelte-f90edce0.js", "chunks/vendor-1bb6e2c0.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-dc0795db.js"], "styles": [] }, "src/routes/facturas/[id].svelte": { "entry": "pages/facturas/[id].svelte-5bc5aa8f.js", "css": ["assets/pages/facturas/[id].svelte-b8f50f51.css"], "js": ["pages/facturas/[id].svelte-5bc5aa8f.js", "chunks/vendor-1bb6e2c0.js", "chunks/stores-a06af009.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-dc0795db.js"], "styles": [] }, "src/routes/ajustes/index.svelte": { "entry": "pages/ajustes/index.svelte-021303a4.js", "css": ["assets/pages/ajustes/index.svelte-4d04a9e9.css"], "js": ["pages/ajustes/index.svelte-021303a4.js", "chunks/vendor-1bb6e2c0.js", "chunks/navigation-51f4a605.js", "chunks/singletons-12a22614.js", "chunks/stores-dc0795db.js"], "styles": [] } };
 async function load_component(file) {
   const { entry, css: css2, js, styles } = metadata_lookup[file];
   return {
@@ -159915,13 +171740,13 @@ var bill_svg = /* @__PURE__ */ Object.freeze({
   [Symbol.toStringTag]: "Module",
   bill
 });
-import_pdfkit.default.prototype.svg = function(svg, x, y, options2) {
+import_pdfkit_next.default.prototype.svg = function(svg, x, y, options2) {
   return (0, import_svg_to_pdfkit.default)(this, svg, x, y, options2), this;
 };
 var mm = (size) => size * 2.83465;
 async function post(req) {
   const data = JSON.parse(req.body);
-  const doc = new import_pdfkit.default({
+  const doc = new import_pdfkit_next.default({
     size: [mm(210), mm(297)],
     margin: 0,
     info: {
