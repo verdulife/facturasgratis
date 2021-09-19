@@ -57,7 +57,7 @@ export async function post(req) {
   };
 } */
 
-import PDFDocument from "pdfkit";
+import PDFDocument from "pdfkit/js/pdfkit";
 import SVGtoPDF from "svg-to-pdfkit";
 import { bill } from "./assets/bill.svg";
 
@@ -118,7 +118,7 @@ export async function post(req) {
       resolve(Buffer.concat(buffers));
     });
   });
-  
+
   return {
     status: "200",
     headers: {
