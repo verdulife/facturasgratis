@@ -26,7 +26,7 @@
     $userData._updated = new Date();
     action = "";
 
-    goto("/clients");
+    goto("/clientes");
   }
 
   function evalAction() {
