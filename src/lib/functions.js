@@ -39,6 +39,10 @@ export function resizeImage(base64Str, maxWidth = 400, maxHeight = 350) {
   });
 }
 
+export function capitalize(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 export function blobToBase64(blob) {
   return new Promise((resolve, _) => {
     const reader = new FileReader();

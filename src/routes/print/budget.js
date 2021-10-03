@@ -1,4 +1,4 @@
-import fetch from "node-fetch";
+/* import fetch from "node-fetch";
 import PDFDocument from "pdfkit";
 import SVGtoPDF from "svg-to-pdfkit";
 import { numerationFormat, roundWithTwoDecimals } from "../../lib/functions";
@@ -187,3 +187,4 @@ ${data.user.phone ? "t." + data.user.phone : ""} ${data.user.email ? "| e. " + d
 
   doc.end();
 }
+ */

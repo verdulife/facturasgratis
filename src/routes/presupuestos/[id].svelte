@@ -17,7 +17,7 @@
       const data = { ...budgetData };
       data.user = $userData;
 
-      const req = await fetch("/print/budget", POST(data));
+      const req = await fetch("/print", POST(data));
       if (!req.ok) throw await req.text();
 
       const res = await req.blob();

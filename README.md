@@ -2,14 +2,14 @@
 
 ### TODOS para 🚀:
 
-- [ ] change between repos
+- [ ] Rediseñar plantilla pdf
+- [ ] multipagina plantilla pdf
 - [ ] SEO
 
 ### TODOS 🐌:
 
 - [ ] facturas && pptos: boton pdf
 - [ ] herramienta: control de gastos (tickets de compra)
-- [ ] Rediseñar facturas/ppto/albaranes
 - [ ] Wiki page && seccion FAQ
 - [ ] pasar localStorage a preload
 - [ ] herramienta: registro de pagos (quien, como y cuanto)

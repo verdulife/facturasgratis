@@ -17,7 +17,7 @@
       const data = { ...billData };
       data.user = $userData;
 
-      const req = await fetch("/print/bill", POST(data));
+      const req = await fetch("/print", POST(data));
       if (!req.ok) throw await req.text();
 
       const res = await req.blob();
@@ -29,7 +29,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 40%;
+        width: 100%;
         height: 100%;
       `;
       document.body.appendChild(frame); */
