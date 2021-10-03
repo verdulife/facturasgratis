@@ -1,5 +1,6 @@
 <script>
-  import { tools } from "../ui/utils";
+  import { tools } from "../lib/utils";
+  import { userData } from "../lib/stores";
 </script>
 
 <svelte:head>
@@ -9,12 +10,12 @@
 
   <meta
     name="description"
-    content="Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
+    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
   clientes, proveedores y productos/servicios."
   />
   <meta
     property="og:description"
-    content="Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
+    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
   clientes, proveedores y productos/servicios."
   />
 </svelte:head>
@@ -23,9 +24,19 @@
   <section class="header col fcenter xfill">
     <h1>Herramientas online para gestionar tu negocio</h1>
     <p>
-      Herramientas online y completamente gratuitas para generar, enviar, rectificar y listar facturas, presupuestos,
-      albaranes, clientes, proveedores y productos/servicios. No se necesita instalación.
+      Herramientas online gratuitas para generar, enviar, rectificar y listar
+      facturas, presupuestos, albaranes, clientes, proveedores y
+      productos/servicios. No se necesita instalación.
     </p>
+
+    {#if process.browser && Object.keys($userData).length <= 0}
+      <h3>Primeros pasos</h3>
+      <p>
+        Para empezar a trabajar con <b>facturasgratis</b>, el primer paso es
+        rellenar tus datos.
+      </p>
+      <a href="/ajustes" class="btn succ semi">RELLENAR DATOS</a>
+    {/if}
   </section>
 
   <ul class="tools row jcenter xfill">
@@ -36,7 +47,7 @@
             <img src={tool.icon} alt={tool.title} />
           </div>
 
-          <h2 class="nowrap xfill">{tool.title}</h2>
+          <h2 class="xfill">{tool.title}</h2>
           <p>{tool.desc}</p>
         </a>
       </li>
@@ -49,15 +60,15 @@
     background: linear-gradient(45deg, $pri 50%, $sec);
     text-align: center;
     color: $white;
-    padding: 80px;
+    padding: 60px 40px;
 
     @media (max-width: $mobile) {
-      padding: 40px;
+      padding: 40px 20px;
     }
 
     h1 {
       max-width: 900px;
-      font-size: 6vh;
+      font-size: 5vh;
       line-height: 1;
       margin-bottom: 40px;
 
@@ -70,6 +81,7 @@
       max-width: 900px;
       font-size: 18px;
       color: $sec;
+      margin-bottom: 20px;
 
       @media (max-width: $mobile) {
         font-size: 14px;
@@ -78,11 +90,14 @@
   }
 
   .tools {
+    max-width: 1400px;
+    margin: 0 auto;
     align-items: stretch;
     padding: 40px;
+    padding-bottom: 100px;
 
     @media (max-width: $mobile) {
-      padding: 10px;
+      padding: 40px 10px;
     }
 
     li {
@@ -99,7 +114,7 @@
       }
 
       &:hover {
-        background: $border;
+        background: lighten($border, 10%);
       }
 
       .icon {

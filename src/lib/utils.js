@@ -1,48 +1,42 @@
-import { browser } from "$app/env";
+export const iOS = process.browser && !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
 
-export function roundWithTwoDecimals(num) {
-  return Math.round((num + Number.EPSILON) * 100) / 100;
-}
+export const tools = [
+  {
+    slug: "/facturas",
+    title: "Facturas",
+    desc: "Genera y/o modifica facturas. Envíalas por correo electrónico y/o guárdalas en PDF.",
+    icon: "facturas.svg",
+  },
+  {
+    slug: "/presupuestos",
+    title: "Presupuestos",
+    desc: "Genera y/o modifica presupuestos. Envíalos por correo electrónico y/o guárdalos en PDF.",
+    icon: "presupuestos.svg",
+  },
+  {
+    slug: "/albaranes",
+    title: "Albaranes",
+    desc: "Genera y/o modifica albaranes. Envíalos por correo electrónico y/o guárdalos en PDF.",
+    icon: "albaranes.svg",
+  },
+  {
+    slug: "/clientes",
+    title: "Clientes",
+    desc: "Crea una lista de clientes. Después podrás usarlos en tus facturas, presupuestos y/o albaranes.",
+    icon: "clientes.svg",
+  },
+  {
+    slug: "/productos-servicios",
+    title: "Productos y servicios",
+    desc: "Crea una lista de productos/servicios. Podrás usarlos en tus facturas, presupuestos y/o albaranes.",
+    icon: "productos-servicios.svg",
+  },
+  {
+    slug: "/proveedores",
+    title: "Proveedores",
+    desc: "Crea una lista de proveedores. Así los tendrás su información de contacto siempre a mano.",
+    icon: "proveedores.svg",
+  },
+];
 
-export let storageSpace = {
-  /* total: 0, */
-  usage: 0,
-  /* percentage: 0, */
-};
-
-function totalStorage() {
-  var countKey, countValue, itemLength;
-  var occupied = 3;
-  var i = 0;
-  while (!error) {
-    try {
-      localStorage.setItem("testKey" + i, "11111111112222222222333333333344444444445555555555666661111111111222222222233333333334444444444555555555566666");
-    } catch (e) {
-      var error = e;
-    }
-    i++;
-  }
-  if (error) {
-    for (var i = 0; i < localStorage.length; i++) {
-      countKey = localStorage.key(i);
-      countValue = localStorage.getItem(localStorage.key(i));
-      itemLength = countKey.length + countValue.length;
-      occupied = occupied + itemLength;
-    }
-    occupied = roundWithTwoDecimals((occupied * 16) / (8 * 1024));
-
-    Object.keys(localStorage).forEach(function (key) {
-      if (key.indexOf("testKey") !== -1) {
-        localStorage.removeItem(key);
-      }
-    });
-  }
-
-  return occupied;
-}
-
-if (browser) {
-  /* storageSpace.total = totalStorage(); */
-  storageSpace.usage = roundWithTwoDecimals(new Blob(Object.values(localStorage)).size / 1024);
-  /* storageSpace.percentage = roundWithTwoDecimals((storageSpace.usage / storageSpace.total) * 100); */
-}
+export const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];

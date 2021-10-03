@@ -1,38 +1,26 @@
-# create-svelte
+# ⚠ Under construction ⚠
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte);
+### TODOS para 🚀:
 
-## Creating a project
+- [ ] change between repos
+- [ ] SEO
 
-If you're seeing this, you've probably already done this step. Congrats!
+### TODOS 🐌:
 
-```bash
-# create a new project in the current directory
-npm init svelte@next
-
-# create a new project in my-app
-npm init svelte@next my-app
-```
-
-> Note: the `@next` is temporary
-
-## Developing
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building
-
-Before creating a production version of your app, install an [adapter](https://kit.svelte.dev/docs#adapters) for your target environment. Then:
-
-```bash
-npm run build
-```
-
-> You can preview the built app with `npm run preview`, regardless of whether you installed an adapter. This should _not_ be used to serve your app in production.
+- [ ] facturas && pptos: boton pdf
+- [ ] herramienta: control de gastos (tickets de compra)
+- [ ] Rediseñar facturas/ppto/albaranes
+- [ ] Wiki page && seccion FAQ
+- [ ] pasar localStorage a preload
+- [ ] herramienta: registro de pagos (quien, como y cuanto)
+- [ ] herramienta: escaner ocr
+- [ ] sumar facturas/pptos
+- [ ] gasto total cliente segun fechas
+- [ ] Sync with google drive
+- [ ] enviar por email
+- [ ] descarga multiple
+- [ ] hacer seccion albaranes (buscar info)
+- [ ] modulo de importacion datos (contactos, productos, etc)
+- [ ] hacer seccion proveedores (duplicar clientes)
+- [ ] calculadora autonomos
+- [ ] calculadora metro cuadrado

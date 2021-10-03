@@ -1,23 +1,23 @@
 <script>
   import { fade } from "svelte/transition";
   import { stores, goto } from "@sapper/app";
-  import { bills, userData, products, budgets } from "../../lib/stores";
+  import { budgets, userData, bills, products } from "../../lib/stores";
   import { POST, roundWithTwoDecimals, numerationFormat, autoNumeration } from "../../lib/functions";
   import AutoComplete from "simple-svelte-autocomplete";
 
   const { page } = stores();
-  let billData = $bills.filter((bill) => bill._id === $page.params.id)[0];
+  let budgetData = $budgets.filter((budget) => budget._id === $page.params.id)[0];
   let lineData = {};
   let loading = false;
   let action = "";
 
-  async function downloadBill() {
+  async function downloadBudget() {
     loading = true;
     try {
-      const data = { ...billData };
+      const data = { ...budgetData };
       data.user = $userData;
 
-      const req = await fetch("/print/bill", POST(data));
+      const req = await fetch("/print/budget", POST(data));
       if (!req.ok) throw await req.text();
 
       const res = await req.blob();
@@ -36,7 +36,7 @@
 
       const link = document.createElement("a");
       link.href = blob;
-      link.download = `Factura_${numerationFormat(data.number, data.date.year)}_${data.client.legal_name}.pdf`;
+      link.download = `Presupuesto_${numerationFormat(data.number, data.date.year)}_${data.client.legal_name}.pdf`;
       link.click();
 
       setTimeout(() => {
@@ -51,45 +51,45 @@
     }
   }
 
-  function generateBudget() {
-    const check = confirm("¿Quieres crear un presupuesto a partir de esta factura?");
+  function generateBill() {
+    const check = confirm("¿Quieres crear una facturar a partir de este presupuesto?");
 
     if (!check) return;
 
-    const number = autoNumeration($budgets);
-    const budget = { ...billData };
-    const budgetExists = $budgets.some((b) => b._id === budget._id);
+    const number = autoNumeration($bills);
+    const bill = { ...budgetData };
+    const billExists = $bills.some((b) => b._id === bill._id);
 
-    if (budgetExists) {
-      const check = confirm("Ya se ha creado un presupuesto a partir de esta factura\n\n¿Quieres abrirlo?");
+    if (billExists) {
+      const check = confirm("Ya se ha creado una factura a partir de este presupuesto\n\n¿Quieres abrirla?");
 
       if (!check) return;
 
-      return goto(`/presupuestos/${budget._id}`);
+      return goto(`/facturas/${bill._id}`);
     }
 
-    budget.number = number;
+    bill.number = number;
 
-    $budgets = [...$budgets, budget];
+    $bills = [...$bills, bill];
     $userData._updated = new Date();
     action = "";
 
-    goto(`/presupuestos/${budget._id}`);
+    goto(`/facturas/${bill._id}`);
   }
 
-  function duplicateBill() {
+  function duplicateBudget() {
     alert("🤝 Proximamente");
     action = "";
   }
 
-  function deleteBill() {
-    const check = confirm("La numeracion de las otras facturas no se modificara. Recuerda usar la numeracion de esta factura en otra.\n\n¿Borrar definitivamente?");
+  function deleteBudget() {
+    const check = confirm("La numeracion de los otros presupuestos no se modificara. Recuerda usar la numeracion de este presupuesto en otro.\n\n¿Borrar definitivamente?");
 
     if (check) {
-      $bills.splice($bills.indexOf(billData), 1);
-      $bills = $bills;
+      $budgets.splice($budgets.indexOf(budgetData), 1);
+      $budgets = $budgets;
       $userData._updated = new Date();
-      goto("/facturas");
+      goto("/presupuestos");
     }
 
     action = "";
@@ -97,9 +97,9 @@
 
   function evalAction() {
     if (!action) return;
-    if (action === "budget") generateBudget();
-    if (action === "duplicate") duplicateBill();
-    if (action === "delete") deleteBill();
+    if (action === "bill") generateBill();
+    if (action === "duplicate") duplicateBudget();
+    if (action === "delete") deleteBudget();
   }
 
   function calcLineTotal(item) {
@@ -121,31 +121,31 @@
     lineData.amount = lineData.amount || 1;
     lineData.dto = lineData.dto || 0;
 
-    if (billData.items.some((item) => item.label === lineData.label)) {
+    if (budgetData.items.some((item) => item.label === lineData.label)) {
       const check = confirm("Ya has añadido este producto/servicio.\n\n¿Quieres actualizarlo?");
       if (!check) {
         lineData = {};
         return;
       }
 
-      billData.items = billData.items.map((item) => {
+      budgetData.items = budgetData.items.map((item) => {
         if (item._id === lineData._id) return (item = lineData);
         else return item;
       });
     } else {
-      billData.items = [...billData.items, lineData];
+      budgetData.items = [...budgetData.items, lineData];
     }
 
     lineData = {};
   }
 
   function removeLine(i) {
-    billData.items.splice(i, 1);
-    billData.items = billData.items;
+    budgetData.items.splice(i, 1);
+    budgetData.items = budgetData.items;
   }
 
   $: base_total = () => {
-    const result = billData.items.reduce((acc, curr) => {
+    const result = budgetData.items.reduce((acc, curr) => {
       const amount_price = curr.price * curr.amount;
 
       if (curr.dto > 0) {
@@ -171,23 +171,23 @@
     return result;
   };
 
-  $: bill_total = () => {
+  $: budget_total = () => {
     const result = base_total() + iva_total() - ret_total();
     return result;
   };
 
-  function pushBill() {
-    if (billData.items.length > 0) {
-      billData.totals = {
+  function pushBudget() {
+    if (budgetData.items.length > 0) {
+      budgetData.totals = {
         base: base_total(),
         iva: iva_total(),
         ret: ret_total(),
-        total: bill_total(),
+        total: budget_total(),
       };
 
-      $bills = $bills.map((bill) => {
-        if (bill._id === billData._id) return (bill = billData);
-        else return bill;
+      $budgets = $budgets.map((budget) => {
+        if (budget._id === budgetData._id) return (budget = budgetData);
+        else return budget;
       });
 
       $userData._updated = new Date();
@@ -197,8 +197,8 @@
 </script>
 
 <svelte:head>
-  <title>Editar factura | Facturas gratis</title>
-  <meta property="og:title" content="Editar factura | Facturas gratis" />
+  <title>Editar presupuesto | Facturas gratis</title>
+  <meta property="og:title" content="Editar presupuesto | Facturas gratis" />
   <meta property="og:site_name" content="Facturas gratis" />
 
   <meta
@@ -214,26 +214,26 @@
 </svelte:head>
 
 <div class="scroll">
-  {#if billData}
+  {#if budgetData}
     <section class="header col fcenter xfill">
-      <img src="/facturas.svg" alt="Factura" />
-      <h1>Factura {numerationFormat(billData.number, billData.date.year)}</h1>
+      <img src="/presupuestos.svg" alt="Presupuestos" />
+      <h1>Presupuesto {numerationFormat(budgetData.number, budgetData.date.year)}</h1>
       <p>
-        Con fecha {billData.date.day}/{billData.date.month}/{billData.date.year}
+        Con fecha {budgetData.date.day}/{budgetData.date.month}/{budgetData.date.year}
       </p>
 
       <div class="io-wrapper row jcenter xfill">
-        <button class="succ semi" on:click={downloadBill}>DESCARGAR</button>
+        <button class="succ semi" on:click={downloadBudget}>DESCARGAR</button>
 
         <select class="out semi" bind:value={action} on:change={evalAction}>
-          <option value="">OTRAS ACCIONES</option>
-          <option value="budget">CREAR PRESUPUESTO</option>
+          <option value="">MÁS ACCIONES</option>
+          <option value="bill">CREAR FACTURA</option>
           <option value="duplicate">DUPLICAR</option>
           <option value="delete">BORRAR</option>
         </select>
       </div>
 
-      <a href="/facturas" class="btn outwhite semi">VOLVER</a>
+      <a href="/presupuestos" class="btn outwhite semi">VOLVER</a>
 
       {#if loading}
         <div class="outer-loader col fcenter fill" transition:fade={{ duration: 100 }}>
@@ -243,29 +243,29 @@
       {/if}
     </section>
 
-    <form class="bill-data col acenter xfill" on:submit|preventDefault={pushBill}>
+    <form class="budget-data col acenter xfill" on:submit|preventDefault={pushBudget}>
       <div class="box round col xfill">
-        <h2>Datos de la factura</h2>
+        <h2>Datos del presupuesto</h2>
         <p class="notice">Recuerda que cambiar la numeracion manualmente provocara que no sea correlativa.</p>
 
         <div class="row xfill">
           <div class="input-wrapper col grow">
             <label for="legal_name">Número</label>
-            <input type="number" id="legal_name" class="xfill" bind:value={billData.number} required />
+            <input type="number" id="legal_name" class="xfill" bind:value={budgetData.number} required />
           </div>
 
           <div class="date-row row xhalf">
             <div class="input-wrapper date col">
               <label for="day">Día</label>
-              <input type="number" id="day" min="1" max="31" class="xfill" bind:value={billData.date.day} required />
+              <input type="number" id="day" min="1" max="31" class="xfill" bind:value={budgetData.date.day} required />
             </div>
             <div class="input-wrapper date col">
               <label for="month">Mes</label>
-              <input type="number" id="month" min="1" max="12" class="xfill" bind:value={billData.date.month} required />
+              <input type="number" id="month" min="1" max="12" class="xfill" bind:value={budgetData.date.month} required />
             </div>
             <div class="input-wrapper date col">
               <label for="year">Año</label>
-              <input type="number" id="year" class="xfill" bind:value={billData.date.year} required />
+              <input type="number" id="year" class="xfill" bind:value={budgetData.date.year} required />
             </div>
           </div>
         </div>
@@ -277,42 +277,42 @@
 
         <div class="input-wrapper col xfill">
           <label for="legal_name">NOMBRE FISCAL</label>
-          <input type="text" id="leagal_name" bind:value={billData.client.legal_name} class="xfill" required />
+          <input type="text" id="leagal_name" bind:value={budgetData.client.legal_name} class="xfill" required />
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="legal_id">CIF/NIF</label>
-            <input type="text" id="leagal_id" bind:value={billData.client.legal_id} class="xfill" required />
+            <input type="text" id="leagal_id" bind:value={budgetData.client.legal_id} class="xfill" required />
           </div>
 
           <div class="input-wrapper col xhalf">
             <label for="contact">Conacto</label>
-            <input type="text" id="contact" bind:value={billData.client.contact} class="xfill" required />
+            <input type="text" id="contact" bind:value={budgetData.client.contact} class="xfill" required />
           </div>
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="address">DIRECCION FISCAL</label>
-            <input type="text" id="address" bind:value={billData.client.address} class="xfill" required />
+            <input type="text" id="address" bind:value={budgetData.client.address} class="xfill" required />
           </div>
 
           <div class="col xhalf">
             <label for="cp">Código postal</label>
-            <input type="text" id="cp" bind:value={billData.client.cp} class="xfill" required />
+            <input type="text" id="cp" bind:value={budgetData.client.cp} class="xfill" required />
           </div>
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="city">POBLACIÓN</label>
-            <input type="text" id="city" bind:value={billData.client.city} class="xfill" required />
+            <input type="text" id="city" bind:value={budgetData.client.city} class="xfill" required />
           </div>
 
           <div class="input-wrapper col xhalf">
             <label for="country">País</label>
-            <input type="text" id="country" bind:value={billData.client.country} class="xfill" required />
+            <input type="text" id="country" bind:value={budgetData.client.country} class="xfill" required />
           </div>
         </div>
       </div>
@@ -321,8 +321,8 @@
         <h2>Conceptos</h2>
         <p class="notice">Los cambios que realices aqui, no se guardaran en la ficha del producto/servicio</p>
 
-        {#if billData.items.length > 0}
-          <ul class="bill-items col acenter xfill">
+        {#if budgetData.items.length > 0}
+          <ul class="budget-items col acenter xfill">
             <li class="line row xfill">
               <span class="label row">CANT</span>
               <span class="label row grow">CONCEPTO</span>
@@ -332,12 +332,12 @@
               <span class="label row">&nbsp;</span>
             </li>
 
-            {#each billData.items as item, i}
+            {#each budgetData.items as item, i}
               <li class="line row xfill">
-                <input type="number" bind:value={item.amount} min="1" class="out" placeholder="CANT" />
-                <input type="text" bind:value={item.label} class="out grow" placeholder="CONCEPTO" />
-                <input type="number" bind:value={item.dto} min="0" max="100" class="out" placeholder="DTO %" />
-                <input type="number" bind:value={item.price} step="0.01" class="out" placeholder="PRECIO {$userData.currency}" />
+                <input type="number" id="amount" bind:value={item.amount} min="1" class="out" placeholder="CANT" />
+                <input type="text" id="label" bind:value={item.label} class="out grow" placeholder="CONCEPTO" />
+                <input type="number" id="dto" bind:value={item.dto} min="0" max="100" class="out" placeholder="DTO %" />
+                <input type="number" id="price" bind:value={item.price} step="0.01" class="out" placeholder="PRECIO {$userData.currency}" />
                 <input type="text" value={calcLineTotal(item)} class="out" disabled />
                 <input type="text" value="🗑" class="out" on:click={() => removeLine(i)} />
               </li>
@@ -368,7 +368,7 @@
 
             <li class="col acenter grow">
               <p class="label">Total</p>
-              <h3>{roundWithTwoDecimals(bill_total()).toFixed(2)}{$userData.currency}</h3>
+              <h3>{roundWithTwoDecimals(budget_total()).toFixed(2)}{$userData.currency}</h3>
             </li>
           </ul>
 
@@ -378,6 +378,7 @@
         {#if $products.length > 0}
           <div class="input-wrapper col xfill">
             <label for="products_list" style="margin-bottom: 10px">CARGAR DATOS</label>
+
             <AutoComplete items={$products} bind:selectedItem={lineData} labelFieldName="label" placeholder="Buscar producto" noResultsText="No hay coincidencias" hideArrow>
               <div slot="item" let:item>
                 <div class="row aend xfill">
@@ -405,13 +406,13 @@
 
         <div class="input-wrapper col xfill">
           <label for="note">Notas</label>
-          <textarea id="note" bind:value={billData.note} class="xfill" placeholder="Ej. Transporte no incluido" />
+          <textarea id="note" bind:value={budgetData.note} class="xfill" placeholder="Ej. Transporte no incluido" />
         </div>
       </div>
 
       <div class="last-row row jcenter xfill">
         <button class="succ semi">GUARDAR CAMBIOS</button>
-        <a href="/facturas" class="btn out semi">ATRAS</a>
+        <a href="/presupuestos" class="btn out semi">ATRAS</a>
       </div>
     </form>
   {/if}
@@ -481,7 +482,7 @@
     }
   }
 
-  .bill-data {
+  .budget-data {
     padding: 60px;
 
     @media (max-width: $mobile) {
@@ -560,6 +561,7 @@
 
       &:nth-of-type(even) {
         background: $bg;
+        margin-top: -1px;
       }
 
       span.label {

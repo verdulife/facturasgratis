@@ -1,0 +1,12 @@
+{
+  "web": {
+    "client_id": "414674564268-o7km5ct8qkb9o1v30d6su4ol5q4oph1p.apps.googleusercontent.com",
+    "project_id": "facturasgratis",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "rH4JkQpnXJ9MvVa8-0q-ntKG",
+    "redirect_uris": ["https://www.facturasgratis.ml/ajustes/sync", "http://localhost:3000/ajustes/sync", "https://facturasgratis.vercel.app/ajustes/sync", "https://factura2.vercel.app/ajustes/sync"],
+    "javascript_origins": ["https://www.facturasgratis.ml", "https://facturasgratis.vercel.app", "https://factura2.vercel.app", "http://localhost:3000"]
+  }
+}
