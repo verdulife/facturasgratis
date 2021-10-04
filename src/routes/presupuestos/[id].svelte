@@ -29,7 +29,7 @@
         position: fixed;
         top: 0;
         left: 0;
-        width: 40%;
+        width: 100%;
         height: 100%;
       `;
       document.body.appendChild(frame); */

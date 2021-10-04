@@ -102,6 +102,11 @@ ${data.user.email ? "e. " + data.user.email : ""}`,
     if (c > 0) doc.addPage();
     fillPage();
 
+    if (chunkedLines.length >= 2) {
+      doc.rect(mm(153.15), mm(40.2), mm(36.85), mm(5)).lineWidth(0.25).stroke(black);
+      doc.text(`Pág. ${c + 1}/${chunkedLines.length}`, mm(153.15), mm(41), { width: mm(36.85), align: "center" });
+    }
+
     for (let l = 0; l < chunk.length; l++) {
       const line = chunk[l];
       const jump = mm(6) * l;

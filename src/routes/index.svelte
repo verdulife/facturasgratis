@@ -23,20 +23,14 @@
 <div class="scroll">
   <section class="header col fcenter xfill">
     <h1>Herramientas online para gestionar tu negocio</h1>
-    <p>
-      Herramientas online gratuitas para generar, enviar, rectificar y listar
-      facturas, presupuestos, albaranes, clientes, proveedores y
-      productos/servicios. No se necesita instalación.
-    </p>
+    <p>Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios. No se necesita instalación.</p>
 
     {#if process.browser && Object.keys($userData).length <= 0}
-      <h3>Primeros pasos</h3>
-      <p>
-        Para empezar a trabajar con <b>facturasgratis</b>, el primer paso es
-        rellenar tus datos.
-      </p>
-      <a href="/ajustes" class="btn succ semi">RELLENAR DATOS</a>
+      <h2>Primeros pasos</h2>
+      <p>Para empezar a trabajar con <b>facturasgratis</b>, el primer paso es rellenar tus datos.</p>
     {/if}
+
+    <a href="/ajustes" class="btn succ semi">TUS DATOS</a>
   </section>
 
   <ul class="tools row jcenter xfill">

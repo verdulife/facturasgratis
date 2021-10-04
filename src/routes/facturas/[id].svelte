@@ -13,6 +13,7 @@
 
   async function downloadBill() {
     loading = true;
+
     try {
       const data = { ...billData };
       data.user = $userData;
