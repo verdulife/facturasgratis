@@ -1,7 +1,7 @@
 <script context="module">
   export async function preload(page, session) {
     const { locale } = session;
-    const def = "en";
+    const def = "es";
 
     if (locale !== "es") return { locale: def };
     else return { locale: "es" };
@@ -9,7 +9,6 @@
 </script>
 
 <script>
-  import { stores } from "@sapper/app";
   import { l } from "../lib/stores";
   import Nav from "../components/Nav.svelte";
   import Cookies from "../components/Cookies.svelte";
@@ -17,10 +16,6 @@
   export let segment, locale;
   $l = locale;
 </script>
-
-<svelte:head>
-  <html lang={$l} />
-</svelte:head>
 
 <main>
   <Nav {segment} />
