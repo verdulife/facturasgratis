@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-  <title>{status} | facturasgratis</title>
+  <title>{status} | Facturasgratis</title>
 </svelte:head>
 
 <div class="col fcenter fill">

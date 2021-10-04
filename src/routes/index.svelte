@@ -4,26 +4,48 @@
 </script>
 
 <svelte:head>
-  <title>Herramientas online | Facturas gratis</title>
-  <meta property="og:title" content="Herramientas online | Facturas gratis" />
-  <meta property="og:site_name" content="Facturas gratis" />
-
+  <title>Herramientas online | Facturasgratis</title>
   <meta
     name="description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
+    content="Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes,
   clientes, proveedores y productos/servicios."
   />
   <meta
-    property="og:description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
+    name="keywords"
+    content="herramientas online, gratis, facturas, presupuestos, albaranes,
   clientes, proveedores y productos/servicios."
   />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.facturasgratis.com/" />
+  <meta property="og:title" content="Herramientas online | Facturasgratis" />
+  <meta
+    property="og:description"
+    content="Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes,
+  clientes, proveedores y productos/servicios."
+  />
+  <meta property="og:image" content="/mobile.png" />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content="https://www.facturasgratis.com/" />
+  <meta property="twitter:title" content="Herramientas online | Facturasgratis" />
+  <meta
+    property="twitter:description"
+    content="Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes,
+  clientes, proveedores y productos/servicios."
+  />
+  <meta property="twitter:image" content="/mobile.png" />
 </svelte:head>
 
 <div class="scroll">
   <section class="header col fcenter xfill">
     <h1>Herramientas online para gestionar tu negocio</h1>
-    <p>Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios. No se necesita instalación.</p>
+    <p>
+      Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
+      clientes, proveedores y productos/servicios. No se necesita instalación.
+    </p>
 
     {#if process.browser && Object.keys($userData).length <= 0}
       <h2>Primeros pasos</h2>
