@@ -21,17 +21,27 @@
   <meta name="twitter:site" content={home.url} />
   <meta name="twitter:title" content={home.title} />
   <meta name="twitter:description" content={home.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
+  <meta
+    name="twitter:image"
+    content="https://www.facturasgratis.ml/twitter-card.png"
+  />
 </svelte:head>
 
 <div class="scroll">
   <section class="header col fcenter xfill">
     <h1>Herramientas online para gestionar tu negocio</h1>
-    <p>Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios. No se necesita instalación.</p>
+    <p>
+      Herramientas online gratuitas para generar, enviar, rectificar y listar
+      facturas, presupuestos, albaranes, clientes, proveedores y
+      productos/servicios. No se necesita instalación.
+    </p>
 
     {#if process.browser && Object.keys($userData).length <= 0}
       <h2>Primeros pasos</h2>
-      <p>Para empezar a trabajar con <b>facturasgratis</b>, el primer paso es rellenar tus datos.</p>
+      <p>
+        Para empezar a trabajar con <b>facturasgratis</b>, el primer paso es
+        rellenar tus datos.
+      </p>
     {/if}
 
     <a href="/ajustes" class="btn succ semi">TUS DATOS</a>
@@ -42,7 +52,12 @@
       <li class="box round col acenter">
         <a class="fill" href={tool.slug}>
           <div class="icon">
-            <img src={tool.icon} alt={tool.title} />
+            <img
+              width="50"
+              height="50"
+              src={tool.icon}
+              alt={tool.title}
+            />
           </div>
 
           <h2 class="xfill">{tool.title}</h2>
@@ -116,14 +131,7 @@
       }
 
       .icon {
-        width: 50px;
-        height: 50px;
         margin-bottom: 10px;
-
-        @media (max-width: $mobile) {
-          width: 30px;
-          height: 30px;
-        }
       }
 
       h2 {
