@@ -57,11 +57,11 @@
   <meta property="og:image" content={facturas.image} />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content={facturas.url} />
-  <meta property="twitter:title" content={facturas.title} />
-  <meta property="twitter:description" content={facturas.description} />
-  <meta property="twitter:image" content={facturas.image} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content={facturas.url} />
+  <meta name="twitter:title" content={facturas.title} />
+  <meta name="twitter:description" content={facturas.description} />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
 </svelte:head>
 
 <div class="scroll">

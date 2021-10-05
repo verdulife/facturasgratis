@@ -16,11 +16,11 @@
   <meta property="og:image" content={albaranes.image} />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content={albaranes.url} />
-  <meta property="twitter:title" content={albaranes.title} />
-  <meta property="twitter:description" content={albaranes.description} />
-  <meta property="twitter:image" content={albaranes.image} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content={albaranes.url} />
+  <meta name="twitter:title" content={albaranes.title} />
+  <meta name="twitter:description" content={albaranes.description} />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
 </svelte:head>
 
 <Comingsoon />

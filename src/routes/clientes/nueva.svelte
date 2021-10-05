@@ -27,11 +27,11 @@
   <meta property="og:image" content={nueva_cliente.image} />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content={nueva_cliente.url} />
-  <meta property="twitter:title" content={nueva_cliente.title} />
-  <meta property="twitter:description" content={nueva_cliente.description} />
-  <meta property="twitter:image" content={nueva_cliente.image} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content={nueva_cliente.url} />
+  <meta name="twitter:title" content={nueva_cliente.title} />
+  <meta name="twitter:description" content={nueva_cliente.description} />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
 </svelte:head>
 
 <div class="scroll">

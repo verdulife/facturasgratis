@@ -32,11 +32,11 @@
   <meta property="og:image" content={clientes.image} />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content={clientes.url} />
-  <meta property="twitter:title" content={clientes.title} />
-  <meta property="twitter:description" content={clientes.description} />
-  <meta property="twitter:image" content={clientes.image} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content={clientes.url} />
+  <meta name="twitter:title" content={clientes.title} />
+  <meta name="twitter:description" content={clientes.description} />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
 </svelte:head>
 
 <div class="scroll">

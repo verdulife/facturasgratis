@@ -16,11 +16,11 @@
   <meta property="og:image" content={proveedores.image} />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content={proveedores.url} />
-  <meta property="twitter:title" content={proveedores.title} />
-  <meta property="twitter:description" content={proveedores.description} />
-  <meta property="twitter:image" content={proveedores.image} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content={proveedores.url} />
+  <meta name="twitter:title" content={proveedores.title} />
+  <meta name="twitter:description" content={proveedores.description} />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
 </svelte:head>
 
 <Comingsoon />

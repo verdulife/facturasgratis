@@ -57,11 +57,11 @@
   <meta property="og:image" content={presupuestos.image} />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content={presupuestos.url} />
-  <meta property="twitter:title" content={presupuestos.title} />
-  <meta property="twitter:description" content={presupuestos.description} />
-  <meta property="twitter:image" content={presupuestos.image} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content={presupuestos.url} />
+  <meta name="twitter:title" content={presupuestos.title} />
+  <meta name="twitter:description" content={presupuestos.description} />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
 </svelte:head>
 
 <div class="scroll">

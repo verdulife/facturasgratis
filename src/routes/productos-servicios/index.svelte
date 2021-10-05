@@ -66,11 +66,11 @@
   <meta property="og:image" content={productos_servicios.image} />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content={productos_servicios.url} />
-  <meta property="twitter:title" content={productos_servicios.title} />
-  <meta property="twitter:description" content={productos_servicios.description} />
-  <meta property="twitter:image" content={productos_servicios.image} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content={productos_servicios.url} />
+  <meta name="twitter:title" content={productos_servicios.title} />
+  <meta name="twitter:description" content={productos_servicios.description} />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
 </svelte:head>
 
 <div class="scroll">

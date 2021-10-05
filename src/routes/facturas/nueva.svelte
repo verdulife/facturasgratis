@@ -148,11 +148,11 @@
   <meta property="og:image" content={nueva_factura.image} />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content={nueva_factura.url} />
-  <meta property="twitter:title" content={nueva_factura.title} />
-  <meta property="twitter:description" content={nueva_factura.description} />
-  <meta property="twitter:image" content={nueva_factura.image} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content={nueva_factura.url} />
+  <meta name="twitter:title" content={nueva_factura.title} />
+  <meta name="twitter:description" content={nueva_factura.description} />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
 </svelte:head>
 
 <div class="scroll">

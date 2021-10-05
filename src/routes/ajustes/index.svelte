@@ -128,11 +128,11 @@
   <meta property="og:image" content={ajustes.image} />
 
   <!-- Twitter -->
-  <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content={ajustes.url} />
-  <meta property="twitter:title" content={ajustes.title} />
-  <meta property="twitter:description" content={ajustes.description} />
-  <meta property="twitter:image" content={ajustes.image} />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content={ajustes.url} />
+  <meta name="twitter:title" content={ajustes.title} />
+  <meta name="twitter:description" content={ajustes.description} />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
 </svelte:head>
 
 <div class="scroll">
