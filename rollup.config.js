@@ -11,7 +11,6 @@ import { terser } from "rollup-plugin-terser";
 import config from "sapper/config/rollup.js";
 import pkg from "./package.json";
 import sveltePreprocess from "svelte-preprocess";
-/* import SitemapPlugin from 'rollup-plugin-sitemap'; */
 
 const mode = process.env.NODE_ENV;
 const dev = mode === "development";
@@ -20,22 +19,6 @@ const legacy = !!process.env.SAPPER_LEGACY_BUILD;
 const onwarn = (warning, onwarn) => (warning.code === "MISSING_EXPORT" && /'preload'/.test(warning.message)) || (warning.code === "CIRCULAR_DEPENDENCY" && /[/\\]@sapper[/\\]/.test(warning.message)) || onwarn(warning);
 
 const SCSS_VARS = readFileSync(path.resolve(__dirname, "src", "_vars.scss"), { encoding: "utf-8", flag: "r" });
-
-/* const routes = [
-  { path: '/', name: 'Inicio' },
-  { path: '/facturas', name: 'Facturas' },
-  { path: '/facturas/nueva', name: 'Nueva factura' },
-  { path: '/presupuestos', name: 'Presupuestos' },
-  { path: '/presupuesto/nueva', name: 'Nuevo presupuesto' },
-  { path: '/presupuesto/nueva', name: 'Nuevo presupuesto' },
-  { path: '/albaranes', name: 'Albaranes' },
-  { path: '/clientes', name: 'Clientes' },
-  { path: '/clientes/nueva', name: 'Nuevo cliente' },
-  { path: '/productos-servicios', name: 'Productos y servicios' },
-  { path: '/proveedores', name: 'Proveedores' },
-  { path: '/ajustes', name: 'Ajustes' },
-  { path: '/privacidad', name: 'Privacidad' },
-]; */
 
 export default {
   client: {
@@ -72,40 +55,35 @@ export default {
       }),
       commonjs(),
       json(),
-      /* SitemapPlugin({
-        baseUrl: 'https://facturasgratis.ml',
-        contentBase: '__sapper__/export',
-        routes,
-      }), */
 
       legacy &&
-      babel({
-        extensions: [".js", ".mjs", ".html", ".svelte"],
-        babelHelpers: "runtime",
-        exclude: ["node_modules/@babel/**"],
-        presets: [
-          [
-            "@babel/preset-env",
-            {
-              targets: "> 0.25%, not dead",
-            },
+        babel({
+          extensions: [".js", ".mjs", ".html", ".svelte"],
+          babelHelpers: "runtime",
+          exclude: ["node_modules/@babel/**"],
+          presets: [
+            [
+              "@babel/preset-env",
+              {
+                targets: "> 0.25%, not dead",
+              },
+            ],
           ],
-        ],
-        plugins: [
-          "@babel/plugin-syntax-dynamic-import",
-          [
-            "@babel/plugin-transform-runtime",
-            {
-              useESModules: true,
-            },
+          plugins: [
+            "@babel/plugin-syntax-dynamic-import",
+            [
+              "@babel/plugin-transform-runtime",
+              {
+                useESModules: true,
+              },
+            ],
           ],
-        ],
-      }),
+        }),
 
       !dev &&
-      terser({
-        module: true,
-      }),
+        terser({
+          module: true,
+        }),
     ],
 
     preserveEntrySignatures: false,
@@ -141,18 +119,13 @@ export default {
       url({
         sourceDir: path.resolve(__dirname, "src/node_modules/images"),
         publicPath: "/client/",
-        emitFiles: false, // already emitted by client build
+        emitFiles: false,
       }),
       resolve({
         dedupe: ["svelte"],
       }),
       commonjs(),
       json(),
-      /* SitemapPlugin({
-        baseUrl: 'https://facturasgratis.ml',
-        contentBase: '__sapper__/export',
-        routes,
-      }), */
     ],
     external: Object.keys(pkg.dependencies).concat(require("module").builtinModules),
 

@@ -71,7 +71,7 @@ ${data.user.email ? "e. " + data.user.email : ""}`,
     doc.text(`${data.date.day}/${data.date.month}/${data.date.year}`, mm(167.5), mm(36.2));
 
     doc.text(data.client.legal_name, mm(30), mm(67));
-    doc.text(`${data.user.street}, ${data.user.city}, ${data.user.cp} (${data.user.country})`, mm(38.4), mm(74));
+    doc.text(`${data.client.address}, ${data.client.city}, ${data.client.cp} (${data.client.country})`, mm(38.4), mm(74));
     doc.text(data.client.legal_id, mm(35), mm(81));
     doc.text(data.client.contact, mm(77.2), mm(81));
 
