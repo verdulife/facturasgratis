@@ -16,7 +16,7 @@
 
 <nav class="row jbetween acenter xfill">
   <a href="/" class="row acenter">
-    <img class="logo" src="/logo.svg" alt="facturasgratis" />
+    <img width="190" height="32" class="logo" src="/logo.svg" alt="facturasgratis" />
   </a>
 
   <ul class="desktop-menu row yfill">
@@ -27,7 +27,7 @@
         {#each tools as { slug, title, icon }}
           <li class="xfill" class:active={segment === slug}>
             <a href={slug} class="row nowrap acenter fill">
-              <img src={icon} alt={title} />
+              <img width="20" height="20" src={icon} alt={title} />
               <p>{title}</p>
             </a>
           </li>
@@ -96,14 +96,6 @@
     }
   }
 
-  .logo {
-    width: 200px;
-
-    @media (max-width: $mobile) {
-      width: 175px;
-    }
-  }
-
   li {
     cursor: pointer;
     position: relative;
@@ -134,8 +126,6 @@
         }
 
         img {
-          width: 20px;
-          height: 20px;
           object-fit: cover;
           margin-right: 10px;
         }

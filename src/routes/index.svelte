@@ -77,6 +77,10 @@
 
     @media (max-width: $mobile) {
       padding: 40px 20px;
+
+      a.btn {
+        width: 70%;
+      }
     }
 
     h1 {

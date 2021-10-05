@@ -71,7 +71,6 @@
     }
 
     a.btn {
-      color: $white;
       text-transform: uppercase;
       font-size: 12px;
       margin: 3em 0;

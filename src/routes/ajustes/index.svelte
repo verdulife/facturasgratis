@@ -352,7 +352,6 @@
 
       button {
         font-size: 12px;
-        color: $white;
       }
     }
   }
@@ -471,14 +470,9 @@
 
   button {
     margin-right: 10px;
-
-    @media (max-width: $mobile) {
-      width: 70%;
-      margin-right: 0;
-      margin-bottom: 10px;
-    }
   }
 
+  button,
   a.btn {
     @media (max-width: $mobile) {
       width: 70%;
