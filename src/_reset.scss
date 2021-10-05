@@ -92,3 +92,8 @@ code {
   font-family: "Operator Mono Lig", monospace;
   font-size: 0.9em;
 }
+
+button.succ,
+a.btn.succ {
+  color: $black !important;
+}
