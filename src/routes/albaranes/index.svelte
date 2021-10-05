@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-  <title>{home.title}</title>
+  <title>{albaranes.title}</title>
   <meta name="description" content={albaranes.description} />
   <meta name="keywords" content={albaranes.keywords} />
 

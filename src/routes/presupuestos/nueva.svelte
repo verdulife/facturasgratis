@@ -2,7 +2,7 @@
   import { stores, goto } from "@sapper/app";
   import { userData, budgets, clients, products } from "../../lib/stores";
   import { autoNumeration, roundWithTwoDecimals } from "../../lib/functions";
-  import { nueva_presupuestos } from "../../lib/metadata";
+  import { nueva_presupuesto } from "../../lib/metadata";
   import AutoComplete from "simple-svelte-autocomplete";
 
   const { page } = stores();
@@ -179,7 +179,15 @@
           </div>
           <div class="input-wrapper date col">
             <label for="month">Mes</label>
-            <input type="number" id="month" min="1" max="12" class="xfill" bind:value={budgetData.date.month} required />
+            <input
+              type="number"
+              id="month"
+              min="1"
+              max="12"
+              class="xfill"
+              bind:value={budgetData.date.month}
+              required
+            />
           </div>
           <div class="input-wrapper date col">
             <label for="year">Año</label>
@@ -196,7 +204,14 @@
       {#if $clients.length > 0}
         <div class="input-wrapper col xfill">
           <label for="clients_list" style="margin-bottom: 10px">CARGAR DATOS</label>
-          <AutoComplete items={$clients} bind:selectedItem={budgetData.client} labelFieldName="legal_name" placeholder="Buscar cliente" noResultsText="No hay coincidencias" hideArrow />
+          <AutoComplete
+            items={$clients}
+            bind:selectedItem={budgetData.client}
+            labelFieldName="legal_name"
+            placeholder="Buscar cliente"
+            noResultsText="No hay coincidencias"
+            hideArrow
+          />
         </div>
       {/if}
 
@@ -262,7 +277,13 @@
               <input type="number" bind:value={item.amount} min="1" class="out" placeholder="CANT" />
               <input type="text" bind:value={item.label} class="out grow" placeholder="CONCEPTO" />
               <input type="number" bind:value={item.dto} min="0" max="100" class="out" placeholder="DTO %" />
-              <input type="number" bind:value={item.price} step="0.01" class="out" placeholder="PRECIO {$userData.currency}" />
+              <input
+                type="number"
+                bind:value={item.price}
+                step="0.01"
+                class="out"
+                placeholder="PRECIO {$userData.currency}"
+              />
               <input type="text" value={calcLineTotal(item)} class="out" disabled />
               <input type="text" value="🗑" class="out" on:click={() => removeLine(i)} />
             </li>
@@ -304,7 +325,14 @@
         <div class="input-wrapper col xfill">
           <label for="products_list" style="margin-bottom: 10px">CARGAR DATOS</label>
 
-          <AutoComplete items={$products} bind:selectedItem={lineData} labelFieldName="label" placeholder="Buscar producto" noResultsText="No hay coincidencias" hideArrow>
+          <AutoComplete
+            items={$products}
+            bind:selectedItem={lineData}
+            labelFieldName="label"
+            placeholder="Buscar producto"
+            noResultsText="No hay coincidencias"
+            hideArrow
+          >
             <div slot="item" let:item>
               <div class="row aend xfill">
                 <p class="nowrap grow" style="padding-right: 10px;">{item.label}</p>
@@ -319,7 +347,14 @@
         <input type="number" id="amount" bind:value={lineData.amount} min="1" class="out" placeholder="CANT" />
         <input type="text" id="label" bind:value={lineData.label} class="out grow" placeholder="CONCEPTO" />
         <input type="number" id="dto" bind:value={lineData.dto} min="0" max="100" class="out" placeholder="DTO %" />
-        <input type="number" id="price" bind:value={lineData.price} step="0.01" class="out" placeholder="PRECIO{$userData.currency}" />
+        <input
+          type="number"
+          id="price"
+          bind:value={lineData.price}
+          step="0.01"
+          class="out"
+          placeholder="PRECIO{$userData.currency}"
+        />
       </div>
 
       <div class="line-btn pri xfill" on:click={pushLine}>AÑADIR A LA LISTA</div>
