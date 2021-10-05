@@ -1,6 +1,7 @@
 <script>
   import { userData, clients } from "../../lib/stores";
   import { tools } from "../../lib/utils";
+  import { clientes } from "../../lib/metadata";
 
   let clientsData = [...$clients];
   let searchTerm = "";
@@ -19,20 +20,23 @@
 </script>
 
 <svelte:head>
-  <title>Clientes | Facturas gratis</title>
-  <meta property="og:title" content="Clientes | Facturas gratis" />
-  <meta property="og:site_name" content="Facturas gratis" />
+  <title>{clientes.title}</title>
+  <meta name="description" content={clientes.description} />
+  <meta name="keywords" content={clientes.keywords} />
 
-  <meta
-    name="description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
-  <meta
-    property="og:description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={clientes.url} />
+  <meta property="og:title" content={clientes.title} />
+  <meta property="og:description" content={clientes.description} />
+  <meta property="og:image" content={clientes.image} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={clientes.url} />
+  <meta property="twitter:title" content={clientes.title} />
+  <meta property="twitter:description" content={clientes.description} />
+  <meta property="twitter:image" content={clientes.image} />
 </svelte:head>
 
 <div class="scroll">
@@ -199,10 +203,10 @@
           background: lighten($border, 10%);
         }
       }
-      
+
       a.btn {
         border-top: 1px solid $border;
-        
+
         &:hover {
           background: $success;
           color: $white;

@@ -2,6 +2,7 @@
   import { fade, slide } from "svelte/transition";
   import { userData, products } from "../../lib/stores";
   import { roundWithTwoDecimals } from "../../lib/functions";
+  import { productos_servicios } from "../../lib/metadata";
   import { tools } from "../../lib/utils";
 
   let productsData = [...$products];
@@ -53,20 +54,23 @@
 </script>
 
 <svelte:head>
-  <title>Productos y servicios | Facturas gratis</title>
-  <meta property="og:title" content="Productos y servicios | Facturas gratis" />
-  <meta property="og:site_name" content="Facturas gratis" />
+  <title>{productos_servicios.title}</title>
+  <meta name="description" content={productos_servicios.description} />
+  <meta name="keywords" content={productos_servicios.keywords} />
 
-  <meta
-    name="description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
-  <meta
-    property="og:description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={productos_servicios.url} />
+  <meta property="og:title" content={productos_servicios.title} />
+  <meta property="og:description" content={productos_servicios.description} />
+  <meta property="og:image" content={productos_servicios.image} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={productos_servicios.url} />
+  <meta property="twitter:title" content={productos_servicios.title} />
+  <meta property="twitter:description" content={productos_servicios.description} />
+  <meta property="twitter:image" content={productos_servicios.image} />
 </svelte:head>
 
 <div class="scroll">

@@ -1,51 +1,33 @@
 <script>
   import { tools } from "../lib/utils";
+  import { home } from "../lib/metadata";
   import { userData } from "../lib/stores";
 </script>
 
 <svelte:head>
-  <title>Herramientas online | Facturasgratis</title>
-  <meta
-    name="description"
-    content="Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
-  <meta
-    name="keywords"
-    content="herramientas online, gratis, facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
+  <title>{home.title}</title>
+  <meta name="description" content={home.description} />
+  <meta name="keywords" content={home.keywords} />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.facturasgratis.com/" />
-  <meta property="og:title" content="Herramientas online | Facturasgratis" />
-  <meta
-    property="og:description"
-    content="Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
-  <meta property="og:image" content="/mobile.png" />
+  <meta property="og:url" content={home.url} />
+  <meta property="og:title" content={home.title} />
+  <meta property="og:description" content={home.description} />
+  <meta property="og:image" content={home.image} />
 
   <!-- Twitter -->
   <meta property="twitter:card" content="summary_large_image" />
-  <meta property="twitter:url" content="https://www.facturasgratis.com/" />
-  <meta property="twitter:title" content="Herramientas online | Facturasgratis" />
-  <meta
-    property="twitter:description"
-    content="Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
-  <meta property="twitter:image" content="/mobile.png" />
+  <meta property="twitter:url" content={home.url} />
+  <meta property="twitter:title" content={home.title} />
+  <meta property="twitter:description" content={home.description} />
+  <meta property="twitter:image" content={home.image} />
 </svelte:head>
 
 <div class="scroll">
   <section class="header col fcenter xfill">
     <h1>Herramientas online para gestionar tu negocio</h1>
-    <p>
-      Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-      clientes, proveedores y productos/servicios. No se necesita instalación.
-    </p>
+    <p>Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios. No se necesita instalación.</p>
 
     {#if process.browser && Object.keys($userData).length <= 0}
       <h2>Primeros pasos</h2>

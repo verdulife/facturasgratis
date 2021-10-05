@@ -1,7 +1,29 @@
+<script>
+  import { privacidad } from "../lib/metadata";
+</script>
+
+<svelte:head>
+  <title>{privacidad.title}</title>
+  <meta name="description" content={privacidad.description} />
+  <meta name="keywords" content={privacidad.keywords} />
+
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={privacidad.url} />
+  <meta property="og:title" content={privacidad.title} />
+  <meta property="og:description" content={privacidad.description} />
+  <meta property="og:image" content={privacidad.image} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={privacidad.url} />
+  <meta property="twitter:title" content={privacidad.title} />
+  <meta property="twitter:description" content={privacidad.description} />
+  <meta property="twitter:image" content={privacidad.image} />
+</svelte:head>
+
 <div class="scroll">
   <div class="content col">
-    <img src="/logo.svg" alt="facturasgratos" class="logo" />
-
     <h1 class="privacidad">Política de Cookies y Privacidad de <b>facturasgratis</b></h1>
 
     <p>
@@ -173,11 +195,6 @@
     max-width: 900px;
     margin: 0 auto;
     padding: 60px 40px;
-  }
-
-  .logo {
-    width: 70%;
-    max-width: 500px;
   }
 
   h1 {

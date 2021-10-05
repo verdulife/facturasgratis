@@ -2,6 +2,7 @@
   import { stores, goto } from "@sapper/app";
   import { userData, bills, clients, products } from "../../lib/stores";
   import { autoNumeration, roundWithTwoDecimals } from "../../lib/functions";
+  import { nueva_factura } from "../../lib/metadata";
   import AutoComplete from "simple-svelte-autocomplete";
 
   const { page } = stores();
@@ -135,20 +136,23 @@
 </script>
 
 <svelte:head>
-  <title>Nueva factura | Facturas gratis</title>
-  <meta property="og:title" content="Nueva factura | Facturas gratis" />
-  <meta property="og:site_name" content="Facturas gratis" />
+  <title>{nueva_factura.title}</title>
+  <meta name="description" content={nueva_factura.description} />
+  <meta name="keywords" content={nueva_factura.keywords} />
 
-  <meta
-    name="description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
-  <meta
-    property="og:description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={nueva_factura.url} />
+  <meta property="og:title" content={nueva_factura.title} />
+  <meta property="og:description" content={nueva_factura.description} />
+  <meta property="og:image" content={nueva_factura.image} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={nueva_factura.url} />
+  <meta property="twitter:title" content={nueva_factura.title} />
+  <meta property="twitter:description" content={nueva_factura.description} />
+  <meta property="twitter:image" content={nueva_factura.image} />
 </svelte:head>
 
 <div class="scroll">

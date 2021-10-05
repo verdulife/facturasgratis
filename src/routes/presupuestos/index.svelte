@@ -2,6 +2,7 @@
   import { userData, budgets } from "../../lib/stores";
   import { tools, months } from "../../lib/utils";
   import { sortByNumber, roundWithTwoDecimals, numerationFormat } from "../../lib/functions";
+  import { presupuestos } from "../../lib/metadata";
 
   let budgetsData = [...$budgets];
   let searchTerm = "";
@@ -44,20 +45,23 @@
 </script>
 
 <svelte:head>
-  <title>Presupuestos | Facturas gratis</title>
-  <meta property="og:title" content="Presupuestos | Facturas gratis" />
-  <meta property="og:site_name" content="Facturas gratis" />
+  <title>{presupuestos.title}</title>
+  <meta name="description" content={presupuestos.description} />
+  <meta name="keywords" content={presupuestos.keywords} />
 
-  <meta
-    name="description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
-  <meta
-    property="og:description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={presupuestos.url} />
+  <meta property="og:title" content={presupuestos.title} />
+  <meta property="og:description" content={presupuestos.description} />
+  <meta property="og:image" content={presupuestos.image} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={presupuestos.url} />
+  <meta property="twitter:title" content={presupuestos.title} />
+  <meta property="twitter:description" content={presupuestos.description} />
+  <meta property="twitter:image" content={presupuestos.image} />
 </svelte:head>
 
 <div class="scroll">

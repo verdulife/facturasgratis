@@ -1,6 +1,7 @@
 <script>
   import { goto } from "@sapper/app";
   import { clients, userData } from "../../lib/stores";
+  import { nueva_cliente } from "../../lib/metadata";
 
   let clientData = {};
 
@@ -14,20 +15,23 @@
 </script>
 
 <svelte:head>
-  <title>Nuevo cliente | Facturas gratis</title>
-  <meta property="og:title" content="Nuevo cliente | Facturas gratis" />
-  <meta property="og:site_name" content="Facturas gratis" />
+  <title>{nueva_cliente.title}</title>
+  <meta name="description" content={nueva_cliente.description} />
+  <meta name="keywords" content={nueva_cliente.keywords} />
 
-  <meta
-    name="description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
-  <meta
-    property="og:description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={nueva_cliente.url} />
+  <meta property="og:title" content={nueva_cliente.title} />
+  <meta property="og:description" content={nueva_cliente.description} />
+  <meta property="og:image" content={nueva_cliente.image} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={nueva_cliente.url} />
+  <meta property="twitter:title" content={nueva_cliente.title} />
+  <meta property="twitter:description" content={nueva_cliente.description} />
+  <meta property="twitter:image" content={nueva_cliente.image} />
 </svelte:head>
 
 <div class="scroll">
@@ -37,97 +41,49 @@
     <a href="/clientes" class="btn outwhite semi">VOLVER A CLIENTES</a>
   </section>
 
-  <form
-    class="client-data col acenter xfill"
-    on:submit|preventDefault={pushClient}
-  >
+  <form class="client-data col acenter xfill" on:submit|preventDefault={pushClient}>
     <div class="box round col xfill">
       <h2>Datos del cliente</h2>
-      <p class="notice">
-        Genera clientes para cargar sus datos rapidamente en tus facturas,
-        preuspuestos y albaranes.
-      </p>
+      <p class="notice">Genera clientes para cargar sus datos rapidamente en tus facturas, preuspuestos y albaranes.</p>
 
       <div class="input-wrapper col xfill">
         <label for="legal_name">NOMBRE FISCAL</label>
-        <input
-          type="text"
-          id="leagal_name"
-          bind:value={clientData.legal_name}
-          class="xfill"
-          required
-        />
+        <input type="text" id="leagal_name" bind:value={clientData.legal_name} class="xfill" required />
       </div>
 
       <div class="row xfill">
         <div class="input-wrapper col xhalf">
           <label for="legal_id">CIF/NIF</label>
-          <input
-            type="text"
-            id="leagal_id"
-            bind:value={clientData.legal_id}
-            class="xfill"
-            required
-          />
+          <input type="text" id="leagal_id" bind:value={clientData.legal_id} class="xfill" required />
         </div>
 
         <div class="input-wrapper col xhalf">
           <label for="contact">Conacto</label>
-          <input
-            type="text"
-            id="contact"
-            bind:value={clientData.contact}
-            class="xfill"
-            required
-          />
+          <input type="text" id="contact" bind:value={clientData.contact} class="xfill" required />
         </div>
       </div>
 
       <div class="row xfill">
         <div class="input-wrapper col xhalf">
           <label for="address">DIRECCION FISCAL</label>
-          <input
-            type="text"
-            id="address"
-            bind:value={clientData.address}
-            class="xfill"
-            required
-          />
+          <input type="text" id="address" bind:value={clientData.address} class="xfill" required />
         </div>
 
         <div class="col xhalf">
           <label for="cp">Código postal</label>
-          <input
-            type="text"
-            id="cp"
-            bind:value={clientData.cp}
-            class="xfill"
-            required
-          />
+          <input type="text" id="cp" bind:value={clientData.cp} class="xfill" required />
         </div>
       </div>
 
       <div class="row xfill">
         <div class="input-wrapper col xhalf">
           <label for="city">POBLACIÓN</label>
-          <input
-            type="text"
-            id="city"
-            bind:value={clientData.city}
-            class="xfill"
-            required
-          />
+          <input type="text" id="city" bind:value={clientData.city} class="xfill" required />
         </div>
 
         <div class="input-wrapper col xhalf">
           <label for="country">País</label>
-          <input
-            type="text"
-            id="country"
-            bind:value={clientData.country}
-            class="xfill"
-            required
-          />
+          <input type="text" id="country" bind:value={clientData.country} class="xfill" required />
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 <script>
   import { goto } from "@sapper/app";
   import { storageSpace, resizeImage } from "../../lib/functions";
+  import { ajustes } from "../../lib/metadata";
   import { userData, bills, budgets, deliveries, clients, products, providers } from "../../lib/stores";
 
   $: user = $userData;
@@ -115,20 +116,23 @@
 </script>
 
 <svelte:head>
-  <title>Ajustes | Facturas gratis</title>
-  <meta property="og:title" content="Ajustes | Facturas gratis" />
-  <meta property="og:site_name" content="Facturas gratis" />
+  <title>{ajustes.title}</title>
+  <meta name="description" content={ajustes.description} />
+  <meta name="keywords" content={ajustes.keywords} />
 
-  <meta
-    name="description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
-  <meta
-    property="og:description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={ajustes.url} />
+  <meta property="og:title" content={ajustes.title} />
+  <meta property="og:description" content={ajustes.description} />
+  <meta property="og:image" content={ajustes.image} />
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image" />
+  <meta property="twitter:url" content={ajustes.url} />
+  <meta property="twitter:title" content={ajustes.title} />
+  <meta property="twitter:description" content={ajustes.description} />
+  <meta property="twitter:image" content={ajustes.image} />
 </svelte:head>
 
 <div class="scroll">
