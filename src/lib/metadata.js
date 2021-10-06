@@ -3,7 +3,7 @@ const SUFIX = " | Facturasgratis";
 
 export const home = {
   url: BASE_URL,
-  title: "Herramientas online" + SUFIX,
+  title: "Facturasgratis | Herramientas de gestión" ,
   description: "Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
   image: BASE_URL + "/mobile.png",
@@ -14,7 +14,7 @@ export const facturas = {
   title: "Facturas" + SUFIX,
   description: "Crea y/o modifica facturas. Envíalas por correo electrónico y/o guárdalas en PDF.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
-  image: BASE_URL + "/facturas.svg",
+  image: BASE_URL + "/facturas.png",
 };
 
 export const nueva_factura = {
@@ -22,7 +22,7 @@ export const nueva_factura = {
   title: "Crear factura" + SUFIX,
   description: "Crea y/o modifica facturas. Envíalas por correo electrónico y/o guárdalas en PDF.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
-  image: BASE_URL + "/facturas.svg",
+  image: BASE_URL + "/facturas.png",
 };
 
 export const presupuestos = {
@@ -38,7 +38,7 @@ export const nueva_presupuesto = {
   title: "Crear presupuesto" + SUFIX,
   description: "Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
-  image: BASE_URL + "/presupuestos.svg",
+  image: BASE_URL + "/presupuestos.png",
 };
 
 export const albaranes = {
@@ -46,7 +46,7 @@ export const albaranes = {
   title: "Albaranes" + SUFIX,
   description: "Crea y/o modifica albaranes. Envíalos por correo electrónico y/o guárdalos en PDF.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
-  image: BASE_URL + "/albaranes.svg",
+  image: BASE_URL + "/albaranes.png",
 };
 
 export const clientes = {
@@ -54,7 +54,7 @@ export const clientes = {
   title: "Clientes" + SUFIX,
   description: "Crea una lista de clientes, así podrás usarlos en tus facturas, presupuestos y/o albaranes.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
-  image: BASE_URL + "/clients.svg",
+  image: BASE_URL + "/clients.png",
 };
 
 export const nueva_cliente = {
@@ -62,7 +62,7 @@ export const nueva_cliente = {
   title: "Crear cliente" + SUFIX,
   description: "Crea una lista de clientes, así podrás usarlos en tus facturas, presupuestos y/o albaranes.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
-  image: BASE_URL + "/clientes.svg",
+  image: BASE_URL + "/clientes.png",
 };
 
 export const productos_servicios = {
@@ -70,7 +70,7 @@ export const productos_servicios = {
   title: "Productos y servicios" + SUFIX,
   description: "Crea una lista de productos/servicios, así podrás usarlos en tus facturas, presupuestos y/o albaranes.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
-  image: BASE_URL + "/productos-servicios.svg",
+  image: BASE_URL + "/productos-servicios.png",
 };
 
 export const proveedores = {
@@ -78,7 +78,7 @@ export const proveedores = {
   title: "Proveedores" + SUFIX,
   description: "Crea una lista de proveedores. Así los tendrás su información de contacto siempre a mano.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
-  image: BASE_URL + "/proveedores.svg",
+  image: BASE_URL + "/proveedores.png",
 };
 
 export const ajustes = {

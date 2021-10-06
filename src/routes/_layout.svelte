@@ -27,8 +27,9 @@
       label.classList.add("box");
       label.classList.add("round");
       label.innerHTML = `
-        <h3 style="font-size: 22px; margin-bottom: 20px;">🚫 Estas usando un bloqueador de anuncios</h3>
-        <p>En <b>facturasgratis</b> todas nuestras herramientas son gratuitas gracias al uso de anuncios. Porfavor desactiva el bloqueador y recarga la página. </p>
+        <h3 style="font-size: 26px"><b style="font-size: 40px">🚫</b><br />Estás usando un bloqueador de anuncios</h3>
+        <h-div style="margin: 15px 0"></h-div>
+        <p>En <b>facturasgratis</b> todas nuestras herramientas son gratuitas gracias al uso de anuncios. Por favor, desactiva el bloqueador y recarga la página. </p>
       `;
 
       window.addEventListener("mousemove", (e) => {
@@ -36,7 +37,8 @@
           position: fixed;
           top: ${e.clientY}px;
           left: ${e.clientX}px;
-          width: 300px;
+          width: 350px;
+          z-index: 999;
         `;
       });
 
@@ -58,7 +60,9 @@
       <a href="/privacidad">Politica de privacidad</a>
       <span class="not-mobile">
         &nbsp;&nbsp;|&nbsp;
-        <a href="mailto:facturasgratis.app@gmail.com">¿Tienes alguna sugerencia?</a>
+        <a href="mailto:facturasgratis.app@gmail.com"
+          >¿Tienes alguna sugerencia?</a
+        >
       </span>
     </p>
   </footer>

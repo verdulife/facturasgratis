@@ -34,7 +34,7 @@ export const tools = [
   {
     slug: "/proveedores",
     title: "Proveedores",
-    desc: "Crea una lista de proveedores. Así los tendrás su información de contacto siempre a mano.",
+    desc: "Crea una lista de proveedores. Así tendrás su información de contacto siempre a mano.",
     icon: "proveedores.svg",
   },
 ];

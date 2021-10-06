@@ -29,11 +29,13 @@
 
 <div class="scroll">
   <section class="header col fcenter xfill">
-    <h1>Herramientas online para gestionar tu negocio</h1>
+    <h1>Herramientas online para autónomos y pymes</h1>
     <p>
-      Herramientas online gratuitas para generar, enviar, rectificar y listar
-      facturas, presupuestos, albaranes, clientes, proveedores y
-      productos/servicios. No se necesita instalación.
+      La manera más sencilla y rápida de crear, modificar y gestionar gratis tus
+      facturas, presupuestos, albaranes, clientes, proveedores, productos y
+      servicios. Si eres <b>autónomo</b> o tienes una
+      <b>pequeña empresa</b> esta es tu herramienta. Empieza ahora y ahorra tiempo
+      llevando tu contabilidad al día, en una plataforma segura.
     </p>
 
     {#if process.browser && Object.keys($userData).length <= 0}
@@ -52,12 +54,7 @@
       <li class="box round col acenter">
         <a class="fill" href={tool.slug}>
           <div class="icon">
-            <img
-              width="50"
-              height="50"
-              src={tool.icon}
-              alt={tool.title}
-            />
+            <img width="50" height="50" src={tool.icon} alt={tool.title} />
           </div>
 
           <h2 class="xfill">{tool.title}</h2>
@@ -77,16 +74,12 @@
 
     @media (max-width: $mobile) {
       padding: 40px 20px;
-
-      a.btn {
-        width: 70%;
-      }
     }
 
     h1 {
       max-width: 900px;
-      font-size: 5vh;
-      line-height: 1;
+      font-size: 6vh;
+      line-height: 1.2;
       margin-bottom: 40px;
 
       @media (max-width: $mobile) {
@@ -103,6 +96,10 @@
       @media (max-width: $mobile) {
         font-size: 14px;
       }
+    }
+
+    a.btn {
+      min-width: 200px;
     }
   }
 
