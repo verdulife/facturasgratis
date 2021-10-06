@@ -2,6 +2,10 @@
   import { tools } from "../lib/utils";
   import { home } from "../lib/metadata";
   import { userData } from "../lib/stores";
+  import { tips } from "../lib/tips";
+  import { shuffleArray } from "../lib/functions";
+
+  shuffleArray(tips);
 </script>
 
 <svelte:head>
@@ -29,13 +33,13 @@
 
 <div class="scroll">
   <section class="header col fcenter xfill">
-    <h1>Herramientas online para autónomos y pymes</h1>
+    <h1>Herramientas gratuitas para autónomos y pymes</h1>
     <p>
-      La manera más sencilla y rápida de crear, modificar y gestionar gratis tus
+      La manera más sencilla y rápida de crear, modificar y gestionar tus
       facturas, presupuestos, albaranes, clientes, proveedores, productos y
       servicios. Si eres <b>autónomo</b> o tienes una
-      <b>pequeña empresa</b> esta es tu herramienta. Empieza ahora y ahorra tiempo
-      llevando tu contabilidad al día, en una plataforma segura.
+      <b>pequeña empresa</b> esta es tu herramienta. Empieza ahora, sin registrarte
+      y gratis.
     </p>
 
     {#if process.browser && Object.keys($userData).length <= 0}
@@ -63,6 +67,23 @@
       </li>
     {/each}
   </ul>
+
+  <div class="tips col acenter xfikk">
+    <h2>Consejos para hacer tus facturas</h2>
+    <p>
+      Aquí encontraras algunos de los consejos que te ayudaran a hacer mejores
+      facturas, evitar problemas comúnes y organizar mejor tu contabilidad.
+    </p>
+
+    <div class="grid">
+      {#each tips as tip}
+        <div class="box round col">
+          <h3>{tip.title}</h3>
+          <p>{@html tip.description}</p>
+        </div>
+      {/each}
+    </div>
+  </div>
 </div>
 
 <style lang="scss">
@@ -78,11 +99,12 @@
 
     h1 {
       max-width: 900px;
-      font-size: 6vh;
+      font-size: 4vw;
       line-height: 1.2;
       margin-bottom: 40px;
 
       @media (max-width: $mobile) {
+        font-size: 5vh;
         margin-bottom: 20px;
       }
     }
@@ -146,6 +168,55 @@
       p {
         @media (max-width: $mobile) {
           font-size: 12px;
+        }
+      }
+    }
+  }
+
+  .tips {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px;
+    padding-bottom: 100px;
+
+    h2 {
+      font-size: 3vw;
+      text-align: center;
+      margin-bottom: 10px;
+
+      @media (max-width: $mobile) {
+        font-size: 4vh;
+      }
+    }
+
+    p {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .grid {
+      column-count: 3;
+      column-gap: 20px;
+
+      @media (max-width: $mobile) {
+        column-count: 1;
+      }
+
+      .box {
+        -webkit-column-break-inside: avoid;
+        page-break-inside: avoid;
+        break-inside: avoid;
+        margin-bottom: 20px;
+        padding-top: 30px;
+        padding-bottom: 30px;
+
+        h3 {
+          margin-bottom: 10px;
+        }
+
+        p {
+          text-align: left;
+          margin: 0;
         }
       }
     }
