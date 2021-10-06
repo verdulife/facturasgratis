@@ -22,7 +22,25 @@
     const detected = await detectAnyAdblocker();
     if (detected) {
       console.log("Adblock detected");
-      alert("Porfavor, desactiva tu bloqueador de anuncios")
+
+      const label = document.createElement("div");
+      label.classList.add("box");
+      label.classList.add("round");
+      label.innerHTML = `
+        <h3 style="font-size: 22px; margin-bottom: 20px;">🚫 Estas usando un bloqueador de anuncios</h3>
+        <p>En <b>facturasgratis</b> todas nuestras herramientas son gratuitas gracias al uso de anuncios. Porfavor desactiva el bloqueador y recarga la página. </p>
+      `;
+
+      window.addEventListener("mousemove", (e) => {
+        label.style.cssText = `
+          position: fixed;
+          top: ${e.clientY}px;
+          left: ${e.clientX}px;
+          width: 300px;
+        `;
+      });
+
+      document.body.appendChild(label);
     }
   });
 </script>
@@ -40,9 +58,7 @@
       <a href="/privacidad">Politica de privacidad</a>
       <span class="not-mobile">
         &nbsp;&nbsp;|&nbsp;
-        <a href="mailto:facturasgratis.app@gmail.com"
-          >¿Tienes alguna sugerencia?</a
-        >
+        <a href="mailto:facturasgratis.app@gmail.com">¿Tienes alguna sugerencia?</a>
       </span>
     </p>
   </footer>
