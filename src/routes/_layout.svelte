@@ -1,22 +1,10 @@
-<script context="module">
-  export async function preload(page, session) {
-    const { locale } = session;
-    const def = "es";
-
-    if (locale !== "es") return { locale: def };
-    else return { locale: "es" };
-  }
-</script>
-
 <script>
-  import { l } from "../lib/stores";
   import { detectAnyAdblocker } from "just-detect-adblock";
   import Nav from "../components/Nav.svelte";
   import Cookies from "../components/Cookies.svelte";
   import { onMount } from "svelte";
 
-  export let segment, locale;
-  $l = locale;
+  export let segment;
 
   onMount(async () => {
     const detected = await detectAnyAdblocker();
@@ -60,9 +48,7 @@
       <a href="/privacidad">Politica de privacidad</a>
       <span class="not-mobile">
         &nbsp;&nbsp;|&nbsp;
-        <a href="mailto:facturasgratis.app@gmail.com"
-          >¿Tienes alguna sugerencia?</a
-        >
+        <a href="mailto:facturasgratis.app@gmail.com">¿Tienes alguna sugerencia?</a>
       </span>
     </p>
   </footer>
