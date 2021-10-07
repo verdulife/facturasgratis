@@ -60,6 +60,10 @@
 
           <h2 class="xfill">{tool.title}</h2>
           <p>{tool.desc}</p>
+
+          {#if tool.soon}
+            <div class="label-tag">PRONTO</div>
+          {/if}
         </a>
       </li>
     {/each}
@@ -135,6 +139,7 @@
 
     li {
       cursor: pointer;
+      position: relative;
       width: 25%;
       min-width: 250px;
       margin: 5px;
@@ -166,6 +171,18 @@
         @media (max-width: $mobile) {
           font-size: 12px;
         }
+      }
+
+      .label-tag {
+        position: absolute;
+        top: 10px;
+        right: -10px;
+        background: $error;
+        font-size: 10px;
+        text-transform: uppercase;
+        color: $white;
+        border-radius: 5px;
+        padding: 2px 5px;
       }
     }
   }
