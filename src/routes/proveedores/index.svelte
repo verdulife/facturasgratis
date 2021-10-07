@@ -23,7 +23,7 @@
   <meta name="twitter:site" content={proveedores.url} />
   <meta name="twitter:title" content={proveedores.title} />
   <meta name="twitter:description" content={proveedores.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
+  <meta name="twitter:image" content={proveedores.image} />
 </svelte:head>
 
 <Comingsoon />

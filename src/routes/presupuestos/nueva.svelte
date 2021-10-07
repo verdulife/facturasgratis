@@ -154,7 +154,7 @@
   <meta name="twitter:site" content={nueva_presupuesto.url} />
   <meta name="twitter:title" content={nueva_presupuesto.title} />
   <meta name="twitter:description" content={nueva_presupuesto.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
+  <meta name="twitter:image" content={nueva_presupuesto.image} />
 </svelte:head>
 
 <div class="scroll">

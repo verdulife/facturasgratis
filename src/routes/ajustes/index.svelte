@@ -137,7 +137,7 @@
   <meta name="twitter:site" content={ajustes.url} />
   <meta name="twitter:title" content={ajustes.title} />
   <meta name="twitter:description" content={ajustes.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
+  <meta name="twitter:image" content={ajustes.image} />
 </svelte:head>
 
 <div class="scroll">

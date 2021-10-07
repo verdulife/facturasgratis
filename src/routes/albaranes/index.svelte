@@ -23,7 +23,7 @@
   <meta name="twitter:site" content={albaranes.url} />
   <meta name="twitter:title" content={albaranes.title} />
   <meta name="twitter:description" content={albaranes.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
+  <meta name="twitter:image" content={albaranes.image} />
 </svelte:head>
 
 <Comingsoon />

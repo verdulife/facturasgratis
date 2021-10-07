@@ -81,6 +81,14 @@ export const proveedores = {
   image: BASE_URL + "/proveedores.jpg",
 };
 
+export const calculadora = {
+  url: BASE_URL + "/calculadora",
+  title: "Calculadora" + SUFIX,
+  description: "Una calculadora diseñada para calcular de forma automática los impuestos.",
+  keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
+  image: BASE_URL + "/presupuestos.jpg",
+};
+
 export const ajustes = {
   url: BASE_URL + "/ajustes",
   title: "Tus datos" + SUFIX,

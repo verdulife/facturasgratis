@@ -34,7 +34,7 @@
   <meta name="twitter:site" content={nueva_cliente.url} />
   <meta name="twitter:title" content={nueva_cliente.title} />
   <meta name="twitter:description" content={nueva_cliente.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
+  <meta name="twitter:image" content={nueva_cliente.image} />
 </svelte:head>
 
 <div class="scroll">

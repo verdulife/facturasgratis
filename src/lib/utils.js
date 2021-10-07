@@ -37,6 +37,12 @@ export const tools = [
     desc: "Crea una lista de proveedores. Así tendrás su información de contacto siempre a mano.",
     icon: "proveedores.svg",
   },
+  {
+    slug: "/calculadora",
+    title: "Calculadora de impuestos",
+    desc: "Una calculadora diseñada para calcular de forma automática los impuestos.",
+    icon: "presupuestos.svg",
+  },
 ];
 
 export const months = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];

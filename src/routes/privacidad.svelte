@@ -22,7 +22,7 @@
   <meta name="twitter:site" content={privacidad.url} />
   <meta name="twitter:title" content={privacidad.title} />
   <meta name="twitter:description" content={privacidad.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
+  <meta name="twitter:image" content={privacidad.image} />
 </svelte:head>
 
 <div class="scroll">

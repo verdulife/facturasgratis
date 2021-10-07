@@ -28,7 +28,7 @@
   <meta name="twitter:site" content={home.url} />
   <meta name="twitter:title" content={home.title} />
   <meta name="twitter:description" content={home.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
+  <meta name="twitter:image" content={home.image} />
 </svelte:head>
 
 <div class="scroll">
@@ -96,7 +96,7 @@
 
     h1 {
       max-width: 900px;
-      font-size: 4vw;
+      font-size: 3vw;
       line-height: 1.2;
       margin-bottom: 40px;
 
@@ -177,7 +177,7 @@
     padding-bottom: 100px;
 
     h2 {
-      font-size: 3vw;
+      font-size: 2vw;
       text-align: center;
       margin-bottom: 10px;
 

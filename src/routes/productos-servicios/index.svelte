@@ -75,7 +75,7 @@
   <meta name="twitter:site" content={productos_servicios.url} />
   <meta name="twitter:title" content={productos_servicios.title} />
   <meta name="twitter:description" content={productos_servicios.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
+  <meta name="twitter:image" content={productos_servicios.image} />
 </svelte:head>
 
 <div class="scroll">
