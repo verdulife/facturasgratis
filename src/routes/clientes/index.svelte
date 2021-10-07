@@ -29,14 +29,17 @@
   <meta property="og:url" content={clientes.url} />
   <meta property="og:title" content={clientes.title} />
   <meta property="og:description" content={clientes.description} />
-  <meta property="og:image" content={clientes.image} />
+  <meta property="og:image:secure_url" content={clientes.image} />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content={clientes.url} />
   <meta name="twitter:title" content={clientes.title} />
   <meta name="twitter:description" content={clientes.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
 </svelte:head>
 
 <div class="scroll">

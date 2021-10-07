@@ -29,7 +29,7 @@
       label.innerHTML = `
         <h3 style="font-size: 26px"><b style="font-size: 40px">🚫</b><br />Estás usando un bloqueador de anuncios</h3>
         <h-div style="margin: 15px 0"></h-div>
-        <p>En <b>facturasgratis</b> todas nuestras herramientas son gratuitas gracias al uso de anuncios. Por favor, desactiva el bloqueador y recarga la página. </p>
+        <p>Todas nuestras herramientas son gratuitas gracias al uso de anuncios. Por favor, desactivalo y recarga la página.</p>
       `;
 
       window.addEventListener("mousemove", (e) => {

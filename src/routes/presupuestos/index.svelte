@@ -54,14 +54,17 @@
   <meta property="og:url" content={presupuestos.url} />
   <meta property="og:title" content={presupuestos.title} />
   <meta property="og:description" content={presupuestos.description} />
-  <meta property="og:image" content={presupuestos.image} />
+  <meta property="og:image:secure_url" content={presupuestos.image} />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content={presupuestos.url} />
   <meta name="twitter:title" content={presupuestos.title} />
   <meta name="twitter:description" content={presupuestos.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
 </svelte:head>
 
 <div class="scroll">
@@ -119,7 +122,8 @@
 
             <div class="info row xfill">
               <p>
-                <b>{numerationFormat(budget.number, budget.date.year)}</b> | Fecha: <b>{budget.date.day}/{budget.date.month}/{budget.date.year}</b>
+                <b>{numerationFormat(budget.number, budget.date.year)}</b> | Fecha:
+                <b>{budget.date.day}/{budget.date.month}/{budget.date.year}</b>
               </p>
             </div>
           </a>

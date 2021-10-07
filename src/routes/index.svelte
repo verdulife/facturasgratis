@@ -18,35 +18,32 @@
   <meta property="og:url" content={home.url} />
   <meta property="og:title" content={home.title} />
   <meta property="og:description" content={home.description} />
-  <meta property="og:image" content={home.image} />
+  <meta property="og:image:secure_url" content={home.image} />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content={home.url} />
   <meta name="twitter:title" content={home.title} />
   <meta name="twitter:description" content={home.description} />
-  <meta
-    name="twitter:image"
-    content="https://www.facturasgratis.ml/twitter-card.png"
-  />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
 </svelte:head>
 
 <div class="scroll">
   <section class="header col fcenter xfill">
     <h1>Herramientas gratuitas para autónomos y pymes</h1>
     <p>
-      La manera más sencilla y rápida de crear, modificar y gestionar tus
-      facturas, presupuestos, albaranes, clientes, proveedores, productos y
-      servicios. Si eres <b>autónomo</b> o tienes una
-      <b>pequeña empresa</b> esta es tu herramienta. Empieza ahora, sin registrarte
-      y gratis.
+      La manera más sencilla y rápida de crear, modificar y gestionar tus facturas, presupuestos, albaranes, clientes,
+      proveedores, productos y servicios. Si eres <b>autónomo</b> o tienes una
+      <b>pequeña empresa</b> esta es tu herramienta. Empieza ahora, sin registrarte y gratis.
     </p>
 
     {#if process.browser && Object.keys($userData).length <= 0}
       <h2>Primeros pasos</h2>
       <p>
-        Para empezar a trabajar con <b>facturasgratis</b>, el primer paso es
-        rellenar tus datos.
+        Para empezar a trabajar con <b>facturasgratis</b>, el primer paso es rellenar tus datos.
       </p>
     {/if}
 
@@ -71,8 +68,8 @@
   <div class="tips col acenter xfikk">
     <h2>Consejos para hacer tus facturas</h2>
     <p>
-      Aquí encontraras algunos de los consejos que te ayudaran a hacer mejores
-      facturas, evitar problemas comúnes y organizar mejor tu contabilidad.
+      Aquí encontraras algunos de los consejos que te ayudaran a hacer mejores facturas, evitar problemas comúnes y
+      organizar mejor tu contabilidad.
     </p>
 
     <div class="grid">

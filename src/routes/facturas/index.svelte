@@ -54,14 +54,17 @@
   <meta property="og:url" content={facturas.url} />
   <meta property="og:title" content={facturas.title} />
   <meta property="og:description" content={facturas.description} />
-  <meta property="og:image" content={facturas.image} />
+  <meta property="og:image:secure_url" content={facturas.image} />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content={facturas.url} />
   <meta name="twitter:title" content={facturas.title} />
   <meta name="twitter:description" content={facturas.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
 </svelte:head>
 
 <div class="scroll">
@@ -119,7 +122,8 @@
 
             <div class="info row xfill">
               <p>
-                <b>{numerationFormat(bill.number, bill.date.year)}</b> | Fecha: <b>{bill.date.day}/{bill.date.month}/{bill.date.year}</b>
+                <b>{numerationFormat(bill.number, bill.date.year)}</b> | Fecha:
+                <b>{bill.date.day}/{bill.date.month}/{bill.date.year}</b>
               </p>
             </div>
           </a>

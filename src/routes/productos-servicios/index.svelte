@@ -27,7 +27,9 @@
   }
 
   function deleteProduct(product) {
-    const check = confirm("Este producto/servicio se borrara de la lista pero no de los documentos que lo contengan.\n\n¿Borrar definitivamente?");
+    const check = confirm(
+      "Este producto/servicio se borrara de la lista pero no de los documentos que lo contengan.\n\n¿Borrar definitivamente?"
+    );
 
     if (check) {
       $products.splice($products.indexOf(product), 1);
@@ -63,14 +65,17 @@
   <meta property="og:url" content={productos_servicios.url} />
   <meta property="og:title" content={productos_servicios.title} />
   <meta property="og:description" content={productos_servicios.description} />
-  <meta property="og:image" content={productos_servicios.image} />
+  <meta property="og:image:secure_url" content={productos_servicios.image} />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="512" />
+  <meta property="og:image:height" content="512" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:site" content={productos_servicios.url} />
   <meta name="twitter:title" content={productos_servicios.title} />
   <meta name="twitter:description" content={productos_servicios.description} />
-  <meta name="twitter:image" content="https://www.facturasgratis.ml/twitter-card.png" />
+  <meta name="twitter:image" content="https://www.facturasgratis.ml/mobile.png" />
 </svelte:head>
 
 <div class="scroll">
@@ -118,12 +123,26 @@
         <form class="col" on:submit|preventDefault={pushProduct}>
           <div class="col xfill">
             <label for="productLabel">NOMBRE</label>
-            <input class="xfill" id="productLabel" type="text" bind:value={productData.label} placeholder="Ej. Hora de trabajo" required />
+            <input
+              class="xfill"
+              id="productLabel"
+              type="text"
+              bind:value={productData.label}
+              placeholder="Ej. Hora de trabajo"
+              required
+            />
           </div>
 
           <div class="col xfill">
             <label for="productPrice">PRECIO € (sin impuestos)</label>
-            <input class="xfill" type="number" step="0.01" bind:value={productData.price} placeholder="Ej. 25€" required />
+            <input
+              class="xfill"
+              type="number"
+              step="0.01"
+              bind:value={productData.price}
+              placeholder="Ej. 25€"
+              required
+            />
           </div>
 
           <div class="row fcenter xfill">
