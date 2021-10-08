@@ -10,12 +10,22 @@
   let with_value = 0;
 
   function calcTaxes() {
-    const with_iva = (without_value * IVA) / 100;
-    const with_irpf = IRPF > 0 ? (without_value * IRPF) / 100 : 0;
+    const iva = (without_value * IVA) / 100;
+    const irpf = IRPF > 0 ? (without_value * IRPF) / 100 : 0;
 
-    with_value = roundWithTwoDecimals(without_value + with_iva - with_irpf);
+    console.log(without_value, iva, irpf);
+
+    with_value = roundWithTwoDecimals(without_value + iva - irpf);
   }
-  function substractTaxes() {}
+
+  function substractTaxes() {
+    const iva = (with_value * IVA) / 100;
+    const irpf = IRPF > 0 ? (with_value * IRPF) / 100 : 0;
+
+    console.log(without_value, iva, irpf);
+
+    without_value = roundWithTwoDecimals(with_value - iva + irpf);
+  }
 </script>
 
 <svelte:head>
@@ -68,12 +78,12 @@
     <div class="row xfill">
       <div class="input-wrapper col xhalf">
         <label for="type">SIN IMPUESTOS {$userData && $userData.currency ? $userData.currency : "€"}</label>
-        <input class="out xfill" type="number" bind:value={without_value} step="0.01" on:keydown={calcTaxes} />
+        <input class="out xfill" type="number" bind:value={without_value} step="0.01" on:keyup={calcTaxes} />
       </div>
 
       <div class="input-wrapper col xhalf">
         <label for="type">CON IMPUESTOS {$userData && $userData.currency ? $userData.currency : "€"}</label>
-        <input class="out xfill" type="number" bind:value={with_value} step="0.01" />
+        <input class="out xfill" type="number" bind:value={with_value} step="0.01" on:keyup={substractTaxes} />
       </div>
     </div>
   </div>
