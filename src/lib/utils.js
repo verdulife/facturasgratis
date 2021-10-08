@@ -26,6 +26,14 @@ export const tools = [
     soon: true,
   },
   {
+    slug: "/proformas",
+    title: "Proformas",
+    desc: "Genera y/o modifica proformas. Envíalas por correo electrónico y/o guárdalas en PDF.",
+    icon: "/facturas.svg",
+    new: false,
+    soon: true,
+  },
+  {
     slug: "/clientes",
     title: "Clientes",
     desc: "Crea una lista de clientes. Después podrás usarlos en tus facturas, presupuestos y/o albaranes.",

@@ -49,6 +49,14 @@ export const albaranes = {
   image: BASE_URL + "/albaranes.jpg",
 };
 
+export const proformas = {
+  url: BASE_URL + "/proformas",
+  title: "Proformas" + SUFIX,
+  description: "Crea y/o modifica proformas. Envíalas por correo electrónico y/o guárdalas en PDF.",
+  keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
+  image: BASE_URL + "/facturas.jpg",
+};
+
 export const clientes = {
   url: BASE_URL + "/clientes",
   title: "Clientes" + SUFIX,
