@@ -48,20 +48,8 @@
 </script>
 
 <svelte:head>
-  <title>Editar cliente | Facturas gratis</title>
-  <meta property="og:title" content="Editar cliente | Facturas gratis" />
-  <meta property="og:site_name" content="Facturas gratis" />
-
-  <meta
-    name="description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
-  <meta
-    property="og:description"
-    content="Herramientas online gratuitas para generar, enviar, rectificar y listar facturas, presupuestos, albaranes,
-  clientes, proveedores y productos/servicios."
-  />
+  <meta name="robots" content="noindex" />
+  <title>Editar cliente | Facturasgratis</title>
 </svelte:head>
 
 <div class="scroll">
@@ -88,7 +76,9 @@
     <form class="client-data col acenter xfill" on:submit|preventDefault={pushClient}>
       <div class="box round col xfill">
         <h2>Datos del cliente</h2>
-        <p class="notice">Genera clientes para cargar sus datos rapidamente en tus facturas, preuspuestos y albaranes.</p>
+        <p class="notice">
+          Genera clientes para cargar sus datos rapidamente en tus facturas, preuspuestos y albaranes.
+        </p>
 
         <div class="input-wrapper col xfill">
           <label for="legal_name">NOMBRE FISCAL</label>

@@ -13,6 +13,7 @@
   <meta property="og:url" content={calculadora.url} />
   <meta property="og:title" content={calculadora.title} />
   <meta property="og:description" content={calculadora.description} />
+  <meta property="og:image" content={calculadora.image} />
   <meta property="og:image:secure_url" content={calculadora.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />

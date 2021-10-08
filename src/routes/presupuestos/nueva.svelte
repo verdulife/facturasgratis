@@ -144,6 +144,7 @@
   <meta property="og:url" content={nueva_presupuesto.url} />
   <meta property="og:title" content={nueva_presupuesto.title} />
   <meta property="og:description" content={nueva_presupuesto.description} />
+  <meta property="og:image" content={nueva_presupuesto.image} />
   <meta property="og:image:secure_url" content={nueva_presupuesto.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />
@@ -158,11 +159,11 @@
 </svelte:head>
 
 <div class="scroll">
-  <section class="header col fcenter xfill">
+  <article class="header col fcenter xfill">
     <img src="/presupuestos.svg" alt="Presupuestos" />
     <h1>Nuevo presupuesto</h1>
     <a href="/presupuestos" class="btn outwhite semi">VOLVER A PPTOS</a>
-  </section>
+  </article>
 
   <form class="budget-data col acenter xfill" on:submit|preventDefault={pushBudget}>
     <div class="box round col xfill">

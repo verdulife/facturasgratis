@@ -5,6 +5,7 @@
   import { tips } from "../lib/tips";
   import { shuffleArray } from "../lib/functions";
 
+  const BASE_URL = "https://www.facturasgratis.ml";
   shuffleArray(tips);
 </script>
 
@@ -18,6 +19,7 @@
   <meta property="og:url" content={home.url} />
   <meta property="og:title" content={home.title} />
   <meta property="og:description" content={home.description} />
+  <meta property="og:image" content={home.image} />
   <meta property="og:image:secure_url" content={home.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />
@@ -32,7 +34,7 @@
 </svelte:head>
 
 <div class="scroll">
-  <section class="header col fcenter xfill">
+  <article class="header col fcenter xfill">
     <h1>Herramientas gratuitas para autónomos y pymes</h1>
     <p>
       La manera más sencilla y rápida de crear, modificar y gestionar tus facturas, presupuestos, albaranes, clientes,
@@ -48,28 +50,30 @@
     {/if}
 
     <a href="/ajustes" class="btn succ semi">TUS DATOS</a>
-  </section>
+  </article>
 
-  <ul class="tools row jcenter xfill">
-    {#each tools as tool}
-      <li class="box round col acenter">
-        <a class="fill" href={tool.slug}>
-          <div class="icon">
-            <img width="50" height="50" src={tool.icon} alt={tool.title} />
-          </div>
+  <article>
+    <ul class="tools row jcenter xfill">
+      {#each tools as tool}
+        <li class="box round col acenter">
+          <a class="fill" href={tool.slug}>
+            <div class="icon">
+              <img width="50" height="50" src={tool.icon} alt={tool.title} title={tool.title} />
+            </div>
 
-          <h2 class="xfill">{tool.title}</h2>
-          <p>{tool.desc}</p>
+            <h2 class="xfill">{tool.title}</h2>
+            <p>{tool.desc}</p>
 
-          {#if tool.soon}
-            <div class="label-tag">PRONTO</div>
-          {/if}
-        </a>
-      </li>
-    {/each}
-  </ul>
+            {#if tool.soon}
+              <div class="label-tag">PRONTO</div>
+            {/if}
+          </a>
+        </li>
+      {/each}
+    </ul>
+  </article>
 
-  <div class="tips col acenter xfikk">
+  <article class="tips col acenter xfikk">
     <h2>Consejos para hacer tus facturas</h2>
     <p>
       Aquí encontraras algunos de los consejos que te ayudaran a hacer mejores facturas, evitar problemas comúnes y
@@ -84,7 +88,7 @@
         </div>
       {/each}
     </div>
-  </div>
+  </article>
 </div>
 
 <style lang="scss">
@@ -161,6 +165,7 @@
 
       h2 {
         margin-bottom: 10px;
+        line-height: 1;
 
         @media (max-width: $mobile) {
           font-size: 18px;

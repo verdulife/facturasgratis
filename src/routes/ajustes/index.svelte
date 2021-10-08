@@ -127,6 +127,7 @@
   <meta property="og:url" content={ajustes.url} />
   <meta property="og:title" content={ajustes.title} />
   <meta property="og:description" content={ajustes.description} />
+  <meta property="og:image" content={ajustes.image} />
   <meta property="og:image:secure_url" content={ajustes.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />
@@ -141,7 +142,7 @@
 </svelte:head>
 
 <div class="scroll">
-  <section class="header col fcenter xfill">
+  <article class="header col fcenter xfill">
     <h1>Tus datos</h1>
     <p>
       En <b>facturagratis</b>, usamos tu navegador como disco para que tus datos sean solo tuyos. Para tu tranquilidad,
@@ -173,7 +174,7 @@
         <button class="outwhite semi" on:click={clearData}>BORRAR TODO</button>
       </div>
     </div>
-  </section>
+  </article>
 
   {#if user}
     <form class="info col acenter xfill" on:submit|preventDefault={pushUser}>

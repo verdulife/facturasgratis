@@ -54,6 +54,7 @@
   <meta property="og:url" content={facturas.url} />
   <meta property="og:title" content={facturas.title} />
   <meta property="og:description" content={facturas.description} />
+  <meta property="og:image" content={facturas.image} />
   <meta property="og:image:secure_url" content={facturas.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />
@@ -68,11 +69,11 @@
 </svelte:head>
 
 <div class="scroll">
-  <section class="header col fcenter xfill">
+  <article class="header col fcenter xfill">
     <img src="/facturas.svg" alt="Facturas" />
     <h1>{tools[0].title}</h1>
     <p>{tools[0].desc}</p>
-  </section>
+  </article>
 
   {#if $userData.legal_name !== undefined}
     <div class="list-filter col acenter xfill">

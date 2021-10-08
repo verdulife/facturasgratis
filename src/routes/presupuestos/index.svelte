@@ -54,6 +54,7 @@
   <meta property="og:url" content={presupuestos.url} />
   <meta property="og:title" content={presupuestos.title} />
   <meta property="og:description" content={presupuestos.description} />
+  <meta property="og:image" content={presupuestos.image} />
   <meta property="og:image:secure_url" content={presupuestos.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />
@@ -68,11 +69,11 @@
 </svelte:head>
 
 <div class="scroll">
-  <section class="header col fcenter xfill">
+  <article class="header col fcenter xfill">
     <img src="/presupuestos.svg" alt="Presupuestos" />
     <h1>{tools[1].title}</h1>
     <p>{tools[1].desc}</p>
-  </section>
+  </article>
 
   {#if $userData.legal_name !== undefined}
     <div class="list-filter col acenter xfill">

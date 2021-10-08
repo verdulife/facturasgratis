@@ -24,6 +24,7 @@
   <meta property="og:url" content={nueva_cliente.url} />
   <meta property="og:title" content={nueva_cliente.title} />
   <meta property="og:description" content={nueva_cliente.description} />
+  <meta property="og:image" content={nueva_cliente.image} />
   <meta property="og:image:secure_url" content={nueva_cliente.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />
@@ -38,11 +39,11 @@
 </svelte:head>
 
 <div class="scroll">
-  <section class="header col fcenter xfill">
+  <article class="header col fcenter xfill">
     <img src="/clientes.svg" alt="Clientes" />
     <h1>Nuevo cliente</h1>
     <a href="/clientes" class="btn outwhite semi">VOLVER A CLIENTES</a>
-  </section>
+  </article>
 
   <form class="client-data col acenter xfill" on:submit|preventDefault={pushClient}>
     <div class="box round col xfill">

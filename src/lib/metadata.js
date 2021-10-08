@@ -6,7 +6,7 @@ export const home = {
   title: "Facturasgratis | Herramientas de gestión" ,
   description: "Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
-  image: BASE_URL + "/mobile.jpg",
+  image: BASE_URL + "/mobile.png",
 };
 
 export const facturas = {
@@ -89,12 +89,20 @@ export const calculadora = {
   image: BASE_URL + "/presupuestos.jpg",
 };
 
+export const convertidor = {
+  url: BASE_URL + "/convertidor",
+  title: "Convertidor" + SUFIX,
+  description: "Convierte precios con impuestos a sin impuestos y viceversa.",
+  keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
+  image: BASE_URL + "/productos-servicios.jpg",
+};
+
 export const ajustes = {
   url: BASE_URL + "/ajustes",
   title: "Tus datos" + SUFIX,
   description: "Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
-  image: BASE_URL + "/mobile.jpg",
+  image: BASE_URL + "/mobile.png",
 };
 
 export const privacidad = {
@@ -102,5 +110,5 @@ export const privacidad = {
   title: "Privacidad" + SUFIX,
   description: "Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
-  image: BASE_URL + "/mobile.jpg",
+  image: BASE_URL + "/mobile.png",
 };

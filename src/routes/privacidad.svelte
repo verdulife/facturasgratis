@@ -12,6 +12,7 @@
   <meta property="og:url" content={privacidad.url} />
   <meta property="og:title" content={privacidad.title} />
   <meta property="og:description" content={privacidad.description} />
+  <meta property="og:image" content={privacidad.image} />
   <meta property="og:image:secure_url" content={privacidad.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />
@@ -26,7 +27,7 @@
 </svelte:head>
 
 <div class="scroll">
-  <div class="content col">
+  <article class="content col">
     <h1 class="privacidad">Política de Cookies y Privacidad de <b>facturasgratis</b></h1>
 
     <p>
@@ -260,7 +261,7 @@
       <b>facturasgratis</b> y el Usuario, serán competentes los juzgados y tribunales de la ciudad de Barcelona, salvo que
       la legislación aplicable establezca forzosamente otra cosa.
     </p>
-  </div>
+  </article>
 </div>
 
 <style lang="scss">

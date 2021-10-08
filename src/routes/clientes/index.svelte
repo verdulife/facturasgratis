@@ -29,6 +29,7 @@
   <meta property="og:url" content={clientes.url} />
   <meta property="og:title" content={clientes.title} />
   <meta property="og:description" content={clientes.description} />
+  <meta property="og:image" content={clientes.image} />
   <meta property="og:image:secure_url" content={clientes.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />
@@ -43,11 +44,11 @@
 </svelte:head>
 
 <div class="scroll">
-  <section class="header col fcenter xfill">
+  <article class="header col fcenter xfill">
     <img src="/clientes.svg" alt="Clientes" />
     <h1>{tools[3].title}</h1>
     <p>{tools[3].desc}</p>
-  </section>
+  </article>
 
   {#if $userData.legal_name !== undefined}
     <div class="list-filter col acenter xfill">

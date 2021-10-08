@@ -13,6 +13,7 @@
   <meta property="og:url" content={albaranes.url} />
   <meta property="og:title" content={albaranes.title} />
   <meta property="og:description" content={albaranes.description} />
+  <meta property="og:image" content={albaranes.image} />
   <meta property="og:image:secure_url" content={albaranes.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />

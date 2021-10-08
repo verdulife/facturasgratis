@@ -145,6 +145,7 @@
   <meta property="og:url" content={nueva_factura.url} />
   <meta property="og:title" content={nueva_factura.title} />
   <meta property="og:description" content={nueva_factura.description} />
+  <meta property="og:image" content={nueva_factura.image} />
   <meta property="og:image:secure_url" content={nueva_factura.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />
@@ -159,11 +160,11 @@
 </svelte:head>
 
 <div class="scroll">
-  <section class="header col fcenter xfill">
+  <article class="header col fcenter xfill">
     <img src="/facturas.svg" alt="Facturas" />
     <h1>Nueva factura</h1>
     <a href="/facturas" class="btn outwhite semi">VOLVER</a>
-  </section>
+  </article>
 
   <form class="bill-data col acenter xfill" on:submit|preventDefault={pushBill}>
     <div class="box round col xfill">

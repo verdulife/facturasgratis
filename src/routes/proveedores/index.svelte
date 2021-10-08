@@ -13,6 +13,7 @@
   <meta property="og:url" content={proveedores.url} />
   <meta property="og:title" content={proveedores.title} />
   <meta property="og:description" content={proveedores.description} />
+  <meta property="og:image" content={proveedores.image} />
   <meta property="og:image:secure_url" content={proveedores.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />

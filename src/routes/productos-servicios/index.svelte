@@ -65,6 +65,7 @@
   <meta property="og:url" content={productos_servicios.url} />
   <meta property="og:title" content={productos_servicios.title} />
   <meta property="og:description" content={productos_servicios.description} />
+  <meta property="og:image" content={productos_servicios.image} />
   <meta property="og:image:secure_url" content={productos_servicios.image} />
   <meta property="og:image:type" content="image/jpeg" />
   <meta property="og:image:width" content="512" />
@@ -79,11 +80,11 @@
 </svelte:head>
 
 <div class="scroll">
-  <section class="header col fcenter xfill">
+  <article class="header col fcenter xfill">
     <img src="/productos-servicios.svg" alt="Productos y servicios" />
     <h1>{tools[4].title}</h1>
     <p>{tools[4].desc}</p>
-  </section>
+  </article>
 
   {#if $userData.legal_name !== undefined}
     <div class="list-filter col acenter xfill">
