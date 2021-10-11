@@ -1,6 +1,10 @@
 <script>
   import { calculadora } from "../../lib/metadata";
+  import { userData } from "../../lib/stores";
   import Comingsoon from "../../components/Comingsoon.svelte";
+
+  const IVA = $userData.iva || 21;
+  const IRPF = $userData.ret || 0;
 </script>
 
 <svelte:head>
@@ -28,6 +32,62 @@
 </svelte:head>
 
 <Comingsoon />
+<!-- <div class="col fill">
+  <article class="header col fcenter xfill">
+    <h1>Calculadora de impuestos</h1>
+    <p>Una calculadora diseñada para calcular de forma automática los impuestos.</p>
+  </article>
+
+  <div class="display box col aend">
+    <span class="col xfill">
+      <small class="label xfill nowrap">IVA</small>
+      <p class="label xfill nowrap">0.00€</p>
+    </span>
+
+    {#if IRPF}
+      <span class="col xfill">
+        <small class="label xfill nowrap">IRPF</small>
+        <p class="label xfill nowrap">0.00€</p>
+      </span>
+    {/if}
+    <span class="col xfill">
+      <small class="label xfill nowrap">TOTAL</small>
+      <p class="label xfill nowrap">0.00€</p>
+    </span>
+  </div>
+</div> -->
 
 <style lang="scss">
+  .header {
+    background: linear-gradient(45deg, $pri 50%, $sec);
+    text-align: center;
+    color: $white;
+    padding: 60px 40px;
+
+    @media (max-width: $mobile) {
+      padding: 20px;
+    }
+
+    h1 {
+      max-width: 900px;
+      font-size: 3vw;
+      line-height: 1.2;
+      margin-bottom: 40px;
+
+      @media (max-width: $mobile) {
+        font-size: 5vh;
+        margin-bottom: 20px;
+      }
+    }
+
+    p {
+      max-width: 900px;
+      font-size: 18px;
+      color: $sec;
+
+      @media (max-width: $mobile) {
+        font-size: 14px;
+      }
+    }
+  }
 </style>
