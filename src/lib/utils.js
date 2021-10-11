@@ -6,7 +6,6 @@ export const tools = [
     title: "Facturas",
     desc: "Genera y/o modifica facturas. Envíalas por correo electrónico y/o guárdalas en PDF.",
     icon: "/facturas.svg",
-    new: false,
     soon: false,
   },
   {
@@ -14,7 +13,6 @@ export const tools = [
     title: "Presupuestos",
     desc: "Genera y/o modifica presupuestos. Envíalos por correo electrónico y/o guárdalos en PDF.",
     icon: "/presupuestos.svg",
-    new: false,
     soon: false,
   },
   {
@@ -22,7 +20,6 @@ export const tools = [
     title: "Albaranes",
     desc: "Genera y/o modifica albaranes. Envíalos por correo electrónico y/o guárdalos en PDF.",
     icon: "/albaranes.svg",
-    new: false,
     soon: true,
   },
   {
@@ -30,7 +27,6 @@ export const tools = [
     title: "Proformas",
     desc: "Genera y/o modifica proformas. Envíalas por correo electrónico y/o guárdalas en PDF.",
     icon: "/facturas.svg",
-    new: false,
     soon: true,
   },
   {
@@ -38,7 +34,6 @@ export const tools = [
     title: "Clientes",
     desc: "Crea una lista de clientes. Después podrás usarlos en tus facturas, presupuestos y/o albaranes.",
     icon: "/clientes.svg",
-    new: false,
     soon: false,
   },
   {
@@ -46,7 +41,6 @@ export const tools = [
     title: "Productos y servicios",
     desc: "Crea una lista de productos/servicios. Podrás usarlos en tus facturas, presupuestos y/o albaranes.",
     icon: "/productos-servicios.svg",
-    new: false,
     soon: false,
   },
   {
@@ -54,7 +48,6 @@ export const tools = [
     title: "Proveedores",
     desc: "Crea una lista de proveedores. Así tendrás su información de contacto siempre a mano.",
     icon: "/proveedores.svg",
-    new: false,
     soon: true,
   },
   {
@@ -62,7 +55,6 @@ export const tools = [
     title: "Calculadora de impuestos",
     desc: "Una calculadora diseñada para calcular de forma automática los impuestos.",
     icon: "/presupuestos.svg",
-    new: false,
     soon: true,
   },
   {
@@ -70,8 +62,7 @@ export const tools = [
     title: "Convertidor de impuestos",
     desc: "Convierte precios con impuestos a sin impuestos y viceversa.",
     icon: "/albaranes.svg",
-    new: false,
-    soon: true,
+    soon: false,
   },
 ];
 

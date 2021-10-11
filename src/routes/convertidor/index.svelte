@@ -13,18 +13,13 @@
     const iva = (without_value * IVA) / 100;
     const irpf = IRPF > 0 ? (without_value * IRPF) / 100 : 0;
 
-    console.log(without_value, iva, irpf);
-
     with_value = roundWithTwoDecimals(without_value + iva - irpf);
   }
 
   function substractTaxes() {
-    const iva = (with_value * IVA) / 100;
-    const irpf = IRPF > 0 ? (with_value * IRPF) / 100 : 0;
+    const inverted = 1 + IVA / 100 - IRPF / 100;
 
-    console.log(without_value, iva, irpf);
-
-    without_value = roundWithTwoDecimals(with_value - iva + irpf);
+    without_value = roundWithTwoDecimals(with_value / inverted);
   }
 </script>
 
@@ -59,31 +54,33 @@
     <p>{tools[8].desc}</p>
   </article>
 
-  <div class="type box round">
-    <h2>Valor a convertir</h2>
-    <p class="notice">Elije un tipo de conversión, añade una cifra y el conversor ara el resto</p>
+  <div class="type xfill">
+    <div class="box round">
+      <h2>Valor a convertir</h2>
+      <p class="notice">Elije tus impuestos, rellena el campo que conozcas, y el otro se calculara automatiamente</p>
 
-    <div class="row xfill">
-      <div class="input-wrapper col xhalf">
-        <label for="type">TIPO DE IVA %</label>
-        <input class="out xfill" type="number" bind:value={IVA} />
+      <div class="row xfill">
+        <div class="input-wrapper col xhalf">
+          <label for="type">TIPO DE IVA %</label>
+          <input class="out xfill" type="number" bind:value={IVA} />
+        </div>
+
+        <div class="input-wrapper col xhalf">
+          <label for="type">TIPO DE IRPF %</label>
+          <input class="out xfill" type="number" bind:value={IRPF} />
+        </div>
       </div>
 
-      <div class="input-wrapper col xhalf">
-        <label for="type">TIPO DE IRPF %</label>
-        <input class="out xfill" type="number" bind:value={IRPF} />
-      </div>
-    </div>
+      <div class="row xfill">
+        <div class="input-wrapper col xhalf">
+          <label for="type">SIN IMPUESTOS {$userData && $userData.currency ? $userData.currency : "€"}</label>
+          <input class="out xfill" type="number" bind:value={without_value} step="0.01" on:keyup={calcTaxes} />
+        </div>
 
-    <div class="row xfill">
-      <div class="input-wrapper col xhalf">
-        <label for="type">SIN IMPUESTOS {$userData && $userData.currency ? $userData.currency : "€"}</label>
-        <input class="out xfill" type="number" bind:value={without_value} step="0.01" on:keyup={calcTaxes} />
-      </div>
-
-      <div class="input-wrapper col xhalf">
-        <label for="type">CON IMPUESTOS {$userData && $userData.currency ? $userData.currency : "€"}</label>
-        <input class="out xfill" type="number" bind:value={with_value} step="0.01" on:keyup={substractTaxes} />
+        <div class="input-wrapper col xhalf">
+          <label for="type">CON IMPUESTOS {$userData && $userData.currency ? $userData.currency : "€"}</label>
+          <input class="out xfill" type="number" bind:value={with_value} step="0.01" on:keyup={substractTaxes} />
+        </div>
       </div>
     </div>
   </div>
@@ -128,50 +125,58 @@
   }
 
   .type {
-    max-width: 900px;
-    margin: 40px auto 0 auto;
-    padding: 40px;
+    padding-bottom: 60px;
 
     @media (max-width: $mobile) {
-      padding: 20px;
+      padding: 0 10px 40px 10px;
     }
 
-    .notice {
-      font-size: 14px;
-      margin-bottom: 40px;
+    .box {
+      max-width: 900px;
+      margin: 40px auto 0 auto;
+      padding: 40px;
 
       @media (max-width: $mobile) {
-        font-size: 12px;
-        margin-bottom: 30px;
-      }
-    }
-
-    .input-wrapper {
-      margin-bottom: 30px;
-
-      @media (max-width: $mobile) {
-        margin-bottom: 20px;
-      }
-    }
-
-    label {
-      text-transform: uppercase;
-      color: $pri;
-      font-size: 12px;
-      padding: 0 15px;
-    }
-
-    input {
-      font-size: 16px;
-      border-bottom: 1px solid $sec;
-      border-radius: 0;
-
-      &:focus {
-        border-color: $pri;
+        padding: 20px;
       }
 
-      @media (max-width: $mobile) {
+      .notice {
         font-size: 14px;
+        margin-bottom: 40px;
+
+        @media (max-width: $mobile) {
+          font-size: 12px;
+          margin-bottom: 30px;
+        }
+      }
+
+      .input-wrapper {
+        margin-bottom: 30px;
+
+        @media (max-width: $mobile) {
+          margin-bottom: 20px;
+        }
+      }
+
+      label {
+        text-transform: uppercase;
+        color: $pri;
+        font-size: 12px;
+        padding: 0 15px;
+      }
+
+      input {
+        font-size: 16px;
+        border-bottom: 1px solid $sec;
+        border-radius: 0;
+
+        &:focus {
+          border-color: $pri;
+        }
+
+        @media (max-width: $mobile) {
+          font-size: 14px;
+        }
       }
     }
   }

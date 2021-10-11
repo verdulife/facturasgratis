@@ -5,6 +5,12 @@
   import { tips } from "../lib/tips";
   import { shuffleArray } from "../lib/functions";
 
+  tools.sort((a, b) => {
+    if (a.soon < b.soon) return -1;
+    if (a.soon > b.soon) return 1;
+    return 0;
+  });
+
   const BASE_URL = "https://www.facturasgratis.ml";
   shuffleArray(tips);
 </script>
