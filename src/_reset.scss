@@ -81,6 +81,11 @@ a {
   color: $pri;
 }
 
+a[href*="mailto:"],
+a[target="_blank"] {
+  text-decoration: underline;
+}
+
 //lists
 ul {
   list-style: none;

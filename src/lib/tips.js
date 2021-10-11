@@ -7,7 +7,7 @@ export const tips = [
   {
     title: "Convertir documentos",
     description: `Si necesitas convertir una factura de Word a PDF, o viceversa, y no
-    sabes como, en <a href="https://www.ilovepdf.com">iLovePDF</a> encontrarás
+    sabes como, en <a href="https://www.ilovepdf.com" target="_blank">iLovePDF</a> encontrarás
     herramientas muy útiles.`,
   },
   {

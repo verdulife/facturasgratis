@@ -144,7 +144,7 @@
     <h1>Tus datos</h1>
     <p>
       En <b>facturagratis</b>, usamos tu navegador como disco para que tus datos sean solo tuyos. Para tu tranquilidad, nuestra recomendación es que generes PDF's de tus documentos a medida que los vayas creando, y los guardes en una carpeta de tu
-      <a href="https://www.google.com/drive/">Google Drive</a>
+      <a href="https://www.google.com/drive/" target="_blank">Google Drive</a>
       (o similar), asi solo tendras que compartir esa carpeta con tu gestor o contable.
       <br /><br />
       Si lo deseas, puedes descargarte una copia de seguridad de tus datos, y volverlos a cargar en este u otro dispositivo.

@@ -33,41 +33,29 @@
     <p>
       <b>Responsable</b>
       <br /><br />
-      El Responsable del tratamiento de los datos recabados por medio de este Sitio Web es:
+      El Responsable del tratamiento de los datos recabados por medio de este
+      <a href="https://www.facturasgratis.com" target="_blank">sitio web</a>
+      es:
       <br /><br />
       • ALBERT VERDÚ LLINARES (en adelante, “<b>facturasgratis</b>”).
       <br />
       • Camí de la Lluna, 16, Olivella 08818 (España).
       <br />
-      • <a href="mailto:facturasgratis.app@gmail.com">facturasgratis.app@gmail.com</a>
+      • D.N.I.: 46356977V
       <br />
-      • (+34) 687 754 345
+      • <a href="mailto:facturasgratis.app@gmail.com">facturasgratis.app@gmail.com</a>
       <br /><br /><br />
       <b>Finalidad</b>
       <br /><br />
-      Los datos personales del usuario de este Sitio Web se tratarán para las siguientes finalidades:
+      Los datos personales del usuario de este sitio web se tratarán para las siguientes finalidades:
       <br /><br />
       F.1: Atender las solicitudes de información y/o consultas efectuadas por el Usuario. Los datos tratados con esta finalidad
       se conservarán hasta haber dado respuesta a la solicitud de información y/o consulta.
-      <br />
-      F.2: Mantener informado al Usuario, incluso por medios electrónicos, acerca de los productos, servicios y novedades
-      de <b>facturasgratis</b>. Los datos tratados con esta finalidad se conservarán hasta el momento en que el Usuario
-      retire su consentimiento dado para la recepción de dichas comunicaciones. Si el Usuario no consiente el
-      tratamiento de sus datos con esta finalidad, deberá marcar la casilla habilitada a tal efecto en el Sitio Web.
-      <br />
-      F.3: En caso de introducir datos personales en el Chatbot implementado en este Sitio Web serán tratados para proporcionarle
-      la información o contenidos solicitados. Los datos tratados con esta finalidad se conservarán hasta haber dado respuesta
-      a sus peticiones.
       <br /><br /><br />
       <b>Legitimación</b>
       <br /><br />
       La base jurídica para llevar a cabo los tratamientos de datos especificados en el apartado anterior es el consentimiento
       del interesado.
-      <br /><br /><br />
-      <b>Destinatarios</b>
-      <br /><br />
-      De conformidad con lo dispuesto en la finalidad tercera antes indicada, los datos del usuario podrán ser comunicados
-      a empresas pertenecientes a los sectores de actividad especificados.
       <br /><br /><br />
       <b>Derechos</b>
       <br /><br />
@@ -76,8 +64,8 @@
       incluida la elaboración de perfiles. De igual modo, en los tratamientos de los datos del Usuario cuya legitimación
       se base en el consentimiento dado por el Usuario, éste tiene el derecho a retirar dicho consentimiento en
       cualquier momento, sin que ello afecte a la licitud del tratamiento basado en el consentimiento previo a su
-      retirada. Para el ejercicio de tales derechos el usuario puede enviar su solicitud a Camí de la Lluna, 16,
-      Olivella 08818 (España), o a la dirección de correo electrónico
+      retirada. Para el ejercicio de tales derechos el usuario puede enviar su solicitud a la dirección de correo
+      electrónico
       <a href="mailto:facturasgratis.app@gmail.com">facturasgratis.app@gmail.com</a>. En todo caso, el Usuario tiene
       derecho a presentar una reclamación ante la correspondiente autoridad de control si lo estima oportuno.
       <br /><br /><br />
@@ -140,15 +128,13 @@
       En cumplimiento de lo establecido por el artículo 10 de la Ley 34/2002, de 11 de julio, de servicios de la sociedad
       de la información y de comercio electrónico, a continuación se ofrece la información general del Sitio Web:
       <br /><br />
-      Titular: ALBERT VERDÚ LLINARES. (en adelante, “<b>facturasgratis</b>”).
+      • Titular: ALBERT VERDÚ LLINARES. (en adelante, “<b>facturasgratis</b>”).
       <br />
-      Domicilio: Camí de la Lluna, 16, Olivella 08818 (España).
+      • Domicilio: Camí de la Lluna, 16, Olivella 08818 (España).
       <br />
-      C.I.F.: 48020459R
+      • D.N.I.: 46356977V
       <br />
-      E-mail: <a href="mailto:facturasgratis.app@gmail.com">facturasgratis.app@gmail.com</a>
-      <br />
-      Teléfono: 629509884
+      • E-mail: <a href="mailto:facturasgratis.app@gmail.com">facturasgratis.app@gmail.com</a>
       <br /><br /><br />
       <b>Normas de utilización del Sitio Web</b>
       <br /><br />
