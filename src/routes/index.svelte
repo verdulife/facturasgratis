@@ -5,7 +5,7 @@
   import { tips } from "../lib/tips";
   import { shuffleArray } from "../lib/functions";
 
-  tools.sort((a, b) => {
+  const sortedTools = [...tools].sort((a, b) => {
     if (a.soon < b.soon) return -1;
     if (a.soon > b.soon) return 1;
     return 0;
@@ -60,7 +60,7 @@
 
   <article>
     <ul class="tools row jcenter xfill">
-      {#each tools as tool}
+      {#each sortedTools as tool}
         <li class="box round col acenter">
           <a class="fill" href={tool.slug}>
             <div class="icon">
