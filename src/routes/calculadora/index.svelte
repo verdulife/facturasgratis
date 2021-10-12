@@ -3,22 +3,24 @@
   import { tools } from "../../lib/utils";
   import { calculadora } from "../../lib/metadata";
   import { roundWithTwoDecimals } from "../../lib/functions";
-  import Comingsoon from "../../components/Comingsoon.svelte";
 
   let IVA = $userData.iva || 21;
   let IRPF = $userData.ret || 0;
   let user_value = 0;
-  let with_iva = 0;
-  let with_irpf = 0;
-  let total = 0;
+  let output = 0;
+
+  $: with_iva = () => (output * IVA) / 100;
+  $: with_irpf = () => (output * IRPF) / 100;
+  $: total = () => output + with_iva() - with_irpf();
 
   function clearCalc() {
     user_value = 0;
+    output = user_value;
   }
 
   function deleteLastCharacter() {
-    if (user_value === 0 || user_value === "0" || !user_value) user_value = 0;
-    else user_value = user_value.slice(0, -1);
+    if (user_value.toString().length === 1 || user_value === "ERR") user_value = 0;
+    else user_value = user_value.toString().slice(0, -1);
   }
 
   function add(c) {
@@ -26,7 +28,46 @@
     else user_value += c;
   }
 
-  function calc() {}
+  function userPad(e) {
+    const input_iva = document.getElementById("iva_value");
+    const input_irpf = document.getElementById("irpf_value");
+
+    console.log(input_iva === document.activeElement);
+
+    if (input_iva !== document.activeElement && input_irpf !== document.activeElement) {
+      const isNumber = /^\d+$/;
+      if (isNumber.test(e.key) || e.key === "/" || e.key === "*" || e.key === "-" || e.key === "+" || e.key === "." || e.key === "," || e.key === "(" || e.key === ")" || e.keyCode === 46) {
+        if (e.keyCode === 46 || e.key === ",") add(".");
+        else add(e.key);
+      }
+
+      if (e.key === "Enter") calc();
+      if (e.key === "Delete" || e.key === "Backspace") deleteLastCharacter();
+      if (e.key === "Escape") clearCalc();
+    }
+  }
+
+  function calc() {
+    try {
+      if (user_value) {
+        user_value = new Function("return " + user_value)();
+        output = user_value;
+      }
+    } catch (error) {
+      console.log(error);
+      user_value = "ERR";
+    }
+  }
+
+  async function copyToClipboard(el) {
+    const originalValue = el.target.children[1].textContent;
+    await navigator.clipboard.writeText(originalValue);
+
+    el.target.children[1].innerHTML = "<b style='font-size: 18px'>COPIADO</b>";
+    setTimeout(() => {
+      el.target.children[1].innerHTML = `<b style='font-size: 18px'>${originalValue}</b>`;
+    }, 500);
+  }
 </script>
 
 <svelte:head>
@@ -53,9 +94,9 @@
   <meta name="twitter:image" content={calculadora.image} />
 </svelte:head>
 
-<Comingsoon />
+<svelte:window on:keydown={userPad} />
 
-<!-- <div class="scroll">
+<div class="scroll">
   <article class="header col fcenter xfill">
     <img src="/presupuestos.svg" alt="Calculadora de impuestos" />
     <h1>{tools[7].title}</h1>
@@ -66,25 +107,24 @@
     <small>Toca un valor para copiarlo</small>
 
     <div class="output row xfill">
-      <div class="box jbetween xhalf">
+      <div class="box jbetween xhalf" on:click={(el) => copyToClipboard(el)}>
         <p>IVA</p>
         <p>
-          <b>{roundWithTwoDecimals(with_iva).toFixed(2)}{$userData && $userData.currency ? $userData.currency : "€"}</b>
+          <b>+{roundWithTwoDecimals(with_iva()).toFixed(2)}{$userData && $userData.currency ? $userData.currency : "€"}</b>
         </p>
       </div>
 
-      <div class="box jbetween xhalf">
+      <div class="box jbetween xhalf" on:click={(el) => copyToClipboard(el)}>
         <p>IRPF</p>
         <p>
-          <b>{roundWithTwoDecimals(with_irpf).toFixed(2)}{$userData && $userData.currency ? $userData.currency : "€"}</b
-          >
+          <b>-{roundWithTwoDecimals(with_irpf()).toFixed(2)}{$userData && $userData.currency ? $userData.currency : "€"}</b>
         </p>
       </div>
 
-      <div class="box jbetween xfill">
+      <div class="box jbetween xfill" on:click={(el) => copyToClipboard(el)}>
         <p>TOTAL</p>
         <p>
-          <b>{roundWithTwoDecimals(total).toFixed(2)}{$userData && $userData.currency ? $userData.currency : "€"}</b>
+          <b>{roundWithTwoDecimals(total()).toFixed(2)}{$userData && $userData.currency ? $userData.currency : "€"}</b>
         </p>
       </div>
     </div>
@@ -134,7 +174,7 @@
       <div class="box vdbl" on:click={calc}>=</div>
     </div>
   </section>
-</div> -->
+</div>
 
 <style lang="scss">
   .header {
@@ -200,6 +240,7 @@
         p {
           text-align: left;
           font-size: 10px;
+          pointer-events: none;
 
           b {
             font-size: 18px;
