@@ -55,7 +55,7 @@ export const tools = [
     title: "Calculadora de impuestos",
     desc: "Una calculadora diseñada para calcular de forma automática los impuestos.",
     icon: "/presupuestos.svg",
-    soon: true,
+    soon: false,
   },
   {
     slug: "/convertidor",
