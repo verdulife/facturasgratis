@@ -8,18 +8,26 @@
   let IRPF = $userData.ret || 0;
   let without_value = 0;
   let with_value = 0;
+  let iva_value = 0;
+  let irpf_value = 0;
+
+  function selectAll(el) {
+    el.target.select();
+  }
 
   function calcTaxes() {
-    const iva = (without_value * IVA) / 100;
-    const irpf = IRPF > 0 ? (without_value * IRPF) / 100 : 0;
+    iva_value = (without_value * IVA) / 100;
+    irpf_value = IRPF > 0 ? (without_value * IRPF) / 100 : 0;
 
-    with_value = roundWithTwoDecimals(without_value + iva - irpf);
+    with_value = roundWithTwoDecimals(without_value + iva_value - irpf_value);
   }
 
   function substractTaxes() {
     const inverted = 1 + IVA / 100 - IRPF / 100;
 
     without_value = roundWithTwoDecimals(with_value / inverted);
+    iva_value = (without_value * IVA) / 100;
+    irpf_value = IRPF > 0 ? (without_value * IRPF) / 100 : 0;
   }
 </script>
 
@@ -62,24 +70,36 @@
       <div class="row xfill">
         <div class="input-wrapper col xhalf">
           <label for="type">TIPO DE IVA %</label>
-          <input class="out xfill" type="number" bind:value={IVA} />
+          <input class="out xfill" type="number" bind:value={IVA} on:keyup={calcTaxes} />
         </div>
 
         <div class="input-wrapper col xhalf">
           <label for="type">TIPO DE IRPF %</label>
-          <input class="out xfill" type="number" bind:value={IRPF} />
+          <input class="out xfill" type="number" bind:value={IRPF} on:keyup={calcTaxes} />
         </div>
       </div>
 
       <div class="row xfill">
         <div class="input-wrapper col xhalf">
           <label for="type">SIN IMPUESTOS {$userData && $userData.currency ? $userData.currency : "€"}</label>
-          <input class="out xfill" type="number" bind:value={without_value} step="0.01" on:keyup={calcTaxes} />
+          <input class="out xfill" type="number" bind:value={without_value} step="0.01" on:keyup={calcTaxes} on:focus={(el) => selectAll(el)} />
         </div>
 
         <div class="input-wrapper col xhalf">
           <label for="type">CON IMPUESTOS {$userData && $userData.currency ? $userData.currency : "€"}</label>
-          <input class="out xfill" type="number" bind:value={with_value} step="0.01" on:keyup={substractTaxes} />
+          <input class="out xfill" type="number" bind:value={with_value} step="0.01" on:keyup={substractTaxes} on:focus={(el) => selectAll(el)} />
+        </div>
+      </div>
+
+      <div class="row xfill">
+        <div class="col acenter xhalf">
+          <small class="label">IVA</small>
+          <p>+{roundWithTwoDecimals(iva_value).toFixed(2)}{$userData && $userData.currency ? $userData.currency : "€"}</p>
+        </div>
+
+        <div class="col acenter xhalf">
+          <small class="label">IRPF</small>
+          <p>-{roundWithTwoDecimals(irpf_value).toFixed(2)}{$userData && $userData.currency ? $userData.currency : "€"}</p>
         </div>
       </div>
     </div>
@@ -158,7 +178,8 @@
         }
       }
 
-      label {
+      label,
+      small {
         text-transform: uppercase;
         color: $pri;
         font-size: 12px;

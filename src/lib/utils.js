@@ -27,7 +27,7 @@ export const tools = [
     title: "Proformas",
     desc: "Genera y/o modifica proformas. Envíalas por correo electrónico y/o guárdalas en PDF.",
     icon: "/facturas.svg",
-    soon: true,
+    soon: false,
   },
   {
     slug: "/clientes",

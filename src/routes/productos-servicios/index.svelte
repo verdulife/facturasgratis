@@ -82,8 +82,8 @@
 <div class="scroll">
   <article class="header col fcenter xfill">
     <img src="/productos-servicios.svg" alt="Productos y servicios" />
-    <h1>{tools[4].title}</h1>
-    <p>{tools[4].desc}</p>
+    <h1>{tools[5].title}</h1>
+    <p>{tools[5].desc}</p>
   </article>
 
   {#if $userData.legal_name !== undefined}

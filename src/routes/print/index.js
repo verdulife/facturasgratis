@@ -14,8 +14,12 @@ const black = "#1a1a1a";
 const border = "#f0f0f0";
 
 export async function post(req, res) {
-  const doc_type = req.headers.referer.includes("facturas") ? "factura" : "presupuesto";
   const data = req.body;
+  let doc_type;
+
+  if (req.headers.referer.includes("facturas")) doc_type = "factura";
+  if (req.headers.referer.includes("presupuestos")) doc_type = "presupuesto";
+  if (req.headers.referer.includes("proformas")) doc_type = "proforma";
 
   const doc = new PDFDocument({
     size: [mm(210), mm(297)],

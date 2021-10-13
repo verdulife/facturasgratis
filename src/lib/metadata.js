@@ -57,6 +57,14 @@ export const proformas = {
   image: BASE_URL + "/facturas.jpg",
 };
 
+export const nueva_proforma = {
+  url: BASE_URL + "/proformas/nueva",
+  title: "Crear proforma" + SUFIX,
+  description: "Crea y/o modifica proformas. Envíalas por correo electrónico y/o guárdalas en PDF.",
+  keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
+  image: BASE_URL + "/facturas.jpg",
+};
+
 export const clientes = {
   url: BASE_URL + "/clientes",
   title: "Clientes" + SUFIX,

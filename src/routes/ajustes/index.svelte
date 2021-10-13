@@ -298,6 +298,11 @@
           <label for="delivery_note">Nota para albarenes</label>
           <textarea id="delivery_note" bind:value={user.delivery_note} class="xfill" placeholder="Ej. Transporte no incluido" />
         </div>
+
+        <div class="input-wrapper col xfill">
+          <label for="proforma_note">Nota para proformas</label>
+          <textarea id="proforma_note" bind:value={user.proforma_note} class="xfill" placeholder="Ej. Transporte no incluido" />
+        </div>
       </div>
 
       <div class="row jcenter xfill">
