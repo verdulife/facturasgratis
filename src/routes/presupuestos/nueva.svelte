@@ -147,8 +147,6 @@
   <meta property="og:image" content={nueva_presupuesto.image} />
   <meta property="og:image:secure_url" content={nueva_presupuesto.image} />
   <meta property="og:image:type" content="image/jpeg" />
-  <meta property="og:image:width" content="512" />
-  <meta property="og:image:height" content="512" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />

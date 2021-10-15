@@ -3,7 +3,7 @@ const SUFIX = " | Facturasgratis";
 
 export const home = {
   url: BASE_URL,
-  title: "Facturasgratis | Herramientas de gestión" ,
+  title: "Facturasgratis | Herramientas de gestión",
   description: "Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
   image: BASE_URL + "/mobile.png",
@@ -97,6 +97,14 @@ export const proveedores = {
   image: BASE_URL + "/proveedores.jpg",
 };
 
+export const nueva_proveedor = {
+  url: BASE_URL + "/proveedores/nueva",
+  title: "Crear proveedor" + SUFIX,
+  description: "Crea una lista de proveedores. Así los tendrás su información de contacto siempre a mano.",
+  keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
+  image: BASE_URL + "/proveedores.jpg",
+};
+
 export const calculadora = {
   url: BASE_URL + "/calculadora",
   title: "Calculadora" + SUFIX,
@@ -127,4 +135,20 @@ export const privacidad = {
   description: "Herramientas online gratuitas para crear, modificar y guardar facturas, presupuestos, albaranes, clientes, proveedores y productos/servicios.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
   image: BASE_URL + "/mobile.png",
+};
+
+export const metro_cuadrado = {
+  url: BASE_URL + "/metro-cuadrado",
+  title: "Calculadora metro cuadrado" + SUFIX,
+  description: "Calcula precios segun el tamaño con la calculadora de metro cuadrado",
+  keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
+  image: BASE_URL + "/metro.svg",
+};
+
+export const control_gastos = {
+  url: BASE_URL + "/control-gastos",
+  title: "Control de gastos" + SUFIX,
+  description: "Escanea tus tickets y facturas para llevar el control de los gastos",
+  keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
+  image: BASE_URL + "/gastos.svg",
 };

@@ -32,8 +32,6 @@
   <meta property="og:image" content={clientes.image} />
   <meta property="og:image:secure_url" content={clientes.image} />
   <meta property="og:image:type" content="image/jpeg" />
-  <meta property="og:image:width" content="512" />
-  <meta property="og:image:height" content="512" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
@@ -212,11 +210,11 @@
       }
 
       a.btn {
+        text-decoration: none;
         border-top: 1px solid $border;
 
         &:hover {
           background: $success;
-          color: $white;
           transform: unset;
         }
       }

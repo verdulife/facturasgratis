@@ -104,11 +104,6 @@
     goto(`/presupuestos/${budget._id}`);
   }
 
-  function duplicateBill() {
-    alert("🤝 Proximamente");
-    action = "";
-  }
-
   function deleteBill() {
     const check = confirm("La numeracion de las otras facturas no se modificara. Recuerda usar la numeracion de esta factura en otra.\n\n¿Borrar definitivamente?");
 
@@ -126,7 +121,6 @@
     if (!action) return;
     if (action === "bill") generateBill();
     if (action === "budget") generateBudget();
-    if (action === "duplicate") duplicateBill();
     if (action === "delete") deleteBill();
   }
 
@@ -245,7 +239,6 @@
           <option value="">OTRAS ACCIONES</option>
           <option value="bill">CREAR FACTURA</option>
           <option value="budget">CREAR PRESUPUESTO</option>
-          <option value="duplicate">DUPLICAR</option>
           <option value="delete">BORRAR</option>
         </select>
       </div>

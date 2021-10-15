@@ -1,98 +1,98 @@
 <script>
   import { goto } from "@sapper/app";
-  import { clients, userData } from "../../lib/stores";
-  import { nueva_cliente } from "../../lib/metadata";
+  import { providers, userData } from "../../lib/stores";
+  import { nueva_proveedor } from "../../lib/metadata";
 
-  let clientData = {};
+  let providerData = {};
 
-  function pushClient() {
-    clientData._id = Date.now().toString();
-    $clients = [...$clients, clientData];
+  function pushProvider() {
+    providerData._id = Date.now().toString();
+    $providers = [...$providers, providerData];
 
     $userData._updated = new Date();
-    goto("/clientes");
+    goto("/proveedores");
   }
 </script>
 
 <svelte:head>
-  <title>{nueva_cliente.title}</title>
-  <meta name="description" content={nueva_cliente.description} />
-  <meta name="keywords" content={nueva_cliente.keywords} />
+  <title>{nueva_proveedor.title}</title>
+  <meta name="description" content={nueva_proveedor.description} />
+  <meta name="keywords" content={nueva_proveedor.keywords} />
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website" />
-  <meta property="og:url" content={nueva_cliente.url} />
-  <meta property="og:title" content={nueva_cliente.title} />
-  <meta property="og:description" content={nueva_cliente.description} />
-  <meta property="og:image" content={nueva_cliente.image} />
-  <meta property="og:image:secure_url" content={nueva_cliente.image} />
+  <meta property="og:url" content={nueva_proveedor.url} />
+  <meta property="og:title" content={nueva_proveedor.title} />
+  <meta property="og:description" content={nueva_proveedor.description} />
+  <meta property="og:image" content={nueva_proveedor.image} />
+  <meta property="og:image:secure_url" content={nueva_proveedor.image} />
   <meta property="og:image:type" content="image/jpeg" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:site" content={nueva_cliente.url} />
-  <meta name="twitter:title" content={nueva_cliente.title} />
-  <meta name="twitter:description" content={nueva_cliente.description} />
-  <meta name="twitter:image" content={nueva_cliente.image} />
+  <meta name="twitter:site" content={nueva_proveedor.url} />
+  <meta name="twitter:title" content={nueva_proveedor.title} />
+  <meta name="twitter:description" content={nueva_proveedor.description} />
+  <meta name="twitter:image" content={nueva_proveedor.image} />
 </svelte:head>
 
 <div class="scroll">
   <article class="header col fcenter xfill">
-    <img src="/clientes.svg" alt="Clientes" />
-    <h1>Nuevo cliente</h1>
-    <a href="/clientes" class="btn outwhite semi">VOLVER A CLIENTES</a>
+    <img src="/proveedores.svg" alt="Proveedores" />
+    <h1>Nuevo proveedor</h1>
+    <a href="/proveedores" class="btn outwhite semi">VOLVER A CLIENTES</a>
   </article>
 
-  <form class="client-data col acenter xfill" on:submit|preventDefault={pushClient}>
+  <form class="provider-data col acenter xfill" on:submit|preventDefault={pushProvider}>
     <div class="box round col xfill">
-      <h2>Datos del cliente</h2>
-      <p class="notice">Genera clientes para cargar sus datos rapidamente en tus facturas, preuspuestos y albaranes.</p>
+      <h2>Datos del proveedor</h2>
+      <p class="notice">Genera proveedores para tener sus datos a mano cuando los necesites.</p>
 
       <div class="input-wrapper col xfill">
         <label for="legal_name">NOMBRE FISCAL</label>
-        <input type="text" id="legal_name" bind:value={clientData.legal_name} class="xfill" required />
+        <input type="text" id="legal_name" bind:value={providerData.legal_name} class="xfill" required />
       </div>
 
       <div class="row xfill">
         <div class="input-wrapper col xhalf">
           <label for="legal_id">CIF/NIF</label>
-          <input type="text" id="legal_id" bind:value={clientData.legal_id} class="xfill" required />
+          <input type="text" id="legal_id" bind:value={providerData.legal_id} class="xfill" required />
         </div>
 
         <div class="input-wrapper col xhalf">
           <label for="contact">Conacto</label>
-          <input type="text" id="contact" bind:value={clientData.contact} class="xfill" required />
+          <input type="text" id="contact" bind:value={providerData.contact} class="xfill" required />
         </div>
       </div>
 
       <div class="row xfill">
         <div class="input-wrapper col xhalf">
           <label for="address">DIRECCION FISCAL</label>
-          <input type="text" id="address" bind:value={clientData.address} class="xfill" required />
+          <input type="text" id="address" bind:value={providerData.address} class="xfill" required />
         </div>
 
         <div class="col xhalf">
           <label for="cp">Código postal</label>
-          <input type="text" id="cp" bind:value={clientData.cp} class="xfill" required />
+          <input type="text" id="cp" bind:value={providerData.cp} class="xfill" required />
         </div>
       </div>
 
       <div class="row xfill">
         <div class="input-wrapper col xhalf">
           <label for="city">POBLACIÓN</label>
-          <input type="text" id="city" bind:value={clientData.city} class="xfill" required />
+          <input type="text" id="city" bind:value={providerData.city} class="xfill" required />
         </div>
 
         <div class="input-wrapper col xhalf">
           <label for="country">País</label>
-          <input type="text" id="country" bind:value={clientData.country} class="xfill" required />
+          <input type="text" id="country" bind:value={providerData.country} class="xfill" required />
         </div>
       </div>
     </div>
 
     <div class="row jcenter xfill">
       <button class="succ semi">GENERAR CLIENTE</button>
-      <a href="/clientes" class="btn out semi">CANCELAR</a>
+      <a href="/proveedores" class="btn out semi">CANCELAR</a>
     </div>
   </form>
 </div>
@@ -125,7 +125,7 @@
     }
   }
 
-  .client-data {
+  .provider-data {
     padding: 60px;
 
     @media (max-width: $mobile) {

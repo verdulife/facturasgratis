@@ -1,51 +1,33 @@
 <script>
   import { stores, goto } from "@sapper/app";
-  import { clients, userData } from "../../lib/stores";
+  import { providers, userData } from "../../lib/stores";
 
   const { page } = stores();
-  let clientData = $clients.filter((client) => client._id === $page.params.id)[0];
+  let providerData = $providers.filter((provider) => provider._id === $page.params.id)[0];
   let action = "";
 
-  function generateBill() {
-    action = "";
-    goto(`/facturas/nueva?client=${encodeURIComponent(JSON.stringify(clientData))}`);
-  }
-
-  function generateBudget() {
-    action = "";
-    goto(`/presupuestos/nueva?client=${encodeURIComponent(JSON.stringify(clientData))}`);
-  }
-
-  function generateProformaBill() {
-    action = "";
-    goto(`/proformas/nueva?client=${encodeURIComponent(JSON.stringify(clientData))}`);
-  }
-
-  function deleteClient() {
+  function deleteProvider() {
     const check = confirm("¿Borrar definitivamente?");
 
     if (!check) return;
 
-    $clients.splice($clients.indexOf(clientData), 1);
-    $clients = $clients;
+    $providers.splice($providers.indexOf(providerData), 1);
+    $providers = $providers;
     $userData._updated = new Date();
     action = "";
 
-    goto("/clientes");
+    goto("/proveedores");
   }
 
   function evalAction() {
     if (!action) return;
-    if (action === "bill") generateBill();
-    if (action === "budget") generateBudget();
-    if (action === "proforma_bill") generateProformaBill();
-    if (action === "delete") deleteClient();
+    if (action === "delete") deleteProvider();
   }
 
-  function pushClient() {
-    $clients = $clients.map((client) => {
-      if (client._id === clientData._id) return (client = clientData);
-      else return client;
+  function pushProvider() {
+    $providers = $providers.map((provider) => {
+      if (provider._id === providerData._id) return (provider = providerData);
+      else return provider;
     });
 
     $userData._updated = new Date();
@@ -55,81 +37,78 @@
 
 <svelte:head>
   <meta name="robots" content="noindex" />
-  <title>Editar cliente | Facturasgratis</title>
+  <title>Editar proveedor | Facturasgratis</title>
 </svelte:head>
 
 <div class="scroll">
-  {#if clientData}
+  {#if providerData}
     <section class="header col fcenter xfill">
-      <img src="/clientes.svg" alt="Clientes" />
-      <h1>{clientData.legal_name}</h1>
+      <img src="/proveedores.svg" alt="Proveedores" />
+      <h1>{providerData.legal_name}</h1>
       <p>
-        {clientData.legal_id}
+        {providerData.legal_id}
       </p>
 
       <div class="io-wrapper row jcenter xfill">
         <select class="out semi" bind:value={action} on:change={evalAction}>
           <option value="">ACCIONES</option>
-          <option value="bill">CREAR FACTURA</option>
-          <option value="budget">CREAR PRESUPUESTO</option>
-          <option value="proforma_bill">CREAR PROFORMA</option>
           <option value="delete">BORRAR</option>
         </select>
       </div>
 
-      <a href="/clientes" class="btn outwhite semi">VOLVER</a>
+      <a href="/proveedores" class="btn outwhite semi">VOLVER</a>
     </section>
 
-    <form class="client-data col acenter xfill" on:submit|preventDefault={pushClient}>
+    <form class="provider-data col acenter xfill" on:submit|preventDefault={pushProvider}>
       <div class="box round col xfill">
-        <h2>Datos del cliente</h2>
-        <p class="notice">Genera clientes para cargar sus datos rapidamente en tus facturas, preuspuestos y albaranes.</p>
+        <h2>Datos del proveedor</h2>
+        <p class="notice">Genera proveedores para tener sus datos a mano cuando los necesites.</p>
 
         <div class="input-wrapper col xfill">
           <label for="legal_name">NOMBRE FISCAL</label>
-          <input type="text" id="legal_name" bind:value={clientData.legal_name} class="xfill" required />
+          <input type="text" id="legal_name" bind:value={providerData.legal_name} class="xfill" required />
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="legal_id">CIF/NIF</label>
-            <input type="text" id="legal_id" bind:value={clientData.legal_id} class="xfill" required />
+            <input type="text" id="legal_id" bind:value={providerData.legal_id} class="xfill" required />
           </div>
 
           <div class="input-wrapper col xhalf">
             <label for="contact">Conacto</label>
-            <input type="text" id="contact" bind:value={clientData.contact} class="xfill" required />
+            <input type="text" id="contact" bind:value={providerData.contact} class="xfill" required />
           </div>
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="address">DIRECCION FISCAL</label>
-            <input type="text" id="address" bind:value={clientData.address} class="xfill" required />
+            <input type="text" id="address" bind:value={providerData.address} class="xfill" required />
           </div>
 
           <div class="col xhalf">
             <label for="cp">Código postal</label>
-            <input type="text" id="cp" bind:value={clientData.cp} class="xfill" required />
+            <input type="text" id="cp" bind:value={providerData.cp} class="xfill" required />
           </div>
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="city">POBLACIÓN</label>
-            <input type="text" id="city" bind:value={clientData.city} class="xfill" required />
+            <input type="text" id="city" bind:value={providerData.city} class="xfill" required />
           </div>
 
           <div class="input-wrapper col xhalf">
             <label for="country">País</label>
-            <input type="text" id="country" bind:value={clientData.country} class="xfill" required />
+            <input type="text" id="country" bind:value={providerData.country} class="xfill" required />
           </div>
         </div>
       </div>
 
       <div class="last-row row jcenter xfill">
         <button class="succ semi">GUARDAR CAMBIOS</button>
-        <a href="/clientes" class="btn out semi">ATRAS</a>
+        <a href="/proveedores" class="btn out semi">ATRAS</a>
       </div>
     </form>
   {/if}
@@ -184,7 +163,7 @@
     }
   }
 
-  .client-data {
+  .provider-data {
     padding: 60px;
 
     @media (max-width: $mobile) {

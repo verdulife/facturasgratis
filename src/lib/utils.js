@@ -48,7 +48,7 @@ export const tools = [
     title: "Proveedores",
     desc: "Crea una lista de proveedores. Así tendrás su información de contacto siempre a mano.",
     icon: "/proveedores.svg",
-    soon: true,
+    soon: false,
   },
   {
     slug: "/calculadora",
@@ -69,6 +69,13 @@ export const tools = [
     title: "Calculadora metro cuadrado",
     desc: "Calcula precios segun el tamaño con la calculadora de metro cuadrado",
     icon: "/metro.svg",
+    soon: true,
+  },
+  {
+    slug: "/control-gastos",
+    title: "Control de gastos",
+    desc: "Escanea tus tickets y facturas para llevar el control de los gastos",
+    icon: "/gastos.svg",
     soon: true,
   },
 ];

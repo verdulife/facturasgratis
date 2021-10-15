@@ -1,7 +1,7 @@
 <script>
   import { fade } from "svelte/transition";
   import { stores, goto } from "@sapper/app";
-  import { budgets, userData, bills, products } from "../../lib/stores";
+  import { budgets, userData, bills, products, proforma_bills } from "../../lib/stores";
   import { POST, roundWithTwoDecimals, numerationFormat, autoNumeration } from "../../lib/functions";
   import AutoComplete from "simple-svelte-autocomplete";
 
@@ -77,15 +77,34 @@
     goto(`/facturas/${bill._id}`);
   }
 
-  function duplicateBudget() {
-    alert("🤝 Proximamente");
+  function generateProformaBill() {
+    const check = confirm("¿Quieres crear una proforma a partir de este presupuesto?");
+
+    if (!check) return;
+
+    const number = autoNumeration($proforma_bills);
+    const proforma = { ...budgetData };
+    const proformaExists = $proforma_bills.some((b) => b._id === proforma._id);
+
+    if (proformaExists) {
+      const check = confirm("Ya se ha creado una proforma a partir de este presupuesto\n\n¿Quieres abrirla?");
+
+      if (!check) return;
+
+      return goto(`/proformas/${proforma._id}`);
+    }
+
+    proforma.number = number;
+
+    $proforma_bills = [...$proforma_bills, proforma];
+    $userData._updated = new Date();
     action = "";
+
+    goto(`/proformas/${proforma._id}`);
   }
 
   function deleteBudget() {
-    const check = confirm(
-      "La numeracion de los otros presupuestos no se modificara. Recuerda usar la numeracion de este presupuesto en otro.\n\n¿Borrar definitivamente?"
-    );
+    const check = confirm("La numeracion de los otros presupuestos no se modificara. Recuerda usar la numeracion de este presupuesto en otro.\n\n¿Borrar definitivamente?");
 
     if (check) {
       $budgets.splice($budgets.indexOf(budgetData), 1);
@@ -100,7 +119,7 @@
   function evalAction() {
     if (!action) return;
     if (action === "bill") generateBill();
-    if (action === "duplicate") duplicateBudget();
+    if (action === "proforma_bill") generateProformaBill();
     if (action === "delete") deleteBudget();
   }
 
@@ -218,7 +237,7 @@
         <select class="out semi" bind:value={action} on:change={evalAction}>
           <option value="">MÁS ACCIONES</option>
           <option value="bill">CREAR FACTURA</option>
-          <option value="duplicate">DUPLICAR</option>
+          <option value="proforma_bill">CREAR PROFORMA</option>
           <option value="delete">BORRAR</option>
         </select>
       </div>
@@ -251,15 +270,7 @@
             </div>
             <div class="input-wrapper date col">
               <label for="month">Mes</label>
-              <input
-                type="number"
-                id="month"
-                min="1"
-                max="12"
-                class="xfill"
-                bind:value={budgetData.date.month}
-                required
-              />
+              <input type="number" id="month" min="1" max="12" class="xfill" bind:value={budgetData.date.month} required />
             </div>
             <div class="input-wrapper date col">
               <label for="year">Año</label>
@@ -335,14 +346,7 @@
                 <input type="number" id="amount" bind:value={item.amount} min="1" class="out" placeholder="CANT" />
                 <input type="text" id="label" bind:value={item.label} class="out grow" placeholder="CONCEPTO" />
                 <input type="number" id="dto" bind:value={item.dto} min="0" max="100" class="out" placeholder="DTO %" />
-                <input
-                  type="number"
-                  id="price"
-                  bind:value={item.price}
-                  step="0.01"
-                  class="out"
-                  placeholder="PRECIO {$userData.currency}"
-                />
+                <input type="number" id="price" bind:value={item.price} step="0.01" class="out" placeholder="PRECIO {$userData.currency}" />
                 <input type="text" value={calcLineTotal(item)} class="out" disabled />
                 <input type="text" value="🗑" class="out" on:click={() => removeLine(i)} />
               </li>
@@ -384,14 +388,7 @@
           <div class="input-wrapper col xfill">
             <label for="products_list" style="margin-bottom: 10px">CARGAR DATOS</label>
 
-            <AutoComplete
-              items={$products}
-              bind:selectedItem={lineData}
-              labelFieldName="label"
-              placeholder="Buscar producto"
-              noResultsText="No hay coincidencias"
-              hideArrow
-            >
+            <AutoComplete items={$products} bind:selectedItem={lineData} labelFieldName="label" placeholder="Buscar producto" noResultsText="No hay coincidencias" hideArrow>
               <div slot="item" let:item>
                 <div class="row aend xfill">
                   <p class="nowrap grow" style="padding-right: 10px;">{item.label}</p>
@@ -406,14 +403,7 @@
           <input type="number" id="amount" bind:value={lineData.amount} min="1" class="out" placeholder="CANT" />
           <input type="text" id="label" bind:value={lineData.label} class="out grow" placeholder="CONCEPTO" />
           <input type="number" id="dto" bind:value={lineData.dto} min="0" max="100" class="out" placeholder="DTO %" />
-          <input
-            type="number"
-            id="price"
-            bind:value={lineData.price}
-            step="0.01"
-            class="out"
-            placeholder="PRECIO {$userData.currency}"
-          />
+          <input type="number" id="price" bind:value={lineData.price} step="0.01" class="out" placeholder="PRECIO {$userData.currency}" />
         </div>
 
         <div class="line-btn pri xfill" on:click={pushLine}>AÑADIR A LA LISTA</div>
