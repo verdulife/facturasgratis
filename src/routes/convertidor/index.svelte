@@ -57,9 +57,11 @@
 
 <div class="scroll">
   <article class="header col fcenter xfill">
-    <img src="/albaranes.svg" alt="Convertidor de impuestos" />
+    <img src="/convertidor.svg" alt="Convertidor de impuestos" />
     <h1>{tools[8].title}</h1>
     <p>{tools[8].desc}</p>
+
+    <a href="/" class="btn outwhite semi">VOLVER</a>
   </article>
 
   <div class="type xfill">
@@ -137,6 +139,7 @@
       max-width: 900px;
       font-size: 18px;
       color: $sec;
+      margin-bottom: 40px;
 
       @media (max-width: $mobile) {
         font-size: 14px;

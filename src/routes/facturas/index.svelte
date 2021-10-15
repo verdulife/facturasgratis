@@ -73,6 +73,8 @@
     <img src="/facturas.svg" alt="Facturas" />
     <h1>{tools[0].title}</h1>
     <p>{tools[0].desc}</p>
+
+    <a href="/" class="btn outwhite semi">VOLVER</a>
   </article>
 
   {#if $userData.legal_name !== undefined}
@@ -173,6 +175,7 @@
       max-width: 900px;
       font-size: 18px;
       color: $sec;
+      margin-bottom: 40px;
 
       @media (max-width: $mobile) {
         font-size: 14px;

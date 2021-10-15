@@ -84,6 +84,8 @@
     <img src="/productos-servicios.svg" alt="Productos y servicios" />
     <h1>{tools[5].title}</h1>
     <p>{tools[5].desc}</p>
+
+    <a href="/" class="btn outwhite semi">VOLVER</a>
   </article>
 
   {#if $userData.legal_name !== undefined}
@@ -194,6 +196,7 @@
       max-width: 900px;
       font-size: 18px;
       color: $sec;
+      margin-bottom: 40px;
 
       @media (max-width: $mobile) {
         font-size: 14px;

@@ -161,7 +161,7 @@
 
 <div class="scroll">
   <article class="header col fcenter xfill">
-    <img src="/facturas.svg" alt="Proformas" />
+    <img src="/proformas.svg" alt="Proformas" />
     <h1>Nueva proforma</h1>
     <a href="/proformas" class="btn outwhite semi">VOLVER</a>
   </article>

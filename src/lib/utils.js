@@ -26,7 +26,7 @@ export const tools = [
     slug: "/proformas",
     title: "Proformas",
     desc: "Genera y/o modifica proformas. Envíalas por correo electrónico y/o guárdalas en PDF.",
-    icon: "/facturas.svg",
+    icon: "/proformas.svg",
     soon: false,
   },
   {
@@ -54,15 +54,22 @@ export const tools = [
     slug: "/calculadora",
     title: "Calculadora de impuestos",
     desc: "Una calculadora diseñada para calcular de forma automática los impuestos.",
-    icon: "/presupuestos.svg",
+    icon: "/calculadora.svg",
     soon: false,
   },
   {
     slug: "/convertidor",
     title: "Convertidor de impuestos",
     desc: "Convierte precios con impuestos a sin impuestos y viceversa.",
-    icon: "/albaranes.svg",
+    icon: "/convertidor.svg",
     soon: false,
+  },
+  {
+    slug: "/metro-cuadrado",
+    title: "Calculadora metro cuadrado",
+    desc: "Calcula precios segun el tamaño con la calculadora de metro cuadrado",
+    icon: "/metro.svg",
+    soon: true,
   },
 ];
 

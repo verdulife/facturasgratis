@@ -232,7 +232,7 @@
 <div class="scroll">
   {#if billData}
     <section class="header col fcenter xfill">
-      <img src="/facturas.svg" alt="Proforma" />
+      <img src="/proformas.svg" alt="Proformas" />
       <h1>Proforma {numerationFormat(billData.number, billData.date.year)}</h1>
       <p>
         Con fecha {billData.date.day}/{billData.date.month}/{billData.date.year}

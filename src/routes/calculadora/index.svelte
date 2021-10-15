@@ -98,9 +98,11 @@
 
 <div class="scroll">
   <article class="header col fcenter xfill">
-    <img src="/presupuestos.svg" alt="Calculadora de impuestos" />
+    <img src="/calculadora.svg" alt="Calculadora de impuestos" />
     <h1>{tools[7].title}</h1>
     <p>{tools[7].desc}</p>
+
+    <a href="/" class="btn outwhite semi">VOLVER</a>
 
     <h-div />
 
@@ -213,6 +215,10 @@
       }
     }
 
+    a.btn {
+      margin-top: 20px;
+    }
+
     h-div {
       max-width: 900px;
       margin: 30px 0;
@@ -231,11 +237,7 @@
         cursor: pointer;
         background: rgba($sec, 0.1);
         margin-bottom: -1px;
-        padding: 10px;
-
-        @media (max-width: $mobile) {
-          padding: 7px;
-        }
+        padding: 7px;
 
         p {
           text-align: left;
