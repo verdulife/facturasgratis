@@ -26,6 +26,16 @@
     <priority>0.70</priority>
   </url>
   <url>
+    <loc>https://www.facturasgratis.ml/proformas</loc>
+    <lastmod>2021-10-05T13:35:54+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.facturasgratis.ml/proformas/nueva</loc>
+    <lastmod>2021-10-05T13:35:54+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
     <loc>https://www.facturasgratis.ml/albaranes</loc>
     <lastmod>2021-10-05T13:35:54+00:00</lastmod>
     <priority>0.80</priority>
@@ -47,6 +57,26 @@
   </url>
   <url>
     <loc>https://www.facturasgratis.ml/proveedores</loc>
+    <lastmod>2021-10-05T13:35:54+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.facturasgratis.ml/calculadora</loc>
+    <lastmod>2021-10-05T13:35:54+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.facturasgratis.ml/convertidor</loc>
+    <lastmod>2021-10-05T13:35:54+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.facturasgratis.ml/metro-cuadrado</loc>
+    <lastmod>2021-10-05T13:35:54+00:00</lastmod>
+    <priority>0.80</priority>
+  </url>
+  <url>
+    <loc>https://www.facturasgratis.ml/control-gastos</loc>
     <lastmod>2021-10-05T13:35:54+00:00</lastmod>
     <priority>0.80</priority>
   </url>
