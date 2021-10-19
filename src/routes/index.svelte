@@ -12,8 +12,33 @@
     return 0;
   });
 
+  sortedTools.map((s, i) => {
+    s.sort_index = s.sort_index ? s.sort_index : i;
+  });
+
   const BASE_URL = "https://www.facturasgratis.ml";
   shuffleArray(tips);
+
+  function dragStart(tool) {
+    console.log(tool.sort_index);
+  }
+
+  function dragOver() {
+    console.log("over");
+  }
+
+  function dragDrop(tool) {
+    console.log(tool.sort_index);
+  }
+
+  function dragEnter() {
+    console.log(this);
+    this.classList.add("dragenter");
+  }
+
+  function dragLeave() {
+    this.classList.remove("dragenter");
+  }
 </script>
 
 <svelte:head>
@@ -55,7 +80,7 @@
     <ul class="tools row jcenter xfill">
       {#each sortedTools as tool}
         <li class="box round col acenter">
-          <a class="fill" href={tool.slug}>
+          <a class="fill" href={tool.slug} draggable="true" on:dragstart={() => dragStart(tool)} on:dragover|preventDefault={dragOver} on:drop={() => dragDrop(tool)} on:dragenter|stopPropagation={dragEnter} on:dragleave={dragLeave}>
             <div class="icon">
               <img width="50" height="50" src={tool.icon} alt={tool.title} title={tool.title} />
             </div>
@@ -143,7 +168,7 @@
       width: 25%;
       min-width: 250px;
       margin: 5px;
-      padding: 20px;
+      padding: 0;
       transition: 200ms;
 
       @media (max-width: $mobile) {
@@ -153,6 +178,10 @@
 
       &:hover {
         background: lighten($border, 10%);
+      }
+
+      a {
+        padding: 20px;
       }
 
       .icon {
@@ -184,6 +213,10 @@
         color: $white;
         border-radius: 5px;
         padding: 2px 5px;
+      }
+
+      .dragenter {
+        background: $border;
       }
     }
   }

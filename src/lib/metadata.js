@@ -140,7 +140,7 @@ export const privacidad = {
 export const metro_cuadrado = {
   url: BASE_URL + "/metro-cuadrado",
   title: "Calculadora metro cuadrado" + SUFIX,
-  description: "Calcula precios segun el tamaño con la calculadora de metro cuadrado",
+  description: "Calcula precios segun el tamaño con la calculadora de metro cuadrado.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
   image: BASE_URL + "/metro.svg",
 };
@@ -148,7 +148,15 @@ export const metro_cuadrado = {
 export const control_gastos = {
   url: BASE_URL + "/control-gastos",
   title: "Control de gastos" + SUFIX,
-  description: "Escanea tus tickets y facturas para llevar el control de los gastos",
+  description: "Escanea tus tickets y facturas para llevar el control de los gastos.",
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
   image: BASE_URL + "/gastos.svg",
+};
+
+export const calculadora_descuentos = {
+  url: BASE_URL + "/calculadora-descuentos",
+  title: "Calculadora de descuentos" + SUFIX,
+  description: "Añade uno o varios productos y aplica descuentos individual o globalmente a su valor.",
+  keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
+  image: BASE_URL + "/descuentos.svg",
 };

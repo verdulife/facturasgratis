@@ -9,6 +9,7 @@
 ### TODOS 🐌:
 
 - [ ] facturas && pptos: boton pdf
+- [ ] productos con stock + alert al generar facturas, pptos...
 - [ ] descarga multiple pdf
 - [ ] enviar por email
 - [ ] gasto total cliente segun fechas

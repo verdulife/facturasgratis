@@ -65,15 +65,22 @@ export const tools = [
   {
     slug: "/metro-cuadrado",
     title: "Calculadora metro cuadrado",
-    desc: "Calcula precios según el tamaño con la calculadora de metro cuadrado",
+    desc: "Calcula precios según el tamaño con la calculadora de metro cuadrado.",
     icon: "/metro.svg",
     soon: true,
   },
   {
     slug: "/control-gastos",
     title: "Control de gastos",
-    desc: "Escanea tus tickets y facturas para llevar el control de los gastos",
+    desc: "Escanea tus tickets y facturas para llevar el control de los gastos.",
     icon: "/gastos.svg",
+    soon: true,
+  },
+  {
+    slug: "/calculadora-descuentos",
+    title: "Calculadora de descuentos",
+    desc: "Añade uno o varios productos y aplica descuentos individual o globalmente a su valor.",
+    icon: "/descuentos.svg",
     soon: true,
   },
 ];
