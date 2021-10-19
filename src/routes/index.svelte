@@ -1,4 +1,5 @@
 <script>
+  import { ui } from "../ui/home";
   import { tools } from "../lib/utils";
   import { home } from "../lib/metadata";
   import { userData } from "../lib/stores";
@@ -39,21 +40,15 @@
 
 <div class="scroll">
   <article class="header col fcenter xfill">
-    <h1>Herramientas gratuitas para autónomos y pymes</h1>
-    <p>
-      La manera más sencilla y rápida de crear, modificar y gestionar tus facturas, presupuestos, albaranes, clientes,
-      proveedores, productos y servicios. Si eres <b>autónomo</b> o tienes una
-      <b>pequeña empresa</b> esta es tu herramienta. Empieza ahora, sin registrarte y gratis.
-    </p>
+    <h1>{ui.header.title}</h1>
+    <p>{@html ui.header.description}</p>
 
     {#if process.browser && Object.keys($userData).length <= 0}
-      <h2>Primeros pasos</h2>
-      <p>
-        Para empezar a trabajar con <b>facturasgratis</b>, el primer paso es rellenar tus datos.
-      </p>
+      <h2>{ui.header.first_steps.title}</h2>
+      <p>{@html ui.header.first_steps.description}</p>
     {/if}
 
-    <a href="/ajustes" class="btn succ semi">TUS DATOS</a>
+    <a href="/ajustes" class="btn succ semi">{ui.header.button}</a>
   </article>
 
   <article>
@@ -69,7 +64,7 @@
             <p>{tool.desc}</p>
 
             {#if tool.soon}
-              <div class="label-tag">PRONTO</div>
+              <div class="label-tag">{ui.tools.soon_label}</div>
             {/if}
           </a>
         </li>
@@ -78,11 +73,8 @@
   </article>
 
   <article class="tips col acenter xfikk">
-    <h2>Consejos para hacer tus facturas</h2>
-    <p>
-      Aquí encontraras algunos de los consejos que te ayudaran a hacer mejores facturas, evitar problemas comúnes y
-      organizar mejor tu contabilidad.
-    </p>
+    <h2>{ui.tips.title}</h2>
+    <p>{ui.tips.description}</p>
 
     <div class="grid">
       {#each tips as tip}

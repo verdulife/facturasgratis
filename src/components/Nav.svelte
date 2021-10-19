@@ -1,14 +1,12 @@
 <script>
-  import { slide } from "svelte/transition";
-  import { l, userData } from "../lib/stores";
+  import { ui } from "../ui/nav";
+  import { userData } from "../lib/stores";
   import { tools } from "../lib/utils";
-  import { content } from "./Nav.content";
+  import { slide } from "svelte/transition";
 
   export let segment;
-  const ui = content[$l];
 
   let mobileMenu = false;
-
   function togMenu() {
     mobileMenu = !mobileMenu;
   }
@@ -21,7 +19,7 @@
 
   <ul class="desktop-menu row yfill">
     <li class="row acenter yfill">
-      <a href="/" class="row acenter yfill">Herramientas</a>
+      <a href="/" class="row acenter yfill">{ui.home_link}</a>
 
       <ul class="expand-menu col">
         {#each tools as { slug, title, icon }}
@@ -38,13 +36,9 @@
     <li class="row acenter yfill">
       <a href="/ajustes" class="row acenter yfill">
         {#if $userData.logo}
-          <img
-            class="user-img"
-            src={$userData.logo}
-            alt={$userData.legal_name || "Logotipo"}
-          />
+          <img class="user-img" src={$userData.logo} alt={$userData.legal_name || "Logotipo"} />
         {/if}
-        {$userData.legal_name || "Tus datos"}
+        {$userData.legal_name || ui.user_link}
       </a>
     </li>
   </ul>
@@ -56,7 +50,7 @@
     {#if mobileMenu}
       <ul class="scroll" transition:slide>
         <li class="row acenter xfill" on:click={togMenu}>
-          <a href="/" class="row acenter yfill">Herramientas</a>
+          <a href="/" class="row acenter yfill">{ui.home_link}</a>
         </li>
 
         {#each tools as { slug, title, icon }}
@@ -71,13 +65,9 @@
         <li class="row acenter xfill" on:click={togMenu}>
           <a href="/ajustes" class="row acenter yfill">
             {#if $userData.logo}
-              <img
-                class="user-img"
-                src={$userData.logo}
-                alt={$userData.legal_name || "Logotipo"}
-              />
+              <img class="user-img" src={$userData.logo} alt={$userData.legal_name || "Logotipo"} />
             {/if}
-            {$userData.legal_name || "Ajustes"}
+            {$userData.legal_name || ui.user_link}
           </a>
         </li>
       </ul>

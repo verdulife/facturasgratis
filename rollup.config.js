@@ -26,6 +26,7 @@ export default {
     output: config.client.output(),
     plugins: [
       replace({
+        preventAssignment: true,
         "process.browser": true,
         "process.env.NODE_ENV": JSON.stringify(mode),
       }),
@@ -36,9 +37,6 @@ export default {
         },
         preprocess: sveltePreprocess({
           sourceMap: dev,
-          defaults: {
-            style: "scss",
-          },
           scss: {
             prependData: SCSS_VARS,
           },
@@ -57,33 +55,33 @@ export default {
       json(),
 
       legacy &&
-        babel({
-          extensions: [".js", ".mjs", ".html", ".svelte"],
-          babelHelpers: "runtime",
-          exclude: ["node_modules/@babel/**"],
-          presets: [
-            [
-              "@babel/preset-env",
-              {
-                targets: "> 0.25%, not dead",
-              },
-            ],
+      babel({
+        extensions: [".js", ".mjs", ".html", ".svelte"],
+        babelHelpers: "runtime",
+        exclude: ["node_modules/@babel/**"],
+        presets: [
+          [
+            "@babel/preset-env",
+            {
+              targets: "> 0.25%, not dead",
+            },
           ],
-          plugins: [
-            "@babel/plugin-syntax-dynamic-import",
-            [
-              "@babel/plugin-transform-runtime",
-              {
-                useESModules: true,
-              },
-            ],
+        ],
+        plugins: [
+          "@babel/plugin-syntax-dynamic-import",
+          [
+            "@babel/plugin-transform-runtime",
+            {
+              useESModules: true,
+            },
           ],
-        }),
+        ],
+      }),
 
       !dev &&
-        terser({
-          module: true,
-        }),
+      terser({
+        module: true,
+      }),
     ],
 
     preserveEntrySignatures: false,
@@ -95,6 +93,7 @@ export default {
     output: config.server.output(),
     plugins: [
       replace({
+        preventAssignment: true,
         "process.browser": false,
         "process.env.NODE_ENV": JSON.stringify(mode),
       }),
@@ -106,9 +105,6 @@ export default {
         },
         preprocess: sveltePreprocess({
           sourceMap: dev,
-          defaults: {
-            style: "scss",
-          },
           scss: {
             prependData: SCSS_VARS,
           },
@@ -139,6 +135,7 @@ export default {
     plugins: [
       resolve(),
       replace({
+        preventAssignment: true,
         "process.browser": true,
         "process.env.NODE_ENV": JSON.stringify(mode),
       }),

@@ -1,13 +1,14 @@
 <script>
+  import {ui} from "../ui/cookies";
   import { cookies } from "../lib/stores";
 </script>
 
 {#if !$cookies.visited}
   <div class="cookies box row fcenter">
     <h2>🍪</h2>
-    <p>Esta web utiliza cookies para mejorar tu experiencia de navegación.</p>
-    <button class="pri semi" on:click={() => ($cookies.visited = true)}>ACEPTAR</button>
-    <a href="/privacidad" class="btn outwhite semi">MÁS INFO</a>
+    <p>{ui.description}</p>
+    <button class="pri semi" on:click={() => ($cookies.visited = true)}>{ui.button}</button>
+    <a href="/privacidad" class="btn outwhite semi">{ui.link}</a>
   </div>
 {/if}
 

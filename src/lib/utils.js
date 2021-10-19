@@ -1,45 +1,43 @@
-export const iOS = process.browser && !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform);
-
 export const tools = [
   {
     slug: "/facturas",
     title: "Facturas",
-    desc: "Genera y/o modifica facturas. Envíalas por correo electrónico y/o guárdalas en PDF.",
+    desc: "Genera y modifica facturas. Envíalas por correo electrónico y guárdalas en PDF.",
     icon: "/facturas.svg",
     soon: false,
   },
   {
     slug: "/presupuestos",
     title: "Presupuestos",
-    desc: "Genera y/o modifica presupuestos. Envíalos por correo electrónico y/o guárdalos en PDF.",
+    desc: "Genera y modifica presupuestos. Envíalos por correo electrónico y guárdalos en PDF.",
     icon: "/presupuestos.svg",
     soon: false,
   },
   {
     slug: "/albaranes",
     title: "Albaranes",
-    desc: "Genera y/o modifica albaranes. Envíalos por correo electrónico y/o guárdalos en PDF.",
+    desc: "Genera y modifica albaranes. Envíalos por correo electrónico y guárdalos en PDF.",
     icon: "/albaranes.svg",
     soon: true,
   },
   {
     slug: "/proformas",
     title: "Proformas",
-    desc: "Genera y/o modifica proformas. Envíalas por correo electrónico y/o guárdalas en PDF.",
+    desc: "Genera y modifica proformas. Envíalas por correo electrónico y guárdalas en PDF.",
     icon: "/proformas.svg",
     soon: false,
   },
   {
     slug: "/clientes",
     title: "Clientes",
-    desc: "Crea una lista de clientes. Después podrás usarlos en tus facturas, presupuestos y/o albaranes.",
+    desc: "Crea una lista de clientes. Después podrás usarlos en tus facturas, presupuestos y albaranes.",
     icon: "/clientes.svg",
     soon: false,
   },
   {
     slug: "/productos-servicios",
     title: "Productos y servicios",
-    desc: "Crea una lista de productos/servicios. Podrás usarlos en tus facturas, presupuestos y/o albaranes.",
+    desc: "Crea una lista de productos y servicios. Después podrás usarlos en tus facturas, presupuestos y albaranes.",
     icon: "/productos-servicios.svg",
     soon: false,
   },
@@ -67,7 +65,7 @@ export const tools = [
   {
     slug: "/metro-cuadrado",
     title: "Calculadora metro cuadrado",
-    desc: "Calcula precios segun el tamaño con la calculadora de metro cuadrado",
+    desc: "Calcula precios según el tamaño con la calculadora de metro cuadrado",
     icon: "/metro.svg",
     soon: true,
   },

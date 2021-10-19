@@ -1,4 +1,5 @@
 <script>
+  import { ui } from "../ui/layout";
   import { detectAnyAdblocker } from "just-detect-adblock";
   import Nav from "../components/Nav.svelte";
   import Cookies from "../components/Cookies.svelte";
@@ -15,9 +16,9 @@
       label.classList.add("box");
       label.classList.add("round");
       label.innerHTML = `
-        <h3 style="font-size: 26px"><b style="font-size: 40px">🚫</b><br />Estás usando un bloqueador de anuncios</h3>
+        <h3 style="font-size: 26px"><b style="font-size: 40px">${ui.adblock.title}</h3>
         <h-div style="margin: 15px 0"></h-div>
-        <p>Todas nuestras herramientas son gratuitas gracias al uso de anuncios. Por favor, desactivalo y recarga la página.</p>
+        <p>${ui.adblock.description}</p>
       `;
 
       window.addEventListener("mousemove", (e) => {
@@ -44,11 +45,11 @@
 
   <footer class="row fcenter xfill">
     <p>
-      Made with ♥ by verdu on 2021 &nbsp;|&nbsp;&nbsp;
-      <a href="/privacidad">Politica de privacidad</a>
+      {ui.footer.author} &nbsp;|&nbsp;&nbsp;
+      <a href="/privacidad">{ui.footer.privacy_link}</a>
       <span class="not-mobile">
         &nbsp;&nbsp;|&nbsp;
-        <a href="mailto:facturasgratis.app@gmail.com">¿Tienes alguna sugerencia?</a>
+        <a href="mailto:facturasgratis.app@gmail.com">{ui.footer.email}</a>
       </span>
     </p>
   </footer>
