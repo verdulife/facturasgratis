@@ -7,8 +7,8 @@
   import { shuffleArray } from "../lib/functions";
 
   const sortedTools = [...tools].sort((a, b) => {
-    if (a.soon < b.soon) return -1;
-    if (a.soon > b.soon) return 1;
+    if (a.sort_index < b.sort_index) return -1;
+    if (a.sort_index > b.sort_index) return 1;
     return 0;
   });
 
@@ -16,28 +16,49 @@
     s.sort_index = s.sort_index ? s.sort_index : i;
   });
 
+  $userData.tools_sort = [];
+  /*
+  $userData.tools_sort = $userData.tools_sort ? $userData.tools_sort : [];
+  sortedTools.forEach((t) => {
+    const user_sort = {
+      tool: t.slug,
+      sort_index: t.sort_index,
+    };
+
+    $userData.tools_sort = [...$userData.tools_sort, user_sort];
+  }); */
+
   const BASE_URL = "https://www.facturasgratis.ml";
   shuffleArray(tips);
 
-  function dragStart(tool) {
-    console.log(tool.sort_index);
-  }
+  let fromSortIndex;
+  function dragOver() {}
 
-  function dragOver() {
-    console.log("over");
+  function dragStart(tool) {
+    fromSortIndex = {
+      tool,
+      index: tool.sort_index,
+    };
   }
 
   function dragDrop(tool) {
-    console.log(tool.sort_index);
-  }
+    sortedTools[sortedTools.indexOf(fromSortIndex.tool)].sort_index = tool.sort_index;
+    sortedTools[sortedTools.indexOf(tool)].sort_index = fromSortIndex.index;
 
-  function dragEnter() {
-    console.log(this);
-    this.classList.add("dragenter");
-  }
+    sortedTools.sort((a, b) => {
+      if (a.sort_index < b.sort_index) return -1;
+      if (a.sort_index > b.sort_index) return 1;
+      return 0;
+    });
 
-  function dragLeave() {
-    this.classList.remove("dragenter");
+    /* sortedTools.forEach((t) => {
+      const user_sort = {
+        tool: t.slug,
+        sort_index: t.sort_index,
+      };
+
+      $userData.tools_sort = [...$userData.tools_sort, user_sort];
+    }); */
   }
 </script>
 
@@ -80,7 +101,7 @@
     <ul class="tools row jcenter xfill">
       {#each sortedTools as tool}
         <li class="box round col acenter">
-          <a class="fill" href={tool.slug} draggable="true" on:dragstart={() => dragStart(tool)} on:dragover|preventDefault={dragOver} on:drop={() => dragDrop(tool)} on:dragenter|stopPropagation={dragEnter} on:dragleave={dragLeave}>
+          <a class="fill" href={tool.slug} draggable="true" on:dragstart={() => dragStart(tool)} on:dragover|preventDefault={dragOver} on:drop={() => dragDrop(tool)}>
             <div class="icon">
               <img width="50" height="50" src={tool.icon} alt={tool.title} title={tool.title} />
             </div>
@@ -159,7 +180,7 @@
     padding-bottom: 100px;
 
     @media (max-width: $mobile) {
-      padding: 40px 10px;
+      padding: 40px 5px;
     }
 
     li {
@@ -167,13 +188,14 @@
       position: relative;
       width: 25%;
       min-width: 250px;
-      margin: 5px;
+      margin: 3px;
       padding: 0;
       transition: 200ms;
 
       @media (max-width: $mobile) {
-        width: calc(50% - 10px);
+        width: calc(50% - 2px);
         min-width: 0;
+        margin: 1px;
       }
 
       &:hover {
@@ -206,17 +228,14 @@
       .label-tag {
         position: absolute;
         top: 10px;
-        right: -10px;
+        right: 10px;
         background: $error;
         font-size: 10px;
         text-transform: uppercase;
         color: $white;
         border-radius: 5px;
         padding: 2px 5px;
-      }
-
-      .dragenter {
-        background: $border;
+        z-index: 9;
       }
     }
   }

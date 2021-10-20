@@ -1,7 +1,10 @@
 # ⚠ Under construction ⚠
 
-### TODOS TOOLS 🛠:
+### NEW TOOLS 🛠:
+
 - [ ] calculadora metro cuadrado
+- [ ] calculadora descuentos
+- [ ] calculadora devoluciones (caja)
 - [ ] albaranes (buscar info)
 - [ ] control de gastos (tickets de compra OCR)
 - [ ] registro de pagos recividos (quien, como y cuanto)
