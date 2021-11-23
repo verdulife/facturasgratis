@@ -18,9 +18,9 @@
     "just-detect-adblock": "^1.1.0",
     "node-fetch": "^2.6.1",
     "pdfkit": "^0.11.0",
+    "qrious": "^4.0.2",
     "sirv": "^1.0.0",
     "svg-to-pdfkit": "^0.1.8",
-    "tesseract.js": "^2.1.5",
     "verdu": "^1.3.3"
   },
   "devDependencies": {

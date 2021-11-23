@@ -1,5 +1,5 @@
 <script>
-  import {ui} from "../ui/cookies";
+  import { ui } from "../ui/cookies";
   import { cookies } from "../lib/stores";
 </script>
 
