@@ -109,7 +109,47 @@
 
   async function generateQr() {
     const base_url = window.location.origin;
-    const data = JSON.stringify(billData);
+    const copy = { ...billData };
+
+    delete copy._id;
+
+    const arr = [
+      copy["number"], // [0]
+      //
+      copy["date"]["day"], // [1][0]
+      copy["date"]["month"], // [1][1]
+      copy["date"]["year"], // [1][2]
+      //
+      copy["client"]["legal_name"], // [2][0]
+      copy["client"]["legal_id"], // [2][1]
+      copy["client"]["address"], // [2][2]
+      copy["client"]["city"], // [2][3]
+      copy["client"]["cp"], // [2][4]
+      copy["client"]["country"], // [2][5]
+      copy["client"]["contact"], // [2][6]
+      //
+      [], // list of items
+      //
+      copy["totals"]["base"], // [4][0]
+      copy["totals"]["iva"], // [4][1]
+      copy["totals"]["ret"], // [4][2]
+      copy["totals"]["total"], // [4][3]
+      //
+    ];
+
+    //generate list of items
+    copy["items"].forEach((item, i) => {
+      arr[11][i] = [
+        item["amount"], // [3][i][0]
+        item["label"], // [3][i][1]
+        item["dto"], // [3][i][2]
+        item["price"], // [3][i][3]
+      ];
+    });
+
+    console.log(arr);
+
+    const data = JSON.stringify(arr);
     const encoded = btoa(data);
     qrLink = `${base_url}/lector-qr?data=${encoded}`;
 
@@ -118,7 +158,6 @@
       backgroundAlpha: 0,
       size: 400,
       value: qrLink,
-      level: "L",
     });
 
     qrImage = qr.toDataURL();
