@@ -2,7 +2,7 @@
   import { fade } from "svelte/transition";
   import { stores, goto } from "@sapper/app";
   import { bills, userData, products, budgets, proforma_bills } from "../../lib/stores";
-  import { POST, roundWithTwoDecimals, numerationFormat, autoNumeration } from "../../lib/functions";
+  import { POST, roundWithTwoDecimals, numerationFormat, autoNumeration, Ivon} from "../../lib/functions";
   import AutoComplete from "simple-svelte-autocomplete";
   import QRious from "qrious";
 
@@ -109,48 +109,26 @@
 
   async function generateQr() {
     const base_url = window.location.origin;
-    const copy = { ...billData };
 
-    delete copy._id;
+    const copy = {
+      number: billData.number,
+      date: billData.date,
+      legal_name: $userData.legal_name,
+      legal_id: $userData.legal_id,
+      street: $userData.street,
+      city: $userData.city,
+      cp: $userData.cp,
+      country: $userData.country,
+      contact: $userData.email,
+      currency: $userData.currency,
+      items: billData.items,
+      totals: billData.totals,
+    };
 
-    const arr = [
-      copy["number"], // [0]
-      //
-      copy["date"]["day"], // [1][0]
-      copy["date"]["month"], // [1][1]
-      copy["date"]["year"], // [1][2]
-      //
-      copy["client"]["legal_name"], // [2][0]
-      copy["client"]["legal_id"], // [2][1]
-      copy["client"]["address"], // [2][2]
-      copy["client"]["city"], // [2][3]
-      copy["client"]["cp"], // [2][4]
-      copy["client"]["country"], // [2][5]
-      copy["client"]["contact"], // [2][6]
-      //
-      [], // list of items
-      //
-      copy["totals"]["base"], // [4][0]
-      copy["totals"]["iva"], // [4][1]
-      copy["totals"]["ret"], // [4][2]
-      copy["totals"]["total"], // [4][3]
-      //
-    ];
+    console.log(copy);
+    const encoded = Ivon.compress(copy);
 
-    //generate list of items
-    copy["items"].forEach((item, i) => {
-      arr[11][i] = [
-        item["amount"], // [3][i][0]
-        item["label"], // [3][i][1]
-        item["dto"], // [3][i][2]
-        item["price"], // [3][i][3]
-      ];
-    });
-
-    console.log(arr);
-
-    const data = JSON.stringify(arr);
-    const encoded = btoa(data);
+    console.log(encoded);
     qrLink = `${base_url}/lector-qr?data=${encoded}`;
 
     const qr = new QRious({

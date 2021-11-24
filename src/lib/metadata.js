@@ -160,3 +160,11 @@ export const calculadora_descuentos = {
   keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
   image: BASE_URL + "/descuentos.svg",
 };
+
+export const lector_qr = {
+  url: BASE_URL + "/lector-qr",
+  title: "Lector QR" + SUFIX,
+  description: "Lee, formatea y trabaja con el nuevo estandar de Facturas QR",
+  keywords: "herramientas online, autonomos, gratis, facturas, presupuestos, albaranes, clientes, proveedores, productos, servicios",
+  image: BASE_URL + "/facturas.svg",
+};

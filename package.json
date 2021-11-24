@@ -16,6 +16,7 @@
     "express": "^4.17.1",
     "googleapis": "^87.0.0",
     "just-detect-adblock": "^1.1.0",
+    "lz-string": "^1.4.4",
     "node-fetch": "^2.6.1",
     "pdfkit": "^0.11.0",
     "qrious": "^4.0.2",
