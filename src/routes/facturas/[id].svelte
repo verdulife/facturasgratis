@@ -2,7 +2,8 @@
   import { fade } from "svelte/transition";
   import { stores, goto } from "@sapper/app";
   import { bills, userData, products, budgets, proforma_bills } from "../../lib/stores";
-  import { POST, roundWithTwoDecimals, numerationFormat, autoNumeration, Ivon} from "../../lib/functions";
+  import { POST, roundWithTwoDecimals, numerationFormat, autoNumeration } from "../../lib/functions";
+  import { Ivon } from "../../lib/ivon";
   import AutoComplete from "simple-svelte-autocomplete";
   import QRious from "qrious";
 
@@ -110,7 +111,7 @@
   async function generateQr() {
     const base_url = window.location.origin;
 
-    const copy = {
+    const encoded = Ivon.compress({
       number: billData.number,
       date: billData.date,
       legal_name: $userData.legal_name,
@@ -123,10 +124,12 @@
       currency: $userData.currency,
       items: billData.items,
       totals: billData.totals,
-    };
+    });
 
-    console.log(copy);
-    const encoded = Ivon.compress(copy);
+    if (encoded.error) {
+      alert(encoded.message);
+      return;
+    }
 
     console.log(encoded);
     qrLink = `${base_url}/lector-qr?data=${encoded}`;

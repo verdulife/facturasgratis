@@ -1,13 +1,20 @@
 <script>
+  import { numerationFormat, roundWithTwoDecimals } from "../../lib/functions";
   import { lector_qr } from "../../lib/metadata";
-  import Comingsoon from "../../components/Comingsoon.svelte";
   import { stores } from "@sapper/app";
-  import { Ivon } from "../../lib/functions";
+  import { Ivon } from "../../lib/ivon";
 
   const { page } = stores();
   const { data } = $page.query;
+  const billData = Ivon.decompress(data);
 
-  console.log(Ivon.decompress(data));
+  console.log(billData);
+
+  function calcLineTotal(item) {
+    const amount_price = item.price * item.amount;
+    const dto_price = amount_price - (amount_price * item.dto) / 100;
+    return `${roundWithTwoDecimals(dto_price).toFixed(2)}${billData.emmiter.currency}`;
+  }
 </script>
 
 <svelte:head>
@@ -32,7 +39,444 @@
   <meta name="twitter:image" content={lector_qr.image} />
 </svelte:head>
 
-<Comingsoon />
+<div class="scroll">
+  {#if billData}
+    <section class="header col fcenter xfill">
+      <img src="/facturas.svg" alt="Factura" />
+      <h1>Factura {numerationFormat(billData.number, billData.date.year)}</h1>
+      <p>
+        Con fecha {billData.date.day}/{billData.date.month}/{billData.date.year}
+      </p>
+
+      <!--       <div class="io-wrapper row jcenter xfill">
+        <button class="succ semi" on:click={downloadBill}>DESCARGAR</button>
+
+        <select class="out semi" bind:value={action} on:change={evalAction}>
+          <option value="">OTRAS ACCIONES</option>
+          <option value="budget">CREAR PRESUPUESTO</option>
+          <option value="proforma_bill">CREAR PROFORMA</option>
+          <option value="bill_to_qr">FACTURA A QR</option>
+          <option value="delete">BORRAR</option>
+        </select>
+      </div> -->
+
+      <a href="/facturas" class="btn outwhite semi">VOLVER</a>
+
+      <!-- {#if loading}
+        <div class="outer-loader col fcenter fill" transition:fade={{ duration: 100 }}>
+          <img src="/loader.svg" alt="Generando PDF" />
+          <h3>Genarando PDF</h3>
+        </div>
+      {/if} -->
+    </section>
+
+    <form class="bill-data col acenter xfill">
+      <div class="box round col xfill">
+        <h2>Datos de la factura</h2>
+
+        <div class="row xfill">
+          <div class="input-wrapper col grow">
+            <label for="legal_name">Número</label>
+            <input type="number" id="legal_name" class="xfill" bind:value={billData.number} required />
+          </div>
+
+          <div class="date-row row xhalf">
+            <div class="input-wrapper date col">
+              <label for="day">Día</label>
+              <input type="number" id="day" min="1" max="31" class="xfill" bind:value={billData.date.day} required />
+            </div>
+            <div class="input-wrapper date col">
+              <label for="month">Mes</label>
+              <input
+                type="number"
+                id="month"
+                min="1"
+                max="12"
+                class="xfill"
+                bind:value={billData.date.month}
+                required
+              />
+            </div>
+            <div class="input-wrapper date col">
+              <label for="year">Año</label>
+              <input type="number" id="year" class="xfill" bind:value={billData.date.year} required />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="box round col xfill">
+        <h2>Datos del emisor</h2>
+
+        <div class="input-wrapper col xfill">
+          <label for="legal_name">NOMBRE FISCAL</label>
+          <input type="text" id="leagal_name" bind:value={billData.emmiter.legal_name} class="xfill" required />
+        </div>
+
+        <div class="row xfill">
+          <div class="input-wrapper col xhalf">
+            <label for="legal_id">CIF/NIF</label>
+            <input type="text" id="leagal_id" bind:value={billData.emmiter.legal_id} class="xfill" required />
+          </div>
+
+          <div class="input-wrapper col xhalf">
+            <label for="contact">Conacto</label>
+            <input type="text" id="contact" bind:value={billData.emmiter.contact} class="xfill" required />
+          </div>
+        </div>
+
+        <div class="row xfill">
+          <div class="input-wrapper col xhalf">
+            <label for="street">DIRECCION FISCAL</label>
+            <input type="text" id="street" bind:value={billData.emmiter.street} class="xfill" required />
+          </div>
+
+          <div class="col xhalf">
+            <label for="cp">Código postal</label>
+            <input type="text" id="cp" bind:value={billData.emmiter.cp} class="xfill" required />
+          </div>
+        </div>
+
+        <div class="row xfill">
+          <div class="input-wrapper col xhalf">
+            <label for="city">POBLACIÓN</label>
+            <input type="text" id="city" bind:value={billData.emmiter.city} class="xfill" required />
+          </div>
+
+          <div class="input-wrapper col xhalf">
+            <label for="country">País</label>
+            <input type="text" id="country" bind:value={billData.emmiter.country} class="xfill" required />
+          </div>
+        </div>
+      </div>
+
+      <div class="box round col xfill">
+        <h2>Conceptos</h2>
+
+        {#if billData.items.length > 0}
+          <ul class="bill-items col acenter xfill">
+            <li class="line row xfill">
+              <span class="label row">CANT</span>
+              <span class="label row grow">CONCEPTO</span>
+              <span class="label row">DTO %</span>
+              <span class="label row">PRECIO {billData.emmiter.currency}</span>
+              <span class="label row">IMPORTE {billData.emmiter.currency}</span>
+              <span class="label row">&nbsp;</span>
+            </li>
+
+            {#each billData.items as item, i}
+              <li class="line row xfill">
+                <input type="number" bind:value={item.amount} min="1" class="out" placeholder="CANT" />
+                <input type="text" bind:value={item.label} class="out grow" placeholder="CONCEPTO" />
+                <input type="number" bind:value={item.dto} min="0" max="100" class="out" placeholder="DTO %" />
+                <input
+                  type="number"
+                  bind:value={item.price}
+                  step="0.01"
+                  class="out"
+                  placeholder="PRECIO {billData.emmiter.currency}"
+                />
+                <input type="text" value={calcLineTotal(item)} class="out" disabled />
+                <input type="text" value="🗑" class="out" on:click={() => removeLine(i)} />
+              </li>
+            {/each}
+          </ul>
+
+          <h-div />
+
+          <ul class="total-wrapper row jevenly xfill">
+            <li class="col acenter">
+              <p class="label">Base</p>
+              <h3>{roundWithTwoDecimals(billData.totals.base).toFixed(2)}{billData.emmiter.currency}</h3>
+            </li>
+
+            <li class="col acenter">
+              <p class="label">IVA</p>
+              <h3>{roundWithTwoDecimals(billData.totals.iva).toFixed(2)}{billData.emmiter.currency}</h3>
+            </li>
+
+            {#if billData.emmiter.ret}
+              <li class="col acenter">
+                <p class="label">IRPF</p>
+                <h3>-{roundWithTwoDecimals(billData.totals.ret).toFixed(2)}{billData.emmiter.currency}</h3>
+              </li>
+            {/if}
+
+            <h-div />
+
+            <li class="col acenter grow">
+              <p class="label">Total</p>
+              <h3>{roundWithTwoDecimals(billData.totals.total).toFixed(2)}{billData.emmiter.currency}</h3>
+            </li>
+          </ul>
+
+          <h-div />
+        {/if}
+      </div>
+
+      <!-- <div class="last-row row jcenter xfill">
+        <button class="succ semi">GUARDAR CAMBIOS</button>
+        <a href="/facturas" class="btn out semi">ATRAS</a>
+      </div> -->
+    </form>
+  {/if}
+</div>
 
 <style lang="scss">
+  .header {
+    background: linear-gradient(45deg, $pri 50%, $sec);
+    text-align: center;
+    color: $white;
+    padding: 60px;
+
+    @media (max-width: $mobile) {
+      padding: 40px 20px;
+    }
+
+    img {
+      width: 100px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      max-width: 900px;
+      font-size: 4vh;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+
+    p {
+      max-width: 900px;
+      font-size: 18px;
+      color: $sec;
+      margin-bottom: 40px;
+
+      @media (max-width: $mobile) {
+        font-size: 14px;
+      }
+    }
+
+    .io-wrapper {
+      font-size: 12px;
+      margin-bottom: 20px;
+
+      select {
+        background: $white;
+        text-align-last: center;
+        border-width: 2px;
+      }
+    }
+
+    a.btn {
+      font-size: 12px;
+    }
+
+    .outer-loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: rgba($black, 0.7);
+      backdrop-filter: blur(10px);
+      pointer-events: none;
+
+      img {
+        width: 100px;
+        margin-bottom: 20px;
+      }
+    }
+  }
+
+  .bill-data {
+    padding: 60px;
+
+    @media (max-width: $mobile) {
+      padding: 20px 10px;
+    }
+  }
+
+  .box {
+    max-width: 900px;
+    margin-bottom: 40px;
+    padding: 20px;
+
+    @media (max-width: $mobile) {
+      margin-bottom: 10px;
+    }
+
+    .notice {
+      font-size: 14px;
+      margin-bottom: 40px;
+
+      @media (max-width: $mobile) {
+        font-size: 12px;
+        margin-bottom: 30px;
+      }
+    }
+
+    .input-wrapper {
+      margin-bottom: 30px;
+
+      @media (max-width: $mobile) {
+        margin-bottom: 20px;
+      }
+    }
+
+    label {
+      text-transform: uppercase;
+      color: $pri;
+      font-size: 12px;
+      padding: 0 15px;
+    }
+
+    input,
+    textarea {
+      font-size: 16px;
+      border-bottom: 1px solid $sec;
+      border-radius: 0;
+
+      &:focus {
+        border-color: $pri;
+      }
+
+      @media (max-width: $mobile) {
+        font-size: 14px;
+      }
+    }
+
+    textarea {
+      border: 1px solid $border;
+      resize: none;
+    }
+
+    .date {
+      width: calc(100% / 3);
+    }
+
+    .date-row {
+      @media (max-width: $mobile) {
+        width: 100%;
+      }
+    }
+
+    .line {
+      @media (max-width: $mobile) {
+        margin-bottom: 10px;
+      }
+
+      &:nth-of-type(even) {
+        background: $bg;
+      }
+
+      span.label {
+        font-size: 12px;
+        padding-left: 15px;
+        margin-bottom: 5px;
+
+        @media (max-width: $mobile) {
+          display: none;
+        }
+      }
+
+      span.label:nth-of-type(1),
+      span.label:nth-of-type(3),
+      span.label:nth-of-type(4),
+      span.label:nth-of-type(5) {
+        width: 15%;
+
+        @media (max-width: $mobile) {
+          width: 25%;
+        }
+      }
+
+      span:nth-of-type(6) {
+        width: 55px;
+      }
+
+      input:nth-of-type(1),
+      input:nth-of-type(3),
+      input:nth-of-type(4),
+      input:nth-of-type(5) {
+        width: 15%;
+
+        @media (max-width: $mobile) {
+          width: 25%;
+        }
+      }
+
+      input:nth-of-type(6) {
+        cursor: pointer;
+        width: 55px;
+        background: $border;
+        text-align: center;
+        font-weight: bold;
+        color: $base;
+        border: 1px solid $border;
+        user-select: none;
+        -webkit-user-drag: none;
+      }
+
+      input:nth-of-type(3),
+      input:nth-of-type(4),
+      input:nth-of-type(5),
+      input:nth-of-type(6) {
+        @media (max-width: $mobile) {
+          width: 25%;
+        }
+      }
+    }
+
+    h-div {
+      margin: 20px 0;
+    }
+
+    .new-line {
+      input:nth-of-type(1),
+      input:nth-of-type(3),
+      input:nth-of-type(4) {
+        width: 15%;
+
+        @media (max-width: $mobile) {
+          width: 25%;
+        }
+      }
+
+      input:nth-of-type(3),
+      input:nth-of-type(4) {
+        @media (max-width: $mobile) {
+          width: calc(100% / 2);
+        }
+      }
+    }
+
+    .line-btn {
+      cursor: pointer;
+      background: $pri;
+      color: $white;
+      text-align: center;
+      font-size: 12px;
+      padding: 1.3em;
+    }
+  }
+
+  .total-wrapper {
+    li {
+      margin: 10px;
+    }
+  }
+
+  .last-row {
+    margin-top: 20px;
+  }
+
+  button,
+  a.btn,
+  select {
+    margin: 5px;
+
+    @media (max-width: $mobile) {
+      width: 70%;
+      max-width: 210px;
+      text-align: center;
+    }
+  }
 </style>
