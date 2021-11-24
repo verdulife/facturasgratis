@@ -8,8 +8,6 @@
   const { data } = $page.query;
   const billData = Ivon.decompress(data);
 
-  console.log(billData);
-
   function calcLineTotal(item) {
     const amount_price = item.price * item.amount;
     const dto_price = amount_price - (amount_price * item.dto) / 100;
@@ -161,7 +159,6 @@
               <span class="label row">DTO %</span>
               <span class="label row">PRECIO {billData.emmiter.currency}</span>
               <span class="label row">IMPORTE {billData.emmiter.currency}</span>
-              <span class="label row">&nbsp;</span>
             </li>
 
             {#each billData.items as item, i}
@@ -177,7 +174,6 @@
                   placeholder="PRECIO {billData.emmiter.currency}"
                 />
                 <input type="text" value={calcLineTotal(item)} class="out" disabled />
-                <input type="text" value="🗑" class="out" on:click={() => removeLine(i)} />
               </li>
             {/each}
           </ul>
@@ -209,8 +205,6 @@
               <h3>{roundWithTwoDecimals(billData.totals.total).toFixed(2)}{billData.emmiter.currency}</h3>
             </li>
           </ul>
-
-          <h-div />
         {/if}
       </div>
 
@@ -382,10 +376,6 @@
       span.label:nth-of-type(4),
       span.label:nth-of-type(5) {
         width: 15%;
-
-        @media (max-width: $mobile) {
-          width: 25%;
-        }
       }
 
       span:nth-of-type(6) {
@@ -420,7 +410,7 @@
       input:nth-of-type(5),
       input:nth-of-type(6) {
         @media (max-width: $mobile) {
-          width: 25%;
+          width: calc(100% / 3);
         }
       }
     }

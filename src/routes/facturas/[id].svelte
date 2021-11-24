@@ -12,8 +12,39 @@
   let lineData = {};
   let loading = false;
   let action = "";
-  let qrImage;
-  let qrLink;
+
+  function generateQr() {
+    const base_url = window.location.origin;
+
+    const encoded = Ivon.compress({
+      number: billData.number,
+      date: billData.date,
+      legal_name: $userData.legal_name,
+      legal_id: $userData.legal_id,
+      street: $userData.street,
+      city: $userData.city,
+      cp: $userData.cp,
+      country: $userData.country,
+      contact: $userData.email,
+      currency: $userData.currency,
+      items: billData.items,
+      totals: billData.totals,
+    });
+
+    if (encoded.error) {
+      alert(encoded.message);
+      return;
+    }
+
+    const qr = new QRious({
+      mime: "image/png",
+      backgroundAlpha: 0,
+      size: 400,
+      value: `${base_url}/lector-qr?data=${encoded}`,
+    });
+
+    return qr.toDataURL();
+  }
 
   async function downloadBill() {
     loading = true;
@@ -21,6 +52,7 @@
     try {
       const data = { ...billData };
       data.user = $userData;
+      data.ivon = generateQr();
 
       const req = await fetch("/print", POST(data));
       if (!req.ok) throw await req.text();
@@ -108,42 +140,6 @@
     goto(`/proformas/${proforma._id}`);
   }
 
-  async function generateQr() {
-    const base_url = window.location.origin;
-
-    const encoded = Ivon.compress({
-      number: billData.number,
-      date: billData.date,
-      legal_name: $userData.legal_name,
-      legal_id: $userData.legal_id,
-      street: $userData.street,
-      city: $userData.city,
-      cp: $userData.cp,
-      country: $userData.country,
-      contact: $userData.email,
-      currency: $userData.currency,
-      items: billData.items,
-      totals: billData.totals,
-    });
-
-    if (encoded.error) {
-      alert(encoded.message);
-      return;
-    }
-
-    console.log(encoded);
-    qrLink = `${base_url}/lector-qr?data=${encoded}`;
-
-    const qr = new QRious({
-      mime: "image/png",
-      backgroundAlpha: 0,
-      size: 400,
-      value: qrLink,
-    });
-
-    qrImage = qr.toDataURL();
-  }
-
   function deleteBill() {
     const check = confirm(
       "La numeracion de las otras facturas no se modificara. Recuerda usar la numeracion de esta factura en otra.\n\n¿Borrar definitivamente?"
@@ -163,7 +159,6 @@
     if (!action) return;
     if (action === "budget") generateBudget();
     if (action === "proforma_bill") generateProformaBill();
-    if (action === "bill_to_qr") generateQr();
     if (action === "delete") deleteBill();
   }
 
@@ -282,7 +277,6 @@
           <option value="">OTRAS ACCIONES</option>
           <option value="budget">CREAR PRESUPUESTO</option>
           <option value="proforma_bill">CREAR PROFORMA</option>
-          <option value="bill_to_qr">FACTURA A QR</option>
           <option value="delete">BORRAR</option>
         </select>
       </div>
@@ -296,16 +290,6 @@
         </div>
       {/if}
     </section>
-
-    {#if qrImage}
-      <div class="qr-wrapper col fcenter xfill">
-        <a href={qrLink}>
-          <img src={qrImage} alt="Factura QR" />
-        </a>
-
-        <h2 class="grow">Escanea este QR para ver directamente tu factura</h2>
-      </div>
-    {/if}
 
     <form class="bill-data col acenter xfill" on:submit|preventDefault={pushBill}>
       <div class="box round col xfill">
@@ -570,21 +554,6 @@
         width: 100px;
         margin-bottom: 20px;
       }
-    }
-  }
-
-  .qr-wrapper {
-    max-width: 900px;
-    margin: 0 auto;
-    margin-top: 60px;
-
-    img {
-      width: 200px;
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      font-size: 30px;
     }
   }
 
