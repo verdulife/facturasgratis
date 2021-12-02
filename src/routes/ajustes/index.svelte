@@ -1,6 +1,5 @@
 <script>
-  import { goto } from "@sapper/app";
-  import { storageSpace, resizeImage } from "../../lib/functions";
+  import { resizeImage } from "../../lib/functions";
   import { ajustes } from "../../lib/metadata";
   import { userData, bills, budgets, deliveries, clients, products, providers } from "../../lib/stores";
 

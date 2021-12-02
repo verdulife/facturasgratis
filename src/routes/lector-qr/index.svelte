@@ -1,17 +1,40 @@
 <script>
-  import { numerationFormat, roundWithTwoDecimals } from "../../lib/functions";
+  import { roundWithTwoDecimals } from "../../lib/functions";
   import { lector_qr } from "../../lib/metadata";
   import { stores } from "@sapper/app";
   import { Ivon } from "../../lib/ivon";
 
   const { page } = stores();
-  const { data } = $page.query;
-  const billData = Ivon.decompress(data);
+  let data;
+
+  if ($page.query) {
+    data = $page.query.data;
+  }
+
+  const billData = data ? Ivon.decompress(data) : {};
 
   function calcLineTotal(item) {
     const amount_price = item.price * item.amount;
     const dto_price = amount_price - (amount_price * item.dto) / 100;
     return `${roundWithTwoDecimals(dto_price).toFixed(2)}${billData.emmiter.currency}`;
+  }
+
+  function loadPDF() {
+    alert("La lectura de PDF's todavia no está disponible, pero puedes escanear el código QR con tu cámara.");
+    /* const input = document.createElement("input");
+    input.type = "file";
+    input.accept = ".pdf";
+    input.click();
+
+    input.onchange = () => {
+      let reader = new FileReader();
+
+      reader.onload = (e) => {
+        console.log(input.files[0]);
+      };
+
+      reader.readAsText(input.files[0]);
+    }; */
   }
 </script>
 
@@ -38,36 +61,20 @@
 </svelte:head>
 
 <div class="scroll">
-  {#if billData}
-    <section class="header col fcenter xfill">
-      <img src="/facturas.svg" alt="Factura" />
-      <h1>Factura {numerationFormat(billData.number, billData.date.year)}</h1>
-      <p>
-        Con fecha {billData.date.day}/{billData.date.month}/{billData.date.year}
-      </p>
+  <section class="header col fcenter xfill">
+    <img src="/facturas.svg" alt="Factura" />
+    <h1>Lector de Facturas QR</h1>
+    <p>
+      Si te han enviado una factura que contiene un código QR, puedes escanearla con tu móbil o cargar el archivo PDF
+      para añadirla a tus gastos.
+    </p>
 
-      <!--       <div class="io-wrapper row jcenter xfill">
-        <button class="succ semi" on:click={downloadBill}>DESCARGAR</button>
+    <button class="succ semi" on:click={loadPDF}>CARGAR PDF</button>
 
-        <select class="out semi" bind:value={action} on:change={evalAction}>
-          <option value="">OTRAS ACCIONES</option>
-          <option value="budget">CREAR PRESUPUESTO</option>
-          <option value="proforma_bill">CREAR PROFORMA</option>
-          <option value="bill_to_qr">FACTURA A QR</option>
-          <option value="delete">BORRAR</option>
-        </select>
-      </div> -->
+    <a href="/" class="btn outwhite semi">VOLVER</a>
+  </section>
 
-      <a href="/facturas" class="btn outwhite semi">VOLVER</a>
-
-      <!-- {#if loading}
-        <div class="outer-loader col fcenter fill" transition:fade={{ duration: 100 }}>
-          <img src="/loader.svg" alt="Generando PDF" />
-          <h3>Genarando PDF</h3>
-        </div>
-      {/if} -->
-    </section>
-
+  {#if billData.number}
     <form class="bill-data col acenter xfill">
       <div class="box round col xfill">
         <h2>Datos de la factura</h2>
@@ -207,11 +214,6 @@
           </ul>
         {/if}
       </div>
-
-      <!-- <div class="last-row row jcenter xfill">
-        <button class="succ semi">GUARDAR CAMBIOS</button>
-        <a href="/facturas" class="btn out semi">ATRAS</a>
-      </div> -->
     </form>
   {/if}
 </div>

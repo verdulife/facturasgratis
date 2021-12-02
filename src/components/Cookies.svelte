@@ -3,7 +3,7 @@
   import { cookies } from "../lib/stores";
 </script>
 
-{#if !$cookies.visited}
+{#if process.browser && !$cookies.visited}
   <div class="cookies box row fcenter">
     <h2>🍪</h2>
     <p>{ui.description}</p>

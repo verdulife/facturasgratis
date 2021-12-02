@@ -31,18 +31,21 @@
       totals: billData.totals,
     });
 
+    
     if (encoded.error) {
       alert(encoded.message);
       return;
     }
-
+    
     const qr = new QRious({
       mime: "image/png",
       backgroundAlpha: 0,
       size: 400,
       value: `${base_url}/lector-qr?data=${encoded}`,
     });
-
+    
+    console.log(`${base_url}/lector-qr?data=${encoded}`);
+    
     return qr.toDataURL();
   }
 

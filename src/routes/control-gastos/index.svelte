@@ -1,6 +1,9 @@
 <script>
   import { control_gastos } from "../../lib/metadata";
+  import { expenses } from "../../lib/stores";
   import Comingsoon from "../../components/Comingsoon.svelte";
+
+  console.log($expenses);
 </script>
 
 <svelte:head>
