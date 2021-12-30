@@ -47,7 +47,6 @@
 
       console.log(error);
       alert("Algo ha salido mal. Vuelve a intentarlo");
-      alert(error);
     }
   }
 

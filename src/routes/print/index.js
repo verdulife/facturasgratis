@@ -88,12 +88,14 @@ ${data.user.email ? "e. " + data.user.email : ""}`,
     }
     doc.fillColor("#fff").text(`${roundWithTwoDecimals(data.totals.total).toFixed(2)}${data.user.currency}`, mm(data.totals.ret > 0 ? 159.5 : 138.2), mm(237.3));
 
-    doc.rect(mm(20), mm(257.25), mm(19.75), mm(19.75)).lineWidth(0.25).fillAndStroke("#fff", black);
-    doc.image(data.ivon, mm(22), mm(259.5), {
-      fit: [mm(15.5), mm(15.5)],
-      align: "center",
-      valign: "center",
-    });
+    /* if (doc_type === "factura") {
+      doc.rect(mm(20), mm(257.25), mm(19.75), mm(19.75)).lineWidth(0.25).fillAndStroke("#fff", black);
+      doc.image(data.ivon, mm(22), mm(259.5), {
+        fit: [mm(15.5), mm(15.5)],
+        align: "center",
+        valign: "center",
+      });
+    } */
 
     if (data.note) {
       doc.fillColor(black).text(data.note, mm(30), mm(259.5), {
