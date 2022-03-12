@@ -25,7 +25,7 @@
         {#each tools as { slug, title, icon }}
           <li class="xfill" class:active={segment === slug}>
             <a href={slug} class="row nowrap acenter fill">
-              <img width="20" height="20" src={icon} alt={title} />
+              <img loading="lazy" width="20" height="20" src={icon} alt={title} />
               <p>{title}</p>
             </a>
           </li>
@@ -56,7 +56,7 @@
         {#each tools as { slug, title, icon }}
           <li class="xfill" class:active={segment === slug} on:click={togMenu}>
             <a href={slug} class="row nowrap acenter fill">
-              <img src={icon} alt={title} />
+              <img loading="lazy" src={icon} alt={title} />
               <p>{title}</p>
             </a>
           </li>

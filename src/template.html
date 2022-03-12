@@ -1,72 +1,63 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
-    />
 
-    <!-- Preload -->
-    <link rel="preload" href="/fonts/circular.css" as="style" />
-    <link rel="preload" href="/fonts/operator.css" as="style" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
-    <!-- PWA -->
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="theme-color" content="#000" />
+  <!-- Preload -->
+  <link rel="preload" href="/fonts/circular.css" as="style" />
 
-    %sapper.base%
+  <!-- PWA -->
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="theme-color" content="#000" />
+  <link rel="manifest" href="/manifest.json" crossorigin="use-credentials" />
 
-    <!-- Fonts -->
-    <link rel="stylesheet" href="/fonts/circular.css" />
-    <link rel="stylesheet" href="/fonts/operator.css" />
+  %sapper.base%
 
-    <!-- Web assets -->
-    <link rel="manifest" href="/manifest.json" crossorigin="use-credentials" />
-    <meta name="apple-mobile-web-app-title" content="facturasgratis" />
-    <link rel="apple-touch-icon" type="image/png" href="/mobile.png" />
-    <link rel="icon" type="image/png" href="/mobile.png" />
-    <link rel="icon" type="image/png" href="/favicon.png" />
+  <!-- Fonts -->
+  <link rel="stylesheet" href="/fonts/circular.css" />
 
-    <!-- SEO -->
-    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
-    <meta name="author" content="verdu | verdu@live.com" />
-    <script type="application/ld+json">
+  <!-- Web assets -->
+  <meta name="apple-mobile-web-app-title" content="facturasgratis" />
+  <link rel="apple-touch-icon" type="image/png" href="/mobile.png" />
+  <link rel="icon" type="image/png" href="/mobile.png" />
+  <link rel="icon" type="image/png" href="/favicon.png" />
+
+  <!-- SEO -->
+  <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+  <meta name="author" content="verdu | verdu@live.com" />
+  <script type="application/ld+json" defer>
       {
         "@context": "https://schema.org",
         "@type": "Organization",
         "url": "https://www.facturasgratis.ml",
         "logo": "https://www.facturasgratis.ml/mobile.png"
       }
-    </script>
+  </script>
 
-    %sapper.scripts% %sapper.styles% %sapper.head%
+  %sapper.scripts% %sapper.styles% %sapper.head%
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-SPSJYR12JD"
-    ></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() {
-        dataLayer.push(arguments);
-      }
-      gtag("js", new Date());
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script src="https://www.googletagmanager.com/gtag/js?id=G-SPSJYR12JD" async defer></script>
+  <script defer>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
 
-      gtag("config", "G-SPSJYR12JD");
-    </script>
+    gtag("config", "G-SPSJYR12JD");
+  </script>
+  <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9796064237578457"
+    crossorigin="anonymous" async defer></script>
+</head>
 
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9796064237578457"
-      crossorigin="anonymous"
-    ></script>
-  </head>
+<body>
+  <div id="sapper">%sapper.html%</div>
+</body>
 
-  <body>
-    <div id="sapper">%sapper.html%</div>
-  </body>
 </html>

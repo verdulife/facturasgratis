@@ -103,7 +103,9 @@
   }
 
   function deleteBudget() {
-    const check = confirm("La numeracion de los otros presupuestos no se modificara. Recuerda usar la numeracion de este presupuesto en otro.\n\n¿Borrar definitivamente?");
+    const check = confirm(
+      "La numeracion de los otros presupuestos no se modificara. Recuerda usar la numeracion de este presupuesto en otro.\n\n¿Borrar definitivamente?"
+    );
 
     if (check) {
       $budgets.splice($budgets.indexOf(budgetData), 1);
@@ -214,6 +216,11 @@
       alert("✔ Datos guardados correctamente");
     } else alert("⚠ No has añadido ningun concepto ⚠");
   }
+
+  function maxLength(e) {
+    const el = e.target;
+    if (el.value.length > el.maxLength) el.value = el.value.slice(0, el.maxLength);
+  }
 </script>
 
 <svelte:head>
@@ -269,7 +276,15 @@
             </div>
             <div class="input-wrapper date col">
               <label for="month">Mes</label>
-              <input type="number" id="month" min="1" max="12" class="xfill" bind:value={budgetData.date.month} required />
+              <input
+                type="number"
+                id="month"
+                min="1"
+                max="12"
+                class="xfill"
+                bind:value={budgetData.date.month}
+                required
+              />
             </div>
             <div class="input-wrapper date col">
               <label for="year">Año</label>
@@ -345,7 +360,14 @@
                 <input type="number" id="amount" bind:value={item.amount} min="1" class="out" placeholder="CANT" />
                 <input type="text" id="label" bind:value={item.label} class="out grow" placeholder="CONCEPTO" />
                 <input type="number" id="dto" bind:value={item.dto} min="0" max="100" class="out" placeholder="DTO %" />
-                <input type="number" id="price" bind:value={item.price} step="0.01" class="out" placeholder="PRECIO {$userData.currency}" />
+                <input
+                  type="number"
+                  id="price"
+                  bind:value={item.price}
+                  step="0.01"
+                  class="out"
+                  placeholder="PRECIO {$userData.currency}"
+                />
                 <input type="text" value={calcLineTotal(item)} class="out" disabled />
                 <input type="text" value="🗑" class="out" on:click={() => removeLine(i)} />
               </li>
@@ -387,7 +409,14 @@
           <div class="input-wrapper col xfill">
             <label for="products_list" style="margin-bottom: 10px">CARGAR DATOS</label>
 
-            <AutoComplete items={$products} bind:selectedItem={lineData} labelFieldName="label" placeholder="Buscar producto" noResultsText="No hay coincidencias" hideArrow>
+            <AutoComplete
+              items={$products}
+              bind:selectedItem={lineData}
+              labelFieldName="label"
+              placeholder="Buscar producto"
+              noResultsText="No hay coincidencias"
+              hideArrow
+            >
               <div slot="item" let:item>
                 <div class="row aend xfill">
                   <p class="nowrap grow" style="padding-right: 10px;">{item.label}</p>
@@ -402,7 +431,14 @@
           <input type="number" id="amount" bind:value={lineData.amount} min="1" class="out" placeholder="CANT" />
           <input type="text" id="label" bind:value={lineData.label} class="out grow" placeholder="CONCEPTO" />
           <input type="number" id="dto" bind:value={lineData.dto} min="0" max="100" class="out" placeholder="DTO %" />
-          <input type="number" id="price" bind:value={lineData.price} step="0.01" class="out" placeholder="PRECIO {$userData.currency}" />
+          <input
+            type="number"
+            id="price"
+            bind:value={lineData.price}
+            step="0.01"
+            class="out"
+            placeholder="PRECIO {$userData.currency}"
+          />
         </div>
 
         <div class="line-btn pri xfill" on:click={pushLine}>AÑADIR A LA LISTA</div>
@@ -413,8 +449,19 @@
         <p class="notice">Si tienes que añadir o modificar la nota, este es el lugar.</p>
 
         <div class="input-wrapper col xfill">
-          <label for="note">Notas</label>
-          <textarea id="note" bind:value={budgetData.note} class="xfill" placeholder="Ej. Transporte no incluido" />
+          <label class="row jbetween aceneter xfill" for="note">
+            Notas
+            <span>{budgetData.note ? budgetData.note.length : 0} / 350</span>
+          </label>
+
+          <textarea
+            id="note"
+            bind:value={budgetData.note}
+            class="xfill"
+            placeholder="Ej. Transporte no incluido"
+            maxlength="350"
+            on:keydown={(e) => maxLength(e)}
+          />
         </div>
       </div>
 

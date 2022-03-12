@@ -132,6 +132,11 @@
       goto("/presupuestos");
     } else alert("⚠ No has añadido ningun concepto ⚠");
   }
+
+  function maxLength(e) {
+    const el = e.target;
+    if (el.value.length > el.maxLength) el.value = el.value.slice(0, el.maxLength);
+  }
 </script>
 
 <svelte:head>
@@ -367,8 +372,19 @@
       <p class="notice">Si tienes que añadir o modificar la nota, este es el lugar.</p>
 
       <div class="input-wrapper col xfill">
-        <label for="note">Notas</label>
-        <textarea id="note" bind:value={budgetData.note} class="xfill" placeholder="Ej. Transporte no incluido" />
+        <label class="row jbetween aceneter xfill" for="note">
+          Notas
+          <span>{budgetData.note ? budgetData.note.length : 0} / 350</span>
+        </label>
+
+        <textarea
+          id="note"
+          bind:value={budgetData.note}
+          class="xfill"
+          placeholder="Ej. Transporte no incluido"
+          maxlength="350"
+          on:keydown={(e) => maxLength(e)}
+        />
       </div>
     </div>
 

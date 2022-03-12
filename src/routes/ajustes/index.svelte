@@ -35,7 +35,9 @@
       let reader = new FileReader();
 
       reader.onload = (e) => {
-        const { db_userData, db_bills, db_budgets, db_deliveries, db_clients, db_products, db_providers } = JSON.parse(e.target.result);
+        const { db_userData, db_bills, db_budgets, db_deliveries, db_clients, db_products, db_providers } = JSON.parse(
+          e.target.result
+        );
 
         $userData = db_userData;
         $bills = db_bills;
@@ -112,6 +114,11 @@
       alert("✔ Datos guardados correctamente");
     } else alert("⚠ No has añadido un método de contacto");
   }
+
+  function maxLength(e) {
+    const el = e.target;
+    if (el.value.length > el.maxLength) el.value = el.value.slice(0, el.maxLength);
+  }
 </script>
 
 <svelte:head>
@@ -140,13 +147,18 @@
   <article class="header col fcenter xfill">
     <h1>Tus datos</h1>
     <p>
-      En <b>facturagratis</b>, usamos tu navegador como disco para que tus datos sean solo tuyos. Para tu tranquilidad, nuestra recomendación es que generes PDF's de tus documentos a medida que los vayas creando, y los guardes en una carpeta de tu
+      En <b>facturagratis</b>, usamos tu navegador como disco para que tus datos sean solo tuyos. Para tu tranquilidad,
+      nuestra recomendación es que generes PDF's de tus documentos a medida que los vayas creando, y los guardes en una
+      carpeta de tu
       <a href="https://www.google.com/drive/" target="_blank">Google Drive</a>
       (o similar), asi solo tendras que compartir esa carpeta con tu gestor o contable.
       <br /><br />
       Si lo deseas, puedes descargarte una copia de seguridad de tus datos, y volverlos a cargar en este u otro dispositivo.
     </p>
-    <small>⚠️ Si usas programas que borren la cache de tu navegador o la borras manualmente, perderas esta copia de seguridad</small>
+    <small
+      >⚠️ Si usas programas que borren la cache de tu navegador o la borras manualmente, perderas esta copia de
+      seguridad</small
+    >
 
     <div class="io-wrapper col acenter xfill">
       <h2>Copia de seguridad</h2>
@@ -198,12 +210,26 @@
 
         <div class="input-wrapper col xfill">
           <label for="legal_name">Nombre fiscal 👈</label>
-          <input type="text" id="legal_name" bind:value={user.legal_name} class="xfill" placeholder="Ej. Factura Gratis S.L." required />
+          <input
+            type="text"
+            id="legal_name"
+            bind:value={user.legal_name}
+            class="xfill"
+            placeholder="Ej. Factura Gratis S.L."
+            required
+          />
         </div>
 
         <div class="input-wrapper col xfill">
           <label for="legal_id">CIF/NIF 👈</label>
-          <input type="text" id="legal_id" bind:value={user.legal_id} class="xfill" placeholder="Ej. B00011100" required />
+          <input
+            type="text"
+            id="legal_id"
+            bind:value={user.legal_id}
+            class="xfill"
+            placeholder="Ej. B00011100"
+            required
+          />
         </div>
       </div>
 
@@ -214,7 +240,14 @@
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="street">Dirección fiscal 👈</label>
-            <input type="text" id="street" bind:value={user.street} class="xfill" placeholder="Ej. Calle Mayor, 18" required />
+            <input
+              type="text"
+              id="street"
+              bind:value={user.street}
+              class="xfill"
+              placeholder="Ej. Calle Mayor, 18"
+              required
+            />
           </div>
 
           <div class="input-wrapper col xhalf">
@@ -247,7 +280,13 @@
 
         <div class="input-wrapper col xfill">
           <label for="email">Correo electrónico</label>
-          <input type="text" id="email" bind:value={user.email} class="xfill" placeholder="Ej. hola@facturagratis.com" />
+          <input
+            type="text"
+            id="email"
+            bind:value={user.email}
+            class="xfill"
+            placeholder="Ej. hola@facturagratis.com"
+          />
         </div>
       </div>
 
@@ -282,23 +321,63 @@
         <p class="notice">Añade notas a pie de tus facturas, presupuestos o albaranes.</p>
 
         <div class="input-wrapper col xfill">
-          <label for="bill_note">Nota para facturas</label>
-          <textarea id="bill_note" bind:value={user.bill_note} class="xfill" placeholder="Ej. Transporte no incluido" />
+          <label class="row jbetween acenter xfill" for="bill_note">
+            Facturas <span>{user.bill_note ? user.bill_note.length : 0} / 350</span>
+          </label>
+
+          <textarea
+            id="bill_note"
+            bind:value={user.bill_note}
+            class="xfill"
+            placeholder="Ej. Transporte no incluido"
+            maxlength="350"
+            on:keydown={(e) => maxLength(e)}
+          />
         </div>
 
         <div class="input-wrapper col xfill">
-          <label for="budget_note">Nota para presupuestos</label>
-          <textarea id="budget_note" bind:value={user.budget_note} class="xfill" placeholder="Ej. Transporte no incluido" />
+          <label class="row jbetween acenter xfill" for="budget_note">
+            Presupuestos <span>{user.budget_note ? user.budget_note.length : 0} / 350</span>
+          </label>
+
+          <textarea
+            id="budget_note"
+            bind:value={user.budget_note}
+            class="xfill"
+            placeholder="Ej. Transporte no incluido"
+            maxlength="350"
+            on:keydown={(e) => maxLength(e)}
+          />
         </div>
 
         <div class="input-wrapper col xfill">
-          <label for="delivery_note">Nota para albarenes</label>
-          <textarea id="delivery_note" bind:value={user.delivery_note} class="xfill" placeholder="Ej. Transporte no incluido" />
+          <label class="row jbetween acenter xfill" for="delivery_note">
+            Albaranes <span>{user.delivery_note ? user.delivery_note.length : 0} / 350</span>
+          </label>
+
+          <textarea
+            id="delivery_note"
+            bind:value={user.delivery_note}
+            class="xfill"
+            placeholder="Ej. Transporte no incluido"
+            maxlength="350"
+            on:keydown={(e) => maxLength(e)}
+          />
         </div>
 
         <div class="input-wrapper col xfill">
-          <label for="proforma_note">Nota para proformas</label>
-          <textarea id="proforma_note" bind:value={user.proforma_note} class="xfill" placeholder="Ej. Transporte no incluido" />
+          <label class="row jbetween acenter xfill" for="proforma_note">
+            Proforma <span>{user.proforma_note ? user.proforma_note.length : 0} / 350</span>
+          </label>
+
+          <textarea
+            id="proforma_note"
+            bind:value={user.proforma_note}
+            class="xfill"
+            placeholder="Ej. Transporte no incluido"
+            maxlength="350"
+            on:keydown={(e) => maxLength(e)}
+          />
         </div>
       </div>
 

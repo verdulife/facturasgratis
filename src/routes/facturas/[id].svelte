@@ -31,21 +31,20 @@
       totals: billData.totals,
     });
 
-    
     if (encoded.error) {
       alert(encoded.message);
       return;
     }
-    
+
     const qr = new QRious({
       mime: "image/png",
       backgroundAlpha: 0,
       size: 400,
       value: `${base_url}/lector-qr?data=${encoded}`,
     });
-    
+
     console.log(`${base_url}/lector-qr?data=${encoded}`);
-    
+
     return qr.toDataURL();
   }
 
@@ -255,6 +254,11 @@
       $userData._updated = new Date();
       alert("✔ Datos guardados correctamente");
     } else alert("⚠ No has añadido ningun concepto ⚠");
+  }
+
+  function maxLength(e) {
+    const el = e.target;
+    if (el.value.length > el.maxLength) el.value = el.value.slice(0, el.maxLength);
   }
 </script>
 
@@ -482,8 +486,19 @@
         <p class="notice">Si tienes que añadir o modificar la nota, este es el lugar.</p>
 
         <div class="input-wrapper col xfill">
-          <label for="note">Notas</label>
-          <textarea id="note" bind:value={billData.note} class="xfill" placeholder="Ej. Transporte no incluido" />
+          <label class="row jbetween aceneter xfill" for="note">
+            Notas
+            <span>{billData.note ? billData.note.length : 0} / 350</span>
+          </label>
+
+          <textarea
+            id="note"
+            bind:value={billData.note}
+            class="xfill"
+            placeholder="Ej. Transporte no incluido"
+            maxlength="350"
+            on:keydown={(e) => maxLength(e)}
+          />
         </div>
       </div>
 
