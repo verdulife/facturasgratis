@@ -38,48 +38,24 @@
         "logo": "https://www.facturasgratis.ml/mobile.png"
       }
   </script>
- 
+
   %sapper.scripts% %sapper.styles% %sapper.head%
 
-  <script>
-    (function () {
-      var t,
-        e = window,
-        p = document,
-        a = e.partytown || {},
-        n = p.createElement("script");
-      (e._ptf = []),
-        (a.forward || []).map((p) => {
-          (t = e),
-            p.split(".").map((a, n, r) => {
-              t = t[a] =
-                n < r.length - 1
-                  ? t[a] || {}
-                  : function () {
-                    e._ptf.push(p, arguments);
-                  };
-            });
-        }),
-        (n.async = n.defer = !0),
-        (n.src = "./~partytown/partytown." + (a.debug ? "debug.js" : "js")),
-        p.head.appendChild(n);
-    })();
-  </script>
+  <!-- Inline Partytown.js -->
+  <script>!(function (w, p, f, c) { c = w[p] = w[p] || {}; c[f] = (c[f] || []) })(window, 'partytown', 'forward');/* Partytown 0.5.0 - MIT builder.io */!function (t, e, n, i, r, o, a, d, s, c, p, l) { function u() { l || (l = 1, "/" == (a = (o.lib || "/~partytown/") + (o.debug ? "debug/" : ""))[0] && (s = e.querySelectorAll('script[type="text/partytown"]'), i != t ? i.dispatchEvent(new CustomEvent("pt1", { detail: t })) : (d = setTimeout(w, 1e4), e.addEventListener("pt0", f), r ? h(1) : n.serviceWorker ? n.serviceWorker.register(a + (o.swPath || "partytown-sw.js"), { scope: a }).then((function (t) { t.active ? h() : t.installing && t.installing.addEventListener("statechange", (function (t) { "activated" == t.target.state && h() })) }), console.error) : w()))) } function h(t) { c = e.createElement(t ? "script" : "iframe"), t || (c.setAttribute("style", "display:block;width:0;height:0;border:0;visibility:hidden"), c.setAttribute("aria-hidden", !0)), c.src = a + "partytown-" + (t ? "atomics.js?v=0.5.0" : "sandbox-sw.html?" + Date.now()), e.body.appendChild(c) } function w(t, n) { for (f(), t = 0; t < s.length; t++)(n = e.createElement("script")).innerHTML = s[t].innerHTML, e.head.appendChild(n); c && c.parentNode.removeChild(c) } function f() { clearTimeout(d) } o = t.partytown || {}, i == t && (o.forward || []).map((function (e) { p = t, e.split(".").map((function (e, n, i) { p = p[i[n]] = n + 1 < i.length ? "push" == i[n + 1] ? [] : p[i[n]] || {} : function () { (t._ptf = t._ptf || []).push(i, arguments) } })) })), "complete" == e.readyState ? u() : (t.addEventListener("DOMContentLoaded", u), t.addEventListener("load", u)) }(window, document, navigator, top, window.crossOriginIsolated);</script>
+  <!-- /Inline Partytown.js -->
 
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-SPSJYR12JD" async defer></script>
-  <script type="text/partytown" defer>
-    window.dataLayer = window.dataLayer || [];
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-    gtag("js", new Date());
-
-    gtag("config", "G-SPSJYR12JD");
-  </script>
   <script type="text/partytown"
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9796064237578457"
-    crossorigin="anonymous" async defer></script>
+    defer> window.dataLayer=window.dataLayer || []; function gtag(){dataLayer.push(arguments);}gtag("js", new Date()); gtag("config", "G-SPSJYR12JD"); </script>
+  <!-- /Global site tag (gtag.js) - Google Analytics -->
+
+  <!-- Google Ads -->
+  <!-- <script type="text/partytown"
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9796064237578457" async
+    defer></script> -->
+  <!-- Google Ads -->
 </head>
 
 <body>
