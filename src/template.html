@@ -38,12 +38,37 @@
         "logo": "https://www.facturasgratis.ml/mobile.png"
       }
   </script>
-
+ 
   %sapper.scripts% %sapper.styles% %sapper.head%
 
+  <script>
+    (function () {
+      var t,
+        e = window,
+        p = document,
+        a = e.partytown || {},
+        n = p.createElement("script");
+      (e._ptf = []),
+        (a.forward || []).map((p) => {
+          (t = e),
+            p.split(".").map((a, n, r) => {
+              t = t[a] =
+                n < r.length - 1
+                  ? t[a] || {}
+                  : function () {
+                    e._ptf.push(p, arguments);
+                  };
+            });
+        }),
+        (n.async = n.defer = !0),
+        (n.src = "./~partytown/partytown." + (a.debug ? "debug.js" : "js")),
+        p.head.appendChild(n);
+    })();
+  </script>
+
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script src="https://www.googletagmanager.com/gtag/js?id=G-SPSJYR12JD" async defer></script>
-  <script defer>
+  <script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-SPSJYR12JD" async defer></script>
+  <script type="text/partytown" defer>
     window.dataLayer = window.dataLayer || [];
     function gtag() {
       dataLayer.push(arguments);
@@ -52,7 +77,8 @@
 
     gtag("config", "G-SPSJYR12JD");
   </script>
-  <script src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9796064237578457"
+  <script type="text/partytown"
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9796064237578457"
     crossorigin="anonymous" async defer></script>
 </head>
 
