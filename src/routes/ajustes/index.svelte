@@ -179,14 +179,14 @@
       generes PDF's de tus documentos a medida que los vayas creando, y los
       guardes en una carpeta de tu
       <a href="https://www.google.com/drive/" target="_blank">Google Drive</a>
-      (o similar), asi solo tendras que compartir esa carpeta con tu gestor o contable.
+      (o similar), asi solo tendrás que compartir esa carpeta con tu gestor o contable.
       <br /><br />
       Si lo deseas, puedes descargarte una copia de seguridad de tus datos, y volverlos
-      a cargar en este u otro dispositivo.
+      a cargar en este o en qualquier otro dispositivo.
     </p>
     <small
       >⚠️ Si usas programas que borren la cache de tu navegador o la borras
-      manualmente, perderas esta copia de seguridad</small
+      manualmente, perderás esta copia de seguridad</small
     >
 
     <div class="io-wrapper col acenter xfill">
