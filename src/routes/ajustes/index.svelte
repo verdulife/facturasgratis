@@ -194,7 +194,7 @@
 
       {#if user && user.legal_id}
         <p>
-          Ultima actualizacion: <b
+          Última actualización: <b
             >{new Date($userData._updated).toLocaleDateString()}</b
           >
         </p>
