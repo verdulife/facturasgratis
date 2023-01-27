@@ -14,7 +14,13 @@
 
 <nav class="row jbetween acenter xfill">
   <a href="/" class="row acenter">
-    <img width="190" height="32" class="logo" src="/logo.svg" alt="facturasgratis" />
+    <img
+      width="190"
+      height="32"
+      class="logo"
+      src="/logo.svg"
+      alt="facturasgratis"
+    />
   </a>
 
   <ul class="desktop-menu row yfill">
@@ -25,7 +31,13 @@
         {#each tools as { slug, title, icon }}
           <li class="xfill" class:active={segment === slug}>
             <a href={slug} class="row nowrap acenter fill">
-              <img loading="lazy" width="20" height="20" src={icon} alt={title} />
+              <img
+                loading="lazy"
+                width="20"
+                height="20"
+                src={icon}
+                alt={title}
+              />
               <p>{title}</p>
             </a>
           </li>
@@ -36,7 +48,11 @@
     <li class="row acenter yfill">
       <a href="/ajustes" class="row acenter yfill">
         {#if $userData.logo}
-          <img class="user-img" src={$userData.logo} alt={$userData.legal_name || "Logotipo"} />
+          <img
+            class="user-img"
+            src={$userData.logo}
+            alt={$userData.legal_name || "Logotipo"}
+          />
         {/if}
         {$userData.legal_name || ui.user_link}
       </a>
@@ -65,7 +81,11 @@
         <li class="row acenter xfill" on:click={togMenu}>
           <a href="/ajustes" class="row acenter yfill">
             {#if $userData.logo}
-              <img class="user-img" src={$userData.logo} alt={$userData.legal_name || "Logotipo"} />
+              <img
+                class="user-img"
+                src={$userData.logo}
+                alt={$userData.legal_name || "Logotipo"}
+              />
             {/if}
             {$userData.legal_name || ui.user_link}
           </a>
