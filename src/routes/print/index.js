@@ -25,6 +25,9 @@ export async function post(req, res) {
   if (req.headers.referer.includes("presupuestos")) doc_type = "presupuesto";
   if (req.headers.referer.includes("proformas")) doc_type = "proforma";
 
+  //todo fix
+  data.client.legal_name = data.client.legal_name.replace("’", "'");
+
   const doc = new PDFDocument({
     size: [mm(210), mm(297)],
     margin: 0,
@@ -83,8 +86,7 @@ ${data.user.email ? "e. " + data.user.email : ""}`,
 
     doc.fontSize(8);
     doc.text(
-      `${
-        data.user.legal_initials ? data.user.legal_initials + "/" : ""
+      `${data.user.legal_initials ? data.user.legal_initials + "/" : ""
       }${numerationFormat(data.number, data.date.year)}`,
       mm(167.5),
       mm(31.2)
@@ -105,8 +107,7 @@ ${data.user.email ? "e. " + data.user.email : ""}`,
     doc.text(data.client.contact, mm(77.2), mm(81));
 
     doc.text(
-      `${roundWithTwoDecimals(data.totals.base).toFixed(2)}${
-        data.user.currency
+      `${roundWithTwoDecimals(data.totals.base).toFixed(2)}${data.user.currency
       }`,
       mm(data.totals.ret > 0 ? 38.6 : 60.1),
       mm(237.3)
@@ -121,8 +122,7 @@ ${data.user.email ? "e. " + data.user.email : ""}`,
     doc
       .font(medium)
       .text(
-        `+${roundWithTwoDecimals(data.totals.iva).toFixed(2)}${
-          data.user.currency
+        `+${roundWithTwoDecimals(data.totals.iva).toFixed(2)}${data.user.currency
         }`,
         mm(data.totals.ret > 0 ? 79.5 : 101.1),
         mm(237.3)
@@ -132,8 +132,7 @@ ${data.user.email ? "e. " + data.user.email : ""}`,
       doc
         .font(medium)
         .text(
-          `-${roundWithTwoDecimals(data.totals.ret).toFixed(2)}${
-            data.user.currency
+          `-${roundWithTwoDecimals(data.totals.ret).toFixed(2)}${data.user.currency
           }`,
           mm(122.5),
           mm(237.3)
@@ -142,8 +141,7 @@ ${data.user.email ? "e. " + data.user.email : ""}`,
     doc
       .fillColor("#fff")
       .text(
-        `${roundWithTwoDecimals(data.totals.total).toFixed(2)}${
-          data.user.currency
+        `${roundWithTwoDecimals(data.totals.total).toFixed(2)}${data.user.currency
         }`,
         mm(data.totals.ret > 0 ? 159.5 : 138.2),
         mm(237.3)

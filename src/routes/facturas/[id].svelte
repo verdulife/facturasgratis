@@ -1,8 +1,19 @@
 <script>
   import { fade } from "svelte/transition";
   import { stores, goto } from "@sapper/app";
-  import { bills, userData, products, budgets, proforma_bills } from "../../lib/stores";
-  import { POST, roundWithTwoDecimals, numerationFormat, autoNumeration } from "../../lib/functions";
+  import {
+    bills,
+    userData,
+    products,
+    budgets,
+    proforma_bills,
+  } from "../../lib/stores";
+  import {
+    POST,
+    roundWithTwoDecimals,
+    numerationFormat,
+    autoNumeration,
+  } from "../../lib/functions";
   import { Ivon } from "../../lib/ivon";
   import AutoComplete from "simple-svelte-autocomplete";
   import QRious from "qrious";
@@ -12,6 +23,9 @@
   let lineData = {};
   let loading = false;
   let action = "";
+
+  const productsRaw = JSON.stringify($products);
+  const productsCopy = JSON.parse(productsRaw);
 
   function generateQr() {
     const base_url = window.location.origin;
@@ -75,7 +89,10 @@
 
       const link = document.createElement("a");
       link.href = blob;
-      link.download = `Factura_${numerationFormat(data.number, data.date.year)}_${data.client.legal_name}.pdf`;
+      link.download = `Factura_${numerationFormat(
+        data.number,
+        data.date.year
+      )}_${data.client.legal_name}.pdf`;
       link.click();
 
       setTimeout(() => {
@@ -90,7 +107,9 @@
   }
 
   function generateBudget() {
-    const check = confirm("¿Quieres crear un presupuesto a partir de esta factura?");
+    const check = confirm(
+      "¿Quieres crear un presupuesto a partir de esta factura?"
+    );
 
     if (!check) return;
 
@@ -99,7 +118,9 @@
     const budgetExists = $budgets.some((b) => b._id === budget._id);
 
     if (budgetExists) {
-      const check = confirm("Ya se ha creado un presupuesto a partir de esta factura\n\n¿Quieres abrirlo?");
+      const check = confirm(
+        "Ya se ha creado un presupuesto a partir de esta factura\n\n¿Quieres abrirlo?"
+      );
 
       if (!check) return;
 
@@ -116,7 +137,9 @@
   }
 
   function generateProformaBill() {
-    const check = confirm("¿Quieres crear una proforma a partir de esta factura?");
+    const check = confirm(
+      "¿Quieres crear una proforma a partir de esta factura?"
+    );
 
     if (!check) return;
 
@@ -125,7 +148,9 @@
     const proformaExists = $proforma_bills.some((b) => b._id === proforma._id);
 
     if (proformaExists) {
-      const check = confirm("Ya se ha creado una proforma a partir de esta factura\n\n¿Quieres abrirla?");
+      const check = confirm(
+        "Ya se ha creado una proforma a partir de esta factura\n\n¿Quieres abrirla?"
+      );
 
       if (!check) return;
 
@@ -183,7 +208,9 @@
     lineData.dto = lineData.dto || 0;
 
     if (billData.items.some((item) => item.label === lineData.label)) {
-      const check = confirm("Ya has añadido este producto/servicio.\n\n¿Quieres actualizarlo?");
+      const check = confirm(
+        "Ya has añadido este producto/servicio.\n\n¿Quieres actualizarlo?"
+      );
       if (!check) {
         lineData = {};
         return;
@@ -258,7 +285,8 @@
 
   function maxLength(e) {
     const el = e.target;
-    if (el.value.length > el.maxLength) el.value = el.value.slice(0, el.maxLength);
+    if (el.value.length > el.maxLength)
+      el.value = el.value.slice(0, el.maxLength);
   }
 </script>
 
@@ -290,28 +318,51 @@
       <a href="/facturas" class="btn outwhite semi">VOLVER</a>
 
       {#if loading}
-        <div class="outer-loader col fcenter fill" transition:fade={{ duration: 100 }}>
+        <div
+          class="outer-loader col fcenter fill"
+          transition:fade={{ duration: 100 }}
+        >
           <img src="/loader.svg" alt="Generando PDF" />
           <h3>Genarando PDF</h3>
         </div>
       {/if}
     </section>
 
-    <form class="bill-data col acenter xfill" on:submit|preventDefault={pushBill}>
+    <form
+      class="bill-data col acenter xfill"
+      on:submit|preventDefault={pushBill}
+    >
       <div class="box round col xfill">
         <h2>Datos de la factura</h2>
-        <p class="notice">Recuerda que cambiar la numeracion manualmente provocara que no sea correlativa.</p>
+        <p class="notice">
+          Recuerda que cambiar la numeracion manualmente provocara que no sea
+          correlativa.
+        </p>
 
         <div class="row xfill">
           <div class="input-wrapper col grow">
             <label for="legal_name">Número</label>
-            <input type="number" id="legal_name" class="xfill" bind:value={billData.number} required />
+            <input
+              type="number"
+              id="legal_name"
+              class="xfill"
+              bind:value={billData.number}
+              required
+            />
           </div>
 
           <div class="date-row row xhalf">
             <div class="input-wrapper date col">
               <label for="day">Día</label>
-              <input type="number" id="day" min="1" max="31" class="xfill" bind:value={billData.date.day} required />
+              <input
+                type="number"
+                id="day"
+                min="1"
+                max="31"
+                class="xfill"
+                bind:value={billData.date.day}
+                required
+              />
             </div>
             <div class="input-wrapper date col">
               <label for="month">Mes</label>
@@ -327,7 +378,13 @@
             </div>
             <div class="input-wrapper date col">
               <label for="year">Año</label>
-              <input type="number" id="year" class="xfill" bind:value={billData.date.year} required />
+              <input
+                type="number"
+                id="year"
+                class="xfill"
+                bind:value={billData.date.year}
+                required
+              />
             </div>
           </div>
         </div>
@@ -335,53 +392,100 @@
 
       <div class="box round col xfill">
         <h2>Datos del cliente</h2>
-        <p class="notice">Los cambios que realices aqui, no se guardaran en la ficha del cliente</p>
+        <p class="notice">
+          Los cambios que realices aqui, no se guardaran en la ficha del cliente
+        </p>
 
         <div class="input-wrapper col xfill">
           <label for="legal_name">NOMBRE FISCAL</label>
-          <input type="text" id="leagal_name" bind:value={billData.client.legal_name} class="xfill" required />
+          <input
+            type="text"
+            id="leagal_name"
+            bind:value={billData.client.legal_name}
+            class="xfill"
+            required
+          />
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="legal_id">CIF/NIF</label>
-            <input type="text" id="leagal_id" bind:value={billData.client.legal_id} class="xfill" required />
+            <input
+              type="text"
+              id="leagal_id"
+              bind:value={billData.client.legal_id}
+              class="xfill"
+              required
+            />
           </div>
 
           <div class="input-wrapper col xhalf">
             <label for="contact">Conacto</label>
-            <input type="text" id="contact" bind:value={billData.client.contact} class="xfill" required />
+            <input
+              type="text"
+              id="contact"
+              bind:value={billData.client.contact}
+              class="xfill"
+              required
+            />
           </div>
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="address">DIRECCION FISCAL</label>
-            <input type="text" id="address" bind:value={billData.client.address} class="xfill" required />
+            <input
+              type="text"
+              id="address"
+              bind:value={billData.client.address}
+              class="xfill"
+              required
+            />
           </div>
 
           <div class="col xhalf">
             <label for="cp">Código postal</label>
-            <input type="text" id="cp" bind:value={billData.client.cp} class="xfill" required />
+            <input
+              type="text"
+              id="cp"
+              bind:value={billData.client.cp}
+              class="xfill"
+              required
+            />
           </div>
         </div>
 
         <div class="row xfill">
           <div class="input-wrapper col xhalf">
             <label for="city">POBLACIÓN</label>
-            <input type="text" id="city" bind:value={billData.client.city} class="xfill" required />
+            <input
+              type="text"
+              id="city"
+              bind:value={billData.client.city}
+              class="xfill"
+              required
+            />
           </div>
 
           <div class="input-wrapper col xhalf">
             <label for="country">País</label>
-            <input type="text" id="country" bind:value={billData.client.country} class="xfill" required />
+            <input
+              type="text"
+              id="country"
+              bind:value={billData.client.country}
+              class="xfill"
+              required
+            />
           </div>
         </div>
       </div>
 
       <div class="box round col xfill">
         <h2>Conceptos</h2>
-        <p class="notice">Los cambios que realices aqui, no se guardaran en la ficha del producto/servicio</p>
+        <p class="notice">
+          Los cambios que realices aqui, no se guardaran en la ficha del
+          producto/servicio
+        </p>
 
         {#if billData.items.length > 0}
           <ul class="bill-items col acenter xfill">
@@ -396,9 +500,27 @@
 
             {#each billData.items as item, i}
               <li class="line row xfill">
-                <input type="number" bind:value={item.amount} min="1" class="out" placeholder="CANT" />
-                <input type="text" bind:value={item.label} class="out grow" placeholder="CONCEPTO" />
-                <input type="number" bind:value={item.dto} min="0" max="100" class="out" placeholder="DTO %" />
+                <input
+                  type="number"
+                  bind:value={item.amount}
+                  min="1"
+                  class="out"
+                  placeholder="CANT"
+                />
+                <input
+                  type="text"
+                  bind:value={item.label}
+                  class="out grow"
+                  placeholder="CONCEPTO"
+                />
+                <input
+                  type="number"
+                  bind:value={item.dto}
+                  min="0"
+                  max="100"
+                  class="out"
+                  placeholder="DTO %"
+                />
                 <input
                   type="number"
                   bind:value={item.price}
@@ -406,8 +528,18 @@
                   class="out"
                   placeholder="PRECIO {$userData.currency}"
                 />
-                <input type="text" value={calcLineTotal(item)} class="out" disabled />
-                <input type="text" value="🗑" class="out" on:click={() => removeLine(i)} />
+                <input
+                  type="text"
+                  value={calcLineTotal(item)}
+                  class="out"
+                  disabled
+                />
+                <input
+                  type="text"
+                  value="🗑"
+                  class="out"
+                  on:click={() => removeLine(i)}
+                />
               </li>
             {/each}
           </ul>
@@ -417,18 +549,30 @@
           <ul class="total-wrapper row jevenly xfill">
             <li class="col acenter">
               <p class="label">Base</p>
-              <h3>{roundWithTwoDecimals(base_total()).toFixed(2)}{$userData.currency}</h3>
+              <h3>
+                {roundWithTwoDecimals(base_total()).toFixed(
+                  2
+                )}{$userData.currency}
+              </h3>
             </li>
 
             <li class="col acenter">
               <p class="label">IVA {$userData.iva}%</p>
-              <h3>{roundWithTwoDecimals(iva_total()).toFixed(2)}{$userData.currency}</h3>
+              <h3>
+                {roundWithTwoDecimals(iva_total()).toFixed(
+                  2
+                )}{$userData.currency}
+              </h3>
             </li>
 
             {#if $userData.ret}
               <li class="col acenter">
                 <p class="label">IRPF {$userData.ret}%</p>
-                <h3>-{roundWithTwoDecimals(ret_total()).toFixed(2)}{$userData.currency}</h3>
+                <h3>
+                  -{roundWithTwoDecimals(ret_total()).toFixed(
+                    2
+                  )}{$userData.currency}
+                </h3>
               </li>
             {/if}
 
@@ -436,18 +580,24 @@
 
             <li class="col acenter grow">
               <p class="label">Total</p>
-              <h3>{roundWithTwoDecimals(bill_total()).toFixed(2)}{$userData.currency}</h3>
+              <h3>
+                {roundWithTwoDecimals(bill_total()).toFixed(
+                  2
+                )}{$userData.currency}
+              </h3>
             </li>
           </ul>
 
           <h-div />
         {/if}
 
-        {#if $products.length > 0}
+        {#if productsCopy.length > 0}
           <div class="input-wrapper col xfill">
-            <label for="products_list" style="margin-bottom: 10px">CARGAR DATOS</label>
+            <label for="products_list" style="margin-bottom: 10px"
+              >CARGAR DATOS</label
+            >
             <AutoComplete
-              items={$products}
+              items={productsCopy}
               bind:selectedItem={lineData}
               labelFieldName="label"
               placeholder="Buscar producto"
@@ -456,8 +606,13 @@
             >
               <div slot="item" let:item>
                 <div class="row aend xfill">
-                  <p class="nowrap grow" style="padding-right: 10px;">{item.label}</p>
-                  <small><b>{roundWithTwoDecimals(item.price).toFixed(2)}€</b></small>
+                  <p class="nowrap grow" style="padding-right: 10px;">
+                    {item.label}
+                  </p>
+                  <small
+                    ><b>{roundWithTwoDecimals(item.price).toFixed(2)}€</b
+                    ></small
+                  >
                 </div>
               </div>
             </AutoComplete>
@@ -465,9 +620,30 @@
         {/if}
 
         <div class="new-line row xfill">
-          <input type="number" id="amount" bind:value={lineData.amount} min="1" class="out" placeholder="CANT" />
-          <input type="text" id="label" bind:value={lineData.label} class="out grow" placeholder="CONCEPTO" />
-          <input type="number" id="dto" bind:value={lineData.dto} min="0" max="100" class="out" placeholder="DTO %" />
+          <input
+            type="number"
+            id="amount"
+            bind:value={lineData.amount}
+            min="1"
+            class="out"
+            placeholder="CANT"
+          />
+          <input
+            type="text"
+            id="label"
+            bind:value={lineData.label}
+            class="out grow"
+            placeholder="CONCEPTO"
+          />
+          <input
+            type="number"
+            id="dto"
+            bind:value={lineData.dto}
+            min="0"
+            max="100"
+            class="out"
+            placeholder="DTO %"
+          />
           <input
             type="number"
             id="price"
@@ -478,12 +654,16 @@
           />
         </div>
 
-        <div class="line-btn pri xfill" on:click={pushLine}>AÑADIR A LA LISTA</div>
+        <div class="line-btn pri xfill" on:click={pushLine}>
+          AÑADIR A LA LISTA
+        </div>
       </div>
 
       <div class="box round col xfill">
         <h2>Notas</h2>
-        <p class="notice">Si tienes que añadir o modificar la nota, este es el lugar.</p>
+        <p class="notice">
+          Si tienes que añadir o modificar la nota, este es el lugar.
+        </p>
 
         <div class="input-wrapper col xfill">
           <label class="row jbetween aceneter xfill" for="note">
