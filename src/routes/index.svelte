@@ -87,6 +87,7 @@
 <div class="scroll">
   <article class="header col fcenter xfill">
     <h1>{ui.header.title}</h1>
+    <p>hola</p>
     <p>{@html ui.header.description}</p>
 
     {#if process.browser && Object.keys($userData).length <= 0}
